@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.eclipse.cyclonedds</groupId>
+        <artifactId>parent-pom</artifactId>
+        <version>1.0</version>
+        <relativePath>../parent-pom</relativePath>
+    </parent>
+
+    <artifactId>cyclone-dds</artifactId>
+    <name>Cyclone DDS implementation</name>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <!-- DDS API -->
+        <dependency>
+            <groupId>org.eclipse.cyclonedds</groupId>
+            <artifactId>omg-dds</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- Unit tests framework -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Logging backend for unit tests -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Windows coloration of console outputs-->
+        <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Java Code Formatter -->
+            <!--plugin>
+            <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+            <artifactId>maven-java-formatter-plugin</artifactId>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>format</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin-->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-jars</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy todir="${env.CYCLONE_HOME_NORMALIZED}/jar/${env.CYCLONE_TARGET}">
+                                    <fileset dir="${project.build.directory}">
+                                        <include name="${project.artifactId}.jar" />
+                                    </fileset>
+                                </copy>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${env.CYCLONE_HOME_NORMALIZED}/jar/${env.CYCLONE_TARGET}</directory>
+                            <followSymlinks>false</followSymlinks>
+                            <includes>
+                                <include>${project.artifactId}*.jar</include>
+                            </includes>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+
+</project>

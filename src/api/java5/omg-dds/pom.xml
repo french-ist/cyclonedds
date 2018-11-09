@@ -1,0 +1,60 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.eclipse.cyclonedds</groupId>
+        <artifactId>parent-pom</artifactId>
+        <version>1.0</version>
+        <relativePath>../parent-pom</relativePath>
+    </parent>
+
+    <artifactId>omg-dds</artifactId>
+    <packaging>jar</packaging>
+
+    <name>OMG DDS API</name>
+    <description>The standard Java 5 Language PSM for DDS</description>
+    <url>http://www.OMG.org/spec/DDS-Java/</url>
+    <build>
+        <plugins>
+            <!-- IDL code generation -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>idlj-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>compile main idl</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <compiler>idlj</compiler>
+                            <sources>
+                                <source>
+                                    <includes>
+                                        <include>dds_builtinTopics.idl</include>
+                                        <include>dds_dcps_builtintopics.idl</include>
+                                    </includes>
+                                    <emitStubs>false</emitStubs>
+                                    <emitSkeletons>false</emitSkeletons>
+                                </source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>compile test idl</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirectory>src/test/idl</sourceDirectory>
+                            <outputDirectory>${project.build.directory}/generated-test-sources/java</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
