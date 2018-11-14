@@ -42,9 +42,6 @@
             </goals>
             <configuration>
               <outputDirectory>${basedir}/target/linux-x86-64</outputDirectory>
-              <nonFilteredFileExtensions>
-                <nonFilteredFileExtension>pdf</nonFilteredFileExtension>
-              </nonFilteredFileExtensions>
               <resources>          
                 <resource>
                   <directory>src/main/resources/</directory>                  
