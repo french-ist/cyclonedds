@@ -42,9 +42,6 @@
             </goals>
             <configuration>
               <outputDirectory>${basedir}/target/linux-x86-64</outputDirectory>
-              <nonFilteredFileExtensions>
-                <nonFilteredFileExtension>pdf</nonFilteredFileExtension>
-              </nonFilteredFileExtensions>
               <resources>          
                 <resource>
                   <directory>src/main/resources/</directory>                  
@@ -76,8 +73,8 @@
         </executions>
       </plugin>
 
-      <plugin>      
-        <!-- Build an executable JAR -->
+      <!-- Build an executable JAR -->
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <version>3.0.2</version>
@@ -94,6 +91,8 @@
           </archive>
         </configuration>
       </plugin>
+
+      <!-- Embed every depdencies -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>

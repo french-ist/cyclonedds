@@ -1,15 +1,8 @@
-libhello.so: hello.o App.jar
-	gcc -shared src/main/resources/hello.o -o src/main/resources/libhello.so 
-
-hello.o: src/main/resources/hello.c
-	@echo "USAGE: java -jar target/CHello-1.0-SNAPSHOT.jar\n"
-	gcc -c src/main/resources/hello.c -o src/main/resources/hello.o
-
-App.jar: clean
+App.jar: libhello.so
 	mvn clean install
 
+libhello.so: src/main/resources/hello.o 	
+	cd src/main/resources && cmake . && make && cd -
+
 clean: 	
-	mvn clean
-	cd src/main/resources/
-	rm -f hello.h libhello.so hello.o
-	cd -
+	cd src/main/resources/ && rm -r Makefile CMakeCache.txt CMakeFiles/ cmake_install.cmake hello.o libhello.so && cd -
