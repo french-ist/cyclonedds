@@ -17,10 +17,15 @@ void registerCallback(callback myc)
     c = myc;
 }
 
-/*
-static struct _functions funcs;
-void init(_functions myfuncs)
+void open_triggerCallback(const openCallback pfn)
 {
-    funcs = myfuncs;
+    printf("[C] open_triggerCallback\n");
+	int res = (*pfn)("(from C) myfile", 0);
+    printf("[C] res of open_triggerCallback (from Java) = %d\n", res);
 }
-*/
+void close_triggerCallback(const closeCallback pfn)
+{
+    printf("[C] close_triggerCallback\n");
+	int res = (*pfn)(10);  
+    printf("[C] res of close_triggerCallback (from Java) = %d\n", res);
+}
