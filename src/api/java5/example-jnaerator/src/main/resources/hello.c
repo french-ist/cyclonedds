@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-void display(char* ch) {
-    printf("hello.c > %s", ch);
+void say_hello(char* ch) {
+    printf("hello.c > say_hello > %s", ch);
+}
+
+void say_goodbye(char* ch) {
+    printf("hello.c > say_goodbye > %s", ch);
 }

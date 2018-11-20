@@ -36,9 +36,12 @@ stop
 
 ## JNAerator
 ### JNAerator
+You can find command line options and env. variables [here](https://github.com/nativelibs4java/JNAerator/wiki/Command-Line-Options-And-Environment-Variables)
+
 ```plantuml
 skinparam monochrome reverse
 start
+:generate hello/helloLibrary.java;
 stop
 ```
 
