@@ -9,7 +9,7 @@
 
 # Développer une bibliothèque native via le langage C
 
-## Etapes de construction
+## JNA Interface Access
 ```plantuml
 skinparam monochrome reverse
 start
@@ -34,13 +34,7 @@ end fork
 stop
 ```
 
-## Principes
-```plantuml
-@startuml
-skinparam monochrome reverse
-Java -> JavaJnaCode : call
-JavaJnaCode -> C: call
-C --> JavaJnaCode: answer
-JavaJnaCode --> Java: answer
-@enduml
-```
+## JNA Direct Access
+
+## JNI
+
