@@ -7,7 +7,7 @@
 </dependency>
 ```
 
-# Développer une bibliothèque native via le langage C
+# JNA
 
 ## JNA Interface Access
 ```plantuml
@@ -31,6 +31,17 @@ fork again
 end fork
 :oganise c files within mvn projetcs in src/main/resources;
 :compile and run App.java;
+stop
+```
+
+## JNAerator
+### JNAerator
+You can find command line options and env. variables [here](https://github.com/nativelibs4java/JNAerator/wiki/Command-Line-Options-And-Environment-Variables)
+
+```plantuml
+skinparam monochrome reverse
+start
+:generate hello/helloLibrary.java;
 stop
 ```
 
