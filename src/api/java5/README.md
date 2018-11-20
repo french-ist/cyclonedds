@@ -34,6 +34,14 @@ end fork
 stop
 ```
 
+## JNAerator
+### JNAerator
+```plantuml
+skinparam monochrome reverse
+start
+stop
+```
+
 ## JNA Direct Access
 
 ## JNI
