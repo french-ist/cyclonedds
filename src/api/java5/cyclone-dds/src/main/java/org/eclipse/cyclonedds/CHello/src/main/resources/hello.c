@@ -3,5 +3,5 @@
 #include <stdio.h>
 
 void display(char* ch) {
-    printf("hello.c > display(%s)", ch);
+    printf("hello.c > %s", ch);
 }

@@ -26,8 +26,8 @@ fork again
     fork again
     :shade to include\nnet.java.dev.jna:jna and \nnet.java.dev.jna:jna-platform;     
     end fork
-:create CHello.java interface\nand make link with C;
-:create App.java;
+:create CHelloItf.java interface\nand make link with libhello.so;
+:create App.java using CHelloItf.java;
 end fork
 :oganise c files within mvn projetcs in src/main/resources;
 :compile and run App.java;
