@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.eclipse.cyclonedds</groupId>
@@ -89,6 +90,7 @@
         <dds_builtinTopics>-l java -S -I${env.CYCLONE_HOME_NORMALIZED}/etc ${env.CYCLONE_HOME_NORMALIZED}/etc/idl/dds_builtinTopics.idl</dds_builtinTopics>
         <idlpp_exec>${env.CYCLONE_HOME_NORMALIZED}/idlpp.sh</idlpp_exec>
 
+        <jna-version>5.0.0</jna-version>
         <gen-test-java-dir>${project.build.directory}/generated-test-sources/java</gen-test-java-dir>
 
     </properties>
@@ -182,6 +184,17 @@
                 <scope>test</scope>
             </dependency>
 
+            <!-- JNA dependency -->
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna</artifactId>
+                <version>${jna-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna-platform</artifactId>
+                <version>${jna-version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

@@ -1,0 +1,11 @@
+{
+  "Java": {
+    "beautifiers": [
+      "Pretty Diff"
+    ],
+    "align_assignments": true,
+    "indent_comments": true,
+    "indent_size": "2",
+    "indent_style": "space"
+  }
+}

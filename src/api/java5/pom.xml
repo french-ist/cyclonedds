@@ -21,5 +21,6 @@
     <modules>
         <module>omg-dds</module>
         <module>cyclone-dds</module>
+        <module>sample</module>
     </modules>
 </project>
