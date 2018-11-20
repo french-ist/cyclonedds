@@ -7,7 +7,7 @@
 </dependency>
 ```
 
-# Développer une bibliothèque native via le langage C
+# JNA
 
 ## JNA Interface Access
 ```plantuml
