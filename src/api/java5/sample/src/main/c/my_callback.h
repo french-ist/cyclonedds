@@ -4,8 +4,7 @@ int myfunc(char *);
 
 void registerCallback(callback myc);
 
-struct _functions
-{
-    int (*open)(const char *, int);
-    int (*close)(int);
-};
+typedef int (*openCallback)(const char *, int);
+typedef int (*closeCallback)(int);
+
+

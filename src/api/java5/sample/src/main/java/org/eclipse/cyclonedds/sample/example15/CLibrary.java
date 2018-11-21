@@ -6,9 +6,9 @@ import com.sun.jna.Structure;
 import com.sun.jna.Structure.FieldOrder;
 
 public interface CLibrary extends Library {
-    @FieldOrder({ Example15StructA.VAL2 })
+    @FieldOrder({ Example15StructA.VAL1 })
     public static class Example15StructA extends Structure {
-        static final String VAL2 = "val";
+        static final String VAL1 = "val";
 
         public static class ByReference extends Example15StructA implements Structure.ByReference {
         }
