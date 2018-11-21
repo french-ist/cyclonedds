@@ -17,7 +17,7 @@ public interface Mylib extends Library {
     public class OpenFuncImplementation implements Functions.OpenFuncInterface {
         @Override
         public int invoke(String name, int option) {
-            System.out.println("[Java] open(name " + name + ", option " + option + ")");
+            System.out.println("[Java] open(name : " + name + ", option : " + option + ")");
             return 2000;
         }
     }
@@ -30,4 +30,9 @@ public interface Mylib extends Library {
             return 3000;
         }
     }
+
+    // use of structure of callbacks
+    void init(Functions.ByValue funcs);
+    int myopen(String name);
+    int myclose(int fd);
 }

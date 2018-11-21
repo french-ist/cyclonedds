@@ -8,7 +8,9 @@ import com.sun.jna.Structure.FieldOrder;
 public class Functions extends Structure {
   static final String VAL1 = "open";
   static final String VAL2 = "close";
-
+  public static class ByValue extends Functions implements Structure.ByValue {
+  }
+  
   public interface OpenFuncInterface extends Callback {
     int invoke(String name, int options);
   }
