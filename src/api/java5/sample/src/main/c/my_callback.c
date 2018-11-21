@@ -11,6 +11,13 @@ int myfunc(char *name)
     (*c)("received", name);
     return strlen(name);
 }
+int myfunc2(callback myc, char *name)
+{
+    printf("[C] callback %p - myfunc(%s)\n", (void*) myc, name);
+    printf("[C] calling callback (received, %s)\n", name);
+    (*myc)("received", name);
+    return strlen(name);
+}
 
 void registerCallback(callback myc)
 {
