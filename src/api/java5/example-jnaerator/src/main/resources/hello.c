@@ -5,6 +5,7 @@
 
 void person_say_hello(char ch[], person_t* p) {
     printf("hello.c > person_say_hello > '%s' from '%s', his money: '%d'€\n", ch, p->name, p->money);
+    //printf("hello.c > person_say_hello > '%s', his money: '%d'€\n", ch, p->money);
 }
 
 void say_hello(char* ch) {

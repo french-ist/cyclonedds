@@ -1,6 +1,6 @@
 typedef struct person_struct {
-    char name[50];
-	int money;
+    char name[50];	
+    int money;
 } person_t;
 
 void person_say_hello(char ch[], person_t* p);

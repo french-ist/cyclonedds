@@ -19,7 +19,12 @@ public class App
         ByteBuffer bbb = ByteBuffer.wrap(b, 0, b.length);         
         HelloLibrary.INSTANCE.say_hello(abb);
         person_struct x = new person_struct();
-        x.setName( "John Doe!".getBytes());
+        String txt = "a";
+        for(int i=0;i<48;i++) {
+            txt += "b";
+        }
+        txt += "c";
+        x.setName(txt.getBytes());
         x.setMoney(4);
         HelloLibrary.INSTANCE.person_say_hello(abb, x);
         HelloLibrary.INSTANCE.say_goodbye(bbb);        
