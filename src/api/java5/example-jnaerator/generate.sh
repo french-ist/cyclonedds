@@ -9,6 +9,6 @@ java -jar ~/IST/JNAerator/jnaerator/target/jnaerator-0.13-SNAPSHOT-shaded.jar \
     -library hello hello.h \
     -runtime JNA \
     -o ../java/org/eclipse/cyclonedds/ \
-    -noJar -noComp -beanStructs
+    -noJar -noComp -beanStructs -skipDeprecated
 cd -
 mvn clean install
