@@ -21,7 +21,7 @@
     <modules>
         <module>omg-dds</module>
         <module>cyclone-dds</module>
-        <module>cyclone-dds/jna</module>
+        <module>jna-dds</module>
         <module>sample</module>
     </modules>
 </project>
