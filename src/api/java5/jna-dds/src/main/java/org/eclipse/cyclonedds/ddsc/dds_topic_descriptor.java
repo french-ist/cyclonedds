@@ -1,4 +1,4 @@
-package org.eclipse.cyclonedds.ddsjnalib;
+package org.eclipse.cyclonedds.ddsc;
 import com.ochafik.lang.jnaerator.runtime.NativeSize;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
@@ -58,11 +58,11 @@ public class dds_topic_descriptor extends Structure {
 	 * Key descriptors (NULL iff m_nkeys 0)<br>
 	 * C type : const dds_key_descriptor_t*
 	 */
-	public org.eclipse.cyclonedds.ddsjnalib.dds_key_descriptor.ByReference m_keys;
-	public org.eclipse.cyclonedds.ddsjnalib.dds_key_descriptor.ByReference getM_keys() {
+	public org.eclipse.cyclonedds.ddsc.dds_key_descriptor.ByReference m_keys;
+	public org.eclipse.cyclonedds.ddsc.dds_key_descriptor.ByReference getM_keys() {
 		return m_keys;
 	}
-	public void setM_keys(org.eclipse.cyclonedds.ddsjnalib.dds_key_descriptor.ByReference m_keys) {
+	public void setM_keys(org.eclipse.cyclonedds.ddsc.dds_key_descriptor.ByReference m_keys) {
 		this.m_keys = m_keys;
 	}
 	/** Number of ops in m_ops */
@@ -116,7 +116,7 @@ public class dds_topic_descriptor extends Structure {
 	 * @param m_meta XML topic description meta data<br>
 	 * C type : const char*
 	 */
-	public dds_topic_descriptor(NativeSize m_size, int m_align, int m_flagset, int m_nkeys, Pointer m_typename, org.eclipse.cyclonedds.ddsjnalib.dds_key_descriptor.ByReference m_keys, int m_nops, IntByReference m_ops, Pointer m_meta) {
+	public dds_topic_descriptor(NativeSize m_size, int m_align, int m_flagset, int m_nkeys, Pointer m_typename, org.eclipse.cyclonedds.ddsc.dds_key_descriptor.ByReference m_keys, int m_nops, IntByReference m_ops, Pointer m_meta) {
 		super();
 		this.m_size = m_size;
 		this.m_align = m_align;
