@@ -1,4 +1,4 @@
-package dds2;
+package org.eclipse.cyclonedds.ddsjnalib;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import java.util.Arrays;

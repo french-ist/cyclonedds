@@ -15,11 +15,12 @@ sed /_Pre_satisfies_/d $1.h | sed '/  ((/d' \
 > ${1}tmp.h
 java -jar $JNAERATOR_JAR -f -v \
 -I .:../../../../core/ddsc/include/ddsc:../../../../core/ddsc/src \
+-rootPackage org.eclipse.cyclonedds \
 -noPrimitiveArrays \
 -nocpp \
 -limitComments \
 -parseInOnePiece \
--library dds2 ${1}tmp.h \
+-library ddsjnalib ${1}tmp.h \
 -runtime JNA -o . -arch linux_x64 \
 -beautifyNames -callbacksInvokeMethodName apply \
 -direct -forceStringSignatures  -beanStructs \
