@@ -14,7 +14,6 @@ public class TestLibrary
 {   
     public static void main( String[] args )
     {
-        //System.out.println(""+participant);
         DdscLibrary.dds_entity_t topic = DdscLibrary.ddsCreateParticipant(0, null, null);
         System.out.println( "Hello World!" );
     }
