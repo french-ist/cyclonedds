@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/ndrianja/IST/cyclonedds/src/api/java5/sample/example-jnaerator/src/main/resources/hello.c
+hello.h
+/home/ndrianja/IST/cyclonedds/src/api/java5/sample/example-jnaerator/src/main/resources/hello.h
+stdlib.h
+-
+stdio.h
+-
+
+/home/ndrianja/IST/cyclonedds/src/api/java5/sample/example-jnaerator/src/main/resources/hello.h
+
