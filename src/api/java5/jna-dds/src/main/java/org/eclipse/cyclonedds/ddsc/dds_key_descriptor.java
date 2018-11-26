@@ -1,4 +1,4 @@
-package org.eclipse.cyclonedds.ddsjnalib;
+package org.eclipse.cyclonedds.ddsc;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import java.util.Arrays;
