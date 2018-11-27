@@ -1761,7 +1761,7 @@ public class DdscLibrary implements Library {
 	 * Original signature : <code>int dds_takecdr(dds_entity_t, serdata**, uint32_t, dds_sample_info_t*, uint32_t)</code><br>
 	 * <i>native declaration : dds2tmptmp.h:1665</i>
 	 */
-	public static native int dds_takecdr(DdscLibrary.dds_entity_t reader_or_condition, DdscLibrary.serdata buf[], int maxs, dds_sample_info si, int mask);
+	//public static native int dds_takecdr(DdscLibrary.dds_entity_t reader_or_condition, DdscLibrary.serdata buf[], int maxs, dds_sample_info si, int mask);
 	/**
 	 * @brief Access the collection of data values (of same type) and sample info from the<br>
 	 *        data reader, readcondition or querycondition but scoped by the given<br>
