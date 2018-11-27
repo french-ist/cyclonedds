@@ -1,2 +1,4 @@
 **/bin/**
 **/target/**
+_**/**
+**/dependency-reduced-pom.xml
