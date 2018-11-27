@@ -2,3 +2,5 @@
 **/target/**
 _**/**
 **/dependency-reduced-pom.xml
+**/.vscode
+**/.classpath

@@ -6,8 +6,12 @@
   <groupId>org.eclipse.cyclonedds</groupId>
   <artifactId>test-library</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>test-library</name>
-  <url>http://maven.apache.org</url>
+  <packaging>jar</packaging>
+
+  <name>Test Java API library</name>
+  <description>Test Java API library</description>
+  <url>http://www.OMG.org/spec/DDS-Java/</url>
+
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -76,6 +80,43 @@
         </configuration>
       </plugin>
 
+      <!-- IDL code generation -->
+      <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>idlj-maven-plugin</artifactId>
+          <executions>
+              <execution>
+                  <id>compile main idl</id>
+                  <goals>
+                      <goal>generate</goal>
+                  </goals>
+                  <configuration>
+                      <compiler>idlj</compiler>
+                      <sources>
+                          <source>
+                              <includes>
+                                  <include>dds_builtinTopics.idl</include>
+                                  <include>dds_dcps_builtintopics.idl</include>
+                              </includes>
+                              <emitStubs>false</emitStubs>
+                              <emitSkeletons>false</emitSkeletons>
+                          </source>
+                      </sources>
+                  </configuration>
+              </execution>
+              <execution>
+                  <id>compile test idl</id>
+                  <phase>generate-test-sources</phase>
+                  <goals>
+                      <goal>generate</goal>
+                  </goals>
+                  <configuration>
+                      <sourceDirectory>src/test/idl</sourceDirectory>
+                      <outputDirectory>${project.build.directory}/generated-test-sources/java</outputDirectory>
+                  </configuration>
+              </execution>
+          </executions>
+      </plugin>
 
       <!--  Puts all dependencies in the target/classes/lib folder -->
       <plugin>
