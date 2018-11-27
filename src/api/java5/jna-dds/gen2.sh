@@ -22,7 +22,7 @@ java -jar $JNAERATOR_JAR -f -v \
 -parseInOnePiece \
 -library ddsc ${1}tmp.h \
 -runtime JNA -o . -arch linux_x64 \
--beautifyNames -callbacksInvokeMethodName apply \
+-callbacksInvokeMethodName apply \
 -direct -forceStringSignatures  -beanStructs \
 -skipDeprecated \
 -mode Maven -mavenArtifactId ddsjna -mavenGroupId  org.eclipse.cyclonedds -mavenVersion 1.0
