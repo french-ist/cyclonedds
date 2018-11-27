@@ -20,7 +20,7 @@
     </properties>
     <modules>
         <module>omg-dds</module>
-        <module>cyclone-dds</module>
+        <!-- module>cyclone-dds</module -->
         <module>jna-dds</module>
         <module>sample</module>
     </modules>

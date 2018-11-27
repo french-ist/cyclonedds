@@ -13,7 +13,11 @@
 
     <artifactId>sample</artifactId>
     <name>JNA sample</name>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>test-library</module>
+    </modules>
 
     <dependencies>
         <!-- JNA dependency -->
