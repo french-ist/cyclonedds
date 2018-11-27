@@ -2,11 +2,7 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>org.eclipse.cyclonedds</groupId>
-    <artifactId>parent-pom-dev</artifactId>
-    <version>1.0</version>
-  </parent>
+
   <groupId>org.eclipse.cyclonedds</groupId>
   <artifactId>test-library</artifactId>
   <version>1.0-SNAPSHOT</version>
@@ -19,13 +15,10 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>org.eclipse.cyclonedds</groupId>
       <artifactId>ddsjna</artifactId>
       <version>1.0-SNAPSHOT</version>
-      <!--<scope>system</scope>
-      <systemPath>${project.basedir}/../cyclone-dds/jna/target/ddsjna-1.0-SNAPSHOT.jar</systemPath>-->
     </dependency>
     <dependency>
         <groupId>net.java.dev.jna</groupId>
@@ -37,6 +30,13 @@
       <artifactId>jna-platform</artifactId>
       <version>5.0.0</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.nativelibs4java/jnaerator-runtime -->
+    <dependency>
+      <groupId>com.nativelibs4java</groupId>
+      <artifactId>jnaerator-runtime</artifactId>
+      <version>0.12</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -57,12 +57,23 @@
               <outputDirectory>${basedir}/target/linux-x86-64</outputDirectory>
               <resources>          
                 <resource>
-                  <directory>../../../../build/lib/</directory>                  
+                  <directory>../../../../../build/lib/</directory>
                 </resource>
               </resources>              
             </configuration>            
           </execution>
         </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.19.1</version>
+        <configuration>
+          <systemPropertyVariables>
+            <propertyName>jna.library.path</propertyName>
+            <buildDirectory>${basedir}/target/linux-x86-64/</buildDirectory>
+          </systemPropertyVariables>
+        </configuration>
       </plugin>
 
 
@@ -72,39 +83,65 @@
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
-            <id>copy-dependencies</id>
-            <phase>prepare-package</phase>
+          <id>copy-dependencies</id>
+          <phase>prepare-package</phase>
+          <goals>
+            <goal>copy-dependencies</goal>
+          </goals>
+          <configuration>
+            <outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
+            <overWriteReleases>false</overWriteReleases>
+            <overWriteSnapshots>false</overWriteSnapshots>
+            <overWriteIfNewer>true</overWriteIfNewer>
+          </configuration>
+        </execution>
+      </executions>
+      </plugin>
+
+      <!-- Executable -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.0.2</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <mainClass>org.eclipse.cyclonedds.TestLibrary</mainClass>
+            </manifest>
+            <manifestEntries>
+                <Class-Path>.</Class-Path>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <!-- Embbed every depdencies -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
             <goals>
-              <goal>copy-dependencies</goal>
+              <goal>shade</goal>
             </goals>
             <configuration>
-              <outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
-              <overWriteReleases>false</overWriteReleases>
-              <overWriteSnapshots>false</overWriteSnapshots>
-              <overWriteIfNewer>true</overWriteIfNewer>
+              <minimizeJar>true</minimizeJar>
+              <artifactSet>
+                <includes>
+                  <include>net.java.dev.jna:jna</include>
+                  <include>net.java.dev.jna:jna-platform</include>
+                  <include>org.eclipse.cyclonedds:ddsjna</include>
+                  <include>com.nativelibs4java:jnaerator-runtime</include>
+                </includes>
+              </artifactSet>            
             </configuration>
           </execution>
         </executions>
-        </plugin>
-
-        <!-- Executable -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-jar-plugin</artifactId>
-          <version>3.0.2</version>
-          <configuration>
-            <archive>
-              <manifest>
-                <addClasspath>true</addClasspath>
-                <classpathPrefix>lib/</classpathPrefix>
-                <mainClass>org.eclipse.cyclonedds.TestLibrary</mainClass>
-              </manifest>
-              <manifestEntries>
-                  <Class-Path>.</Class-Path>
-              </manifestEntries>
-            </archive>
-          </configuration>
-        </plugin>
+      </plugin>
     </plugins>
   </build>
   

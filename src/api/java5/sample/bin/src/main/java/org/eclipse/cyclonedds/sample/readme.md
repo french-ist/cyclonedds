@@ -1,1 +1,0 @@
-cf. https://www.eshayne.com/jnaex/index.html for description of examples

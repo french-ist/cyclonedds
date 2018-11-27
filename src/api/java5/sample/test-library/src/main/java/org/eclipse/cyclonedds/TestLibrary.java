@@ -8,14 +8,13 @@ import com.sun.jna.NativeLibrary;
  *
  */
 
-import dds2.Dds2Library;
+import org.eclipse.cyclonedds.ddsc.DdscLibrary;
 
 public class TestLibrary 
 {   
     public static void main( String[] args )
     {
-        //System.out.println(""+participant);
-        dds2.Dds2Library.dds_entity_t topic = dds2.Dds2Library.ddsCreateParticipant(0, null, null);
+        DdscLibrary.dds_entity_t topic = DdscLibrary.ddsCreateParticipant(0, null, null);
         System.out.println( "Hello World!" );
     }
 }

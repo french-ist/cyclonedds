@@ -1,7 +1,0 @@
-src/main/resources/CMakeCache.txt
-src/main/resources/CMakeFiles/
-src/main/resources/Makefile
-src/main/resources/cmake_install.cmake
-src/main/resources/hello.o
-src/main/resources/libhello.so
-target/**
