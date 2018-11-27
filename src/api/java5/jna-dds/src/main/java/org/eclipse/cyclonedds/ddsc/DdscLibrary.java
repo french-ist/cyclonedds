@@ -21,106 +21,207 @@ public class DdscLibrary implements Library {
 	static {
 		Native.register(DdscLibrary.class, DdscLibrary.JNA_NATIVE_LIB);
 	}
-	/** enum values */
+	/**
+	 * <i>native declaration : dds2tmptmp.h:54</i><br>
+	 * enum values
+	 */
 	public static interface dds_entity_kind {
+		/** <i>native declaration : dds2tmptmp.h:42</i> */
 		public static final int DDS_KIND_DONTCARE = 0x00000000;
+		/** <i>native declaration : dds2tmptmp.h:43</i> */
 		public static final int DDS_KIND_TOPIC = 0x01000000;
+		/** <i>native declaration : dds2tmptmp.h:44</i> */
 		public static final int DDS_KIND_PARTICIPANT = 0x02000000;
+		/** <i>native declaration : dds2tmptmp.h:45</i> */
 		public static final int DDS_KIND_READER = 0x03000000;
+		/** <i>native declaration : dds2tmptmp.h:46</i> */
 		public static final int DDS_KIND_WRITER = 0x04000000;
+		/** <i>native declaration : dds2tmptmp.h:47</i> */
 		public static final int DDS_KIND_SUBSCRIBER = 0x05000000;
+		/** <i>native declaration : dds2tmptmp.h:48</i> */
 		public static final int DDS_KIND_PUBLISHER = 0x06000000;
+		/** <i>native declaration : dds2tmptmp.h:49</i> */
 		public static final int DDS_KIND_COND_READ = 0x07000000;
+		/** <i>native declaration : dds2tmptmp.h:50</i> */
 		public static final int DDS_KIND_COND_QUERY = 0x08000000;
+		/** <i>native declaration : dds2tmptmp.h:51</i> */
 		public static final int DDS_KIND_COND_GUARD = 0x09000000;
+		/** <i>native declaration : dds2tmptmp.h:52</i> */
 		public static final int DDS_KIND_WAITSET = 0x0A000000;
+		/** <i>native declaration : dds2tmptmp.h:53</i> */
 		public static final int DDS_KIND_INTERNAL = 0x0B000000;
 	};
-	/** enum values */
+	/**
+	 * <i>native declaration : dds2tmptmp.h:98</i><br>
+	 * enum values
+	 */
 	public static interface dds_sample_state {
+		/** <i>native declaration : dds2tmptmp.h:96</i> */
 		public static final int DDS_SST_READ = 1;
+		/** <i>native declaration : dds2tmptmp.h:97</i> */
 		public static final int DDS_SST_NOT_READ = 2;
 	};
-	/** enum values */
+	/**
+	 * <i>native declaration : dds2tmptmp.h:109</i><br>
+	 * enum values
+	 */
 	public static interface dds_view_state {
+		/** <i>native declaration : dds2tmptmp.h:107</i> */
 		public static final int DDS_VST_NEW = 4;
+		/** <i>native declaration : dds2tmptmp.h:108</i> */
 		public static final int DDS_VST_OLD = 8;
 	};
-	/** enum values */
+	/**
+	 * <i>native declaration : dds2tmptmp.h:122</i><br>
+	 * enum values
+	 */
 	public static interface dds_instance_state {
+		/** <i>native declaration : dds2tmptmp.h:119</i> */
 		public static final int DDS_IST_ALIVE = 16;
+		/** <i>native declaration : dds2tmptmp.h:120</i> */
 		public static final int DDS_IST_NOT_ALIVE_DISPOSED = 32;
+		/** <i>native declaration : dds2tmptmp.h:121</i> */
 		public static final int DDS_IST_NOT_ALIVE_NO_WRITERS = 64;
 	};
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_LENGTH_UNLIMITED = (int)-1;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_TOPIC_NO_OPTIMIZE = (int)0x0001;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_TOPIC_FIXED_KEY = (int)0x0002;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_READ_SAMPLE_STATE = (int)1;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_NOT_READ_SAMPLE_STATE = (int)2;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_ANY_SAMPLE_STATE = (int)(1 | 2);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_NEW_VIEW_STATE = (int)4;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_NOT_NEW_VIEW_STATE = (int)8;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_ANY_VIEW_STATE = (int)(4 | 8);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_ALIVE_INSTANCE_STATE = (int)16;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_NOT_ALIVE_DISPOSED_INSTANCE_STATE = (int)32;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_NOT_ALIVE_NO_WRITERS_INSTANCE_STATE = (int)64;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_ANY_INSTANCE_STATE = (int)(16 | 32 | 64);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_ANY_STATE = (int)((1 | 2) | (4 | 8) | (16 | 32 | 64));
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_DOMAIN_DEFAULT = (int)-1;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_HANDLE_NIL = (int)0;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_ENTITY_NIL = (int)0;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_ENTITY_KIND_MASK = (int)(0x7F000000);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_RTS = (int)0x00000000;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_ADR = (int)0x01000000;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_JSR = (int)0x02000000;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_JEQ = (int)0x03000000;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_VAL_1BY = (int)0x01;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_VAL_2BY = (int)0x02;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_VAL_4BY = (int)0x03;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_VAL_8BY = (int)0x04;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_VAL_STR = (int)0x05;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_VAL_BST = (int)0x06;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_VAL_SEQ = (int)0x07;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_VAL_ARR = (int)0x08;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_VAL_UNI = (int)0x09;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_VAL_STU = (int)0x0a;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_TYPE_1BY = (int)(0x01 << 16);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_TYPE_2BY = (int)(0x02 << 16);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_TYPE_4BY = (int)(0x03 << 16);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_TYPE_8BY = (int)(0x04 << 16);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_TYPE_STR = (int)(0x05 << 16);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_TYPE_SEQ = (int)(0x07 << 16);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_TYPE_ARR = (int)(0x08 << 16);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_TYPE_UNI = (int)(0x09 << 16);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_TYPE_STU = (int)(0x0a << 16);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_TYPE_BST = (int)(0x06 << 16);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_TYPE_BOO = (int)(0x01 << 16);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_SUBTYPE_BOO = (int)(0x01 << 8);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_SUBTYPE_1BY = (int)(0x01 << 8);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_SUBTYPE_2BY = (int)(0x02 << 8);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_SUBTYPE_4BY = (int)(0x03 << 8);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_SUBTYPE_8BY = (int)(0x04 << 8);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_SUBTYPE_STR = (int)(0x05 << 8);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_SUBTYPE_SEQ = (int)(0x07 << 8);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_SUBTYPE_ARR = (int)(0x08 << 8);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_SUBTYPE_UNI = (int)(0x09 << 8);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_SUBTYPE_STU = (int)(0x0a << 8);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_SUBTYPE_BST = (int)(0x06 << 8);
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_FLAG_KEY = (int)0x01;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OP_FLAG_DEF = (int)0x02;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_INCONSISTENT_TOPIC_STATUS = (int)1;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OFFERED_DEADLINE_MISSED_STATUS = (int)2;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_REQUESTED_DEADLINE_MISSED_STATUS = (int)4;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_OFFERED_INCOMPATIBLE_QOS_STATUS = (int)32;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_REQUESTED_INCOMPATIBLE_QOS_STATUS = (int)64;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_SAMPLE_LOST_STATUS = (int)128;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_SAMPLE_REJECTED_STATUS = (int)256;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_DATA_ON_READERS_STATUS = (int)512;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_DATA_AVAILABLE_STATUS = (int)1024;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_LIVELINESS_LOST_STATUS = (int)2048;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_LIVELINESS_CHANGED_STATUS = (int)4096;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_PUBLICATION_MATCHED_STATUS = (int)8192;
+	/** <i>native declaration : dds2tmptmp.h</i> */
 	public static final int DDS_SUBSCRIPTION_MATCHED_STATUS = (int)16384;
+	/** <i>native declaration : dds2tmptmp.h:1109</i> */
 	public interface dds_querycondition_filter_fn extends Callback {
 		byte apply(Pointer sample);
 	};
@@ -129,32 +230,10 @@ public class DdscLibrary implements Library {
 	 * setting for write batching (DDSI2E/Internal/WriteBatch).<br>
 	 * Arguments :<br>
 	 *   -# enable Enables or disables write batching for all writers.<br>
-	 * Original signature : <code>void dds_write_set_batch(bool)</code>
+	 * Original signature : <code>void dds_write_set_batch(bool)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:65</i>
 	 */
 	public static native void dds_write_set_batch(byte enable);
-	/**
-	 * Description : Install tcp/ssl and encryption support. Depends on openssl.<br>
-	 * Arguments :<br>
-	 *   -# None<br>
-	 * Original signature : <code>void dds_ssl_plugin()</code>
-	 */
-	public static native void dds_ssl_plugin();
-	/**
-	 * Description : Install client durability support. Depends on OSPL server.<br>
-	 * Arguments :<br>
-	 *   -# None<br>
-	 * Original signature : <code>void dds_durability_plugin()</code>
-	 */
-	public static native void dds_durability_plugin();
-	/**
-	 * Description : Returns the default DDS domain id. This can be configured<br>
-	 * in xml or set as an evironment variable ({DDSC_PROJECT_NAME_NOSPACE_CAPS}_DOMAIN).<br>
-	 * Arguments :<br>
-	 *   -# None<br>
-	 *   -# Returns the default domain id<br>
-	 * Original signature : <code>dds_domainid_t dds_get_default_domainid()</code>
-	 */
-	public static native int dds_get_default_domainid();
 	/**
 	 * @brief Enable entity.<br>
 	 * @note Delayed entity enabling is not supported yet (CHAM-96).<br>
@@ -203,7 +282,8 @@ public class DdscLibrary implements Library {
 	 *                  The entity has already been deleted.<br>
 	 * @retval DDS_RETCODE_PRECONDITION_NOT_MET<br>
 	 *                  The parent of the given Entity is not enabled.<br>
-	 * Original signature : <code>dds_return_t dds_enable(dds_entity_t)</code>
+	 * Original signature : <code>dds_return_t dds_enable(dds_entity_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:211</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_enable(DdscLibrary.dds_entity_t entity);
 	/**
@@ -222,7 +302,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
-	 * Original signature : <code>dds_return_t dds_delete(dds_entity_t)</code>
+	 * Original signature : <code>dds_return_t dds_delete(dds_entity_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:230</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_delete(DdscLibrary.dds_entity_t entity);
 	/**
@@ -240,7 +321,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
-	 * Original signature : <code>dds_entity_t dds_get_publisher(dds_entity_t)</code>
+	 * Original signature : <code>dds_entity_t dds_get_publisher(dds_entity_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:248</i>
 	 */
 	public static native DdscLibrary.dds_entity_t dds_get_publisher(DdscLibrary.dds_entity_t writer);
 	/**
@@ -258,7 +340,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
-	 * Original signature : <code>dds_entity_t dds_get_subscriber(dds_entity_t)</code>
+	 * Original signature : <code>dds_entity_t dds_get_subscriber(dds_entity_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:266</i>
 	 */
 	public static native DdscLibrary.dds_entity_t dds_get_subscriber(DdscLibrary.dds_entity_t entity);
 	/**
@@ -276,7 +359,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
-	 * Original signature : <code>dds_entity_t dds_get_datareader(dds_entity_t)</code>
+	 * Original signature : <code>dds_entity_t dds_get_datareader(dds_entity_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:284</i>
 	 */
 	public static native DdscLibrary.dds_entity_t dds_get_datareader(DdscLibrary.dds_entity_t condition);
 	/**
@@ -294,14 +378,10 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
-	 * Original signature : <code>dds_return_t dds_get_mask(dds_entity_t, uint32_t*)</code>
+	 * Original signature : <code>dds_return_t dds_get_mask(dds_entity_t, uint32_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:302</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_get_mask(DdscLibrary.dds_entity_t condition, IntBuffer mask);
-	/**
-	 * TODO: document.<br>
-	 * Original signature : <code>dds_return_t dds_instancehandle_get(dds_entity_t, dds_instance_handle_t*)</code>
-	 */
-	public static native DdscLibrary.dds_return_t dds_instancehandle_get(DdscLibrary.dds_entity_t entity, LongBuffer ihdl);
 	/**
 	 * Description : Read the status(es) set for the entity based on the enabled<br>
 	 * status and mask set. This operation does not clear the read status(es).<br>
@@ -311,7 +391,8 @@ public class DdscLibrary implements Library {
 	 *   -# mask Filter the status condition to be read (can be NULL)<br>
 	 *   -# Returns 0 on success, or a non-zero error value if the mask does not<br>
 	 *      correspond to the entity<br>
-	 * Original signature : <code>dds_return_t dds_read_status(dds_entity_t, uint32_t*, uint32_t)</code>
+	 * Original signature : <code>dds_return_t dds_read_status(dds_entity_t, uint32_t*, uint32_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:319</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_read_status(DdscLibrary.dds_entity_t entity, IntBuffer status, int mask);
 	/**
@@ -323,7 +404,8 @@ public class DdscLibrary implements Library {
 	 *   -# mask Filter the status condition to be read (can be NULL)<br>
 	 *   -# Returns 0 on success, or a non-zero error value if the mask does not<br>
 	 *      correspond to the entity<br>
-	 * Original signature : <code>dds_return_t dds_take_status(dds_entity_t, uint32_t*, uint32_t)</code>
+	 * Original signature : <code>dds_return_t dds_take_status(dds_entity_t, uint32_t*, uint32_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:331</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_take_status(DdscLibrary.dds_entity_t entity, IntBuffer status, int mask);
 	/**
@@ -331,7 +413,8 @@ public class DdscLibrary implements Library {
 	 * Arguments :<br>
 	 *   -# e Entity on which the statuses are read<br>
 	 *   -# Returns the curent set of triggered statuses.<br>
-	 * Original signature : <code>dds_return_t dds_get_status_changes(dds_entity_t, uint32_t*)</code>
+	 * Original signature : <code>dds_return_t dds_get_status_changes(dds_entity_t, uint32_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:339</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_get_status_changes(DdscLibrary.dds_entity_t entity, IntBuffer status);
 	/**
@@ -339,7 +422,8 @@ public class DdscLibrary implements Library {
 	 * Arguments :<br>
 	 *   -# e Entity to get the status<br>
 	 *   -# Returns the status that are enabled for the entity<br>
-	 * Original signature : <code>dds_return_t dds_get_enabled_status(dds_entity_t, uint32_t*)</code>
+	 * Original signature : <code>dds_return_t dds_get_enabled_status(dds_entity_t, uint32_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:347</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_get_enabled_status(DdscLibrary.dds_entity_t entity, IntBuffer status);
 	/**
@@ -349,7 +433,8 @@ public class DdscLibrary implements Library {
 	 *   -# mask Status value that indicates the status to be enabled<br>
 	 *   -# Returns 0 on success, or a non-zero error value indicating failure if the mask<br>
 	 *      does not correspond to the entity.<br>
-	 * Original signature : <code>dds_return_t dds_set_enabled_status(dds_entity_t, uint32_t)</code>
+	 * Original signature : <code>dds_return_t dds_set_enabled_status(dds_entity_t, uint32_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:357</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_set_enabled_status(DdscLibrary.dds_entity_t entity, int mask);
 	/**
@@ -373,7 +458,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
-	 * Original signature : <code>dds_return_t dds_get_qos(dds_entity_t, dds_qos_t*)</code>
+	 * Original signature : <code>dds_return_t dds_get_qos(dds_entity_t, dds_qos_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:381</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_get_qos(DdscLibrary.dds_entity_t entity, DdscLibrary.dds_qos_t qos);
 	/**
@@ -408,7 +494,8 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_INCONSISTENT_POLICY<br>
 	 *                  A few policies within the QoS are not consistent with<br>
 	 *                  each other.<br>
-	 * Original signature : <code>dds_return_t dds_set_qos(dds_entity_t, const dds_qos_t*)</code>
+	 * Original signature : <code>dds_return_t dds_set_qos(dds_entity_t, const dds_qos_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:416</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_set_qos(DdscLibrary.dds_entity_t entity, DdscLibrary.dds_qos_t qos);
 	/**
@@ -432,7 +519,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
-	 * Original signature : <code>dds_return_t dds_get_listener(dds_entity_t, dds_listener_t*)</code>
+	 * Original signature : <code>dds_return_t dds_get_listener(dds_entity_t, dds_listener_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:440</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_get_listener(DdscLibrary.dds_entity_t entity, DdscLibrary.dds_listener_t listener);
 	/**
@@ -480,7 +568,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
-	 * Original signature : <code>dds_return_t dds_set_listener(dds_entity_t, const dds_listener_t*)</code>
+	 * Original signature : <code>dds_return_t dds_set_listener(dds_entity_t, const dds_listener_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:488</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_set_listener(DdscLibrary.dds_entity_t entity, DdscLibrary.dds_listener_t listener);
 	/**
@@ -497,7 +586,8 @@ public class DdscLibrary implements Library {
 	 * @returns <0 - Failure (use dds_err_nr() to get error value).<br>
 	 * @retval DDS_RETCODE_ERROR<br>
 	 *                  An internal error has occurred.<br>
-	 * Original signature : <code>dds_entity_t dds_create_participant(const dds_domainid_t, const dds_qos_t*, const dds_listener_t*)</code>
+	 * Original signature : <code>dds_entity_t dds_create_participant(const dds_domainid_t, const dds_qos_t*, const dds_listener_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:505</i>
 	 */
 	public static native DdscLibrary.dds_entity_t dds_create_participant(int domain, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
 	/**
@@ -515,7 +605,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
-	 * Original signature : <code>dds_entity_t dds_get_parent(dds_entity_t)</code>
+	 * Original signature : <code>dds_entity_t dds_get_parent(dds_entity_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:523</i>
 	 */
 	public static native DdscLibrary.dds_entity_t dds_get_parent(DdscLibrary.dds_entity_t entity);
 	/**
@@ -534,7 +625,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
-	 * Original signature : <code>dds_entity_t dds_get_participant(dds_entity_t)</code>
+	 * Original signature : <code>dds_entity_t dds_get_participant(dds_entity_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:542</i>
 	 */
 	public static native DdscLibrary.dds_entity_t dds_get_participant(DdscLibrary.dds_entity_t entity);
 	/**
@@ -567,7 +659,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
-	 * Original signature : <code>dds_return_t dds_get_children(dds_entity_t, dds_entity_t*, size_t)</code>
+	 * Original signature : <code>dds_return_t dds_get_children(dds_entity_t, dds_entity_t*, size_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:575</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_get_children(DdscLibrary.dds_entity_t entity, DdscLibrary.dds_entity_t children, NativeSize size);
 	/**
@@ -591,7 +684,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
-	 * Original signature : <code>dds_return_t dds_get_domainid(dds_entity_t, dds_domainid_t*)</code>
+	 * Original signature : <code>dds_return_t dds_get_domainid(dds_entity_t, dds_domainid_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:599</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_get_domainid(DdscLibrary.dds_entity_t entity, IntBuffer id);
 	/**
@@ -613,7 +707,8 @@ public class DdscLibrary implements Library {
 	 *                  An internal error has occurred.<br>
 	 * @retval DDS_RETCODE_BAD_PARAMETER<br>
 	 *                  The participant parameter is NULL, while a size is provided.<br>
-	 * Original signature : <code>dds_return_t dds_lookup_participant(dds_domainid_t, dds_entity_t*, size_t)</code>
+	 * Original signature : <code>dds_return_t dds_lookup_participant(dds_domainid_t, dds_entity_t*, size_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:621</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_lookup_participant(int domain_id, DdscLibrary.dds_entity_t participants, NativeSize size);
 	/**
@@ -627,7 +722,8 @@ public class DdscLibrary implements Library {
 	 *   -# qos The QoS to set on the new topic (can be NULL)<br>
 	 *   -# listener Any listener functions associated with the new topic (can be NULL)<br>
 	 *   -# Returns a status, 0 on success or non-zero value to indicate an error<br>
-	 * Original signature : <code>dds_entity_t dds_create_topic(dds_entity_t, const dds_topic_descriptor_t*, const char*, const dds_qos_t*, const dds_listener_t*)</code>
+	 * Original signature : <code>dds_entity_t dds_create_topic(dds_entity_t, const dds_topic_descriptor_t*, const char*, const dds_qos_t*, const dds_listener_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:635</i>
 	 */
 	public static native DdscLibrary.dds_entity_t dds_create_topic(DdscLibrary.dds_entity_t participant, dds_topic_descriptor descriptor, String name, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
 	/**
@@ -637,12 +733,14 @@ public class DdscLibrary implements Library {
 	 *   -# pp The participant on which to find the topic<br>
 	 *   -# name The name of the topic to find<br>
 	 *   -# Returns a topic, NULL if could not be found or error<br>
-	 * Original signature : <code>dds_entity_t dds_find_topic(dds_entity_t, const char*)</code>
+	 * Original signature : <code>dds_entity_t dds_find_topic(dds_entity_t, const char*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:645</i>
 	 */
 	public static native DdscLibrary.dds_entity_t dds_find_topic(DdscLibrary.dds_entity_t participant, String name);
 	/**
 	 * TODO: Check annotation. Could be writes_to_(size, return + 1) as well.<br>
-	 * Original signature : <code>dds_return_t dds_get_name(dds_entity_t, char*, size_t)</code>
+	 * Original signature : <code>dds_return_t dds_get_name(dds_entity_t, char*, size_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:650</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_get_name(DdscLibrary.dds_entity_t topic, String name, NativeSize size);
 	/**
@@ -650,7 +748,8 @@ public class DdscLibrary implements Library {
 	 * Arguments :<br>
 	 *   -# topic The topic<br>
 	 *   -# Returns The topic type name or NULL to indicate an error<br>
-	 * Original signature : <code>dds_return_t dds_get_type_name(dds_entity_t, char*, size_t)</code>
+	 * Original signature : <code>dds_return_t dds_get_type_name(dds_entity_t, char*, size_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:658</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_get_type_name(DdscLibrary.dds_entity_t topic, String name, NativeSize size);
 	/**
@@ -664,7 +763,8 @@ public class DdscLibrary implements Library {
 	 *                  An internal error has occurred.<br>
 	 *         DDS_RETCODE_BAD_PARAMETER<br>
 	 *                  One of the parameters is invalid<br>
-	 * Original signature : <code>dds_entity_t dds_create_subscriber(dds_entity_t, const dds_qos_t*, const dds_listener_t*)</code>
+	 * Original signature : <code>dds_entity_t dds_create_subscriber(dds_entity_t, const dds_qos_t*, const dds_listener_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:672</i>
 	 */
 	public static native DdscLibrary.dds_entity_t dds_create_subscriber(DdscLibrary.dds_entity_t participant, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
 	/**
@@ -674,7 +774,8 @@ public class DdscLibrary implements Library {
 	 * @param[in]  listener    Any listener functions associated with the new publisher (can be NULL)<br>
 	 * @returns >0 - Success (valid handle of a publisher entity).<br>
 	 * @returns <0 - Failure (use dds_err_nr() to get error value).<br>
-	 * Original signature : <code>dds_entity_t dds_create_publisher(dds_entity_t, const dds_qos_t*, const dds_listener_t*)</code>
+	 * Original signature : <code>dds_entity_t dds_create_publisher(dds_entity_t, const dds_qos_t*, const dds_listener_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:682</i>
 	 */
 	public static native DdscLibrary.dds_entity_t dds_create_publisher(DdscLibrary.dds_entity_t participant, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
 	/**
@@ -692,7 +793,8 @@ public class DdscLibrary implements Library {
 	 *                The pub parameter is not a valid publisher.<br>
 	 * @retval DDS_RETCODE_UNSUPPORTED<br>
 	 *                Operation is not supported<br>
-	 * Original signature : <code>dds_return_t dds_suspend(dds_entity_t)</code>
+	 * Original signature : <code>dds_return_t dds_suspend(dds_entity_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:700</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_suspend(DdscLibrary.dds_entity_t publisher);
 	/**
@@ -711,7 +813,8 @@ public class DdscLibrary implements Library {
 	 *                No previous matching @see dds_suspend.<br>
 	 * @retval DDS_RETCODE_UNSUPPORTED<br>
 	 *                Operation is not supported.<br>
-	 * Original signature : <code>dds_return_t dds_resume(dds_entity_t)</code>
+	 * Original signature : <code>dds_return_t dds_resume(dds_entity_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:719</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_resume(DdscLibrary.dds_entity_t publisher);
 	/**
@@ -730,7 +833,8 @@ public class DdscLibrary implements Library {
 	 *                Timeout expired before all acknowledgements from reliable reader entities were received.<br>
 	 * @retval DDS_RETCODE_UNSUPPORTED<br>
 	 *                Operation is not supported.<br>
-	 * Original signature : <code>dds_return_t dds_wait_for_acks(dds_entity_t, dds_duration_t)</code>
+	 * Original signature : <code>dds_return_t dds_wait_for_acks(dds_entity_t, dds_duration_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:738</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_wait_for_acks(DdscLibrary.dds_entity_t publisher_or_writer, DdscLibrary.dds_duration_t timeout);
 	/**
@@ -741,14 +845,10 @@ public class DdscLibrary implements Library {
 	 * @param[in]  listener Any listener functions associated with the new reader (can be NULL)<br>
 	 * @returns >0 - Success (valid handle of a reader entity)<br>
 	 * @returns <0 - Failure (use dds_err_nr() to get error value)<br>
-	 * Original signature : <code>dds_entity_t dds_create_reader(dds_entity_t, dds_entity_t, const dds_qos_t*, const dds_listener_t*)</code>
+	 * Original signature : <code>dds_entity_t dds_create_reader(dds_entity_t, dds_entity_t, const dds_qos_t*, const dds_listener_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:749</i>
 	 */
 	public static native DdscLibrary.dds_entity_t dds_create_reader(DdscLibrary.dds_entity_t participant_or_subscriber, DdscLibrary.dds_entity_t topic, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
-	/**
-	 * TODO: SAL-annotate TIMEOUT as a succesfull return as well?<br>
-	 * Original signature : <code>dds_return_t dds_wait_for_historical_data(dds_entity_t, dds_duration_t)</code>
-	 */
-	public static native DdscLibrary.dds_return_t dds_wait_for_historical_data(DdscLibrary.dds_entity_t reader, DdscLibrary.dds_duration_t max_wait);
 	/**
 	 * @brief Creates a new instance of a DDS writer<br>
 	 * @param[in]  participant_or_publisher The participant or publisher on which the writer is being created<br>
@@ -757,7 +857,8 @@ public class DdscLibrary implements Library {
 	 * @param[in]  listener Any listener functions associated with the new writer (can be NULL)<br>
 	 * @returns >0 - Success (valid handle of a writer entity)<br>
 	 * @returns <0 - Failure (use dds_err_nr() to get error value)<br>
-	 * Original signature : <code>dds_entity_t dds_create_writer(dds_entity_t, dds_entity_t, const dds_qos_t*, const dds_listener_t*)</code>
+	 * Original signature : <code>dds_entity_t dds_create_writer(dds_entity_t, dds_entity_t, const dds_qos_t*, const dds_listener_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:765</i>
 	 */
 	public static native DdscLibrary.dds_entity_t dds_create_writer(DdscLibrary.dds_entity_t participant_or_publisher, DdscLibrary.dds_entity_t topic, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
 	/**
@@ -767,7 +868,8 @@ public class DdscLibrary implements Library {
 	 *   -# data Instance with the key value<br>
 	 *   -# Returns an instance handle that could be used for successive write & dispose operations or<br>
 	 *      NULL, if handle is not allocated<br>
-	 * Original signature : <code>dds_return_t dds_register_instance(dds_entity_t, dds_instance_handle_t*, const void*)</code>
+	 * Original signature : <code>dds_return_t dds_register_instance(dds_entity_t, dds_instance_handle_t*, const void*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:775</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_register_instance(DdscLibrary.dds_entity_t writer, LongBuffer handle, Pointer data);
 	/**
@@ -779,14 +881,24 @@ public class DdscLibrary implements Library {
 	 *   -# handle Instance handle (can be DDS_HANDLE_NIL if data set)<br>
 	 *   -# Returns 0 on success, or non-zero value to indicate an error<br>
 	 * Note : If an unregistered key ID is passed as instance data, an error is logged and not flagged as return value<br>
-	 * Original signature : <code>dds_return_t dds_unregister_instance(dds_entity_t, const void*)</code>
+	 * Original signature : <code>dds_return_t dds_unregister_instance(dds_entity_t, const void*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:787</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_unregister_instance(DdscLibrary.dds_entity_t writer, Pointer data);
-	/** Original signature : <code>dds_return_t dds_unregister_instance_ih(dds_entity_t, dds_instance_handle_t)</code> */
+	/**
+	 * Original signature : <code>dds_return_t dds_unregister_instance_ih(dds_entity_t, dds_instance_handle_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:789</i>
+	 */
 	public static native DdscLibrary.dds_return_t dds_unregister_instance_ih(DdscLibrary.dds_entity_t writer, long handle);
-	/** Original signature : <code>dds_return_t dds_unregister_instance_ts(dds_entity_t, const void*, dds_time_t)</code> */
+	/**
+	 * Original signature : <code>dds_return_t dds_unregister_instance_ts(dds_entity_t, const void*, dds_time_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:791</i>
+	 */
 	public static native DdscLibrary.dds_return_t dds_unregister_instance_ts(DdscLibrary.dds_entity_t writer, Pointer data, DdscLibrary.dds_time_t timestamp);
-	/** Original signature : <code>dds_return_t dds_unregister_instance_ih_ts(dds_entity_t, dds_instance_handle_t, dds_time_t)</code> */
+	/**
+	 * Original signature : <code>dds_return_t dds_unregister_instance_ih_ts(dds_entity_t, dds_instance_handle_t, dds_time_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:793</i>
+	 */
 	public static native DdscLibrary.dds_return_t dds_unregister_instance_ih_ts(DdscLibrary.dds_entity_t writer, long handle, DdscLibrary.dds_time_t timestamp);
 	/**
 	 * @brief This operation modifies and disposes a data instance.<br>
@@ -832,7 +944,8 @@ public class DdscLibrary implements Library {
 	 *                by synchronous readers. This caused blocking of this operation,<br>
 	 *                which could not be resolved before max_blocking_time of the<br>
 	 *                reliability QoS policy elapsed.<br>
-	 * Original signature : <code>dds_return_t dds_writedispose(dds_entity_t, const void*)</code>
+	 * Original signature : <code>dds_return_t dds_writedispose(dds_entity_t, const void*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:840</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_writedispose(DdscLibrary.dds_entity_t writer, Pointer data);
 	/**
@@ -865,7 +978,8 @@ public class DdscLibrary implements Library {
 	 *                by synchronous readers. This caused blocking of this operation,<br>
 	 *                which could not be resolved before max_blocking_time of the<br>
 	 *                reliability QoS policy elapsed.<br>
-	 * Original signature : <code>dds_return_t dds_writedispose_ts(dds_entity_t, const void*, dds_time_t)</code>
+	 * Original signature : <code>dds_return_t dds_writedispose_ts(dds_entity_t, const void*, dds_time_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:873</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_writedispose_ts(DdscLibrary.dds_entity_t writer, Pointer data, DdscLibrary.dds_time_t timestamp);
 	/**
@@ -913,7 +1027,8 @@ public class DdscLibrary implements Library {
 	 *                by synchronous readers. This caused blocking of this operation,<br>
 	 *                which could not be resolved before max_blocking_time of the<br>
 	 *                reliability QoS policy elapsed.<br>
-	 * Original signature : <code>dds_return_t dds_dispose(dds_entity_t, const void*)</code>
+	 * Original signature : <code>dds_return_t dds_dispose(dds_entity_t, const void*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:921</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_dispose(DdscLibrary.dds_entity_t writer, Pointer data);
 	/**
@@ -947,7 +1062,8 @@ public class DdscLibrary implements Library {
 	 *                by synchronous readers. This caused blocking of this operation,<br>
 	 *                which could not be resolved before max_blocking_time of the<br>
 	 *                reliability QoS policy elapsed.<br>
-	 * Original signature : <code>dds_return_t dds_dispose_ts(dds_entity_t, const void*, dds_time_t)</code>
+	 * Original signature : <code>dds_return_t dds_dispose_ts(dds_entity_t, const void*, dds_time_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:955</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_dispose_ts(DdscLibrary.dds_entity_t writer, Pointer data, DdscLibrary.dds_time_t timestamp);
 	/**
@@ -977,7 +1093,8 @@ public class DdscLibrary implements Library {
 	 *                The entity has already been deleted.<br>
 	 * @retval DDS_RETCODE_PRECONDITION_NOT_MET<br>
 	 *                The instance handle has not been registered with this writer.<br>
-	 * Original signature : <code>dds_return_t dds_dispose_ih(dds_entity_t, dds_instance_handle_t)</code>
+	 * Original signature : <code>dds_return_t dds_dispose_ih(dds_entity_t, dds_instance_handle_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:985</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_dispose_ih(DdscLibrary.dds_entity_t writer, long handle);
 	/**
@@ -1004,7 +1121,8 @@ public class DdscLibrary implements Library {
 	 *                The entity has already been deleted.<br>
 	 * @retval DDS_RETCODE_PRECONDITION_NOT_MET<br>
 	 *                The instance handle has not been registered with this writer.<br>
-	 * Original signature : <code>dds_return_t dds_dispose_ih_ts(dds_entity_t, dds_instance_handle_t, dds_time_t)</code>
+	 * Original signature : <code>dds_return_t dds_dispose_ih_ts(dds_entity_t, dds_instance_handle_t, dds_time_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1012</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_dispose_ih_ts(DdscLibrary.dds_entity_t writer, long handle, DdscLibrary.dds_time_t timestamp);
 	/**
@@ -1014,7 +1132,8 @@ public class DdscLibrary implements Library {
 	 * @param[in]  writer The writer entity<br>
 	 * @param[in]  data Value to be written<br>
 	 * @returns - dds_return_t indicating success or failure<br>
-	 * Original signature : <code>dds_return_t dds_write(dds_entity_t, const void*)</code>
+	 * Original signature : <code>dds_return_t dds_write(dds_entity_t, const void*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1022</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_write(DdscLibrary.dds_entity_t writer, Pointer data);
 	/**
@@ -1026,7 +1145,8 @@ public class DdscLibrary implements Library {
 	 * @param[in]  cdr CDR serialized value to be written<br>
 	 * @param[in]  size Size (in bytes) of CDR encoded data to be written<br>
 	 * @returns - A dds_return_t indicating success or failure<br>
-	 * Original signature : <code>dds_return_t dds_writecdr(dds_entity_t, const void*, size_t)</code>
+	 * Original signature : <code>dds_return_t dds_writecdr(dds_entity_t, const void*, size_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1034</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_writecdr(DdscLibrary.dds_entity_t writer, Pointer cdr, NativeSize size);
 	/**
@@ -1035,7 +1155,8 @@ public class DdscLibrary implements Library {
 	 * @param[in]  data Value to be written<br>
 	 * @param[in]  timestamp Source timestamp<br>
 	 * @returns - A dds_return_t indicating success or failure<br>
-	 * Original signature : <code>dds_return_t dds_write_ts(dds_entity_t, const void*, dds_time_t)</code>
+	 * Original signature : <code>dds_return_t dds_write_ts(dds_entity_t, const void*, dds_time_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1043</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_write_ts(DdscLibrary.dds_entity_t writer, Pointer data, DdscLibrary.dds_time_t timestamp);
 	/**
@@ -1066,10 +1187,14 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
-	 * Original signature : <code>dds_entity_t dds_create_readcondition(dds_entity_t, uint32_t)</code>
+	 * Original signature : <code>dds_entity_t dds_create_readcondition(dds_entity_t, uint32_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1074</i>
 	 */
 	public static native DdscLibrary.dds_entity_t dds_create_readcondition(DdscLibrary.dds_entity_t reader, int mask);
-	/** Original signature : <code>dds_entity_t dds_create_querycondition(dds_entity_t, uint32_t, dds_querycondition_filter_fn)</code> */
+	/**
+	 * Original signature : <code>dds_entity_t dds_create_querycondition(dds_entity_t, uint32_t, dds_querycondition_filter_fn)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1111</i>
+	 */
 	public static native DdscLibrary.dds_entity_t dds_create_querycondition(DdscLibrary.dds_entity_t reader, int mask, DdscLibrary.dds_querycondition_filter_fn filter);
 	/**
 	 * @brief Create a waitset and allocate the resources required<br>
@@ -1085,7 +1210,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
-	 * Original signature : <code>dds_entity_t dds_create_waitset(dds_entity_t)</code>
+	 * Original signature : <code>dds_entity_t dds_create_waitset(dds_entity_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1136</i>
 	 */
 	public static native DdscLibrary.dds_entity_t dds_create_waitset(DdscLibrary.dds_entity_t participant);
 	/**
@@ -1111,7 +1237,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The waitset has already been deleted.<br>
-	 * Original signature : <code>dds_return_t dds_waitset_get_entities(dds_entity_t, dds_entity_t*, size_t)</code>
+	 * Original signature : <code>dds_return_t dds_waitset_get_entities(dds_entity_t, dds_entity_t*, size_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1162</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_waitset_get_entities(DdscLibrary.dds_entity_t waitset, DdscLibrary.dds_entity_t entities, NativeSize size);
 	/**
@@ -1149,7 +1276,8 @@ public class DdscLibrary implements Library {
 	 *                  The waitset has already been deleted.<br>
 	 * @retval DDS_RETCODE_PRECONDITION_NOT_MET<br>
 	 *                  The entity was already attached.<br>
-	 * Original signature : <code>dds_return_t dds_waitset_attach(dds_entity_t, dds_entity_t, dds_attach_t)</code>
+	 * Original signature : <code>dds_return_t dds_waitset_attach(dds_entity_t, dds_entity_t, dds_attach_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1200</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_waitset_attach(DdscLibrary.dds_entity_t waitset, DdscLibrary.dds_entity_t entity, Pointer x);
 	/**
@@ -1168,7 +1296,8 @@ public class DdscLibrary implements Library {
 	 *                  The waitset has already been deleted.<br>
 	 * @retval DDS_RETCODE_PRECONDITION_NOT_MET<br>
 	 *                  The entity is not attached.<br>
-	 * Original signature : <code>dds_return_t dds_waitset_detach(dds_entity_t, dds_entity_t)</code>
+	 * Original signature : <code>dds_return_t dds_waitset_detach(dds_entity_t, dds_entity_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1219</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_waitset_detach(DdscLibrary.dds_entity_t waitset, DdscLibrary.dds_entity_t entity);
 	/**
@@ -1193,7 +1322,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The waitset has already been deleted.<br>
-	 * Original signature : <code>dds_return_t dds_waitset_set_trigger(dds_entity_t, bool)</code>
+	 * Original signature : <code>dds_return_t dds_waitset_set_trigger(dds_entity_t, bool)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1244</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_waitset_set_trigger(DdscLibrary.dds_entity_t waitset, byte trigger);
 	/**
@@ -1248,7 +1378,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The waitset has already been deleted.<br>
-	 * Original signature : <code>dds_return_t dds_waitset_wait(dds_entity_t, dds_attach_t*, size_t, dds_duration_t)</code>
+	 * Original signature : <code>dds_return_t dds_waitset_wait(dds_entity_t, dds_attach_t*, size_t, dds_duration_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1299</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_waitset_wait(DdscLibrary.dds_entity_t waitset, PointerByReference xs, NativeSize nxs, DdscLibrary.dds_duration_t reltimeout);
 	/**
@@ -1305,7 +1436,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The waitset has already been deleted.<br>
-	 * Original signature : <code>dds_return_t dds_waitset_wait_until(dds_entity_t, dds_attach_t*, size_t, dds_time_t)</code>
+	 * Original signature : <code>dds_return_t dds_waitset_wait_until(dds_entity_t, dds_attach_t*, size_t, dds_time_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1356</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_waitset_wait_until(DdscLibrary.dds_entity_t waitset, PointerByReference xs, NativeSize nxs, DdscLibrary.dds_time_t abstimeout);
 	/**
@@ -1334,7 +1466,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
-	 * Original signature : <code>dds_return_t dds_read(dds_entity_t, void**, dds_sample_info_t*, size_t, uint32_t)</code>
+	 * Original signature : <code>dds_return_t dds_read(dds_entity_t, void**, dds_sample_info_t*, size_t, uint32_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1385</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_read(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si, NativeSize bufsz, int maxs);
 	/**
@@ -1354,7 +1487,8 @@ public class DdscLibrary implements Library {
 	 *                  The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
-	 * Original signature : <code>dds_return_t dds_read_wl(dds_entity_t, void**, dds_sample_info_t*, uint32_t)</code>
+	 * Original signature : <code>dds_return_t dds_read_wl(dds_entity_t, void**, dds_sample_info_t*, uint32_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1405</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_read_wl(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si, int maxs);
 	/**
@@ -1379,7 +1513,8 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_read_mask(dds_entity_t, void**, dds_sample_info_t*, size_t, uint32_t, uint32_t)</code><br>
-	 * @param mask In case of ReadCondition, both masks are applied (OR'd)
+	 * @param mask In case of ReadCondition, both masks are applied (OR'd)<br>
+	 * <i>native declaration : dds2tmptmp.h:1430</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_read_mask(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si, NativeSize bufsz, int maxs, int mask);
 	/**
@@ -1403,7 +1538,8 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_read_mask_wl(dds_entity_t, void**, dds_sample_info_t*, uint32_t, uint32_t)</code><br>
-	 * @param mask In case of ReadCondition, both masks are applied (OR'd)
+	 * @param mask In case of ReadCondition, both masks are applied (OR'd)<br>
+	 * <i>native declaration : dds2tmptmp.h:1454</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_read_mask_wl(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si, int maxs, int mask);
 	/**
@@ -1429,7 +1565,8 @@ public class DdscLibrary implements Library {
 	 *                  The entity has already been deleted.<br>
 	 * @retval DDS_RETCODE_PRECONDITION_NOT_MET<br>
 	 *                  The instance handle has not been registered with this reader.<br>
-	 * Original signature : <code>dds_return_t dds_read_instance(dds_entity_t, void**, dds_sample_info_t*, size_t, uint32_t, dds_instance_handle_t)</code>
+	 * Original signature : <code>dds_return_t dds_read_instance(dds_entity_t, void**, dds_sample_info_t*, size_t, uint32_t, dds_instance_handle_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1480</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_read_instance(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si, NativeSize bufsz, int maxs, long handle);
 	/**
@@ -1454,7 +1591,8 @@ public class DdscLibrary implements Library {
 	 *                  The entity has already been deleted.<br>
 	 * @retval DDS_RETCODE_PRECONDITION_NOT_MET<br>
 	 *                  The instance handle has not been registered with this reader.<br>
-	 * Original signature : <code>dds_return_t dds_read_instance_wl(dds_entity_t, void**, dds_sample_info_t*, uint32_t, dds_instance_handle_t)</code>
+	 * Original signature : <code>dds_return_t dds_read_instance_wl(dds_entity_t, void**, dds_sample_info_t*, uint32_t, dds_instance_handle_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1505</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_read_instance_wl(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si, int maxs, long handle);
 	/**
@@ -1481,7 +1619,8 @@ public class DdscLibrary implements Library {
 	 *                  The entity has already been deleted.<br>
 	 * @retval DDS_RETCODE_PRECONDITION_NOT_MET<br>
 	 *                  The instance handle has not been registered with this reader.<br>
-	 * Original signature : <code>dds_return_t dds_read_instance_mask(dds_entity_t, void**, dds_sample_info_t*, size_t, uint32_t, dds_instance_handle_t, uint32_t)</code>
+	 * Original signature : <code>dds_return_t dds_read_instance_mask(dds_entity_t, void**, dds_sample_info_t*, size_t, uint32_t, dds_instance_handle_t, uint32_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1532</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_read_instance_mask(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si, NativeSize bufsz, int maxs, long handle, int mask);
 	/**
@@ -1507,7 +1646,8 @@ public class DdscLibrary implements Library {
 	 *                  The entity has already been deleted.<br>
 	 * @retval DDS_RETCODE_PRECONDITION_NOT_MET<br>
 	 *                  The instance handle has not been registered with this reader.<br>
-	 * Original signature : <code>dds_return_t dds_read_instance_mask_wl(dds_entity_t, void**, dds_sample_info_t*, uint32_t, dds_instance_handle_t, uint32_t)</code>
+	 * Original signature : <code>dds_return_t dds_read_instance_mask_wl(dds_entity_t, void**, dds_sample_info_t*, uint32_t, dds_instance_handle_t, uint32_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1558</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_read_instance_mask_wl(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si, int maxs, long handle, int mask);
 	/**
@@ -1537,7 +1677,8 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_take(dds_entity_t, void**, dds_sample_info_t*, size_t, uint32_t)</code><br>
-	 * @param buf writes_to_ annotation would be nice, however we don't know the size of the elements. Solution for that? Is there a better annotation?
+	 * @param buf writes_to_ annotation would be nice, however we don't know the size of the elements. Solution for that? Is there a better annotation?<br>
+	 * <i>native declaration : dds2tmptmp.h:1588</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_take(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si, NativeSize bufsz, int maxs);
 	/**
@@ -1558,7 +1699,8 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_take_wl(dds_entity_t, void**, dds_sample_info_t*, uint32_t)</code><br>
-	 * @param buf writes_to_ annotation would be nice, however we don't know the size of the elements. Solution for that? Is there a better annotation?
+	 * @param buf writes_to_ annotation would be nice, however we don't know the size of the elements. Solution for that? Is there a better annotation?<br>
+	 * <i>native declaration : dds2tmptmp.h:1609</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_take_wl(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si, int maxs);
 	/**
@@ -1582,7 +1724,8 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_take_mask(dds_entity_t, void**, dds_sample_info_t*, size_t, uint32_t, uint32_t)</code><br>
-	 * @param buf writes_to_ annotation would be nice, however we don't know the size of the elements. Solution for that? Is there a better annotation?
+	 * @param buf writes_to_ annotation would be nice, however we don't know the size of the elements. Solution for that? Is there a better annotation?<br>
+	 * <i>native declaration : dds2tmptmp.h:1633</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_take_mask(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si, NativeSize bufsz, int maxs, int mask);
 	/**
@@ -1605,12 +1748,19 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_take_mask_wl(dds_entity_t, void**, dds_sample_info_t*, uint32_t, uint32_t)</code><br>
-	 * @param buf writes_to_ annotation would be nice, however we don't know the size of the elements. Solution for that? Is there a better annotation?
+	 * @param buf writes_to_ annotation would be nice, however we don't know the size of the elements. Solution for that? Is there a better annotation?<br>
+	 * <i>native declaration : dds2tmptmp.h:1656</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_take_mask_wl(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si, int maxs, int mask);
-	/** Original signature : <code>int dds_takecdr(dds_entity_t, serdata**, uint32_t, dds_sample_info_t*, uint32_t)</code> */
+	/**
+	 * Original signature : <code>int dds_takecdr(dds_entity_t, serdata**, uint32_t, dds_sample_info_t*, uint32_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1665</i>
+	 */
 	public static native int dds_takecdr(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, int maxs, dds_sample_info si, int mask);
-	/** Original signature : <code>int dds_takecdr(dds_entity_t, serdata**, uint32_t, dds_sample_info_t*, uint32_t)</code> */
+	/**
+	 * Original signature : <code>int dds_takecdr(dds_entity_t, serdata**, uint32_t, dds_sample_info_t*, uint32_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1665</i>
+	 */
 	public static native int dds_takecdr(DdscLibrary.dds_entity_t reader_or_condition, DdscLibrary.serdata buf[], int maxs, dds_sample_info si, int mask);
 	/**
 	 * @brief Access the collection of data values (of same type) and sample info from the<br>
@@ -1636,7 +1786,8 @@ public class DdscLibrary implements Library {
 	 *                  The entity has already been deleted.<br>
 	 * @retval DDS_RETCODE_PRECONDITION_NOT_MET<br>
 	 *                  The instance handle has not been registered with this reader.<br>
-	 * Original signature : <code>dds_return_t dds_take_instance(dds_entity_t, void**, dds_sample_info_t*, size_t, uint32_t, dds_instance_handle_t)</code>
+	 * Original signature : <code>dds_return_t dds_take_instance(dds_entity_t, void**, dds_sample_info_t*, size_t, uint32_t, dds_instance_handle_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1692</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_take_instance(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si, NativeSize bufsz, int maxs, long handle);
 	/**
@@ -1661,7 +1812,8 @@ public class DdscLibrary implements Library {
 	 *                  The entity has already been deleted.<br>
 	 * @retval DDS_RETCODE_PRECONDITION_NOT_MET<br>
 	 *                  The instance handle has not been registered with this reader.<br>
-	 * Original signature : <code>dds_return_t dds_take_instance_wl(dds_entity_t, void**, dds_sample_info_t*, uint32_t, dds_instance_handle_t)</code>
+	 * Original signature : <code>dds_return_t dds_take_instance_wl(dds_entity_t, void**, dds_sample_info_t*, uint32_t, dds_instance_handle_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1717</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_take_instance_wl(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si, int maxs, long handle);
 	/**
@@ -1689,7 +1841,8 @@ public class DdscLibrary implements Library {
 	 *                  The entity has already been deleted.<br>
 	 * @retval DDS_RETCODE_PRECONDITION_NOT_MET<br>
 	 *                  The instance handle has not been registered with this reader.<br>
-	 * Original signature : <code>dds_return_t dds_take_instance_mask(dds_entity_t, void**, dds_sample_info_t*, size_t, uint32_t, dds_instance_handle_t, uint32_t)</code>
+	 * Original signature : <code>dds_return_t dds_take_instance_mask(dds_entity_t, void**, dds_sample_info_t*, size_t, uint32_t, dds_instance_handle_t, uint32_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1745</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_take_instance_mask(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si, NativeSize bufsz, int maxs, long handle, int mask);
 	/**
@@ -1715,7 +1868,8 @@ public class DdscLibrary implements Library {
 	 *                  The entity has already been deleted.<br>
 	 * @retval DDS_RETCODE_PRECONDITION_NOT_MET<br>
 	 *                  The instance handle has not been registered with this reader.<br>
-	 * Original signature : <code>dds_return_t dds_take_instance_mask_wl(dds_entity_t, void**, dds_sample_info_t*, uint32_t, dds_instance_handle_t, uint32_t)</code>
+	 * Original signature : <code>dds_return_t dds_take_instance_mask_wl(dds_entity_t, void**, dds_sample_info_t*, uint32_t, dds_instance_handle_t, uint32_t)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1771</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_take_instance_mask_wl(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si, int maxs, long handle, int mask);
 	/**
@@ -1726,10 +1880,14 @@ public class DdscLibrary implements Library {
 	 * -# buf an array of pointers to samples into which data is read (pointers can be NULL)<br>
 	 * -# si pointer to \ref dds_sample_info_t returned for a data value<br>
 	 * -# Returns 1 on successful operation, else 0 if there is no data to be read.<br>
-	 * Original signature : <code>dds_return_t dds_take_next(dds_entity_t, void**, dds_sample_info_t*)</code>
+	 * Original signature : <code>dds_return_t dds_take_next(dds_entity_t, void**, dds_sample_info_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1782</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_take_next(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si);
-	/** Original signature : <code>dds_return_t dds_take_next_wl(dds_entity_t, void**, dds_sample_info_t*)</code> */
+	/**
+	 * Original signature : <code>dds_return_t dds_take_next_wl(dds_entity_t, void**, dds_sample_info_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1784</i>
+	 */
 	public static native DdscLibrary.dds_return_t dds_take_next_wl(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si);
 	/**
 	 * Description : This operation copies the next, non-previously accessed data value and corresponding<br>
@@ -1739,10 +1897,14 @@ public class DdscLibrary implements Library {
 	 * -# buf an array of pointers to samples into which data is read (pointers can be NULL)<br>
 	 * -# si pointer to \ref dds_sample_info_t returned for a data value<br>
 	 * -# Returns 1 on successful operation, else 0 if there is no data to be read.<br>
-	 * Original signature : <code>dds_return_t dds_read_next(dds_entity_t, void**, dds_sample_info_t*)</code>
+	 * Original signature : <code>dds_return_t dds_read_next(dds_entity_t, void**, dds_sample_info_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1795</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_read_next(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si);
-	/** Original signature : <code>dds_return_t dds_read_next_wl(dds_entity_t, void**, dds_sample_info_t*)</code> */
+	/**
+	 * Original signature : <code>dds_return_t dds_read_next_wl(dds_entity_t, void**, dds_sample_info_t*)</code><br>
+	 * <i>native declaration : dds2tmptmp.h:1797</i>
+	 */
 	public static native DdscLibrary.dds_return_t dds_read_next_wl(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si);
 	public static class dds_return_t extends PointerType {
 		public dds_return_t(Pointer address) {

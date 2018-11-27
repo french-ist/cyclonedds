@@ -18,11 +18,13 @@ java -jar $JNAERATOR_JAR -f -v \
 -rootPackage org.eclipse.cyclonedds \
 -noPrimitiveArrays \
 -nocpp \
--limitComments \
 -parseInOnePiece \
 -library ddsc ${1}tmp.h \
 -runtime JNA -o . -arch linux_x64 \
 -callbacksInvokeMethodName apply \
 -direct -forceStringSignatures  -beanStructs \
 -skipDeprecated \
+-skipFunctions "dds_ssl_plugin|dds_get_default_domainid|dds_instancehandle_get|dds_wait_for_historical_data\
+|dds_lookup_instance|dds_get_domain|dds_assert_liveliness|dds_contains|dds_ignore|dds_get_related_topic|dds_get_query\
+|dds_ssl_plugin|dds_durability_plugin" \
 -mode Maven -mavenArtifactId ddsjna -mavenGroupId  org.eclipse.cyclonedds -mavenVersion 1.0
