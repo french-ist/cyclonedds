@@ -81,42 +81,27 @@
       </plugin>
 
       <!-- IDL code generation -->
-      <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>idlj-maven-plugin</artifactId>
-          <executions>
-              <execution>
-                  <id>compile main idl</id>
-                  <goals>
-                      <goal>generate</goal>
-                  </goals>
-                  <configuration>
-                      <compiler>idlj</compiler>
-                      <sources>
-                          <source>
-                              <includes>
-                                  <include>dds_builtinTopics.idl</include>
-                                  <include>dds_dcps_builtintopics.idl</include>
-                              </includes>
-                              <emitStubs>false</emitStubs>
-                              <emitSkeletons>false</emitSkeletons>
-                          </source>
-                      </sources>
-                  </configuration>
-              </execution>
-              <execution>
-                  <id>compile test idl</id>
-                  <phase>generate-test-sources</phase>
-                  <goals>
-                      <goal>generate</goal>
-                  </goals>
-                  <configuration>
-                      <sourceDirectory>src/test/idl</sourceDirectory>
-                      <outputDirectory>${project.build.directory}/generated-test-sources/java</outputDirectory>
-                  </configuration>
-              </execution>
-          </executions>
-      </plugin>
+      <!--plugin>
+        <groupId>com.prismtech.cafe</groupId>
+        <artifactId>idl2j</artifactId>
+        <version>2.4.1-SNAPSHOT</version>
+        <executions>
+            <execution>
+              <id>idl-compile</id>
+              <phase>generate-sources</phase>
+              <goals>
+                  <goal>idl-compile</goal>
+              </goals>
+            </execution>
+        </executions>
+        <configuration>
+          <idlc>idlj</idlc>
+          <idlDir>src/main/idl</idlDir>
+          <outDir>target/generated-sources/org/eclipse/cyclonedds/</outDir>          
+          <mode>-v</mode>
+          <defaultPkgPrefix>org.eclipse.cyclonedds</defaultPkgPrefix>
+        </configuration>
+      </plugin>-->
 
       <!--  Puts all dependencies in the target/classes/lib folder -->
       <plugin>
