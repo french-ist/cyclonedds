@@ -15,10 +15,6 @@
     <name>JNA sample</name>
     <packaging>pom</packaging>
 
-    <modules>
-        <module>test-library</module>
-    </modules>
-
     <dependencies>
         <!-- JNA dependency -->
         <dependency>
