@@ -3,8 +3,11 @@ package org.eclipse.cyclonedds;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+
 import org.eclipse.cyclonedds.ddsc.DdscLibrary;
-import org.eclipse.cyclonedds.HelloWorldData.*;
+import org.eclipse.cyclonedds.ddsc.dds_topic_descriptor;
+import org.eclipse.cyclonedds.helloworld.*;
 
 /**
  * Unit test for simple App.
@@ -35,12 +38,11 @@ public class DdscLibraryTest
      */
     public void testApp()
     {
-        System.out.println("TEQT");
         DdscLibrary.dds_entity_t part = DdscLibrary.dds_create_participant(0, null, null);
-        DdscLibrary.dds_entity_t topic = DdscLibrary.dds_create_topic(part, null, "First-Topic", null, null);
+        dds_topic_descriptor x = (dds_topic_descriptor)HelloWorldData_Msg.newInstance(dds_topic_descriptor.class);
+        DdscLibrary.dds_entity_t topic = DdscLibrary.dds_create_topic(part, x, "HelloWorldData_Msg", null, null);
         DdscLibrary.dds_entity_t writer = DdscLibrary.dds_create_writer (part, topic, null, null);
         System.out.println( "TOPIC: " + topic +", "+writer );
-        System.out.println("TEQT END");
         assertTrue( true );
     }
 }

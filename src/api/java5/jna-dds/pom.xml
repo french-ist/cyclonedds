@@ -80,6 +80,38 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<!-- Add an extra source folder-->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+				<execution>
+					<id>add-source</id>
+					<phase>generate-sources</phase>
+					<goals>
+					<goal>add-source</goal>
+					</goals>
+					<configuration>
+					<sources>
+						<source>src/main/idl/generated-java/</source>
+					</sources>
+					</configuration>
+				</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
+				<configuration>
+					<systemPropertyVariables>
+						<propertyName>jna.library.path</propertyName>
+						<buildDirectory>src/main/idl/generated-c</buildDirectory>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<repositories>
