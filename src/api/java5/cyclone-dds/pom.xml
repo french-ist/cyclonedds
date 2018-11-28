@@ -22,6 +22,12 @@
             <artifactId>omg-dds</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <!-- JNA DDS -->
+        <dependency>
+            <groupId>org.eclipse.cyclonedds</groupId>
+            <artifactId>jna-dds</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!-- Unit tests framework -->
         <dependency>
             <groupId>junit</groupId>
