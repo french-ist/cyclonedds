@@ -1,4 +1,4 @@
-sed /_Pre_satisfies_/d ../../../../core/ddsc/include/ddsc/$1.h | sed '/  ((/d' \
+sed /_Pre_satisfies_/d $1.h | sed '/  ((/d' \
 | sed 's/DDS_EXPORT//g' \
 | sed 's/_Must_inspect_result_//g' \
 | sed 's/_Check_return_//g' \
@@ -14,13 +14,17 @@ sed /_Pre_satisfies_/d ../../../../core/ddsc/include/ddsc/$1.h | sed '/  ((/d' \
 | sed 's/_Out_//g' \
 > ${1}tmp.h
 java -jar $JNAERATOR_JAR -f -v \
--I .:../../../../core/ddsc/include/ddsc:../../../../core/ddsc/src \
+-I .:../../../core/ddsc/include/ddsc:../../../core/ddsc/src \
+-rootPackage org.eclipse.cyclonedds \
 -noPrimitiveArrays \
 -nocpp \
 -parseInOnePiece \
--library dds2 ${1}tmp.h \
+-library ddsc ${1}tmp.h \
 -runtime JNA -o . -arch linux_x64 \
--beautifyNames -callbacksInvokeMethodName apply \
+-callbacksInvokeMethodName apply \
 -direct -forceStringSignatures  -beanStructs \
 -skipDeprecated \
+-skipFunctions "dds_ssl_plugin|dds_get_default_domainid|dds_instancehandle_get|dds_wait_for_historical_data\
+|dds_lookup_instance|dds_get_domain|dds_assert_liveliness|dds_contains|dds_ignore|dds_get_related_topic|dds_get_query\
+|dds_ssl_plugin|dds_durability_plugin" \
 -mode Maven -mavenArtifactId ddsjna -mavenGroupId  org.eclipse.cyclonedds -mavenVersion 1.0
