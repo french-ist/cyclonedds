@@ -4,6 +4,8 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import com.sun.jna.Pointer;
+import com.sun.jna.ptr.PointerByReference;
 
 import org.eclipse.cyclonedds.ddsc.DdscLibrary;
 import org.eclipse.cyclonedds.ddsc.dds_topic_descriptor;
@@ -38,10 +40,20 @@ public class DdscLibraryTest
      */
     public void testApp()
     {
+        //creating participant
         DdscLibrary.dds_entity_t part = DdscLibrary.dds_create_participant(0, null, null);
-        dds_topic_descriptor x = (dds_topic_descriptor)HelloWorldData_Msg.newInstance(dds_topic_descriptor.class);
-        DdscLibrary.dds_entity_t topic = DdscLibrary.dds_create_topic(part, x, "HelloWorldData_Msg", null, null);
+
+        //creating dds_topic_descriptor
+        Pointer hwPointer = new HelloWorldData_Msg.ByReference().getPointer();
+        dds_topic_descriptor hwTopicDescriptor  = new dds_topic_descriptor.ByReference();
+        hwTopicDescriptor.setM_typename(hwPointer);
+
+        //creating topic
+        DdscLibrary.dds_entity_t topic = DdscLibrary.dds_create_topic(part, hwTopicDescriptor, "HelloWorldData_Msg", null, null);
+
+        //creating writer
         DdscLibrary.dds_entity_t writer = DdscLibrary.dds_create_writer (part, topic, null, null);
+
         System.out.println( "TOPIC: " + topic +", "+writer );
         assertTrue( true );
     }

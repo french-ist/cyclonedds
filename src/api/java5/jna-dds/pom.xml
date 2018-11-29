@@ -65,22 +65,6 @@
 				</configuration>
 			</plugin>
 
-			<!-- IDL code generation -->
-			<plugin>
-				<groupId>com.prismtech.cafe</groupId>
-				<artifactId>idl2j</artifactId>
-				<version>${cafe.version}</version>
-				<executions>
-					<execution>
-						<id>idl-compile</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>idl-compile</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
 			<!-- Add an extra source folder-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -102,15 +86,44 @@
 				</executions>
 			</plugin>
 
+			<!-- *.so localisation -->
 			<plugin>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.19.1</version>
 				<configuration>
 					<systemPropertyVariables>
 						<propertyName>jna.library.path</propertyName>
-						<buildDirectory>src/main/idl/generated-c</buildDirectory>
+						<buildDirectory>target/main/linux-x86-64</buildDirectory>
 					</systemPropertyVariables>
 				</configuration>
+			</plugin>
+
+			<!-- Copy to right directory-->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+						<outputDirectory>${basedir}/target/linux-x86-64</outputDirectory>
+							<resources>
+								<resource>
+									<directory>../../../../build/lib/</directory>
+									<include>**/*.so*</include>
+								</resource>
+								<resource>
+									<directory>src/main/idl/generated-c/</directory>
+									<include>**/*.so*</include>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
