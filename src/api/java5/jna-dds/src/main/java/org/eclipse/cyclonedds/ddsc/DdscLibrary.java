@@ -1904,6 +1904,22 @@ public class DdscLibrary implements Library {
 	 * <i>native declaration : dds2tmptmp.h:1797</i>
 	 */
 	public static native DdscLibrary.dds_return_t dds_read_next_wl(DdscLibrary.dds_entity_t reader_or_condition, PointerByReference buf, dds_sample_info si);
+	
+	public static native DdscLibrary.dds_qos_t dds_qos_create();
+
+	/**
+	 * @brief Set the reliability policy of a qos structure
+	 *
+	 * @param[in,out] qos - Pointer to a dds_qos_t structure that will store the policy
+	 * @param[in] kind - Reliability kind
+	 * @param[in] max_blocking_time - Max blocking duration applied when kind is reliable.
+	 */
+	//public static native void dds_qset_reliability(DdscLibrary.dds_qos_t qos, DdscLibrary.dds_reliability_kind_t kind,  DdscLibrary.dds_duration_t  max_blocking_time);
+	
+	
+	public static native void dds_qos_delete(DdscLibrary.dds_qos_t qos);
+
+
 	public static class dds_return_t extends PointerType {
 		public dds_return_t(Pointer address) {
 			super(address);
