@@ -1,13 +1,40 @@
-DDS_EXPORT
-_Must_inspect_result_
+_Acquires_exclusive_lock_(*e)
 _Check_return_
-_Must_inspect_result_
+DDS_DESTINATIONORDER_BY_SOURCE_TIMESTAMP)
+DDS_EXPORT
+_Deref_pre_z_
+_In_
+_In_count_(n)
 _In_opt_
+_Inout_
+_Inout_opt_
+_Inout_updates_(bufsz)
+_In_range_(0, DDS_INFINITY)
+_In_range_(DDS_DESTINATIONORDER_BY_RECEPTION_TIMESTAMP,
+_In_range_(DDS_DURABILITY_VOLATILE, DDS_DURABILITY_PERSISTENT)
+_In_range_(DDS_HISTORY_KEEP_LAST, DDS_HISTORY_KEEP_ALL)
+_In_range_(>=, DDS_LENGTH_UNLIMITED)
+_In_range_(DDS_LIVELINESS_AUTOMATIC, DDS_LIVELINESS_MANUAL_BY_TOPIC)
+_In_range_(DDS_OWNERSHIP_SHARED, DDS_OWNERSHIP_EXCLUSIVE)
+_In_range_(DDS_PRESENTATION_INSTANCE, DDS_PRESENTATION_GROUP)
+_In_range_(DDS_RELIABILITY_BEST_EFFORT, DDS_RELIABILITY_RELIABLE)
+_In_reads_bytes_opt_(sz)
 _In_reads_bytes_(size)
 _In_z_
-_In_
-_Out_opt_
-_Out_writes_z_(size)
-_Out_writes_to_(size, return < 0 ? 0 : return)
-_Out_writes_to_(nxs, return < 0 ? 0 : return)
+_Must_inspect_result_
 _Out_
+_Out_opt_
+_Outptr_opt_result_buffer_all_maybenull_(*n)
+_Outptr_result_bytebuffer_maybenull_(*sz)
+_Outptr_result_maybenull_
+_Out_writes_to_(nxs, return < 0 ? 0 : return)
+_Out_writes_to_(size, return < 0 ? 0 : return)
+_Out_writes_z_(size)
+_Post_invalid_
+_Releases_exclusive_lock_(e)
+_Requires_exclusive_lock_held_(participant)
+_Return_type_success_(return >= 0)
+_Return_type_success_(return >  0)
+_Return_type_success_(return == DDS_RETCODE_OK)
+_When_(kind != DDS_KIND_PARTICIPANT, _Notnull_)
+_When_(kind == DDS_KIND_PARTICIPANT, _Null_)
