@@ -6,7 +6,7 @@
     <artifactId>parent-pom</artifactId>
     <packaging>pom</packaging>
 
-    <version>1.0</version>
+    <version>1.0-SNAPSHOT</version>
 
     <name>Cyclone parent POM</name>
     <description>This is a parent POM with recommended dependencies for projects using Vortex Cyclone.</description>

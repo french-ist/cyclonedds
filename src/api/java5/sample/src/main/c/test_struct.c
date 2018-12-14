@@ -53,7 +53,7 @@ struct Point *return_points(int *pcount)
     return res;
 }
 
-void free_points(struct Point *points)
+void free_points(Point *points)
 {
     printf("[C] freeing the returned memory\n");
     free(points);

@@ -25,7 +25,7 @@ void get_items(struct _Items items[], int len);
 
 // Returning an Array of struct
 struct Point *return_points(int *pcount);
-void free_points(struct Point *points);
+void free_points(Point *points);
 
 // Nested Structure Definitions
 // Nested structures are treated as consecutive memory
