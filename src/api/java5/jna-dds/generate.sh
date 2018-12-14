@@ -2,8 +2,7 @@
 export JNAERATOR_JAR=./jnaerator-0.13-SNAPSHOT-shaded.jar
 echo "=== Backup pom.xml"
 mv pom.xml pom.xml.bk
-rm -rf _* src/main/java/org/eclipse/cyclone/ddsc *.h
-./typedef.sh
+rm -rf _* src/main/java/org/eclipse/cyclonedds/ddsc/* dds*.h os*.h
 echo "=== Generate jna interface for core/ddsc/include/ddsc/dds.h"
 cp ../../../../src/os/include/os/os_public.h .
 cp ../../../core/ddsc/include/ddsc/* .
@@ -11,11 +10,22 @@ cp ../../../../build/core/include/ddsc/* .
 cp ../../../../build/core/*.h .
 cp ../../../core/ddsc/src/*.h .
 echo "=== Generate jna interface for all headers"
-for each in `cat headers.txt`
+#for each in `cat headers.txt`
+for each in dds.h
 do  
     if [[ $each = *.h ]] 
     then 
         echo "   $each"
+        if [ $each == "dds.h" ]
+        then  
+            for inc in dds_public_impl.h
+            do
+                # import dds_public_impl.h
+                sed -i '/\#include\ \"os\/os_public.h/i \/\/ __HERE__' dds.h
+                sed -i "/__HERE__/a \/\/ include $inc" dds.h 
+                sed -i "/__HERE__/ r $inc" dds.h
+            done
+        fi
         ./gen.sh $each
         SIMPLE_NAME=`basename "${each%.*}"`
         mkdir -p src/main/java/org/eclipse/cyclonedds/ddsc/$SIMPLE_NAME
@@ -40,11 +50,11 @@ do
     fi
 done
 
-./gen_dds.sh
+#./gen_dds.sh
 
 echo "=== Restore pom.xml"
 mv pom.xml.bk pom.xml
 
-rm -f 
+rm -f _* dds*.h  os*.h
 
 mvn clean install
