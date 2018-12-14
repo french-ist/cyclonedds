@@ -7,7 +7,7 @@ import com.sun.jna.Native;
 
 public class Launcher {
     public static void main(String[] args) {
-        Mylib lib = (Mylib) Native.load("sample", Mylib.class);
+        /*Mylib lib = (Mylib) Native.load("sample", Mylib.class);
         System.out.println("\n=== structure of callbacks");
         // using structure of callbacks
         Functions funcs = new Functions();
@@ -21,6 +21,6 @@ public class Launcher {
         System.out.println("=== (2) [Java] funcs.open = " + funcs.open + " - funcs.open = " + funcs.close);
         int fd = funcs.open.invoke("myfile", 0);
         System.out.println("=== fd = " + fd);
-        funcs.close.invoke(fd);
+        funcs.close.invoke(fd);*/
     }
 }

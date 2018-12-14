@@ -7,6 +7,7 @@ import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
 import com.sun.jna.Pointer;
 import com.sun.jna.PointerType;
+import com.sun.jna.Structure.ByReference;
 import com.sun.jna.ptr.PointerByReference;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -1081,6 +1082,7 @@ public class DdscLibrary implements Library {
 	 * <i>native declaration : _dds.h:954</i>
 	 */
 	public static native int dds_write(int writer, Pointer data);
+
 	/**
 	 * TODO: What is it for and is it really needed?<br>
 	 * Original signature : <code>void dds_write_flush(dds_entity_t)</code><br>
@@ -1491,7 +1493,8 @@ public class DdscLibrary implements Library {
 	 * Original signature : <code>dds_return_t dds_read(dds_entity_t, void**, dds_sample_info_t*, size_t, uint32_t)</code><br>
 	 * <i>native declaration : _dds.h:1357</i>
 	 */
-	public static native int dds_read(int reader_or_condition, PointerByReference buf, dds_sample_info si, NativeSize bufsz, int maxs);
+	public static native int dds_read(int reader_or_condition, PointerByReference buf, dds_sample_info.ByReference si, NativeSize bufsz, int maxs);
+
 	/**
 	 * @brief Access and read loaned samples of data reader, readcondition or querycondition.<br>
 	 * After dds_read_wl function is being called and the data has been handled, dds_return_loan function must be called to possibly free memory.<br>
@@ -1984,6 +1987,8 @@ public class DdscLibrary implements Library {
 	 * Original signature : <code>dds_return_t dds_read_next_wl(dds_entity_t, void**, dds_sample_info_t*)</code><br>
 	 * <i>native declaration : _dds.h:1828</i>
 	 */
+
+
 	public static native int dds_read_next_wl(int reader, PointerByReference buf, dds_sample_info si);
 	public static class serdata extends PointerType {
 		public serdata(Pointer address) {
@@ -2009,4 +2014,7 @@ public class DdscLibrary implements Library {
 			super();
 		}
 	};
+
+	public static native void dds_qset_reliability(PointerByReference qos, int kind, int max_blocking_time);
+
 }

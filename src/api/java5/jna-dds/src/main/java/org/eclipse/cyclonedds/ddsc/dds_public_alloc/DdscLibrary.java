@@ -49,12 +49,12 @@ public class DdscLibrary implements Library {
 	 * Original signature : <code>void dds_set_allocator(const dds_allocator_t*, dds_allocator_t*)</code><br>
 	 * <i>native declaration : _dds_public_alloc.h:71</i>
 	 */
-	public static native void dds_set_allocator(dds_allocator n, dds_allocator o);
+	//public static native void dds_set_allocator(dds_allocator n, dds_allocator o);
 	/**
 	 * Original signature : <code>void dds_set_aligned_allocator(const dds_aligned_allocator_t*, dds_aligned_allocator_t*)</code><br>
 	 * <i>native declaration : _dds_public_alloc.h:79</i>
 	 */
-	public static native void dds_set_aligned_allocator(dds_aligned_allocator n, dds_aligned_allocator o);
+	//public static native void dds_set_aligned_allocator(dds_aligned_allocator n, dds_aligned_allocator o);
 	/**
 	 * Original signature : <code>void* dds_alloc(size_t)</code><br>
 	 * <i>native declaration : _dds_public_alloc.h:81</i>
