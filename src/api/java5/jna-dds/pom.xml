@@ -15,7 +15,6 @@
 	</properties>
 	
 	<dependencies>
-
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
 			<artifactId>jna</artifactId>
@@ -26,13 +25,7 @@
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
 			<scope>test</scope>
-		</dependency>
-		<!-- Vortex Cafe -->
-		<dependency>
-			<groupId>com.prismtech.cafe</groupId>
-			<artifactId>cafe</artifactId>
-			<version>${cafe.version}</version>
-		</dependency>		
+		</dependency>	
 	</dependencies>
 	
 	<build>
