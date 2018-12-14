@@ -18,6 +18,8 @@ public class DdscLibraryTest {
 
         HelloWorldData_Helper helper = new HelloWorldData_Helper();
 
+        public Publisher(){}
+
         public void run() {
             // creating participant
             int part  = DdscLibrary.dds_create_participant(0, null, null);
@@ -64,7 +66,7 @@ public class DdscLibraryTest {
             try {
                 Thread.sleep(s);
             } catch (Exception e) {
-                // TODO: handle exception
+                e.printStackTrace();
             }
         }
     }
@@ -102,8 +104,7 @@ public class DdscLibraryTest {
             while(true){               
                 int ret = DdscLibrary.dds_read(reader, samples, infos, new NativeSize(1) , 1);
                 
-                //Check if we read some data and it is valid
-                System.out.println("---------------> "  + infos.getValid_data());
+                //Check if we read some data and it is valid                
                 if (ret != 0 && infos.getValid_data() > 0) //(ret > 0) && (infos[0].valid_data)
                 {
                     //Print Message
@@ -127,28 +128,24 @@ public class DdscLibraryTest {
                 System.out.println("Sleep "+s);
                 Thread.sleep(s);                
             } catch (Exception e) {
-                // TODO: handle exception
+                e.printStackTrace();
             }
         }
     }
 
     @Test
     public void helloWorldTest() {
-
-        try {
-            
+        try {            
             System.out.println("STARTING SUBSCRIBER");
             Subscriber s = new Subscriber();
             s.start();        
             sleep(3000);
             
-            /*
             System.out.println("STARTING PUBLISHER");
             Publisher p = new Publisher();
             p.start();
             sleep(10000);
-            System.out.println("END");
-            */
+            System.out.println("END");            
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -158,7 +155,7 @@ public class DdscLibraryTest {
         try {
             Thread.sleep(s);
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
     }
 }
