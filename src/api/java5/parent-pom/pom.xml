@@ -93,6 +93,7 @@
         <jna-version>5.0.0</jna-version>
         <gen-test-java-dir>${project.build.directory}/generated-test-sources/java</gen-test-java-dir>
 
+        <jna.dds.dir>${basedir}/</jna.dds.dir>
     </properties>
 
     <repositories>

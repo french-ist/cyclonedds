@@ -1,0 +1,96 @@
+private IntByReference getIntByReference(Integer[] helloWorldData_Msg_ops) {        
+    IntByReference x = new IntByReference();
+    Pointer p = new Memory(helloWorldData_Msg_ops.length * Native.getNativeSize(Integer.TYPE));
+    for(int i=0; i < helloWorldData_Msg_ops.length; i++){
+        p.setInt(i, helloWorldData_Msg_ops[i]);
+    }        
+    x.setPointer(p);
+    return x;
+}
+
+private ByReference getByReference(dds_key_descriptor[] helloWorldData_Msg_keys) {
+    ByReference ref = new dds_key_descriptor.ByReference();
+    if(helloWorldData_Msg_keys.length==0){
+        return ref;
+    } else {
+        dds_key_descriptor[] struct = (dds_key_descriptor[]) ref.toArray(helloWorldData_Msg_keys.length);
+        for(int i=0;i<helloWorldData_Msg_keys.length;i++){
+            struct[i].m_index = helloWorldData_Msg_keys[i].m_index;
+            struct[i].m_name = helloWorldData_Msg_keys[i].m_name;
+        }            
+    }        
+    return ref;
+}
+
+private NativeSize getNativeSize(String string) {
+    return new NativeSize(sizeof(string));
+}
+
+public Integer offsetof(String clazz, String field){
+    try {
+        String clazzFullName = (getClass().getPackage() + "." +clazz).replace("package ", "");
+        Class<?> c = Class.forName(clazzFullName);        
+        Object instance = c.newInstance();
+        if(instance instanceof Structure){
+            Structure s = (Structure)instance;
+            int computedSize = 0;
+            Class<?> parameterTypes[] = {};
+            Method method = s.getClass().getDeclaredMethod("getFieldOrder", parameterTypes);
+            method.setAccessible(true);
+            Object rawList =  method.invoke(instance);
+            if(rawList instanceof List){
+                List<?> l = (List<?>) rawList;
+                for (Object fieldName : (List<?>)rawList) {
+                    if(fieldName instanceof String){
+                        java.lang.reflect.Field m = c.getDeclaredField((String)fieldName);
+                        Class<?> type = m.getType();
+                        if (field.equals(fieldName)){
+                            //
+                            return computedSize;
+                        } else {
+                            computedSize += Native.getNativeSize(type);
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
+}
+
+public Integer sizeof(String clazz){
+    if(clazz.equals("char*")){
+        return 1;
+    } else {
+        try {
+            String clazzFullName = (getClass().getPackage() + "." +clazz).replace("package ", "");
+            Class<?> c = Class.forName(clazzFullName);
+            Class<?> parameterTypes[] = {};
+            Method method = c.getMethod("size", parameterTypes);
+            return (Integer) method.invoke(c.newInstance(), (Object[])null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}
+
+public Integer cToJavaNumber(String number){
+    for(int i=0;i<number.length();i++){
+        try{
+            Integer.parseInt(""+number.charAt(i));
+        } catch (NumberFormatException e){
+            return Integer.parseInt(number.substring(0,i));
+        }
+    }
+    return null;
+}
+
+public static Pointer stringToPointer(String str){
+    Pointer pointer = new Memory(str.length()+1);
+    pointer.setString(0, str);
+    return pointer;
+}
