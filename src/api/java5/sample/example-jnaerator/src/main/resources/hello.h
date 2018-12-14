@@ -1,6 +1,9 @@
+typedef int dds_domainid_t;
+
 typedef struct person_struct {
-    char name[50];	
+    char * name;	
     int money;
+    //dds_domainid_t domainid;
 } person_t;
 
 void person_say_hello(char ch[], person_t* p);

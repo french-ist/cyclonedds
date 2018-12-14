@@ -9,7 +9,7 @@ java -jar ../../../../../jna-dds/jnaerator-0.13-SNAPSHOT-shaded.jar \
     -library hello hello.h \
     -runtime JNA \
     -o ../java/org/eclipse/cyclonedds/ \
-    -noJar -noComp -beanStructs -skipDeprecated
+    -noJar -noComp -beanStructs -forceStringSignatures -skipDeprecated
 # To make compile
 sed -i 's/protected List<? > getFieldOrder/protected List<String> getFieldOrder/g' ../java/org/eclipse/cyclonedds/hello/person_struct.java
 cd -

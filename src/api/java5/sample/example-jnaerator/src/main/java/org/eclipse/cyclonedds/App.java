@@ -1,5 +1,5 @@
 package org.eclipse.cyclonedds;
-
+import com.sun.jna.NativeString;
 import com.sun.jna.*;
 import java.nio.*;
 import hello.HelloLibrary;
@@ -17,16 +17,17 @@ public class App
         byte[] b = "Au revoir!".getBytes();        
         ByteBuffer abb = ByteBuffer.wrap(a, 0, a.length);
         ByteBuffer bbb = ByteBuffer.wrap(b, 0, b.length);         
-        HelloLibrary.INSTANCE.say_hello(abb);
+        HelloLibrary.INSTANCE.say_hello("abb");
         person_struct x = new person_struct();
         String txt = "a";
         for(int i=0;i<48;i++) {
             txt += "b";
         }
         txt += "c";
-        x.setName(txt.getBytes());
+        NativeString nstr = new NativeString(txt);
+        x.setName(nstr.getPointer());
         x.setMoney(4);
         HelloLibrary.INSTANCE.person_say_hello(abb, x);
-        HelloLibrary.INSTANCE.say_goodbye(bbb);        
+        HelloLibrary.INSTANCE.say_goodbye("bbb");        
     }
 }

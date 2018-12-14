@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.cyclonedds</groupId>
-	<artifactId>jna-dds</artifactId>
-	<name>jna-dds</name>
+	<artifactId>ddsjna</artifactId>
+	<name>ddsjna</name>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
@@ -11,30 +11,63 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.5</maven.compiler.source>
 		<maven.compiler.target>1.5</maven.compiler.target>
-		<jna.dds.dir>${basedir}/</jna.dds.dir>
 	</properties>
 	
 	<dependencies>
+
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
 			<artifactId>jna</artifactId>
 			<version>4.1.0</version>
 		</dependency>
+		<!-- Uncomment to use Rococoa:
+		<dependency>
+			<groupId>org.rococoa</groupId>
+			<artifactId>rococoa</artifactId>
+			<version>0.5</version>
+		</dependency>
+		-->
+	
+		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.eclipse.cyclonedds</groupId>
-			<artifactId>java-generator-helper</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
+		
 	</dependencies>
 	
 	<build>
 		<plugins>
+			<!--
+				If you're okay that your bindings will be regenerated at each build : 
+			-->
+			<plugin>
+				<groupId>com.nativelibs4java</groupId>
+				<artifactId>maven-jnaerator-plugin</artifactId>
+				<version>0.13-SNAPSHOT</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!--
+				If you'd rather re-generate bindings on demand inside src/main/java (with "mvn jnaerator:generate"), maybe to tweak them after generation and version them :
+			
+			<plugin>
+				<groupId>com.nativelibs4java</groupId>
+				<artifactId>maven-jnaerator-plugin</artifactId>
+				<version>0.13-SNAPSHOT</version>
+				<configuration>
+					<javaOutputDirectory>src/main/java</javaOutputDirectory>
+				</configuration>
+			</plugin>
+			-->
 			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -62,143 +95,6 @@
 					</filters>
 				</configuration>
 			</plugin>
-
-			<!-- extract Helper.java.txt -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>3.1.1</version>
-				<executions>
-				<execution>
-					<id>unpack</id>
-					<phase>initialize</phase>
-					<goals>
-					<goal>unpack</goal>
-					</goals>
-					<configuration>
-					<artifactItems>
-						<artifactItem>
-							<groupId>org.eclipse.cyclonedds</groupId>
-							<artifactId>java-generator-helper</artifactId>
-							<version>1.0-SNAPSHOT</version>
-							<type>jar</type>
-							<overWrite>true</overWrite>
-							<outputDirectory>/tmp</outputDirectory>
-							<destFileName>Helper.java.txt</destFileName>
-							<includes>**/Helper.java.txt</includes>
-						</artifactItem>
-					</artifactItems>
-					<includes>**/Helper.java.txt</includes>
-					<overWriteReleases>true</overWriteReleases>
-					<overWriteSnapshots>true</overWriteSnapshots>
-					</configuration>
-				</execution>
-				</executions>
-			</plugin>
-
-			<!-- genererate test source _Helper.java -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.1.1</version>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<mainClass>org.eclipse.cyclonedds.JavaGeneratorHelper</mainClass>
-							<workingDirectory>${parent.basedir}</workingDirectory>
-							<arguments>
-								<argument>${jna.dds.dir}src/test/helloworld-files/generated-c/HelloWorldData.c</argument>
-								<argument>${jna.dds.dir}target/generated-sources/</argument>
-								<argument>org.eclipse.cyclonedds.helloworld</argument>
-							</arguments>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-
-			<!-- Add an extra source folder at compile time -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<id>add-source</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>${jna.dds.dir}target/generated-sources/</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-
-
-			<!-- *.so localisation -->
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.19.1</version>
-				<configuration>
-					<systemPropertyVariables>
-						<propertyName>jna.library.path</propertyName>
-						<buildDirectory>target/main/linux-x86-64</buildDirectory>
-					</systemPropertyVariables>
-				</configuration>
-			</plugin>
-
-			<!-- Copy to right directory-->
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.1.0</version>
-				<executions>
-					<execution>
-						<id>copy-resources</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-						<outputDirectory>${basedir}/target/linux-x86-64</outputDirectory>
-							<resources>
-								<resource>
-									<directory>../../../../build/lib/</directory>
-									<include>**/*.so*</include>
-								</resource>
-								<resource>
-									<directory>src/test/helloworld-files/generated-c/</directory>
-									<include>**/*.so*</include>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>copy-java</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-						<outputDirectory>${basedir}/target/generated-sources</outputDirectory>
-							<resources>
-								<resource>
-									<directory>src/test/helloworld-files/generated-java/</directory>
-									<include>**/*.java</include>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 	<repositories>
@@ -207,6 +103,13 @@
 			<name>Sonatype OSS Snapshots Repository</name>
 			<url>http://oss.sonatype.org/content/groups/public</url>
 		</repository>
+		<!-- Uncomment to use Rococoa:
+        <repository>
+            <id>nativelibs4java-legacy</id>
+            <name>NativeLibs4Java Legacy Repository</name>
+            <url>http://nativelibs4java.sourceforge.net/maven/</url>
+        </repository>
+        -->
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>

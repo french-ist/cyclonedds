@@ -10,8 +10,7 @@ cp ../../../../build/core/include/ddsc/* .
 cp ../../../../build/core/*.h .
 cp ../../../core/ddsc/src/*.h .
 echo "=== Generate jna interface for all headers"
-#for each in `cat headers.txt`
-for each in dds.h
+for each in `cat headers.txt`
 do  
     if [[ $each = *.h ]] 
     then 
