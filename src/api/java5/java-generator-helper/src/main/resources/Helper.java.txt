@@ -35,7 +35,7 @@ public Integer offsetof(String clazz, String field){
             Structure s = (Structure)instance;
             int computedSize = 0;
             Class<?> parameterTypes[] = {};
-            Method method = c.getMethod("getFieldOrder", parameterTypes);
+            Method method = s.getClass().getDeclaredMethod("getFieldOrder", parameterTypes);
             method.setAccessible(true);
             Object rawList =  method.invoke(instance);
             if(rawList instanceof List){

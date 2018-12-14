@@ -282,7 +282,7 @@ public class DdscLibrary implements Library {
 	 * Original signature : <code>void dds_ssl_plugin()</code><br>
 	 * <i>native declaration : _dds.h:143</i>
 	 */
-	public static native void dds_ssl_plugin();
+	//public static native void dds_ssl_plugin();
 	/**
 	 * Description : Install client durability support. Depends on OSPL server.<br>
 	 * Arguments :<br>
@@ -290,7 +290,7 @@ public class DdscLibrary implements Library {
 	 * Original signature : <code>void dds_durability_plugin()</code><br>
 	 * <i>native declaration : _dds.h:150</i>
 	 */
-	public static native void dds_durability_plugin();
+	//public static native void dds_durability_plugin();
 	/**
 	 * @brief Returns the default domain identifier.<br>
 	 * The default domain identifier can be configured in the configuration file<br>

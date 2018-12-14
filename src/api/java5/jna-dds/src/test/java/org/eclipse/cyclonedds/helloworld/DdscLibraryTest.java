@@ -1,4 +1,4 @@
-package org.eclipse.cyclonedds;
+package org.eclipse.cyclonedds.helloworld;
 
 
 import java.nio.IntBuffer;
@@ -8,10 +8,6 @@ import com.sun.jna.ptr.PointerByReference;
 
 import org.eclipse.cyclonedds.ddsc.dds.dds_sample_info;
 import org.eclipse.cyclonedds.helper.NativeSize;
-import org.eclipse.cyclonedds.helloworld.*;
-import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_key_descriptor;
-import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_key_descriptor.ByReference;
-import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_topic_descriptor;
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 
 import org.junit.Test;
@@ -140,17 +136,19 @@ public class DdscLibraryTest {
     public void helloWorldTest() {
 
         try {
+            
             System.out.println("STARTING SUBSCRIBER");
             Subscriber s = new Subscriber();
             s.start();        
             sleep(3000);
-
+            
             /*
             System.out.println("STARTING PUBLISHER");
             Publisher p = new Publisher();
             p.start();
             sleep(10000);
-            System.out.println("END");    */
+            System.out.println("END");
+            */
         } catch (Exception e) {
             e.printStackTrace();
         }

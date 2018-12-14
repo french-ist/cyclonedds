@@ -16,7 +16,7 @@ public class HelloWorldData_Msg extends Structure {
 	public HelloWorldData_Msg() {
 		super();
 	}
-	protected List<? > getFieldOrder() {
+	protected List<String> getFieldOrder() {
 		return Arrays.asList("userID", "message");
 	}
 	/** @param message C type : char* */
