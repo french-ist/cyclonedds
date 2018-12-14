@@ -1,0 +1,47 @@
+package org.eclipse.cyclonedds.ddsc.dds_public_time;
+import org.eclipse.cyclonedds.helper.*;
+import com.sun.jna.Library;
+import com.sun.jna.Native;
+import com.sun.jna.NativeLibrary;
+/**
+ * JNA Wrapper for library <b>ddsc</b><br>
+ */
+public class DdscLibrary implements Library {
+	public static final String JNA_LIBRARY_NAME = "ddsc";
+	public static final NativeLibrary JNA_NATIVE_LIB = NativeLibrary.getInstance(DdscLibrary.JNA_LIBRARY_NAME);
+	static {
+		Native.register(DdscLibrary.class, DdscLibrary.JNA_NATIVE_LIB);
+	}
+	/** <i>native declaration : _dds_public_time.h</i> */
+	public static final long DDS_NSECS_IN_SEC = (long)1000000000L;
+	/** <i>native declaration : _dds_public_time.h</i> */
+	public static final long DDS_NSECS_IN_MSEC = (long)1000000L;
+	/** <i>native declaration : _dds_public_time.h</i> */
+	public static final long DDS_NSECS_IN_USEC = (long)1000L;
+	/**
+	 * Description : This operation returns the current time (in nanoseconds)<br>
+	 * Arguments :<br>
+	 *   -# Returns current time<br>
+	 * Original signature : <code>dds_time_t dds_time()</code><br>
+	 * <i>native declaration : _dds_public_time.h:59</i>
+	 */
+	public static native long dds_time();
+	/**
+	 * Description : This operation blocks the calling thread until the relative time<br>
+	 * n has elapsed<br>
+	 * Arguments :<br>
+	 *   -# n Relative Time to block a thread<br>
+	 * Original signature : <code>void dds_sleepfor(dds_duration_t)</code><br>
+	 * <i>native declaration : _dds_public_time.h:67</i>
+	 */
+	public static native void dds_sleepfor(long n);
+	/**
+	 * Description : This operation blocks the calling thread until the absolute time<br>
+	 * n has elapsed<br>
+	 * Arguments :<br>
+	 *   -# n absolute Time to block a thread<br>
+	 * Original signature : <code>void dds_sleepuntil(dds_time_t)</code><br>
+	 * <i>native declaration : _dds_public_time.h:75</i>
+	 */
+	public static native void dds_sleepuntil(long n);
+}

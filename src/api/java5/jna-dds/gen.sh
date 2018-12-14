@@ -1,30 +1,29 @@
-sed /_Pre_satisfies_/d $1.h | sed '/  ((/d' \
-| sed 's/DDS_EXPORT//g' \
-| sed 's/_Must_inspect_result_//g' \
-| sed 's/_Check_return_//g' \
-| sed 's/_Must_inspect_result_//g' \
-| sed 's/_In_opt_//g' \
-| sed 's/_In_reads_bytes_(size)//g' \
-| sed 's/_In_z_//g' \
-| sed 's/_In_//g' \
-| sed 's/_Out_opt_//g' \
-| sed 's/_Out_writes_z_(size)//g' \
-| sed 's/_Out_writes_to_(size, return < 0 ? 0 : return)//g' \
-| sed 's/_Out_writes_to_(nxs, return < 0 ? 0 : return)//g' \
-| sed 's/_Out_//g' \
-> ${1}tmp.h
-java -jar $JNAERATOR_JAR -f -v \
--I .:../../../core/ddsc/include/ddsc:../../../core/ddsc/src \
+export JNAERATOR_JAR=./jnaerator-0.13-SNAPSHOT-shaded.jar
+sed /_Pre_satisfies_/d $1 | sed '/  ((/d' > _${1}
+# include "#include typedef.h"
+sed -i '1i #include "typedef.h"' _${1}
+# sed -i "1 r typedef.h"  _${1}
+# Set The Internal Field Separator (IFS)
+IFS=$'\n'
+for each in `cat ignore.txt`
+do  
+    echo $each
+    sed -i "s/$each//g" _${1}
+done
+IFS=$'\ '
+java -Xmx2g -jar $JNAERATOR_JAR -f -v \
+-I .:../../../../build/core/include/ddsc:../../../core/ddsc/include/ddsc:../../../core/ddsc/src:../../../../build/core:../../../../src/os/include/os \
+-noRawBindings \
+-forceStringSignatures \
 -rootPackage org.eclipse.cyclonedds \
 -noPrimitiveArrays \
 -nocpp \
+-gccLong \
 -parseInOnePiece \
--library ddsc ${1}tmp.h \
+-library ddsc \
 -runtime JNA -o . -arch linux_x64 \
 -callbacksInvokeMethodName apply \
--direct -forceStringSignatures  -beanStructs \
+-direct -beanStructs \
 -skipDeprecated \
--skipFunctions "dds_ssl_plugin|dds_get_default_domainid|dds_instancehandle_get|dds_wait_for_historical_data\
-|dds_lookup_instance|dds_get_domain|dds_assert_liveliness|dds_contains|dds_ignore|dds_get_related_topic|dds_get_query\
-|dds_ssl_plugin|dds_durability_plugin" \
--mode Maven -mavenArtifactId ddsjna -mavenGroupId  org.eclipse.cyclonedds -mavenVersion 1.0
+-mode Maven -mavenArtifactId ddsjna -mavenGroupId  org.eclipse.cyclonedds -mavenVersion 1.0 \
+_${1}
