@@ -1,0 +1,7 @@
+sed -i "/package org/a import org.eclipse.cyclonedds.ddsc.dds_builtinTopics.*;" /home/jean/00-Devel/cyclonedds/src/api/java5/jna-dds/src/main/java/org/eclipse/cyclonedds/ddsc/dds_dcps_builtintopics/DDS_SubscriberQos.java 
+sed -i "/package org/a import org.eclipse.cyclonedds.ddsc.dds_builtinTopics.*;" /home/jean/00-Devel/cyclonedds/src/api/java5/jna-dds/src/main/java/org/eclipse/cyclonedds/ddsc/dds__builtin/DdscLibrary.java
+sed -i "/package org/a import org.eclipse.cyclonedds.ddsc.dds_builtinTopics.*;" /home/jean/00-Devel/cyclonedds/src/api/java5/jna-dds/src/main/java/org/eclipse/cyclonedds/ddsc/dds_dcps_builtintopics/DDS_PublisherQos.java
+sed -i "/package org/a import org.eclipse.cyclonedds.ddsc.dds_builtinTopics.*;" /home/jean/00-Devel/cyclonedds/src/api/java5/jna-dds/src/main/java/org/eclipse/cyclonedds/ddsc/dds_dcps_builtintopics/DDS_DomainParticipantQos.java
+sed -i "/package org/a import org.eclipse.cyclonedds.ddsc.dds_builtinTopics.*;" /home/jean/00-Devel/cyclonedds/src/api/java5/jna-dds/src/main/java/org/eclipse/cyclonedds/ddsc/dds_dcps_builtintopics/DDS_DataWriterQos.java
+sed -i "/package org/a import org.eclipse.cyclonedds.ddsc.dds_builtinTopics.*;" /home/jean/00-Devel/cyclonedds/src/api/java5/jna-dds/src/main/java/org/eclipse/cyclonedds/ddsc/dds_dcps_builtintopics/DDS_TopicQos.java
+sed -i "/package org/a import org.eclipse.cyclonedds.ddsc.dds_builtinTopics.*;" /home/jean/00-Devel/cyclonedds/src/api/java5/jna-dds/src/main/java/org/eclipse/cyclonedds/ddsc/dds_dcps_builtintopics/DDS_DataReaderQos.java

@@ -2,7 +2,7 @@
 export JNAERATOR_JAR=./jnaerator-0.13-SNAPSHOT-shaded.jar
 echo "=== Backup pom.xml"
 mv pom.xml pom.xml.bk
-rm -rf _* src/main/java/org/eclipse/cyclonedds/ddsc/* dds*.h os*.h
+rm -rf _* src/main/java/org/eclipse/cyclonedds/ddsc/* dds*.h os*.h  q__osplser.h
 echo "=== Generate jna interface for core/ddsc/include/ddsc/dds.h"
 cp ../../../../src/os/include/os/os_public.h .
 cp ../../../core/ddsc/include/ddsc/* .
@@ -49,11 +49,9 @@ do
     fi
 done
 
-#./gen_dds.sh
-
 echo "=== Restore pom.xml"
 mv pom.xml.bk pom.xml
 
-rm -f _* dds*.h  os*.h
+rm -f _* dds*.h  os*.h q__osplser.h
 
 mvn clean install
