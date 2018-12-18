@@ -45,7 +45,6 @@ public Integer offsetof(String clazz, String field){
                         java.lang.reflect.Field m = c.getDeclaredField((String)fieldName);
                         Class<?> type = m.getType();
                         if (field.equals(fieldName)){
-                            //
                             return computedSize;
                         } else {
                             computedSize += Native.getNativeSize(type);
@@ -89,8 +88,22 @@ public Integer cToJavaNumber(String number){
     return null;
 }
 
-public static Pointer stringToPointer(String str){
+public Pointer stringToPointer(String str){
     Pointer pointer = new Memory(str.length()+1);
     pointer.setString(0, str);
     return pointer;
+}
+
+public int dds_error_check(int entity, int error){
+    byte ret = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.dds_err_check(entity,
+        org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_REPORT | org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_EXIT,
+        (new java.io.File(".")).getAbsolutePath());
+    if(ret != 1){
+        try {
+            throw new Exception("dds_error_check");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    return ret;
 }

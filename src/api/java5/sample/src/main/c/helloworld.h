@@ -1,6 +1,11 @@
-#include <stdint.h>
-void display(char* ch);
-typedef uint32_t dds_domainid_t;
+typedef struct HelloWorld_struct{
+    int userID;
+    char* message;    
+} HelloWorld;
 
-// Test profile with an typedef uint32_t - jna interface using int (HelloworldDirectMapping.java)
-void create_domain (dds_domainid_t id);
+void display(char* ch);
+void hello(char* message, int id);
+void helloFromJava(HelloWorld* hello);
+void helloFromC(HelloWorld* hello);
+void helloPointerFromJava(void* data);
+void helloPointerArrayFromC(void **samples, int *size);

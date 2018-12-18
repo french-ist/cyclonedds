@@ -6,6 +6,7 @@ import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
 import com.sun.jna.Pointer;
 import com.sun.jna.PointerType;
+import com.sun.jna.Structure.ByReference;
 import com.sun.jna.ptr.PointerByReference;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -467,6 +468,7 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 * Original signature : <code>dds_entity_t dds_create_topic(dds_entity_t, const dds_topic_descriptor_t*, const char*, const dds_qos_t*, const dds_listener_t*)</code><br>
 	 */
 	public static native int dds_create_topic(int participant, DdscLibrary.dds_topic_descriptor_t descriptor, String name, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
+	public static native int dds_create_topic(int participant, org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_topic_descriptor descriptor, String name, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
 	/**
 	 * TODO: Check list of retcodes is complete.<br>
 	 * Original signature : <code>dds_entity_t dds_find_topic(dds_entity_t, const char*)</code><br>
@@ -900,6 +902,7 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 * Original signature : <code>dds_return_t dds_write(dds_entity_t, const void*)</code><br>
 	 */
 	public static native int dds_write(int writer, Pointer data);
+
 	/**
 	 * TODO: What is it for and is it really needed?<br>
 	 * Original signature : <code>void dds_write_flush(dds_entity_t)</code><br>
@@ -1293,7 +1296,8 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 *             The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_read(dds_entity_t, void**, dds_sample_info_t*, size_t, uint32_t)</code><br>
 	 */
-	public static native int dds_read(int reader_or_condition, PointerByReference buf, dds_sample_info si, NativeSize bufsz, int maxs);
+	public static native int dds_read(int reader_or_condition, PointerByReference buf, dds_sample_info.ByReference si, NativeSize bufsz, int maxs);
+
 	/**
 	 * @brief Access and read loaned samples of data reader, readcondition or querycondition.<br>
 	 * After dds_read_wl function is being called and the data has been handled, dds_return_loan function must be called to possibly free memory.<br>
@@ -1572,7 +1576,8 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	/**
 	 * Original signature : <code>int dds_takecdr(dds_entity_t, serdata**, uint32_t, dds_sample_info_t*, uint32_t)</code><br>
 	 */
-	public static native int dds_takecdr(int reader_or_condition, DdscLibrary.serdata buf[], int maxs, dds_sample_info si, int mask);
+	//public static native int dds_takecdr(int reader_or_condition, DdscLibrary.serdata buf[], int maxs, dds_sample_info si, int mask);
+	public static native int dds_takecdr(int reader_or_condition, PointerByReference buf, int maxs, dds_sample_info si, int mask);
 	/**
 	 * @brief Access the collection of data values (of same type) and sample info from the<br>
 	 *        data reader, readcondition or querycondition but scoped by the given<br>
@@ -1766,6 +1771,8 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 *             The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_read_next_wl(dds_entity_t, void**, dds_sample_info_t*)</code><br>
 	 */
+
+
 	public static native int dds_read_next_wl(int reader, PointerByReference buf, dds_sample_info si);
 	/**
 	 * TODO: Add list of possible return codes<br>
@@ -1894,4 +1901,7 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 			super();
 		}
 	};
+
+	public static native void dds_qset_reliability(PointerByReference qos, int kind, int max_blocking_time);
+
 }
