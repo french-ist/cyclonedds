@@ -1,0 +1,12 @@
+dds_ssl_plugin
+dds_durability_plugin
+dds__builtin_participant_cb
+dds__builtin_cmparticipant_cb
+dds_set_allocator
+dds_set_aligned_allocator
+dds_rhc_add_waitset
+dds_rhc_remove_waitset
+dds_stream_from_buffer
+dds_ssl_plugin
+dds_durability_plugin
+serdata_hash

@@ -5,7 +5,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds.h:564</i><br>
  */
 public class dds_sample_info extends Structure {
 	/** C type : dds_sample_state_t */

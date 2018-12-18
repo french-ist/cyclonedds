@@ -20,14 +20,6 @@
 			<artifactId>jna</artifactId>
 			<version>4.1.0</version>
 		</dependency>
-		<!-- Uncomment to use Rococoa:
-		<dependency>
-			<groupId>org.rococoa</groupId>
-			<artifactId>rococoa</artifactId>
-			<version>0.5</version>
-		</dependency>
-		-->
-	
 		
 		<dependency>
 			<groupId>junit</groupId>
@@ -40,34 +32,6 @@
 	
 	<build>
 		<plugins>
-			<!--
-				If you're okay that your bindings will be regenerated at each build : 
-			-->
-			<plugin>
-				<groupId>com.nativelibs4java</groupId>
-				<artifactId>maven-jnaerator-plugin</artifactId>
-				<version>0.13-SNAPSHOT</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			
-			<!--
-				If you'd rather re-generate bindings on demand inside src/main/java (with "mvn jnaerator:generate"), maybe to tweak them after generation and version them :
-			
-			<plugin>
-				<groupId>com.nativelibs4java</groupId>
-				<artifactId>maven-jnaerator-plugin</artifactId>
-				<version>0.13-SNAPSHOT</version>
-				<configuration>
-					<javaOutputDirectory>src/main/java</javaOutputDirectory>
-				</configuration>
-			</plugin>
-			-->
 			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -103,13 +67,6 @@
 			<name>Sonatype OSS Snapshots Repository</name>
 			<url>http://oss.sonatype.org/content/groups/public</url>
 		</repository>
-		<!-- Uncomment to use Rococoa:
-        <repository>
-            <id>nativelibs4java-legacy</id>
-            <name>NativeLibs4Java Legacy Repository</name>
-            <url>http://nativelibs4java.sourceforge.net/maven/</url>
-        </repository>
-        -->
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
