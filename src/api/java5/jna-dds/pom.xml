@@ -96,7 +96,7 @@
 				</executions>
 			</plugin>
 
-			<!-- genererate test source _Helper.java -->
+			<!--genererate test source _Helper.java -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -121,7 +121,7 @@
 			</plugin>
 
 
-			<!-- Add an extra source folder at compile time -->
+			<!--Add an extra source folder at compile time -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
@@ -141,8 +141,6 @@
 					</execution>
 				</executions>
 			</plugin>
-
-
 
 			<!-- *.so localisation -->
 			<plugin>

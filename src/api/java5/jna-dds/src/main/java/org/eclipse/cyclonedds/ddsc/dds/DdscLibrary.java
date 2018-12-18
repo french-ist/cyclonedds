@@ -468,6 +468,7 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 * Original signature : <code>dds_entity_t dds_create_topic(dds_entity_t, const dds_topic_descriptor_t*, const char*, const dds_qos_t*, const dds_listener_t*)</code><br>
 	 */
 	public static native int dds_create_topic(int participant, DdscLibrary.dds_topic_descriptor_t descriptor, String name, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
+	public static native int dds_create_topic(int participant, org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_topic_descriptor descriptor, String name, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
 	/**
 	 * TODO: Check list of retcodes is complete.<br>
 	 * Original signature : <code>dds_entity_t dds_find_topic(dds_entity_t, const char*)</code><br>
@@ -1575,7 +1576,8 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	/**
 	 * Original signature : <code>int dds_takecdr(dds_entity_t, serdata**, uint32_t, dds_sample_info_t*, uint32_t)</code><br>
 	 */
-	public static native int dds_takecdr(int reader_or_condition, DdscLibrary.serdata buf[], int maxs, dds_sample_info si, int mask);
+	//public static native int dds_takecdr(int reader_or_condition, DdscLibrary.serdata buf[], int maxs, dds_sample_info si, int mask);
+	public static native int dds_takecdr(int reader_or_condition, PointerByReference buf, int maxs, dds_sample_info si, int mask);
 	/**
 	 * @brief Access the collection of data values (of same type) and sample info from the<br>
 	 *        data reader, readcondition or querycondition but scoped by the given<br>
