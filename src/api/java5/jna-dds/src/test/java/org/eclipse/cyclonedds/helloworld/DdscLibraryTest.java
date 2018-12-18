@@ -10,6 +10,8 @@ import com.sun.jna.ptr.ByReference;
 import com.sun.jna.ptr.PointerByReference;
 
 import org.eclipse.cyclonedds.ddsc.dds.dds_sample_info;
+import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_topic_descriptor_t;
+import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_topic_descriptor;
 import org.eclipse.cyclonedds.helper.NativeSize;
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 
@@ -28,11 +30,12 @@ public class DdscLibraryTest {
             int part  = DdscLibrary.dds_create_participant(0, null, null);
 
             // creating topic
+            
             int topic = DdscLibrary.dds_create_topic(part,
-                helper.HelloWorldData_Msg_desc, "HelloWorldData_Msg", null, null);
+                helper.getHelloWorldData_Msg_desc(), "HelloWorldData_Msg", null, null);
 
             // creating writer
-            int writer = DdscLibrary.dds_create_writer(part, topic, null, null);
+            int writer = DdscLibrary.dds_create_writer(part, topic, null, (DdscLibrary.dds_listener_t) null);
 
             // check error
             int ret = DdscLibrary.dds_set_enabled_status(writer,
@@ -85,7 +88,7 @@ public class DdscLibraryTest {
 
             // creating topic
             int topic = DdscLibrary.dds_create_topic(part,
-                helper.HelloWorldData_Msg_desc, "HelloWorldData_Msg", null, null);
+                helper.getHelloWorldData_Msg_desc(), "HelloWorldData_Msg", null, null);
 
             //Create a reliable Reader
             PointerByReference qos = org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qos_create();

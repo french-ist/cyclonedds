@@ -468,7 +468,7 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 * Original signature : <code>dds_entity_t dds_create_topic(dds_entity_t, const dds_topic_descriptor_t*, const char*, const dds_qos_t*, const dds_listener_t*)</code><br>
 	 */
 	public static native int dds_create_topic(int participant, DdscLibrary.dds_topic_descriptor_t descriptor, String name, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
-	public static native int dds_create_topic(int participant, org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_topic_descriptor descriptor, String name, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
+	public static native int dds_create_topic(int participant, org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_topic_descriptor.ByReference descriptor, String name, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
 	/**
 	 * TODO: Check list of retcodes is complete.<br>
 	 * Original signature : <code>dds_entity_t dds_find_topic(dds_entity_t, const char*)</code><br>

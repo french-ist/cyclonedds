@@ -22,7 +22,7 @@ private ByReference getByReference(dds_key_descriptor[] helloWorldData_Msg_keys)
     return ref;
 }
 
-private NativeSize getNativeSize(String string) {
+public NativeSize getNativeSize(String string) {
     return new NativeSize(sizeof(string));
 }
 

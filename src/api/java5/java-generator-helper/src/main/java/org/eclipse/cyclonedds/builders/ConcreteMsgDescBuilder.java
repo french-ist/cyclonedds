@@ -99,15 +99,28 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
             return null;
         }
 
-        StringBuilder javaCode = new StringBuilder();
-        javaCode.append("\tpublic dds_topic_descriptor "+variableName+" = new dds_topic_descriptor(\n");
-        for(int i=0;i<listParams.size();i++){
+        StringBuilder javaCode = new StringBuilder();        
+        javaCode.append("\tpublic dds_topic_descriptor.ByReference get"+variableName+"() {\n");
+        javaCode.append("\t\tdds_topic_descriptor.ByReference ret = new dds_topic_descriptor.ByReference();\n");
+        javaCode.append("\t\tret.m_size = "+listParams.get(0)+" ;\n");
+        javaCode.append("\t\tret.m_align = "+listParams.get(1)+";\n");
+        javaCode.append("\t\tret.m_flagset = "+listParams.get(2)+";\n");
+        javaCode.append("\t\tret.m_nkeys = "+listParams.get(3)+";\n");
+        javaCode.append("\t\tret.m_typename = "+listParams.get(4)+";\n");
+        javaCode.append("\t\tret.m_keys = "+listParams.get(5)+";\n");
+        javaCode.append("\t\tret.m_nops = "+listParams.get(6)+";\n");
+        javaCode.append("\t\tret.m_ops = "+listParams.get(7)+";\n");
+        javaCode.append("\t\tret.m_meta = "+listParams.get(8)+";\n");
+        javaCode.append("\t\treturn ret;\n");
+        
+        //javaCode.append("\tpublic dds_topic_descriptor "+variableName+" = new dds_topic_descriptor(\n");
+        /*for(int i=0;i<listParams.size();i++){
             javaCode.append("\t\t" + listParams.get(i));
             if(i< listParams.size()-1){
                 javaCode.append(",\n");
             }
-        }
-        javaCode.append("\n\t);\n");
+        }*/
+        javaCode.append("\t};\n");
         return javaCode.toString();
     }
 
