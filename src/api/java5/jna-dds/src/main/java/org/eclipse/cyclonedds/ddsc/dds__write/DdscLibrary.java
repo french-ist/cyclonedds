@@ -15,33 +15,23 @@ public class DdscLibrary implements Library {
 		Native.register(DdscLibrary.class, DdscLibrary.JNA_NATIVE_LIB);
 	}
 	/**
-	 * <i>native declaration : _dds__write.h:63</i><br>
 	 * enum values
 	 */
 	public static interface dds_write_action {
-		/** <i>native declaration : _dds__write.h:59</i> */
 		public static final int DDS_WR_ACTION_WRITE = 0;
-		/** <i>native declaration : _dds__write.h:60</i> */
 		public static final int DDS_WR_ACTION_WRITE_DISPOSE = 0x02;
-		/** <i>native declaration : _dds__write.h:61</i> */
 		public static final int DDS_WR_ACTION_DISPOSE = 0x01 | 0x02;
-		/** <i>native declaration : _dds__write.h:62</i> */
 		public static final int DDS_WR_ACTION_UNREGISTER = 0x01 | 0x04;
 	};
-	/** <i>native declaration : _dds__write.h</i> */
 	public static final int DDS_WR_KEY_BIT = (int)0x01;
-	/** <i>native declaration : _dds__write.h</i> */
 	public static final int DDS_WR_DISPOSE_BIT = (int)0x02;
-	/** <i>native declaration : _dds__write.h</i> */
 	public static final int DDS_WR_UNREGISTER_BIT = (int)0x04;
 	/**
 	 * Original signature : <code>int dds_write_impl(dds_writer*, const void*, dds_time_t, dds_write_action)</code><br>
-	 * <i>native declaration : _dds__write.h:65</i>
 	 */
 	public static native int dds_write_impl(DdscLibrary.dds_writer wr, Pointer data, long tstamp, int action);
 	/**
 	 * Original signature : <code>int dds_writecdr_impl(dds_writer*, serdata*, dds_time_t, dds_write_action)</code><br>
-	 * <i>native declaration : _dds__write.h:67</i>
 	 */
 	public static native int dds_writecdr_impl(DdscLibrary.dds_writer wr, DdscLibrary.serdata d, long tstamp, int action);
 	public static class serdata extends PointerType {

@@ -5,7 +5,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_public_impl.h:60</i><br>
  */
 public class dds_sequence extends Structure {
 	public int _maximum;

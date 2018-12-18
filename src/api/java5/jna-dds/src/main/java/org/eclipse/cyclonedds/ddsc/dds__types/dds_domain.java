@@ -7,7 +7,6 @@ import java.util.List;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.ut_avlNode_t;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.ut_avlTree_t;
 /**
- * <i>native declaration : _dds__types.h:94</i><br>
  */
 public class dds_domain extends Structure {
 	/** C type : ut_avlNode_t */

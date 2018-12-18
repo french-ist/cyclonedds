@@ -12,18 +12,14 @@ public class DdscLibrary implements Library {
 	static {
 		Native.register(DdscLibrary.class, DdscLibrary.JNA_NATIVE_LIB);
 	}
-	/** <i>native declaration : _dds_public_time.h</i> */
 	public static final long DDS_NSECS_IN_SEC = (long)1000000000L;
-	/** <i>native declaration : _dds_public_time.h</i> */
 	public static final long DDS_NSECS_IN_MSEC = (long)1000000L;
-	/** <i>native declaration : _dds_public_time.h</i> */
 	public static final long DDS_NSECS_IN_USEC = (long)1000L;
 	/**
 	 * Description : This operation returns the current time (in nanoseconds)<br>
 	 * Arguments :<br>
 	 *   -# Returns current time<br>
 	 * Original signature : <code>dds_time_t dds_time()</code><br>
-	 * <i>native declaration : _dds_public_time.h:59</i>
 	 */
 	public static native long dds_time();
 	/**
@@ -32,7 +28,6 @@ public class DdscLibrary implements Library {
 	 * Arguments :<br>
 	 *   -# n Relative Time to block a thread<br>
 	 * Original signature : <code>void dds_sleepfor(dds_duration_t)</code><br>
-	 * <i>native declaration : _dds_public_time.h:67</i>
 	 */
 	public static native void dds_sleepfor(long n);
 	/**
@@ -41,7 +36,6 @@ public class DdscLibrary implements Library {
 	 * Arguments :<br>
 	 *   -# n absolute Time to block a thread<br>
 	 * Original signature : <code>void dds_sleepuntil(dds_time_t)</code><br>
-	 * <i>native declaration : _dds_public_time.h:75</i>
 	 */
 	public static native void dds_sleepuntil(long n);
 }

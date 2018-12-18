@@ -15,23 +15,15 @@ public class DdscLibrary implements Library {
 	static {
 		Native.register(DdscLibrary.class, DdscLibrary.JNA_NATIVE_LIB);
 	}
-	/** <i>native declaration : _dds__types.h</i> */
 	public static final int DDS_INTERNAL_STATUS_MASK = (int)(0xFF000000);
-	/** <i>native declaration : _dds__types.h</i> */
 	public static final int DDS_WAITSET_TRIGGER_STATUS = (int)(0x01000000);
-	/** <i>native declaration : _dds__types.h</i> */
 	public static final int DDS_DELETING_STATUS = (int)(0x02000000);
-	/** <i>native declaration : _dds__types.h</i> */
 	public static final int DDS_HEADBANG_TIMEOUT_MS = (int)(10);
-	/** <i>native declaration : _dds__types.h</i> */
 	public static final int DDS_ENTITY_ENABLED = (int)0x0001;
-	/** <i>native declaration : _dds__types.h</i> */
 	public static final int DDS_ENTITY_IMPLICIT = (int)0x0002;
-	/** <i>native declaration : _dds__types.h:70</i> */
 	public interface dds_querycondition_filter_with_ctx_fn extends Callback {
 		byte apply(Pointer sample, Pointer ctx);
 	};
-	/** <i>native declaration : _dds__types.h:110</i> */
 	public interface dds_entity_callback extends Callback {
 		void apply(int observer, int observed, int status);
 	};
@@ -352,6 +344,14 @@ public class DdscLibrary implements Library {
 			super(address);
 		}
 		public dds_on_sample_lost_fn() {
+			super();
+		}
+	};
+	public static class dds_attach_t extends PointerType {
+		public dds_attach_t(Pointer address) {
+			super(address);
+		}
+		public dds_attach_t() {
 			super();
 		}
 	};

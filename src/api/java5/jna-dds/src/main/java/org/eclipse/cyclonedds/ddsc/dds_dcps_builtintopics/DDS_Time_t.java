@@ -5,7 +5,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_dcps_builtintopics.h:346</i><br>
  */
 public class DDS_Time_t extends Structure {
 	public int sec;

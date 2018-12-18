@@ -12,6 +12,5 @@ public class DdscLibrary implements Library {
 	static {
 		Native.register(DdscLibrary.class, DdscLibrary.JNA_NATIVE_LIB);
 	}
-	/** <i>native declaration : _dds__err.h</i> */
 	public static final int DDS__LINE__ = (int)((1 & 0x3fff) << 8);
 }

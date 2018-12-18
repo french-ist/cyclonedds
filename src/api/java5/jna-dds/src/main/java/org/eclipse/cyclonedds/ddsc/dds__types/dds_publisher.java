@@ -5,7 +5,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds__types.h:145</i><br>
  */
 public class dds_publisher extends Structure {
 	/** C type : dds_entity */

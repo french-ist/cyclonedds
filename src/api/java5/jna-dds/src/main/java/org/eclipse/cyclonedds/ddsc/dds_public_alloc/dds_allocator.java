@@ -6,7 +6,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_public_alloc.h:69</i><br>
  */
 public class dds_allocator extends Structure {
 	/** C type : malloc_callback* */
@@ -36,15 +35,12 @@ public class dds_allocator extends Structure {
 	public void setFree(org.eclipse.cyclonedds.ddsc.dds_public_alloc.dds_aligned_allocator.free_callback free) {
 		this.free = free;
 	}
-	/** <i>native declaration : _dds_public_alloc.h:66</i> */
 	public interface malloc_callback extends Callback {
 		Pointer apply(NativeSize size);
 	};
-	/** <i>native declaration : _dds_public_alloc.h:67</i> */
 	public interface realloc_callback extends Callback {
 		Pointer apply(Pointer ptr, NativeSize size);
 	};
-	/** <i>native declaration : _dds_public_alloc.h:68</i> */
 	public interface free_callback extends Callback {
 		void apply(Pointer ptr);
 	};

@@ -8,7 +8,6 @@ import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.dds_inconsistent_topic
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.dds_topic_descriptor_t;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.sertopic;
 /**
- * <i>native declaration : _dds__types.h:183</i><br>
  */
 public class dds_topic extends Structure {
 	/** C type : dds_entity */

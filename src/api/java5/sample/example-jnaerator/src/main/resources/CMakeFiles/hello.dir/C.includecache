@@ -6,13 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/home/ndrianja/IST/cyclonedds/src/api/java5/sample/example-jnaerator/src/main/resources/hello.c
+/home/jean/00-Devel/cyclonedds/src/api/java5/sample/example-jnaerator/src/main/resources/hello.c
 hello.h
-/home/ndrianja/IST/cyclonedds/src/api/java5/sample/example-jnaerator/src/main/resources/hello.h
+/home/jean/00-Devel/cyclonedds/src/api/java5/sample/example-jnaerator/src/main/resources/hello.h
 stdlib.h
 -
 stdio.h
 -
 
-/home/ndrianja/IST/cyclonedds/src/api/java5/sample/example-jnaerator/src/main/resources/hello.h
+/home/jean/00-Devel/cyclonedds/src/api/java5/sample/example-jnaerator/src/main/resources/hello.h
 

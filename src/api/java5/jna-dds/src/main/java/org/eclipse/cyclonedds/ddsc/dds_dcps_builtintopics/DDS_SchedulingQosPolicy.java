@@ -5,7 +5,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_dcps_builtintopics.h:366</i><br>
  */
 public class DDS_SchedulingQosPolicy extends Structure {
 	/** C type : DDS_SchedulingClassQosPolicy */

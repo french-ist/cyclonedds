@@ -5,7 +5,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_public_qos.h:88</i><br>
  */
 public class dds_history_qospolicy extends Structure {
 	/** C type : dds_history_kind_t */

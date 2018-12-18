@@ -18,22 +18,18 @@ public class DdscLibrary implements Library {
 	 * This header file defines the public API for logging in the<br>
 	 * CycloneDDS C language binding.<br>
 	 * Original signature : <code>void dds_log_info(const char*, null)</code><br>
-	 * <i>native declaration : _dds_public_log.h:56</i>
 	 */
 	public static native void dds_log_info(String fmt, Object... varArgs1);
 	/**
 	 * Original signature : <code>void dds_log_warn(const char*, null)</code><br>
-	 * <i>native declaration : _dds_public_log.h:58</i>
 	 */
 	public static native void dds_log_warn(String fmt, Object... varArgs1);
 	/**
 	 * Original signature : <code>void dds_log_error(const char*, null)</code><br>
-	 * <i>native declaration : _dds_public_log.h:60</i>
 	 */
 	public static native void dds_log_error(String fmt, Object... varArgs1);
 	/**
 	 * Original signature : <code>void dds_log_fatal(const char*, null)</code><br>
-	 * <i>native declaration : _dds_public_log.h:62</i>
 	 */
 	public static native void dds_log_fatal(String fmt, Object... varArgs1);
 }

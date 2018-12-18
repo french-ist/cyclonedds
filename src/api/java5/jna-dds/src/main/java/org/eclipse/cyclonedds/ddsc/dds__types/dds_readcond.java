@@ -7,7 +7,6 @@ import java.util.List;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.nn_guid_t;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.rhc;
 /**
- * <i>native declaration : _dds__types.h:197</i><br>
  */
 public class dds_readcond extends Structure {
 	/** C type : dds_entity */

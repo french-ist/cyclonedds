@@ -14,17 +14,11 @@ public class DdscLibrary implements Library {
 	static {
 		Native.register(DdscLibrary.class, DdscLibrary.JNA_NATIVE_LIB);
 	}
-	/** <i>native declaration : _dds__stream.h</i> */
 	public static final int DDS_OP_MASK = (int)0xff000000;
-	/** <i>native declaration : _dds__stream.h</i> */
 	public static final int DDS_OP_TYPE_MASK = (int)0x00ff0000;
-	/** <i>native declaration : _dds__stream.h</i> */
 	public static final int DDS_OP_SUBTYPE_MASK = (int)0x0000ff00;
-	/** <i>native declaration : _dds__stream.h</i> */
 	public static final int DDS_OP_JMP_MASK = (int)0x0000ffff;
-	/** <i>native declaration : _dds__stream.h</i> */
 	public static final int DDS_OP_FLAGS_MASK = (int)0x000000ff;
-	/** <i>native declaration : _dds__stream.h</i> */
 	public static final int DDS_JEQ_TYPE_MASK = (int)0x00ff0000;
 	/**
 	 * Copyright(c) 2006 to 2018 ADLINK Technology Limited and others<br>
@@ -35,52 +29,42 @@ public class DdscLibrary implements Library {
 	 * http://www.eclipse.org/org/documents/edl-v10.php.<br>
 	 * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause<br>
 	 * Original signature : <code>void dds_stream_write_sample(dds_stream_t*, const void*, sertopic*)</code><br>
-	 * <i>native declaration : _dds__stream.h:59</i>
 	 */
 	public static native void dds_stream_write_sample(DdscLibrary.dds_stream_t os, Pointer data, DdscLibrary.sertopic topic);
 	/**
 	 * Original signature : <code>void dds_stream_read_sample(dds_stream_t*, void*, sertopic*)</code><br>
-	 * <i>native declaration : _dds__stream.h:61</i>
 	 */
 	public static native void dds_stream_read_sample(DdscLibrary.dds_stream_t is, Pointer data, DdscLibrary.sertopic topic);
 	/**
 	 * Original signature : <code>size_t dds_stream_check_optimize(const dds_topic_descriptor_t*)</code><br>
-	 * <i>native declaration : _dds__stream.h:63</i>
 	 */
 	public static native NativeSize dds_stream_check_optimize(DdscLibrary.dds_topic_descriptor_t desc);
 	/**
 	 * Original signature : <code>void dds_stream_from_serstate(dds_stream_t*, const serstate_t)</code><br>
-	 * <i>native declaration : _dds__stream.h:65</i>
 	 */
 	public static native void dds_stream_from_serstate(DdscLibrary.dds_stream_t s, DdscLibrary.serstate_t st);
 	/**
 	 * Original signature : <code>void dds_stream_add_to_serstate(dds_stream_t*, serstate_t)</code><br>
-	 * <i>native declaration : _dds__stream.h:67</i>
 	 */
 	public static native void dds_stream_add_to_serstate(DdscLibrary.dds_stream_t s, DdscLibrary.serstate_t st);
 	/**
 	 * Original signature : <code>void dds_stream_write_key(dds_stream_t*, const char*, const dds_topic_descriptor_t*)</code><br>
-	 * <i>native declaration : _dds__stream.h:69</i>
 	 */
 	public static native void dds_stream_write_key(DdscLibrary.dds_stream_t os, String sample, DdscLibrary.dds_topic_descriptor_t desc);
 	/**
 	 * Original signature : <code>void dds_stream_read_key(dds_stream_t*, char*, const dds_topic_descriptor_t*)</code><br>
-	 * <i>native declaration : _dds__stream.h:71</i>
 	 */
 	public static native void dds_stream_read_key(DdscLibrary.dds_stream_t is, String sample, DdscLibrary.dds_topic_descriptor_t desc);
 	/**
 	 * Original signature : <code>void dds_stream_read_keyhash(dds_stream_t*, dds_key_hash_t*, const dds_topic_descriptor_t*, const bool)</code><br>
-	 * <i>native declaration : _dds__stream.h:73</i>
 	 */
 	public static native void dds_stream_read_keyhash(DdscLibrary.dds_stream_t is, DdscLibrary.dds_key_hash_t kh, DdscLibrary.dds_topic_descriptor_t desc, byte just_key);
 	/**
 	 * Original signature : <code>char* dds_stream_reuse_string(dds_stream_t*, char*, const uint32_t)</code><br>
-	 * <i>native declaration : _dds__stream.h:75</i>
 	 */
 	public static native String dds_stream_reuse_string(DdscLibrary.dds_stream_t is, String str, int bound);
 	/**
 	 * Original signature : <code>void dds_stream_swap(void*, uint32_t, uint32_t)</code><br>
-	 * <i>native declaration : _dds__stream.h:77</i>
 	 */
 	public static native void dds_stream_swap(Pointer buff, int size, int num);
 	public static class sertopic extends PointerType {

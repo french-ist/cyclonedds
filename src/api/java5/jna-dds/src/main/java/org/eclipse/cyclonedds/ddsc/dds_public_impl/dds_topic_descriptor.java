@@ -6,7 +6,6 @@ import com.sun.jna.ptr.IntByReference;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_public_impl.h:80</i><br>
  */
 public class dds_topic_descriptor extends Structure {
 	/** Size of topic type */

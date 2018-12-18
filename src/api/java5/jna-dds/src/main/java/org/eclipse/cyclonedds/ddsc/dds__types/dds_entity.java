@@ -11,7 +11,6 @@ import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.os_mutex;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.ut_handle_t;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.ut_handlelink;
 /**
- * <i>native declaration : _dds__types.h:138</i><br>
  */
 public class dds_entity extends Structure {
 	/** C type : ut_handle_t */

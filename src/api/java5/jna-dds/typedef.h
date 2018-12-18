@@ -1,4 +1,3 @@
-#include <stdint.h>
 typedef int16_t DDS_DataRepresentationId_t ;
 typedef int32_t dds_domainid_t;
 typedef int32_t dds_entity_t;

@@ -3,10 +3,8 @@ _Check_return_
 DDS_DESTINATIONORDER_BY_SOURCE_TIMESTAMP)
 DDS_EXPORT
 _Deref_pre_z_
-_In_
 _In_count_(n)
 _In_opt_
-_Inout_
 _Inout_opt_
 _Inout_updates_(bufsz)
 _In_range_(0, DDS_INFINITY)
@@ -20,15 +18,14 @@ _In_range_(DDS_PRESENTATION_INSTANCE, DDS_PRESENTATION_GROUP)
 _In_range_(DDS_RELIABILITY_BEST_EFFORT, DDS_RELIABILITY_RELIABLE)
 _In_reads_bytes_opt_(sz)
 _In_reads_bytes_(size)
-_In_z_
 _Must_inspect_result_
-_Out_
 _Out_opt_
 _Outptr_opt_result_buffer_all_maybenull_(*n)
 _Outptr_result_bytebuffer_maybenull_(*sz)
 _Outptr_result_maybenull_
 _Out_writes_to_(nxs, return < 0 ? 0 : return)
 _Out_writes_to_(size, return < 0 ? 0 : return)
+writes_to_opt_(nxs, return < 0 ? 0 : return)
 _Out_writes_z_(size)
 _Post_invalid_
 _Releases_exclusive_lock_(e)
@@ -38,3 +35,7 @@ _Return_type_success_(return >  0)
 _Return_type_success_(return == DDS_RETCODE_OK)
 _When_(kind != DDS_KIND_PARTICIPANT, _Notnull_)
 _When_(kind == DDS_KIND_PARTICIPANT, _Null_)
+_In_z_
+_Inout_
+_In_
+_Out_

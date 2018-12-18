@@ -5,7 +5,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_builtinTopics.h:133</i><br>
  */
 public class DDS_LivelinessQosPolicy extends Structure {
 	/**

@@ -5,7 +5,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds__types.h:214</i><br>
  */
 public class dds_iid extends Structure {
 	public long counter;

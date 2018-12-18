@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.dds_entity_callback;
 /**
- * <i>native declaration : _dds__types.h:115</i><br>
  */
 public class dds_entity_observer extends Structure {
 	/** C type : dds_entity_callback */

@@ -23,7 +23,6 @@ public class DdscLibrary implements Library {
 	 * http://www.eclipse.org/org/documents/edl-v10.php.<br>
 	 * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause<br>
 	 * Original signature : <code>whc* whc_new(int, unsigned, unsigned)</code><br>
-	 * <i>native declaration : _dds__whc.h:59</i>
 	 */
 	public static native DdscLibrary.whc whc_new(int is_transient_local, int hdepth, int tldepth);
 	public static class whc extends PointerType {

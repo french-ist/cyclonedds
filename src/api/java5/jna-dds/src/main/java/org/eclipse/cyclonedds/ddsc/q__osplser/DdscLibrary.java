@@ -23,52 +23,38 @@ public class DdscLibrary implements Library {
 	 * http://www.eclipse.org/org/documents/edl-v10.php.<br>
 	 * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause<br>
 	 * Original signature : <code>int serdata_cmp(serdata*, serdata*)</code><br>
-	 * <i>native declaration : _q__osplser.h:59</i>
 	 */
 	public static native int serdata_cmp(DdscLibrary.serdata a, DdscLibrary.serdata b);
 	/**
-	 * Original signature : <code>uint32_t serdata_hash(serdata*)</code><br>
-	 * <i>native declaration : _q__osplser.h:61</i>
-	 */
-	public static native int serdata_hash(DdscLibrary.serdata a);
-	/**
 	 * Original signature : <code>serdata_t serialize(sertopic*, const void*)</code><br>
-	 * <i>native declaration : _q__osplser.h:63</i>
 	 */
 	public static native DdscLibrary.serdata_t serialize(DdscLibrary.sertopic tp, Pointer sample);
 	/**
 	 * Original signature : <code>serdata_t serialize_key(sertopic*, const void*)</code><br>
-	 * <i>native declaration : _q__osplser.h:65</i>
 	 */
 	public static native DdscLibrary.serdata_t serialize_key(DdscLibrary.sertopic tp, Pointer sample);
 	/**
 	 * Original signature : <code>void deserialize_into(void*, serdata*)</code><br>
-	 * <i>native declaration : _q__osplser.h:67</i>
 	 */
 	public static native void deserialize_into(Pointer sample, DdscLibrary.serdata serdata);
 	/**
 	 * Original signature : <code>void free_deserialized(serdata*, void*)</code><br>
-	 * <i>native declaration : _q__osplser.h:69</i>
 	 */
 	public static native void free_deserialized(DdscLibrary.serdata serdata, Pointer vx);
 	/**
 	 * Original signature : <code>void sertopic_free(sertopic*)</code><br>
-	 * <i>native declaration : _q__osplser.h:71</i>
 	 */
 	public static native void sertopic_free(DdscLibrary.sertopic tp);
 	/**
 	 * Original signature : <code>void serstate_set_key(serstate_t, int, const void*)</code><br>
-	 * <i>native declaration : _q__osplser.h:73</i>
 	 */
 	public static native void serstate_set_key(DdscLibrary.serstate_t st, int justkey, Pointer key);
 	/**
 	 * Original signature : <code>void serstate_init(serstate_t, sertopic*)</code><br>
-	 * <i>native declaration : _q__osplser.h:75</i>
 	 */
 	public static native void serstate_init(DdscLibrary.serstate_t st, DdscLibrary.sertopic topic);
 	/**
 	 * Original signature : <code>void serstate_free(serstate_t)</code><br>
-	 * <i>native declaration : _q__osplser.h:77</i>
 	 */
 	public static native void serstate_free(DdscLibrary.serstate_t st);
 	public static class serdata extends PointerType {

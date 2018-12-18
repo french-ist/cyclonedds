@@ -6,7 +6,6 @@ import com.sun.jna.ptr.PointerByReference;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_builtinTopics.h:69</i><br>
  */
 public class DDS_StringSeq extends Structure {
 	public int _maximum;

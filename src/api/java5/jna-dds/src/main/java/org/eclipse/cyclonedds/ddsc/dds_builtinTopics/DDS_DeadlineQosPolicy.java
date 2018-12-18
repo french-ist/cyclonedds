@@ -5,7 +5,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_builtinTopics.h:111</i><br>
  */
 public class DDS_DeadlineQosPolicy extends Structure {
 	/** C type : DDS_Duration_t */

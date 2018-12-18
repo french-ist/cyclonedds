@@ -5,7 +5,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_builtinTopics.h:218</i><br>
  */
 public class DDS_ReaderLifespanQosPolicy extends Structure {
 	public byte use_lifespan;

@@ -1,12 +1,10 @@
 package org.eclipse.cyclonedds.ddsc.dds;
 import org.eclipse.cyclonedds.helper.*;
-import org.eclipse.cyclonedds.ddsc.dds_public_impl.*;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds.h:219</i><br>
  */
 public class dds_sample_info extends Structure {
 	/** C type : dds_sample_state_t */

@@ -37,29 +37,23 @@ import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
 import org.eclipse.cyclonedds.core.Utilities;
 
-public class DomainParticipantFactoryImpl
-        extends DomainParticipantFactory
+import org.eclipse.cyclonedds.ddsc.DdscLibrary;
+import org.eclipse.cyclonedds.ddsc.NativeSize;
+import org.eclipse.cyclonedds.ddsc.DdscLibrary.*;
+
+public class DomainParticipantFactoryImpl extends DomainParticipantFactory
         implements org.eclipse.cyclonedds.domain.DomainParticipantFactory {
     private OsplServiceEnvironment environment;
-    private DDS.DomainParticipantFactory factory;
-    private HashMap<DDS.DomainParticipant, DomainParticipantImpl> participants;
+    private DomainParticipantFactoryQos qos;
+    private DomainParticipantQos defaultDomainParticipantQoS;
 
     public DomainParticipantFactoryImpl(OsplServiceEnvironment environment) {
         this.environment = environment;
-        this.participants = new HashMap<DDS.DomainParticipant, DomainParticipantImpl>();
-        this.factory = DDS.DomainParticipantFactory.get_instance();
+        this.defaultDomainParticipantQoS = new DomainParticipantQosImpl(environment);
+        this.qos = new DomainParticipantFactoryQosImpl(environment);
     }
 
     public void destroyParticipant(DomainParticipantImpl participant) {
-        DDS.DomainParticipant old = participant.getOld();
-
-        synchronized (this.participants) {
-            old.delete_contained_entities();
-            int rc = this.factory.delete_participant(old);
-            this.participants.remove(old);
-            Utilities.checkReturnCode(rc, this.environment,
-                    "DomainParticipant.close() failed.");
-        }
     }
 
     @Override
@@ -69,79 +63,72 @@ public class DomainParticipantFactoryImpl
 
     @Override
     public DomainParticipant createParticipant() {
-        return createParticipant(DDS.DOMAIN_ID_DEFAULT.value);
+        // return createParticipant(DDS.DOMAIN_ID_DEFAULT.value);
+        return createParticipant(0);
     }
 
     @Override
     public DomainParticipant createParticipant(int domainId) {
-        return this.createParticipant(domainId,
-                this.getDefaultParticipantQos(), null, new HashSet<Class<? extends Status>>());
+        return this.createParticipant(domainId, this.getDefaultParticipantQos(), null,
+                new HashSet<Class<? extends Status>>());
     }
 
     @Override
-    public DomainParticipant createParticipant(int domainId,
-            DomainParticipantQos qos, DomainParticipantListener listener,
-            Collection<Class<? extends Status>> statuses) {
+    public DomainParticipant createParticipant(int domainId, DomainParticipantQos qos,
+            DomainParticipantListener listener, Collection<Class<? extends Status>> statuses) {
         DomainParticipantImpl participant;
 
-        synchronized (this.participants) {
-            participant = new DomainParticipantImpl(this.environment, this,
-                    domainId, qos, listener, statuses);
-            this.participants.put(participant.getOld(), participant);
-        }
+        participant = new DomainParticipantImpl(this.environment, this, domainId, qos, listener, statuses);
+
         return participant;
     }
 
     @Override
-    public DomainParticipant createParticipant(int domainId,
-            DomainParticipantQos qos, DomainParticipantListener listener,
-            Class<? extends Status>... statuses) {
+    public DomainParticipant createParticipant(int domainId, DomainParticipantQos qos,
+            DomainParticipantListener listener, Class<? extends Status>... statuses) {
         return createParticipant(domainId, qos, listener, Arrays.asList(statuses));
     }
 
     @Override
     public DomainParticipant lookupParticipant(int domainId) {
         DomainParticipantImpl participant;
-        DDS.DomainParticipant oldParticipant;
+        dds_entity_t participants = new dds_entity_t();
+        NativeSize size = new NativeSize();
+        dds_return_t rc = org.eclipse.cyclonedds.ddsc.DdscLibrary.dds_lookup_participant(domainId, participants, size);
+        Utilities.checkReturnCode(rc.getPointer().getInt(0), this.environment,
+                "DomainParticipantFactoryImpl.lookupParticipant() failed.");
 
-        synchronized (this.participants) {
-            oldParticipant = factory.lookup_participant(domainId);
-
-            if (oldParticipant != null) {
-                participant = participants.get(oldParticipant);
-            } else {
-                participant = null;
-            }
+        if (rc.getPointer().getInt(0) == 0)
+            return null;
+        else {
+            // TODO retrieve the participant from participants
+            participant = null;
+            return participant;
         }
-        return participant;
     }
 
     @Override
     public DomainParticipantFactoryQos getQos() {
+        public static native DdscLibrary.dds_return_t dds_get_qos(DdscLibrary.dds_entity_t entity, DdscLibrary.dds_qos_t qos);
+ 
         DDS.DomainParticipantFactoryQosHolder holder = new DDS.DomainParticipantFactoryQosHolder();
-        int rc = this.factory.get_qos(holder);
+        DdscLibrary.dds_return_t rc = dds_get_qos(DdscLibrary.dds_entity_t entity, qos);
 
-        Utilities.checkReturnCode(rc, this.environment,
-                "DomainParticipantFactory.getQos() failed.");
-        return DomainParticipantFactoryQosImpl.convert(this.environment,
-                holder.value);
+        Utilities.checkReturnCode(rc.getPointer().getInt(0), this.environment, "DomainParticipantFactory.getQos() failed.");
+        return qos;
     }
 
     @Override
     public void setQos(DomainParticipantFactoryQos qos) {
         if (qos == null) {
-            throw new IllegalArgumentExceptionImpl(this.environment,
-                    "Supplied DomainParticipantFactoryQos is null.");
+            throw new IllegalArgumentExceptionImpl(this.environment, "Supplied DomainParticipantFactoryQos is null.");
         }
         if (qos instanceof DomainParticipantFactoryQosImpl) {
-            DDS.DomainParticipantFactoryQos oldQos = ((DomainParticipantFactoryQosImpl) qos)
-                    .convert();
-            int rc = this.factory.set_qos(oldQos);
-            Utilities.checkReturnCode(rc, this.environment,
-                    "DomainParticipantFactory.setQos() failed.");
+            DdscLibrary.dds_return_t rc = dds_set_qos(DdscLibrary.dds_entity_t entity, qos);
+            Utilities.checkReturnCode(rc.getPointer().getInt(0), this.environment, "DomainParticipantFactory.setQos() failed.");
         } else {
             throw new IllegalOperationExceptionImpl(this.environment,
-                    "DomainParticipantFactoryQos not supplied by OpenSplice Service provider.");
+                    "DomainParticipantFactoryQos not supplied by Cyclone Service provider.");
         }
     }
 
@@ -153,8 +140,7 @@ public class DomainParticipantFactoryImpl
 
         holder = new DDS.DomainParticipantQosHolder();
         rc = this.factory.get_default_participant_qos(holder);
-        Utilities.checkReturnCode(rc, this.environment,
-                "DomainParticipantFactory.getDefaultParticipantQos() failed.");
+        Utilities.checkReturnCode(rc, this.environment, "DomainParticipantFactory.getDefaultParticipantQos() failed.");
 
         qos = DomainParticipantQosImpl.convert(this.environment, holder.value);
 
@@ -167,13 +153,11 @@ public class DomainParticipantFactoryImpl
         int rc;
 
         if (qos == null) {
-            throw new IllegalArgumentExceptionImpl(this.environment,
-                    "Supplied DomainParticipantQos is null.");
+            throw new IllegalArgumentExceptionImpl(this.environment, "Supplied DomainParticipantQos is null.");
         }
         oldQos = ((DomainParticipantQosImpl) qos).convert();
         rc = this.factory.set_default_participant_qos(oldQos);
-        Utilities.checkReturnCode(rc, this.environment,
-                "DomainParticipantFactory.setDefaultParticipantQos() failed.");
+        Utilities.checkReturnCode(rc, this.environment, "DomainParticipantFactory.setDefaultParticipantQos() failed.");
 
     }
 
@@ -181,6 +165,5 @@ public class DomainParticipantFactoryImpl
     public void detachAllDomains(boolean blockOperations, boolean deleteEntities) {
         this.factory.detach_all_domains(blockOperations, deleteEntities);
     }
-
 
 }

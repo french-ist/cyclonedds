@@ -6,7 +6,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_public_alloc.h:77</i><br>
  */
 public class dds_aligned_allocator extends Structure {
 	/** C type : alloc_callback* */
@@ -25,11 +24,9 @@ public class dds_aligned_allocator extends Structure {
 	public void setFree(dds_aligned_allocator.free_callback free) {
 		this.free = free;
 	}
-	/** <i>native declaration : _dds_public_alloc.h:75</i> */
 	public interface alloc_callback extends Callback {
 		Pointer apply(NativeSize size, NativeSize align);
 	};
-	/** <i>native declaration : _dds_public_alloc.h:76</i> */
 	public interface free_callback extends Callback {
 		void apply(NativeSize size, Pointer ptr);
 	};

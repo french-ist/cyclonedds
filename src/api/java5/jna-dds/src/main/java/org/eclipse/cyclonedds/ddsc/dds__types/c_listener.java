@@ -18,7 +18,6 @@ import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.dds_on_sample_lost_fn;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.dds_on_sample_rejected_fn;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.dds_on_subscription_matched_fn;
 /**
- * <i>native declaration : _dds__types.h:87</i><br>
  */
 public class c_listener extends Structure {
 	/** C type : dds_on_inconsistent_topic_fn */

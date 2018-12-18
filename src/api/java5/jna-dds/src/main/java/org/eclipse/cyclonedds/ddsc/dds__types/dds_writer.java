@@ -12,7 +12,6 @@ import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.nn_xpack;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.whc;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.writer;
 /**
- * <i>native declaration : _dds__types.h:177</i><br>
  */
 public class dds_writer extends Structure {
 	/** C type : dds_entity */

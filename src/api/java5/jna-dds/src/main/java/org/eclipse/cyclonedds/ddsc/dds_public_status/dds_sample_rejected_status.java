@@ -5,7 +5,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_public_status.h:95</i><br>
  */
 public class dds_sample_rejected_status extends Structure {
 	public int total_count;

@@ -12,7 +12,6 @@ import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.dds_sample_rejected_st
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.dds_subscription_matched_status_t;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.reader;
 /**
- * <i>native declaration : _dds__types.h:166</i><br>
  */
 public class dds_reader extends Structure {
 	/** C type : dds_entity */

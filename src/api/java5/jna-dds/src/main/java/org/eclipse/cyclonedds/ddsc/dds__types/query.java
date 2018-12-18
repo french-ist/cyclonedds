@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.dds_querycondition_filter_fn;
 /**
- * <i>native declaration : _dds__types.h:186</i><br>
  */
 public class query extends Structure {
 	/** C type : dds_querycondition_filter_fn */

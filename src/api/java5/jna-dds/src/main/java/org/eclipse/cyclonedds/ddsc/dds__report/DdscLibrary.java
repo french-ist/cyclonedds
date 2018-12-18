@@ -16,7 +16,6 @@ public class DdscLibrary implements Library {
 	}
 	/**
 	 * Original signature : <code>void dds_report(os_reportType, const char*, int32_t, const char*, dds_return_t, const char*, null)</code><br>
-	 * <i>native declaration : _dds__report.h:53</i>
 	 */
 	public static native void dds_report(DdscLibrary.os_reportType reportType, String file, int line, String function, int code, String format, Object... varArgs1);
 	public static class os_reportType extends PointerType {

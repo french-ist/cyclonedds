@@ -212,6 +212,11 @@ typedef struct dds_topic
 }
 dds_topic;
 
+typedef struct query
+{
+    dds_querycondition_filter_fn m_filter;
+} query;
+
 typedef struct dds_readcond
 {
   dds_entity m_entity;
@@ -222,10 +227,7 @@ typedef struct dds_readcond
   uint32_t m_instance_states;
   nn_guid_t m_rd_guid;
   struct dds_readcond * m_rhc_next;
-  struct
-  {
-      dds_querycondition_filter_fn m_filter;
-  } m_query;
+  struct query m_query;
 }
 dds_readcond;
 

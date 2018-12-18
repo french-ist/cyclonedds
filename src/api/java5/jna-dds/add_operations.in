@@ -1,0 +1,1 @@
+public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.ddsc.dds__types.c_listener.ByReference listener); -> dds/DdscLibrary.java -> public static native int dds_get_listener(int entity, DdscLibrary.dds_listener_t listener);

@@ -1,11 +1,11 @@
 package org.eclipse.cyclonedds.ddsc.dds_dcps_builtintopics;
+import org.eclipse.cyclonedds.ddsc.dds_builtinTopics.*;
 import org.eclipse.cyclonedds.helper.*;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_dcps_builtintopics.h:372</i><br>
  */
 public class DDS_DomainParticipantQos extends Structure {
 	/** C type : DDS_UserDataQosPolicy */

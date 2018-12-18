@@ -5,7 +5,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_builtinTopics.h:222</i><br>
  */
 public class DDS_TypeHash extends Structure {
 	public long msb;

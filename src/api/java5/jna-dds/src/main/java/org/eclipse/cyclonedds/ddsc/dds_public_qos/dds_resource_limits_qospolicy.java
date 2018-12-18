@@ -5,7 +5,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_public_qos.h:94</i><br>
  */
 public class dds_resource_limits_qospolicy extends Structure {
 	public int max_samples;

@@ -8,7 +8,6 @@ import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.LongByReference;
 import com.sun.jna.ptr.ShortByReference;
 /**
- * <i>native declaration : _dds_public_stream.h:62</i><br>
  */
 public class dds_uptr_t extends Union {
 	/** C type : uint8_t* */

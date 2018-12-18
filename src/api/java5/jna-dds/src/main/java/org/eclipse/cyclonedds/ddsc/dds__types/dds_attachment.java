@@ -2,11 +2,10 @@ package org.eclipse.cyclonedds.ddsc.dds__types;
 import org.eclipse.cyclonedds.helper.*;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
-import com.sun.jna.ptr.IntByReference;
 import java.util.Arrays;
 import java.util.List;
+import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.dds_attach_t;
 /**
- * <i>native declaration : _dds__types.h:205</i><br>
  */
 public class dds_attachment extends Structure {
 	/** C type : dds_entity* */
@@ -18,11 +17,11 @@ public class dds_attachment extends Structure {
 		this.entity = entity;
 	}
 	/** C type : dds_attach_t */
-	public IntByReference arg;
-	public IntByReference getArg() {
+	public dds_attach_t arg;
+	public dds_attach_t getArg() {
 		return arg;
 	}
-	public void setArg(IntByReference arg) {
+	public void setArg(dds_attach_t arg) {
 		this.arg = arg;
 	}
 	/** C type : dds_attachment* */
@@ -44,7 +43,7 @@ public class dds_attachment extends Structure {
 	 * @param arg C type : dds_attach_t<br>
 	 * @param next C type : dds_attachment*
 	 */
-	public dds_attachment(org.eclipse.cyclonedds.ddsc.dds__types.dds_entity.ByReference entity, IntByReference arg, dds_attachment.ByReference next) {
+	public dds_attachment(org.eclipse.cyclonedds.ddsc.dds__types.dds_entity.ByReference entity, dds_attach_t arg, dds_attachment.ByReference next) {
 		super();
 		this.entity = entity;
 		this.arg = arg;

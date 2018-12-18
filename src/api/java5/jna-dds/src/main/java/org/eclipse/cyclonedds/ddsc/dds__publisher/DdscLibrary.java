@@ -21,12 +21,10 @@ public class DdscLibrary implements Library {
 	 * http://www.eclipse.org/org/documents/edl-v10.php.<br>
 	 * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause<br>
 	 * Original signature : <code>dds_return_t dds_publisher_begin_coherent(dds_entity_t)</code><br>
-	 * <i>native declaration : _dds__publisher.h:59</i>
 	 */
 	public static native int dds_publisher_begin_coherent(int e);
 	/**
 	 * Original signature : <code>dds_return_t dds_publisher_end_coherent(dds_entity_t)</code><br>
-	 * <i>native declaration : _dds__publisher.h:61</i>
 	 */
 	public static native int dds_publisher_end_coherent(int e);
 }

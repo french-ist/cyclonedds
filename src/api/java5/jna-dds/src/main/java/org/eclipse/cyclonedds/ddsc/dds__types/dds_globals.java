@@ -9,7 +9,6 @@ import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.os_mutex;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.rhc;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.ut_avlTree_t;
 /**
- * <i>native declaration : _dds__types.h:229</i><br>
  */
 public class dds_globals extends Structure {
 	/** C type : dds_domainid_t */
@@ -75,19 +74,15 @@ public class dds_globals extends Structure {
 	public void setM_mutex(os_mutex m_mutex) {
 		this.m_mutex = m_mutex;
 	}
-	/** <i>native declaration : _dds__types.h:225</i> */
 	public interface m_dur_reader_callback extends Callback {
 		void apply(dds_reader reader, rhc rhc);
 	};
-	/** <i>native declaration : _dds__types.h:226</i> */
 	public interface m_dur_wait_callback extends Callback {
 		int apply(dds_reader reader, long timeout);
 	};
-	/** <i>native declaration : _dds__types.h:227</i> */
 	public interface m_dur_init_callback extends Callback {
 		void apply();
 	};
-	/** <i>native declaration : _dds__types.h:228</i> */
 	public interface m_dur_fini_callback extends Callback {
 		void apply();
 	};

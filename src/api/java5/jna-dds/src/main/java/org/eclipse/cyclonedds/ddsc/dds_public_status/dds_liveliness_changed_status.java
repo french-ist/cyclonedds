@@ -5,7 +5,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_public_status.h:103</i><br>
  */
 public class dds_liveliness_changed_status extends Structure {
 	public int alive_count;

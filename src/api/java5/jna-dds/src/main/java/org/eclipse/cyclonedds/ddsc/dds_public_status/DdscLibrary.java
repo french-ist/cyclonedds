@@ -13,17 +13,12 @@ public class DdscLibrary implements Library {
 		Native.register(DdscLibrary.class, DdscLibrary.JNA_NATIVE_LIB);
 	}
 	/**
-	 * <i>native declaration : _dds_public_status.h:88</i><br>
 	 * enum values
 	 */
 	public static interface dds_sample_rejected_status_kind {
-		/** <i>native declaration : _dds_public_status.h:84</i> */
 		public static final int DDS_NOT_REJECTED = 0;
-		/** <i>native declaration : _dds_public_status.h:85</i> */
 		public static final int DDS_REJECTED_BY_INSTANCES_LIMIT = 1;
-		/** <i>native declaration : _dds_public_status.h:86</i> */
 		public static final int DDS_REJECTED_BY_SAMPLES_LIMIT = 2;
-		/** <i>native declaration : _dds_public_status.h:87</i> */
 		public static final int DDS_REJECTED_BY_SAMPLES_PER_INSTANCE_LIMIT = 3;
 	};
 	/**
@@ -44,7 +39,6 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_get_inconsistent_topic_status(dds_entity_t, dds_inconsistent_topic_status_t*)</code><br>
-	 * <i>native declaration : _dds_public_status.h:145</i>
 	 */
 	public static native int dds_get_inconsistent_topic_status(int topic, dds_inconsistent_topic_status status);
 	/**
@@ -65,7 +59,6 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_get_publication_matched_status(dds_entity_t, dds_publication_matched_status_t*)</code><br>
-	 * <i>native declaration : _dds_public_status.h:165</i>
 	 */
 	public static native int dds_get_publication_matched_status(int writer, dds_publication_matched_status status);
 	/**
@@ -86,7 +79,6 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_get_liveliness_lost_status(dds_entity_t, dds_liveliness_lost_status_t*)</code><br>
-	 * <i>native declaration : _dds_public_status.h:185</i>
 	 */
 	public static native int dds_get_liveliness_lost_status(int writer, dds_liveliness_lost_status status);
 	/**
@@ -107,7 +99,6 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_get_offered_deadline_missed_status(dds_entity_t, dds_offered_deadline_missed_status_t*)</code><br>
-	 * <i>native declaration : _dds_public_status.h:205</i>
 	 */
 	public static native int dds_get_offered_deadline_missed_status(int writer, dds_offered_deadline_missed_status status);
 	/**
@@ -128,7 +119,6 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_get_offered_incompatible_qos_status(dds_entity_t, dds_offered_incompatible_qos_status_t*)</code><br>
-	 * <i>native declaration : _dds_public_status.h:225</i>
 	 */
 	public static native int dds_get_offered_incompatible_qos_status(int writer, dds_offered_incompatible_qos_status status);
 	/**
@@ -149,7 +139,6 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_get_subscription_matched_status(dds_entity_t, dds_subscription_matched_status_t*)</code><br>
-	 * <i>native declaration : _dds_public_status.h:245</i>
 	 */
 	public static native int dds_get_subscription_matched_status(int reader, dds_subscription_matched_status status);
 	/**
@@ -170,7 +159,6 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_get_liveliness_changed_status(dds_entity_t, dds_liveliness_changed_status_t*)</code><br>
-	 * <i>native declaration : _dds_public_status.h:265</i>
 	 */
 	public static native int dds_get_liveliness_changed_status(int reader, dds_liveliness_changed_status status);
 	/**
@@ -191,7 +179,6 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *                  The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_get_sample_rejected_status(dds_entity_t, dds_sample_rejected_status_t*)</code><br>
-	 * <i>native declaration : _dds_public_status.h:285</i>
 	 */
 	public static native int dds_get_sample_rejected_status(int reader, dds_sample_rejected_status status);
 	/**
@@ -213,7 +200,6 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *            The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_get_sample_lost_status(dds_entity_t, dds_sample_lost_status_t*)</code><br>
-	 * <i>native declaration : _dds_public_status.h:306</i>
 	 */
 	public static native int dds_get_sample_lost_status(int reader, dds_sample_lost_status status);
 	/**
@@ -235,7 +221,6 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *            The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_get_requested_deadline_missed_status(dds_entity_t, dds_requested_deadline_missed_status_t*)</code><br>
-	 * <i>native declaration : _dds_public_status.h:327</i>
 	 */
 	public static native int dds_get_requested_deadline_missed_status(int reader, dds_requested_deadline_missed_status status);
 	/**
@@ -257,7 +242,6 @@ public class DdscLibrary implements Library {
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *            The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_get_requested_incompatible_qos_status(dds_entity_t, dds_requested_incompatible_qos_status_t*)</code><br>
-	 * <i>native declaration : _dds_public_status.h:348</i>
 	 */
 	public static native int dds_get_requested_incompatible_qos_status(int reader, dds_requested_incompatible_qos_status status);
 }

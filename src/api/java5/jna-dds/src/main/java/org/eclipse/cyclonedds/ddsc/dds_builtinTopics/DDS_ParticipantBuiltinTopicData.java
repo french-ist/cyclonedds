@@ -5,7 +5,6 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 /**
- * <i>native declaration : _dds_builtinTopics.h:226</i><br>
  */
 public class DDS_ParticipantBuiltinTopicData extends Structure {
 	/** C type : DDS_BuiltinTopicKey_t */

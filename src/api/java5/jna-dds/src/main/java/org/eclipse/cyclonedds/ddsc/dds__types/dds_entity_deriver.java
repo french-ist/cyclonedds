@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.dds_qos_t;
 /**
- * <i>native declaration : _dds__types.h:109</i><br>
  */
 public class dds_entity_deriver extends Structure {
 	/** C type : close_callback* */
@@ -59,27 +58,21 @@ public class dds_entity_deriver extends Structure {
 	public void setGet_instance_hdl(dds_entity_deriver.get_instance_hdl_callback get_instance_hdl) {
 		this.get_instance_hdl = get_instance_hdl;
 	}
-	/** <i>native declaration : _dds__types.h:103</i> */
 	public interface close_callback extends Callback {
 		int apply(dds_entity e);
 	};
-	/** <i>native declaration : _dds__types.h:104</i> */
 	public interface delete_callback extends Callback {
 		int apply(dds_entity e);
 	};
-	/** <i>native declaration : _dds__types.h:105</i> */
 	public interface set_qos_callback extends Callback {
 		int apply(dds_entity e, dds_qos_t qos, byte enabled);
 	};
-	/** <i>native declaration : _dds__types.h:106</i> */
 	public interface validate_status_callback extends Callback {
 		int apply(int mask);
 	};
-	/** <i>native declaration : _dds__types.h:107</i> */
 	public interface propagate_status_callback extends Callback {
 		int apply(dds_entity e, int mask, byte set);
 	};
-	/** <i>native declaration : _dds__types.h:108</i> */
 	public interface get_instance_hdl_callback extends Callback {
 		int apply(dds_entity e, LongByReference i);
 	};

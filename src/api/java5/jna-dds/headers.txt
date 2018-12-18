@@ -1,3 +1,4 @@
+dds.h
 dds__alloc.h
 dds__builtin.h
 dds_builtinTopics.h
