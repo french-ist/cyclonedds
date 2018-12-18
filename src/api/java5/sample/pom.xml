@@ -13,7 +13,7 @@
 
     <artifactId>sample</artifactId>
     <name>JNA sample</name>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <dependencies>
         <!-- JNA dependency -->
@@ -92,7 +92,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>attached</goal>
+                            <goal>single</goal>
                         </goals>
                         <phase>package</phase>
                         <configuration>
@@ -101,7 +101,7 @@
                             </descriptorRefs>
                             <archive>
                                 <manifest>
-                                    <mainClass>org.eclipse.cyclonedds.sample.Launcher</mainClass>
+                                    <mainClass>org.eclipse.cyclonedds.sample.${package.name}.Launcher</mainClass>
                                 </manifest>
                             </archive>
                         </configuration>
