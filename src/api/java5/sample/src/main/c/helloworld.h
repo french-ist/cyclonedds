@@ -7,5 +7,6 @@ void display(char* ch);
 void hello(char* message, int id);
 void helloFromJava(HelloWorld* hello);
 void helloFromC(HelloWorld* hello);
-void helloPointerFromJava(void* data);
+void helloPointerFromJava(void* sample);
 void helloPointerArrayFromC(void **samples, int *size);
+void helloArrayFromJava(void *samples, int nb);

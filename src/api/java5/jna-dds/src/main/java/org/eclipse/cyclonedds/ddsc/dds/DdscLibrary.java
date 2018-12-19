@@ -6,7 +6,6 @@ import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
 import com.sun.jna.Pointer;
 import com.sun.jna.PointerType;
-import com.sun.jna.Structure.ByReference;
 import com.sun.jna.ptr.PointerByReference;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
@@ -583,7 +582,9 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 * TODO: Complete list of error codes<br>
 	 * Original signature : <code>dds_entity_t dds_create_reader(dds_entity_t, dds_entity_t, const dds_qos_t*, const dds_listener_t*)</code><br>
 	 */
-	public static native int dds_create_reader(int participant_or_subscriber, int topic, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
+	//public static native int dds_create_reader(int participant_or_subscriber, int topic, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
+	public static native int dds_create_reader(int participant_or_subscriber, int topic, org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
+
 	/**
 	 * TODO: Complete list of error codes<br>
 	 * Original signature : <code>int dds_reader_wait_for_historical_data(dds_entity_t, dds_duration_t)</code><br>
@@ -1902,6 +1903,6 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 		}
 	};
 
-	public static native void dds_qset_reliability(PointerByReference qos, int kind, int max_blocking_time);
-
+	//public static native void dds_qset_reliability(PointerByReference qos, int kind, int max_blocking_time);
+	public static native void dds_qset_reliability(org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qos_t qos, int ddsReliabilityReliable, int max_blocking_time);
 }

@@ -24,4 +24,6 @@ public class HelloworldDirectMapping implements Library {
     public static native void helloPointerFromJava(Pointer data);    
     public static native void helloPointerArrayFromC(PointerByReference data, IntByReference size);
 
+    public static native void helloArrayFromJava(HelloWorldData_Msg.ByReference sample, int nb);
+
 }

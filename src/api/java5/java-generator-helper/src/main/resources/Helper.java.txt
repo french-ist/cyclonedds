@@ -8,10 +8,10 @@ private IntByReference getIntByReference(Integer[] helloWorldData_Msg_ops) {
     return x;
 }
 
-private ByReference getByReference(dds_key_descriptor[] helloWorldData_Msg_keys) {
-    ByReference ref = new dds_key_descriptor.ByReference();
+private dds_key_descriptor.ByReference getByReference(dds_key_descriptor[] helloWorldData_Msg_keys) {
+    dds_key_descriptor.ByReference ref = new dds_key_descriptor.ByReference();
     if(helloWorldData_Msg_keys.length==0){
-        return ref;
+        return null;
     } else {
         dds_key_descriptor[] struct = (dds_key_descriptor[]) ref.toArray(helloWorldData_Msg_keys.length);
         for(int i=0;i<helloWorldData_Msg_keys.length;i++){
@@ -26,32 +26,18 @@ public NativeSize getNativeSize(String string) {
     return new NativeSize(sizeof(string));
 }
 
+
 public Integer offsetof(String clazz, String field){
     try {
         String clazzFullName = (getClass().getPackage() + "." +clazz).replace("package ", "");
         Class<?> c = Class.forName(clazzFullName);        
         Object instance = c.newInstance();
         if(instance instanceof Structure){
-            Structure s = (Structure)instance;
-            int computedSize = 0;
-            Class<?> parameterTypes[] = {};
-            Method method = s.getClass().getDeclaredMethod("getFieldOrder", parameterTypes);
+            Structure s = (Structure)instance;            
+            Class<?> parameterTypes[] = {String.class};
+            Method method = s.getClass().getSuperclass().getDeclaredMethod("fieldOffset", parameterTypes);
             method.setAccessible(true);
-            Object rawList =  method.invoke(instance);
-            if(rawList instanceof List){
-                List<?> l = (List<?>) rawList;
-                for (Object fieldName : (List<?>)rawList) {
-                    if(fieldName instanceof String){
-                        java.lang.reflect.Field m = c.getDeclaredField((String)fieldName);
-                        Class<?> type = m.getType();
-                        if (field.equals(fieldName)){
-                            return computedSize;
-                        } else {
-                            computedSize += Native.getNativeSize(type);
-                        }
-                    }
-                }
-            }
+            return (Integer)method.invoke(instance, field);
         }
         return null;
     } catch (Exception e) {
@@ -60,16 +46,18 @@ public Integer offsetof(String clazz, String field){
     }
 }
 
+
 public Integer sizeof(String clazz){
     if(clazz.equals("char*")){
-        return 1;
+        return 8;
     } else {
         try {
             String clazzFullName = (getClass().getPackage() + "." +clazz).replace("package ", "");
             Class<?> c = Class.forName(clazzFullName);
             Class<?> parameterTypes[] = {};
             Method method = c.getMethod("size", parameterTypes);
-            return (Integer) method.invoke(c.newInstance(), (Object[])null);
+            int size = (Integer) method.invoke(c.newInstance(), (Object[])null);            
+            return size;
         } catch (Exception e) {
             e.printStackTrace();
             return null;
