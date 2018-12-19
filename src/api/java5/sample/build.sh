@@ -1,4 +1,4 @@
-[ $# != 1 ] && echo  "*** usage : $0 <example>" && exit
+[ $# != 1 ] && echo  "*** usage : $0 <example>" && echo "    ex : $0 helloworld_direct_mapping " && exit
 cd src/main/c 
 mkdir -p linux-x86-64
 rm -f linux-x86-64/*
