@@ -2,7 +2,7 @@ private IntByReference getIntByReference(Integer[] helloWorldData_Msg_ops) {
     IntByReference x = new IntByReference();
     Pointer p = new Memory(helloWorldData_Msg_ops.length * Native.getNativeSize(Integer.TYPE));
     for(int i=0; i < helloWorldData_Msg_ops.length; i++){
-        p.setInt(i, helloWorldData_Msg_ops[i]);
+        p.setInt(i * Native.getNativeSize(Integer.TYPE), helloWorldData_Msg_ops[i]);
     }        
     x.setPointer(p);
     return x;

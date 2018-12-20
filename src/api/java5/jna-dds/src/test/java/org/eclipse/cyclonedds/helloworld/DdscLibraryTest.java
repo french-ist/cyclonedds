@@ -103,15 +103,16 @@ public class DdscLibraryTest {
             helper.dds_error_check(reader, DDS_CHECK_REPORT | DDS_CHECK_EXIT);
             org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qos_delete(qos);
 
-            System.out.println("\n=== [Subscriber] Waiting for a sample ...\n");
+            System.out.println("\n=== [Subscriber] Waiting for a sample ...");
             
-            /* Initialize sample buffer, by pointing the void pointer within
+            /*
+             * TODO: check if really needed 
+             * Initialize sample buffer, by pointing the void pointer within
              * the buffer array to a valid sample memory location. */
             //samples[0] = HelloWorldData_Msg__alloc ();
-            Pointer samplesAlloc = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary
-                .dds_alloc(helper.getNativeSize("HelloWorldData_Msg"));
-            PointerByReference samplePtr = new PointerByReference(samplesAlloc);
-            
+            /*Pointer samplesAlloc = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary
+                .dds_alloc(helper.getNativeSize("HelloWorldData_Msg"));*/
+            PointerByReference samplePtr = new PointerByReference();
             dds_sample_info.ByReference infosPtr = new  dds_sample_info.ByReference();
             dds_sample_info[] infosArr = (dds_sample_info[]) infosPtr.toArray(1);
             
@@ -128,20 +129,20 @@ public class DdscLibraryTest {
                     //Print Message
                     HelloWorldData_Msg[] msgArray = (HelloWorldData_Msg[])arrayMsgRef.toArray(1);                    
                     System.err.println("=== [Subscriber] Received : ");
-                    System.err.println("Message ("+ msgArray[0].userID+","+ msgArray[0].message+")");                                        
+                    System.err.println("Message ("+ msgArray[0].userID+","+ msgArray[0].message.getString(0)+")");
                     break;
                 }
                 else
                 {
-                    System.out.println("\n###\n---> samples:" + arrayMsgRef+"#\n---> infos:"+infosArr[0]);
-                    System.out.println("Sleep 10mss");
                     //Polling sleep
-                    int milliSeconds = 10000;
+                    int milliSeconds = 20;
                     org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_sleepfor(milliSeconds*1000000L);
                 }
             }
 
-            /* Free the data location. */
+            /*
+            TODO: check if really needed
+            Free the data location.
             org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_sample_free(
                 samplesAlloc,
                 new org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_topic_descriptor(
@@ -168,7 +169,7 @@ public class DdscLibraryTest {
             System.out.println("STARTING SUBSCRIBER");
             Subscriber s = new Subscriber();
             s.start();        
-            sleep(5000);
+            sleep(100);
 
             System.out.println("END");            
         } catch (Exception e) {
