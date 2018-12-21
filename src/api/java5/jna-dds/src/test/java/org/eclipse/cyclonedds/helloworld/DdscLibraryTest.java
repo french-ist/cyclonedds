@@ -3,6 +3,7 @@ package org.eclipse.cyclonedds.helloworld;
 import java.nio.IntBuffer;
 
 import com.sun.jna.Native;
+import com.sun.jna.Pointer;
 import com.sun.jna.ptr.PointerByReference;
 
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
@@ -95,13 +96,12 @@ public class DdscLibraryTest {
             System.out.println("\n=== [Subscriber] Waiting for a sample ...");
             
             /*
-             * TODO: check if really needed 
              * Initialize sample buffer, by pointing the void pointer within
              * the buffer array to a valid sample memory location. */
             //samples[0] = HelloWorldData_Msg__alloc ();
-            /*Pointer samplesAlloc = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary
-                .dds_alloc(helper.getNativeSize("HelloWorldData_Msg"));*/
-            PointerByReference samplePtr = new PointerByReference();
+            Pointer samplesAlloc = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary
+                .dds_alloc(helper.getNativeSize("HelloWorldData_Msg"));
+            PointerByReference samplePtr = new PointerByReference(samplesAlloc);
             dds_sample_info.ByReference infosPtr = new  dds_sample_info.ByReference();
             dds_sample_info[] infosArr = (dds_sample_info[]) infosPtr.toArray(1);
             
@@ -129,13 +129,10 @@ public class DdscLibraryTest {
                 }
             }
 
-            /*
-            TODO: check if really needed
-            Free the data location.
+            /* Free the data location. */
             org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_sample_free(
-                samplesAlloc,
-                new org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_topic_descriptor(
-                    helper.getHelloWorldData_Msg_desc().getPointer()),
+                samplesAlloc, 
+                helper.getHelloWorldData_Msg_desc(),
                 org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_free_op_t.DDS_FREE_ALL);
 
             /* Deleting the participant will delete all its children recursively as well. */
