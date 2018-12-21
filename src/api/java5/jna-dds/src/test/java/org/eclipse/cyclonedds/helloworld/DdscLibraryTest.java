@@ -1,87 +1,75 @@
 package org.eclipse.cyclonedds.helloworld;
 
-
 import java.nio.IntBuffer;
 
 import com.sun.jna.Native;
-import com.sun.jna.Pointer;
 import com.sun.jna.ptr.PointerByReference;
 
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 import org.eclipse.cyclonedds.ddsc.dds.dds_sample_info;
-import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_listener_t;
-import org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qos_t;
 import org.eclipse.cyclonedds.helper.NativeSize;
 import org.junit.Test;
 
 public class DdscLibraryTest {
 
+    int DDS_CHECK_REPORT = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_REPORT;
+    int DDS_CHECK_EXIT = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_EXIT;
+    HelloWorldData_Helper helper = new HelloWorldData_Helper();
+
     private class Publisher extends Thread {
 
-        HelloWorldData_Helper helper = new HelloWorldData_Helper();
-
-        public Publisher() {
-        }
+        public Publisher() {}
 
         public void run() {
-            // creating participant
-            int part  = DdscLibrary.dds_create_participant(0, null, null);
+            /* Create a Participant. */
+            int part = DdscLibrary.dds_create_participant (0, null, null);
+            helper.dds_error_check(part, DDS_CHECK_REPORT | DDS_CHECK_EXIT);
 
-            // creating topic
-            
+            /* Create a Topic. */
             int topic = DdscLibrary.dds_create_topic(part,
                 helper.getHelloWorldData_Msg_desc(), "HelloWorldData_Msg", null, null);
+            helper.dds_error_check(topic, DDS_CHECK_REPORT | DDS_CHECK_EXIT);
 
-            // creating writer
-            int writer = DdscLibrary.dds_create_writer(part, topic, null, (DdscLibrary.dds_listener_t) null);
+            /* Create a Writer. */
+            int writer = DdscLibrary.dds_create_writer(part, topic, null, null);
 
-            // check error
-            int ret = DdscLibrary.dds_set_enabled_status(writer,
-                    DdscLibrary.DDS_PUBLICATION_MATCHED_STATUS);
+            System.out.println("=== [Publisher]  Waiting for a reader to be discovered ...\n");
 
-            //TODO check if ret == DdsCLibrary.DD_RETCODE_SUCCESS
+            DdscLibrary.dds_set_enabled_status(writer, DdscLibrary.DDS_PUBLICATION_MATCHED_STATUS);
+            helper.dds_error_check(topic, DDS_CHECK_REPORT | DDS_CHECK_EXIT);
 
             while (true) {
                 IntBuffer status = IntBuffer.allocate(Native.getNativeSize(Integer.class));
-                ret = DdscLibrary.dds_get_status_changes(writer, status);
-
-                // DDS_ERR_CHECK (ret, DDS_CHECK_REPORT | DDS_CHECK_EXIT);
+                int ret = DdscLibrary.dds_get_status_changes(writer, status);
+                helper.dds_error_check(ret, DDS_CHECK_REPORT | DDS_CHECK_EXIT);
 
                 if (status.get() == DdscLibrary.DDS_PUBLICATION_MATCHED_STATUS) {
                     System.out.println("DDS_PUBLICATION_MATCHED_STATUS");
                     break;
                 }
-                sleep(1000);
+
+                /* Polling sleep. */
+                int milliSeconds = 20;
+                org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_sleepfor(milliSeconds*1000000L);
             }
 
-            // create message to write
+            /* Create a message to write. */
             HelloWorldData_Msg.ByReference msg = new HelloWorldData_Msg.ByReference();
             msg.userID = 1;
             msg.message = helper.stringToPointer("Hello World!");
+            msg.write();
             System.out.println("=== [Publisher]  Writing : ");
             System.out.println("Message (" + msg.userID + ", " + msg.message.getString(0) + ")");
 
-            ret = DdscLibrary.dds_write(writer, msg.getPointer());
-            // DDS_ERR_CHECK (ret, DDS_CHECK_REPORT | DDS_CHECK_EXIT);
+            int ret = DdscLibrary.dds_write(writer, msg.getPointer());
+            helper.dds_error_check(ret, DDS_CHECK_REPORT | DDS_CHECK_EXIT);
 
+            /* Deleting the participant will delete all its children recursively as well. */
             ret = DdscLibrary.dds_delete(part);
-        }
-
-        public void sleep(int s){
-            try {
-                Thread.sleep(s);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 
     private class Subscriber extends Thread {
-
-        int DDS_CHECK_REPORT = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_REPORT;
-        int DDS_CHECK_EXIT = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_EXIT;
-
-        HelloWorldData_Helper helper = new HelloWorldData_Helper();
 
         public void run(){
             /* Create a Participant. */
@@ -159,17 +147,16 @@ public class DdscLibraryTest {
     @Test
     public void helloWorldTest() {
         try {            
-            /*
-            System.out.println("STARTING PUBLISHER");
-            Publisher p = new Publisher();
-            p.start();
-            sleep(5000);
-            */
             
             System.out.println("STARTING SUBSCRIBER");
             Subscriber s = new Subscriber();
             s.start();        
-            sleep(100);
+            sleep(2000);
+
+            System.out.println("STARTING PUBLISHER");
+            Publisher p = new Publisher();
+            p.start();
+            sleep(2000);
 
             System.out.println("END");            
         } catch (Exception e) {
