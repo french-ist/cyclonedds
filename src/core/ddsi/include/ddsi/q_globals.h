@@ -18,11 +18,11 @@
 
 #include "util/ut_fibheap.h"
 
-
 #include "ddsi/q_plist.h"
 #include "ddsi/q_protocol.h"
 #include "ddsi/q_nwif.h"
 #include "ddsi/q_sockwaitset.h"
+#include "ddsi/ddsi_iid.h"
 
 #ifdef DDSI_INCLUDE_ENCRYPTION
 #include "ddsi/q_security.h" /* for q_securityDecoderSet */
@@ -33,7 +33,7 @@ extern "C" {
 #endif
 
 struct nn_xmsgpool;
-struct serstatepool;
+struct serdatapool;
 struct nn_dqueue;
 struct nn_reorder;
 struct nn_defrag;
@@ -47,7 +47,7 @@ struct ddsi_tran_listener;
 struct ddsi_tran_factory;
 struct ut_thread_pool_s;
 struct debug_monitor;
-struct tkmap;
+struct ddsi_tkmap;
 
 typedef struct ospl_in_addr_node {
    nn_locator_t loc;
@@ -90,7 +90,8 @@ struct q_globals {
   volatile int deaf;
   volatile int mute;
 
-  struct tkmap * m_tkmap;
+  struct ddsi_tkmap * m_tkmap;
+  struct ddsi_iid dds_iid;
 
   /* Hash tables for participants, readers, writers, proxy
      participants, proxy readers and proxy writers by GUID
@@ -275,8 +276,15 @@ struct q_globals {
 
   /* Transmit side: pools for the serializer & transmit messages and a
      transmit queue*/
-  struct serstatepool *serpool;
+  struct serdatapool *serpool;
   struct nn_xmsgpool *xmsgpool;
+  struct ddsi_sertopic *plist_topic; /* used for all discovery data */
+  struct ddsi_sertopic *rawcdr_topic; /* used for participant message data */
+
+  /* Sertopics for built-in topics -- FIXME: these really have little to do with topics, but everything with topic types, in other words, they are the type supports in DDS ... so a bit of refactoring is required */
+  struct ddsi_sertopic *builtin_participant_topic;
+  struct ddsi_sertopic *builtin_reader_topic;
+  struct ddsi_sertopic *builtin_writer_topic;
 
   /* Network ID needed by v_groupWrite -- FIXME: might as well pass it
      to the receive thread instead of making it global (and that would
@@ -306,13 +314,6 @@ struct q_globals {
   os_timePowerEvents powerEvents;
 
   struct nn_group_membership *mship;
-
-  /* Static log buffer, for those rare cases a thread calls nn_vlogb
-     without having its own log buffer (happens during config file
-     processing and for listeners, &c. */
-  int static_logbuf_lock_inited;
-  os_mutex static_logbuf_lock;
-  struct logbuf static_logbuf;
 };
 
 extern struct q_globals OSAPI_EXPORT gv;

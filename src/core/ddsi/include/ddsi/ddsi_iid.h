@@ -9,29 +9,28 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-/* TODO: do we really need to expose this as an API? */
+#ifndef _DDS_IID_H_
+#define _DDS_IID_H_
 
-/** @file
- *
- * @brief DDS C Logging API
- *
- * This header file defines the public API for logging in the
- * CycloneDDS C language binding.
- */
-#ifndef DDS_LOG_H
-#define DDS_LOG_H
-
-#include "os/os_public.h"
-#include "ddsc/dds_export.h"
+#include "os/os.h"
 
 #if defined (__cplusplus)
 extern "C" {
 #endif
 
-DDS_EXPORT void dds_log_info (const char * fmt, ...);
-DDS_EXPORT void dds_log_warn (const char * fmt, ...);
-DDS_EXPORT void dds_log_error (const char * fmt, ...);
-DDS_EXPORT void dds_log_fatal (const char * fmt, ...);
+struct ddsi_iid {
+#if OS_ATOMIC64_SUPPORT
+  os_atomic_uint64_t counter;
+#else
+  os_mutex lock;
+  uint64_t counter;
+#endif
+  uint32_t key[4];
+};
+
+void ddsi_iid_init (void);
+void ddsi_iid_fini (void);
+uint64_t ddsi_iid_gen (void);
 
 #if defined (__cplusplus)
 }

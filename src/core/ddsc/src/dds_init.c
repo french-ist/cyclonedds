@@ -12,20 +12,18 @@
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
-#include <os/os.h>
-#include <os/os_report.h>
+#include "os/os.h"
 #include "dds__init.h"
 #include "dds__rhc.h"
-#include "dds__tkmap.h"
-#include "dds__iid.h"
 #include "dds__domain.h"
 #include "dds__err.h"
 #include "dds__builtin.h"
-#include "dds__report.h"
-#include "ddsi/ddsi_ser.h"
+#include "ddsi/ddsi_iid.h"
+#include "ddsi/ddsi_tkmap.h"
+#include "ddsi/ddsi_serdata.h"
 #include "ddsi/q_servicelease.h"
 #include "ddsi/q_entity.h"
-#include <ddsi/q_config.h>
+#include "ddsi/q_config.h"
 #include "ddsc/ddsc_project.h"
 
 #ifdef _WRS_KERNEL
@@ -54,8 +52,6 @@ dds_init(dds_domainid_t domain)
   os_osInit();
   init_mutex = os_getSingletonMutex();
 
-  DDS_REPORT_STACK();
-
   os_mutexLock(init_mutex);
 
   dds_global.m_init_count++;
@@ -66,16 +62,13 @@ dds_init(dds_domainid_t domain)
 
   if (ut_handleserver_init() != UT_HANDLE_OK)
   {
-    ret = DDS_ERRNO(DDS_RETCODE_ERROR, "Failed to initialize internal handle server");
+    DDS_ERROR("Failed to initialize internal handle server\n");
+    ret = DDS_ERRNO(DDS_RETCODE_ERROR);
     goto fail_handleserver;
   }
 
   gv.tstart = now ();
   gv.exception = false;
-  gv.static_logbuf_lock_inited = 0;
-  logbuf_init (&gv.static_logbuf);
-  os_mutexInit (&gv.static_logbuf_lock);
-  gv.static_logbuf_lock_inited = 1;
   os_mutexInit (&dds_global.m_mutex);
   thread_states_init_static();
 
@@ -83,7 +76,8 @@ dds_init(dds_domainid_t domain)
   dds_cfgst = config_init (uri);
   if (dds_cfgst == NULL)
   {
-    ret = DDS_ERRNO(DDS_RETCODE_ERROR, "Failed to parse configuration XML file %s", uri);
+    DDS_ERROR("Failed to parse configuration XML file %s\n", uri);
+    ret = DDS_ERRNO(DDS_RETCODE_ERROR);
     goto fail_config;
   }
 
@@ -92,8 +86,9 @@ dds_init(dds_domainid_t domain)
   {
     if (domain < 0 || domain > 230)
     {
-      ret = DDS_ERRNO(DDS_RETCODE_ERROR, "requested domain id %d is out of range", domain);
-      goto fail_config;
+      DDS_ERROR("requested domain id %d is out of range\n", domain);
+      ret = DDS_ERRNO(DDS_RETCODE_ERROR);
+      goto fail_config_domainid;
     }
     else if (config.domainId.isdefault)
     {
@@ -101,8 +96,9 @@ dds_init(dds_domainid_t domain)
     }
     else if (domain != config.domainId.value)
     {
-      ret = DDS_ERRNO(DDS_RETCODE_ERROR, "requested domain id %d is inconsistent with configured value %d", domain, config.domainId.value);
-      goto fail_config;
+      DDS_ERROR("requested domain id %d is inconsistent with configured value %d\n", domain, config.domainId.value);
+      ret = DDS_ERRNO(DDS_RETCODE_ERROR);
+      goto fail_config_domainid;
     }
   }
 
@@ -114,7 +110,8 @@ dds_init(dds_domainid_t domain)
 
   if (rtps_config_prep(dds_cfgst) != 0)
   {
-    ret = DDS_ERRNO(DDS_RETCODE_ERROR, "Failed to configure RTPS.");
+    DDS_ERROR("Failed to configure RTPS\n");
+    ret = DDS_ERRNO(DDS_RETCODE_ERROR);
     goto fail_rtps_config;
   }
 
@@ -128,21 +125,26 @@ dds_init(dds_domainid_t domain)
     gv.servicelease = nn_servicelease_new(0, 0);
     if (gv.servicelease == NULL)
     {
-      ret = DDS_ERRNO(DDS_RETCODE_OUT_OF_RESOURCES, "Failed to create a servicelease.");
+      DDS_ERROR("Failed to create a servicelease\n");
+      ret = DDS_ERRNO(DDS_RETCODE_OUT_OF_RESOURCES);
       goto fail_servicelease_new;
-    }
-    if (nn_servicelease_start_renewing(gv.servicelease) < 0)
-    {
-      ret = DDS_ERRNO(DDS_RETCODE_ERROR, "Failed to start the servicelease.");
-      goto fail_servicelease_start;
     }
   }
 
   if (rtps_init() < 0)
   {
-    ret = DDS_ERRNO(DDS_RETCODE_ERROR, "Failed to initialize RTPS.");
+    DDS_ERROR("Failed to initialize RTPS\n");
+    ret = DDS_ERRNO(DDS_RETCODE_ERROR);
     goto fail_rtps_init;
   }
+
+  if (gv.servicelease && nn_servicelease_start_renewing(gv.servicelease) < 0)
+  {
+    DDS_ERROR("Failed to start the servicelease\n");
+    ret = DDS_ERRNO(DDS_RETCODE_ERROR);
+    goto fail_servicelease_start;
+  }
+
   upgrade_main_thread();
 
   /* Set additional default participant properties */
@@ -172,35 +174,35 @@ dds_init(dds_domainid_t domain)
 
 skip:
   os_mutexUnlock(init_mutex);
-  DDS_REPORT_FLUSH(false);
   return DDS_RETCODE_OK;
 
-fail_rtps_init:
 fail_servicelease_start:
   if (gv.servicelease)
+    nn_servicelease_stop_renewing (gv.servicelease);
+  rtps_term ();
+fail_rtps_init:
+  if (gv.servicelease)
+  {
     nn_servicelease_free (gv.servicelease);
-  gv.servicelease = NULL;
+    gv.servicelease = NULL;
+  }
 fail_servicelease_new:
   thread_states_fini();
 fail_rtps_config:
   dds__builtin_fini();
+fail_config_domainid:
   dds_global.m_default_domain = DDS_DOMAIN_DEFAULT;
   config_fini (dds_cfgst);
   dds_cfgst = NULL;
 fail_config:
-  gv.static_logbuf_lock_inited = 0;
-  os_mutexDestroy (&gv.static_logbuf_lock);
   os_mutexDestroy (&dds_global.m_mutex);
   ut_handleserver_fini();
 fail_handleserver:
   dds_global.m_init_count--;
   os_mutexUnlock(init_mutex);
-  DDS_REPORT_FLUSH(true);
   os_osExit();
   return ret;
 }
-
-
 
 extern void dds_fini (void)
 {
@@ -213,6 +215,8 @@ extern void dds_fini (void)
   {
     dds__builtin_fini();
 
+    if (gv.servicelease)
+      nn_servicelease_stop_renewing (gv.servicelease);
     rtps_term ();
     if (gv.servicelease)
       nn_servicelease_free (gv.servicelease);
@@ -222,7 +226,6 @@ extern void dds_fini (void)
 
     config_fini (dds_cfgst);
     dds_cfgst = NULL;
-    os_mutexDestroy (&gv.static_logbuf_lock);
     os_mutexDestroy (&dds_global.m_mutex);
     ut_handleserver_fini();
     dds_global.m_default_domain = DDS_DOMAIN_DEFAULT;
@@ -237,7 +240,6 @@ extern void dds_fini (void)
 
 static int dds__init_plugin (void)
 {
-  dds_iid_init ();
   if (dds_global.m_dur_init) (dds_global.m_dur_init) ();
   return 0;
 }
@@ -245,17 +247,14 @@ static int dds__init_plugin (void)
 static void dds__fini_plugin (void)
 {
   if (dds_global.m_dur_fini) (dds_global.m_dur_fini) ();
-  dds_iid_fini ();
 }
 
 void ddsi_plugin_init (void)
 {
-  /* Register initialization/clean functions */
-
   ddsi_plugin.init_fn = dds__init_plugin;
   ddsi_plugin.fini_fn = dds__fini_plugin;
 
-  /* Register read cache functions */
+  ddsi_plugin.builtin_write = dds__builtin_write;
 
   ddsi_plugin.rhc_plugin.rhc_free_fn = dds_rhc_free;
   ddsi_plugin.rhc_plugin.rhc_fini_fn = dds_rhc_fini;
@@ -263,12 +262,6 @@ void ddsi_plugin_init (void)
   ddsi_plugin.rhc_plugin.rhc_unregister_wr_fn = dds_rhc_unregister_wr;
   ddsi_plugin.rhc_plugin.rhc_relinquish_ownership_fn = dds_rhc_relinquish_ownership;
   ddsi_plugin.rhc_plugin.rhc_set_qos_fn = dds_rhc_set_qos;
-  ddsi_plugin.rhc_plugin.rhc_lookup_fn = dds_tkmap_lookup_instance_ref;
-  ddsi_plugin.rhc_plugin.rhc_unref_fn = dds_tkmap_instance_unref;
-
-  /* Register iid generator */
-
-  ddsi_plugin.iidgen_fn = dds_iid_gen;
 }
 
 
@@ -291,9 +284,9 @@ dds__check_domain(
     /* Specific domain has to be the same as the configured domain. */
     if (domain != dds_global.m_default_domain)
     {
-      ret = DDS_ERRNO(DDS_RETCODE_ERROR,
-                      "Inconsistent domain configuration detected: domain on configuration: %d, domain %d",
-                      dds_global.m_default_domain, domain);
+      DDS_ERROR("Inconsistent domain configuration detected: domain on "
+                "configuration: %d, domain %d\n", dds_global.m_default_domain, domain);
+      ret = DDS_ERRNO(DDS_RETCODE_ERROR);
     }
   }
   return ret;

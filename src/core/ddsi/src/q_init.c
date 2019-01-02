@@ -50,15 +50,17 @@
 
 #include "ddsi/sysdeps.h"
 
-#include "ddsi/ddsi_ser.h"
 #include "ddsi/ddsi_tran.h"
 #include "ddsi/ddsi_udp.h"
 #include "ddsi/ddsi_tcp.h"
 #include "ddsi/ddsi_raweth.h"
 #include "ddsi/ddsi_mcgroup.h"
+#include "ddsi/ddsi_serdata_default.h"
+#include "ddsi/ddsi_serdata_builtin.h"
 
-#include "dds__tkmap.h"
+#include "ddsi/ddsi_tkmap.h"
 #include "dds__whc.h"
+#include "ddsi/ddsi_iid.h"
 
 static void add_peer_addresses (struct addrset *as, const struct config_peer_listelem *list)
 {
@@ -96,7 +98,7 @@ static int make_uc_sockets (uint32_t * pdisc, uint32_t * pdata, int ppid)
   }
   else
   {
-    NN_FATAL ("make_uc_sockets: invalid participant index %d\n", ppid);
+    DDS_FATAL("make_uc_sockets: invalid participant index %d\n", ppid);
     return -1;
   }
 
@@ -149,7 +151,7 @@ static int set_recvips (void)
 #if OS_SOCKET_HAS_IPV6
       if (gv.ipv6_link_local)
       {
-        NN_WARNING ("DDSI2EService/General/MulticastRecvNetworkInterfaceAddresses: using 'preferred' instead of 'all' because of IPv6 link-local address\n");
+        DDS_WARNING("DDSI2EService/General/MulticastRecvNetworkInterfaceAddresses: using 'preferred' instead of 'all' because of IPv6 link-local address\n");
         gv.recvips_mode = RECVIPS_MODE_PREFERRED;
       }
       else
@@ -163,7 +165,7 @@ static int set_recvips (void)
 #if OS_SOCKET_HAS_IPV6
       if (gv.ipv6_link_local)
       {
-        NN_ERROR ("DDSI2EService/General/MulticastRecvNetworkInterfaceAddresses: 'any' is unsupported in combination with an IPv6 link-local address\n");
+        DDS_ERROR("DDSI2EService/General/MulticastRecvNetworkInterfaceAddresses: 'any' is unsupported in combination with an IPv6 link-local address\n");
         return -1;
       }
 #endif
@@ -189,7 +191,7 @@ static int set_recvips (void)
         nn_locator_t loc;
         if (ddsi_locator_from_string(&loc, config.networkRecvAddressStrings[i]) != AFSR_OK)
         {
-          NN_ERROR ("%s: not a valid address in DDSI2EService/General/MulticastRecvNetworkInterfaceAddresses\n", config.networkRecvAddressStrings[i]);
+          DDS_ERROR("%s: not a valid address in DDSI2EService/General/MulticastRecvNetworkInterfaceAddresses\n", config.networkRecvAddressStrings[i]);
           return -1;
         }
         if (compare_locators(&loc, &gv.interfaces[gv.selected_interface].loc) == 0)
@@ -200,7 +202,7 @@ static int set_recvips (void)
       gv.recvips_mode = have_selected ? RECVIPS_MODE_PREFERRED : RECVIPS_MODE_NONE;
       if (have_others)
       {
-        NN_WARNING ("DDSI2EService/General/MulticastRecvNetworkInterfaceAddresses: using 'preferred' because of IPv6 local address\n");
+        DDS_WARNING("DDSI2EService/General/MulticastRecvNetworkInterfaceAddresses: using 'preferred' because of IPv6 local address\n");
       }
     }
 #endif
@@ -214,7 +216,7 @@ static int set_recvips (void)
         nn_locator_t loc;
         if (ddsi_locator_from_string(&loc, config.networkRecvAddressStrings[i]) != AFSR_OK)
         {
-          NN_ERROR ("%s: not a valid address in DDSI2EService/General/MulticastRecvNetworkInterfaceAddresses\n", config.networkRecvAddressStrings[i]);
+          DDS_ERROR("%s: not a valid address in DDSI2EService/General/MulticastRecvNetworkInterfaceAddresses\n", config.networkRecvAddressStrings[i]);
           return -1;
         }
         for (j = 0; j < gv.n_interfaces; j++)
@@ -224,7 +226,7 @@ static int set_recvips (void)
         }
         if (j == gv.n_interfaces)
         {
-          NN_ERROR ("No interface bound to requested address '%s'\n", config.networkRecvAddressStrings[i]);
+          DDS_ERROR("No interface bound to requested address '%s'\n", config.networkRecvAddressStrings[i]);
           return -1;
         }
         *recvnode = os_malloc (sizeof (struct ospl_in_addr_node));
@@ -255,13 +257,13 @@ static int string_to_default_locator (nn_locator_t *loc, const char *string, uin
     case AFSR_OK:
       break;
     case AFSR_INVALID:
-      NN_ERROR ("%s: not a valid address (%s)\n", string, tag);
+      DDS_ERROR("%s: not a valid address (%s)\n", string, tag);
       return -1;
     case AFSR_UNKNOWN:
-      NN_ERROR ("%s: address name resolution failure (%s)\n", string, tag);
+      DDS_ERROR("%s: address name resolution failure (%s)\n", string, tag);
       return -1;
     case AFSR_MISMATCH:
-      NN_ERROR ("%s: invalid address kind (%s)\n", string, tag);
+      DDS_ERROR("%s: invalid address kind (%s)\n", string, tag);
       return -1;
   }
   if (port != 0 && !is_unspec_locator(loc))
@@ -275,7 +277,7 @@ static int string_to_default_locator (nn_locator_t *loc, const char *string, uin
     const int ismc = is_unspec_locator (loc) || ddsi_is_mcaddr (loc);
     if (mc != ismc)
     {
-      NN_ERROR ("%s: %s %s be the unspecified address or a multicast address\n", string, tag, rel);
+      DDS_ERROR("%s: %s %s be the unspecified address or a multicast address\n", string, tag, rel);
       return -1;
     }
   }
@@ -307,7 +309,7 @@ static int set_spdp_address (void)
 #ifdef DDSI_INCLUDE_SSM
   if (gv.loc_spdp_mc.kind != NN_LOCATOR_KIND_INVALID && ddsi_is_ssm_mcaddr (&gv.loc_spdp_mc))
   {
-    NN_ERROR ("%s: SPDP address may not be an SSM address\n", config.spdpMulticastAddressString);
+    DDS_ERROR("%s: SPDP address may not be an SSM address\n", config.spdpMulticastAddressString);
     return -1;
   }
 #endif
@@ -348,7 +350,7 @@ static int set_ext_address_and_mask (void)
   else if ((rc = string_to_default_locator (&loc, config.externalAddressString, 0, 0, "external address")) < 0)
     return rc;
   else if (rc == 0) {
-    NN_WARNING ("Ignoring ExternalNetworkAddress %s\n", config.externalAddressString);
+    DDS_WARNING("Ignoring ExternalNetworkAddress %s\n", config.externalAddressString);
     gv.extloc = gv.ownloc;
   } else {
     gv.extloc = loc;
@@ -362,7 +364,7 @@ static int set_ext_address_and_mask (void)
   }
   else if (config.transport_selector != TRANS_UDP)
   {
-    NN_ERROR ("external network masks only supported in IPv4 mode\n");
+    DDS_ERROR("external network masks only supported in IPv4 mode\n");
     return -1;
   }
   else
@@ -412,11 +414,11 @@ static int check_thread_properties (void)
       }
       if (chanprefix[i] == NULL)
       {
-        NN_ERROR ("config: DDSI2Service/Threads/Thread[@name=\"%s\"]: unknown thread\n", e->name);
+        DDS_ERROR("config: DDSI2Service/Threads/Thread[@name=\"%s\"]: unknown thread\n", e->name);
         ok = 0;
       }
 #else
-      NN_ERROR ("config: DDSI2Service/Threads/Thread[@name=\"%s\"]: unknown thread\n", e->name);
+      DDS_ERROR("config: DDSI2Service/Threads/Thread[@name=\"%s\"]: unknown thread\n", e->name);
       ok = 0;
 #endif /* DDSI_INCLUDE_NETWORK_CHANNELS */
     }
@@ -446,13 +448,17 @@ int rtps_config_open (void)
     }
     else if ((config.tracingOutputFile = fopen (config.tracingOutputFileName, config.tracingAppendToFile ? "a" : "w")) == NULL)
     {
-        NN_ERROR ("%s: cannot open for writing\n", config.tracingOutputFileName);
+        DDS_ERROR("%s: cannot open for writing\n", config.tracingOutputFileName);
         status = 0;
     }
     else
     {
         status = 1;
     }
+
+    dds_set_log_mask(config.enabled_logcats);
+    dds_set_log_file(config.tracingOutputFile);
+    dds_set_trace_file(config.tracingOutputFile);
 
     return status;
 }
@@ -471,7 +477,7 @@ int rtps_config_prep (struct cfgst *cfgst)
       config.whc_init_highwater_mark.value < config.whc_lowwater_mark ||
       config.whc_init_highwater_mark.value > config.whc_highwater_mark)
   {
-    NN_ERROR ("Invalid watermark settings\n");
+    DDS_ERROR("Invalid watermark settings\n");
     goto err_config_late_error;
   }
 
@@ -483,7 +489,7 @@ int rtps_config_prep (struct cfgst *cfgst)
        inherited by readers/writers), but in many sockets mode each
        participant has its own socket, and therefore unique address
        set */
-    NN_ERROR ("Minimal built-in endpoint set mode and ManySocketsMode are incompatible\n");
+    DDS_ERROR("Minimal built-in endpoint set mode and ManySocketsMode are incompatible\n");
     goto err_config_late_error;
   }
 
@@ -509,7 +515,7 @@ int rtps_config_prep (struct cfgst *cfgst)
     {
       double max = (double) config.auxiliary_bandwidth_limit * ((double) config.nack_delay / 1e9);
       if (max < 0)
-        NN_FATAL ("AuxiliaryBandwidthLimit * NackDelay = %g bytes is insane\n", max);
+        DDS_FATAL("AuxiliaryBandwidthLimit * NackDelay = %g bytes is insane\n", max);
       if (max > 2147483647.0)
         config.max_queued_rexmit_bytes = 2147483647u;
       else
@@ -523,7 +529,7 @@ int rtps_config_prep (struct cfgst *cfgst)
   /* Verify thread properties refer to defined threads */
   if (!check_thread_properties ())
   {
-    NN_ERROR ("Could not initialise configuration\n");
+    DDS_ERROR("Could not initialise configuration\n");
     goto err_config_late_error;
   }
 
@@ -534,7 +540,7 @@ int rtps_config_prep (struct cfgst *cfgst)
    have chosen the latter. */
   if (config.useIpv6)
   {
-    NN_ERROR ("IPv6 addressing requested but not supported on this platform\n");
+    DDS_ERROR("IPv6 addressing requested but not supported on this platform\n");
     goto err_config_late_error;
   }
 #endif
@@ -559,7 +565,7 @@ int rtps_config_prep (struct cfgst *cfgst)
 
       if (config.transport_selector != TRANS_UDP && chptr->diffserv_field != 0)
       {
-        NN_ERROR ("channel %s specifies IPv4 DiffServ settings which is incompatible with IPv6 use\n",
+        DDS_ERROR("channel %s specifies IPv4 DiffServ settings which is incompatible with IPv6 use\n",
                    chptr->name);
         error = 1;
       }
@@ -583,7 +589,7 @@ int rtps_config_prep (struct cfgst *cfgst)
    printed */
   if (! rtps_config_open ())
   {
-    NN_ERROR ("Could not initialise configuration\n");
+    DDS_ERROR("Could not initialise configuration\n");
     goto err_config_late_error;
   }
 
@@ -654,7 +660,7 @@ int joinleave_spdp_defmcip (int dojoin)
   unref_addrset (as);
   if (arg.errcount)
   {
-    NN_ERROR ("rtps_init: failed to join multicast groups for domain %d participant %d\n", config.domainId.value, config.participantIndex);
+    DDS_ERROR("rtps_init: failed to join multicast groups for domain %d participant %d\n", config.domainId.value, config.participantIndex);
     return -1;
   }
   return 0;
@@ -686,8 +692,8 @@ int create_multicast_sockets(void)
 
   gv.disc_conn_mc = disc;
   gv.data_conn_mc = data;
-  TRACE (("Multicast Ports: discovery %d data %d \n",
-          ddsi_tran_port (gv.disc_conn_mc), ddsi_tran_port (gv.data_conn_mc)));
+  DDS_TRACE("Multicast Ports: discovery %d data %d \n",
+          ddsi_tran_port (gv.disc_conn_mc), ddsi_tran_port (gv.data_conn_mc));
   return 1;
 
 err_data:
@@ -735,7 +741,7 @@ static void wait_for_receive_threads (void)
     /* retrying is to deal a packet geting lost because the socket buffer is full or because the
        macOS firewall (and perhaps others) likes to ask if the process is allowed to receive data,
        dropping the packets until the user approves. */
-    NN_WARNING ("wait_for_receive_threads: failed to schedule periodic triggering of the receive threads to deal with packet loss\n");
+    DDS_WARNING("wait_for_receive_threads: failed to schedule periodic triggering of the receive threads to deal with packet loss\n");
   }
   for (i = 0; i < gv.n_recv_threads; i++)
   {
@@ -750,6 +756,46 @@ static void wait_for_receive_threads (void)
   {
     delete_xevent (trigev);
   }
+}
+
+static struct ddsi_sertopic *make_special_topic (uint16_t enc_id, const struct ddsi_serdata_ops *ops)
+{
+  /* FIXME: two things (at least)
+     - it claims there is a key, but the underlying type description is missing
+       that only works as long as it ends up comparing the keyhash field ...
+       the keyhash field should be eliminated; but this can simply be moved over to an alternate
+       topic class, it need not use the "default" one, that's mere expediency
+     - initialising/freeing them here, in this manner, is not very clean
+       it should be moved to somewhere in the topic implementation
+       (kinda natural if they stop being "default" ones) */
+  struct ddsi_sertopic_default *st = os_malloc (sizeof (*st));
+  memset (st, 0, sizeof (*st));
+  os_atomic_st32 (&st->c.refc, 1);
+  st->c.ops = &ddsi_sertopic_ops_default;
+  st->c.serdata_ops = ops;
+  st->c.serdata_basehash = ddsi_sertopic_compute_serdata_basehash (st->c.serdata_ops);
+  st->c.iid = ddsi_iid_gen ();
+  st->native_encoding_identifier = enc_id;
+  st->nkeys = 1;
+  return (struct ddsi_sertopic *)st;
+}
+
+static void make_special_topics (void)
+{
+  gv.plist_topic = make_special_topic (PLATFORM_IS_LITTLE_ENDIAN ? PL_CDR_LE : PL_CDR_BE, &ddsi_serdata_ops_plist);
+  gv.rawcdr_topic = make_special_topic (PLATFORM_IS_LITTLE_ENDIAN ? CDR_LE : CDR_BE, &ddsi_serdata_ops_rawcdr);
+  gv.builtin_participant_topic = new_sertopic_builtin (DSBT_PARTICIPANT, "DCPSParticipant", "org::eclipse::cyclonedds::builtin::DCPSParticipant");
+  gv.builtin_reader_topic = new_sertopic_builtin (DSBT_READER, "DCPSSubscription", "org::eclipse::cyclonedds::builtin::DCPSSubscription");
+  gv.builtin_writer_topic = new_sertopic_builtin (DSBT_WRITER, "DCPSPublication", "org::eclipse::cyclonedds::builtin::DCPSPublication");
+}
+
+static void free_special_topics (void)
+{
+  ddsi_sertopic_unref (gv.plist_topic);
+  ddsi_sertopic_unref (gv.rawcdr_topic);
+  ddsi_sertopic_unref (gv.builtin_participant_topic);
+  ddsi_sertopic_unref (gv.builtin_reader_topic);
+  ddsi_sertopic_unref (gv.builtin_writer_topic);
 }
 
 static int setup_and_start_recv_threads (void)
@@ -801,20 +847,20 @@ static int setup_and_start_recv_threads (void)
        it before it does anything with it. */
     if ((gv.recv_threads[i].arg.rbpool = nn_rbufpool_new (config.rbuf_size, config.rmsg_chunk_size)) == NULL)
     {
-      NN_ERROR ("rtps_init: can't allocate receive buffer pool for thread %s\n", gv.recv_threads[i].name);
+      DDS_ERROR("rtps_init: can't allocate receive buffer pool for thread %s\n", gv.recv_threads[i].name);
       goto fail;
     }
     if (gv.recv_threads[i].arg.mode == RTM_MANY)
     {
       if ((gv.recv_threads[i].arg.u.many.ws = os_sockWaitsetNew ()) == NULL)
       {
-        NN_ERROR ("rtps_init: can't allocate sock waitset for thread %s\n", gv.recv_threads[i].name);
+        DDS_ERROR("rtps_init: can't allocate sock waitset for thread %s\n", gv.recv_threads[i].name);
         goto fail;
       }
     }
     if ((gv.recv_threads[i].ts = create_thread (gv.recv_threads[i].name, recv_thread, &gv.recv_threads[i].arg)) == NULL)
     {
-      NN_ERROR ("rtps_init: failed to start thread %s\n", gv.recv_threads[i].name);
+      DDS_ERROR("rtps_init: failed to start thread %s\n", gv.recv_threads[i].name);
       goto fail;
     }
   }
@@ -842,6 +888,7 @@ int rtps_init (void)
   /* Initialize implementation (Lite or OSPL) */
 
   ddsi_plugin_init ();
+  ddsi_iid_init ();
 
   gv.tstart = now ();    /* wall clock time, used in logs */
 
@@ -855,7 +902,7 @@ int rtps_init (void)
   gv.debmon = NULL;
 
   /* Print start time for referencing relative times in the remainder
-   of the nn_log. */
+   of the DDS_LOG. */
   {
     int sec = (int) (gv.tstart.v / 1000000000);
     int usec = (int) (gv.tstart.v % 1000000000) / 1000;
@@ -864,7 +911,7 @@ int rtps_init (void)
     tv.tv_sec = sec;
     tv.tv_nsec = usec * 1000;
     os_ctime_r (&tv, str, sizeof(str));
-    nn_log (LC_INFO | LC_CONFIG, "started at %d.06%d -- %s\n", sec, usec, str);
+    DDS_LOG(DDS_LC_INFO | DDS_LC_CONFIG, "started at %d.06%d -- %s\n", sec, usec, str);
   }
 
   /* Initialize thread pool */
@@ -913,14 +960,14 @@ int rtps_init (void)
 
   if (!find_own_ip (config.networkAddressString))
   {
-    NN_ERROR ("No network interface selected\n");
+    DDS_ERROR("No network interface selected\n");
     goto err_find_own_ip;
   }
   if (config.allowMulticast)
   {
     if (!gv.interfaces[gv.selected_interface].mc_capable)
     {
-      NN_WARNING ("selected interface is not multicast-capable: disabling multicast\n");
+      DDS_WARNING("selected interface is not multicast-capable: disabling multicast\n");
       config.suppress_spdp_multicast = 1;
       config.allowMulticast = AMC_FALSE;
     }
@@ -937,19 +984,19 @@ int rtps_init (void)
   {
     char buf[DDSI_LOCSTRLEN];
     /* the "ownip", "extip" labels in the trace have been there for so long, that it seems worthwhile to retain them even though they need not be IP any longer */
-    nn_log (LC_CONFIG, "ownip: %s\n", ddsi_locator_to_string_no_port (buf, sizeof(buf), &gv.ownloc));
-    nn_log (LC_CONFIG, "extip: %s\n", ddsi_locator_to_string_no_port (buf, sizeof(buf), &gv.extloc));
-    nn_log (LC_CONFIG, "extmask: %s%s\n", ddsi_locator_to_string_no_port (buf, sizeof(buf), &gv.extmask), gv.m_factory->m_kind != NN_LOCATOR_KIND_UDPv4 ? " (not applicable)" : "");
-    nn_log (LC_CONFIG, "networkid: 0x%lx\n", (unsigned long) gv.myNetworkId);
-    nn_log (LC_CONFIG, "SPDP MC: %s\n", ddsi_locator_to_string_no_port (buf, sizeof(buf), &gv.loc_spdp_mc));
-    nn_log (LC_CONFIG, "default MC: %s\n", ddsi_locator_to_string_no_port (buf, sizeof(buf), &gv.loc_default_mc));
+    DDS_LOG(DDS_LC_CONFIG, "ownip: %s\n", ddsi_locator_to_string_no_port (buf, sizeof(buf), &gv.ownloc));
+    DDS_LOG(DDS_LC_CONFIG, "extip: %s\n", ddsi_locator_to_string_no_port (buf, sizeof(buf), &gv.extloc));
+    DDS_LOG(DDS_LC_CONFIG, "extmask: %s%s\n", ddsi_locator_to_string_no_port (buf, sizeof(buf), &gv.extmask), gv.m_factory->m_kind != NN_LOCATOR_KIND_UDPv4 ? " (not applicable)" : "");
+    DDS_LOG(DDS_LC_CONFIG, "networkid: 0x%lx\n", (unsigned long) gv.myNetworkId);
+    DDS_LOG(DDS_LC_CONFIG, "SPDP MC: %s\n", ddsi_locator_to_string_no_port (buf, sizeof(buf), &gv.loc_spdp_mc));
+    DDS_LOG(DDS_LC_CONFIG, "default MC: %s\n", ddsi_locator_to_string_no_port (buf, sizeof(buf), &gv.loc_default_mc));
 #ifdef DDSI_INCLUDE_SSM
-    nn_log (LC_CONFIG, "SSM support included\n");
+    DDS_LOG(DDS_LC_CONFIG, "SSM support included\n");
 #endif
   }
 
   if (gv.ownloc.kind != gv.extloc.kind)
-    NN_FATAL ("mismatch between network address kinds\n");
+    DDS_FATAL("mismatch between network address kinds\n");
 
 #ifdef DDSI_INCLUDE_NETWORK_PARTITIONS
   /* Convert address sets in partition mappings from string to address sets */
@@ -973,18 +1020,18 @@ int rtps_init (void)
 #endif
 
   gv.startup_mode = (config.startup_mode_duration > 0) ? 1 : 0;
-  nn_log (LC_CONFIG, "startup-mode: %s\n", gv.startup_mode ? "enabled" : "disabled");
+  DDS_LOG(DDS_LC_CONFIG, "startup-mode: %s\n", gv.startup_mode ? "enabled" : "disabled");
 
   (ddsi_plugin.init_fn) ();
 
   gv.xmsgpool = nn_xmsgpool_new ();
-  gv.serpool = ddsi_serstatepool_new ();
+  gv.serpool = ddsi_serdatapool_new ();
 
 #ifdef DDSI_INCLUDE_ENCRYPTION
   if (q_security_plugin.new_decoder)
   {
     gv.recvSecurityCodec = (q_security_plugin.new_decoder) ();
-    nn_log (LC_CONFIG, "decoderset created\n");
+    DDS_LOG(DDS_LC_CONFIG, "decoderset created\n");
   }
 #endif
 
@@ -999,6 +1046,8 @@ int rtps_init (void)
   gv.spdp_endpoint_xqos.durability.kind = NN_TRANSIENT_LOCAL_DURABILITY_QOS;
   make_builtin_endpoint_xqos (&gv.builtin_endpoint_xqos_rd, &gv.default_xqos_rd);
   make_builtin_endpoint_xqos (&gv.builtin_endpoint_xqos_wr, &gv.default_xqos_wr);
+
+  make_special_topics ();
 
   os_mutexInit (&gv.participant_set_lock);
   os_condInit (&gv.participant_set_cond, &gv.participant_set_lock);
@@ -1020,7 +1069,7 @@ int rtps_init (void)
   gv.spdp_defrag = nn_defrag_new (NN_DEFRAG_DROP_OLDEST, config.defrag_unreliable_maxsamples);
   gv.spdp_reorder = nn_reorder_new (NN_REORDER_MODE_ALWAYS_DELIVER, config.primary_reorder_maxsamples);
 
-  gv.m_tkmap = dds_tkmap_new ();
+  gv.m_tkmap = ddsi_tkmap_new ();
 
   if (gv.m_factory->m_connless)
   {
@@ -1028,7 +1077,7 @@ int rtps_init (void)
     {
       if (make_uc_sockets (&port_disc_uc, &port_data_uc, config.participantIndex) < 0)
       {
-        NN_ERROR ("rtps_init: failed to create unicast sockets for domain %d participant %d\n", config.domainId.value, config.participantIndex);
+        DDS_ERROR("rtps_init: failed to create unicast sockets for domain %d participant %d\n", config.domainId.value, config.participantIndex);
         goto err_unicast_sockets;
       }
     }
@@ -1036,7 +1085,7 @@ int rtps_init (void)
     {
       /* try to find a free one, and update config.participantIndex */
       int ppid;
-      nn_log (LC_CONFIG, "rtps_init: trying to find a free participant index\n");
+      DDS_LOG(DDS_LC_CONFIG, "rtps_init: trying to find a free participant index\n");
       for (ppid = 0; ppid <= config.maxAutoParticipantIndex; ppid++)
       {
         int r = make_uc_sockets (&port_disc_uc, &port_data_uc, ppid);
@@ -1046,13 +1095,13 @@ int rtps_init (void)
           continue;
         else /* Oops! */
         {
-          NN_ERROR ("rtps_init: failed to create unicast sockets for domain %d participant %d\n", config.domainId.value, ppid);
+          DDS_ERROR("rtps_init: failed to create unicast sockets for domain %d participant %d\n", config.domainId.value, ppid);
           goto err_unicast_sockets;
         }
       }
       if (ppid > config.maxAutoParticipantIndex)
       {
-        NN_ERROR ("rtps_init: failed to find a free participant index for domain %d\n", config.domainId.value);
+        DDS_ERROR("rtps_init: failed to find a free participant index for domain %d\n", config.domainId.value);
         goto err_unicast_sockets;
       }
       config.participantIndex = ppid;
@@ -1061,9 +1110,9 @@ int rtps_init (void)
     {
       assert(0);
     }
-    nn_log (LC_CONFIG, "rtps_init: uc ports: disc %u data %u\n", port_disc_uc, port_data_uc);
+    DDS_LOG(DDS_LC_CONFIG, "rtps_init: uc ports: disc %u data %u\n", port_disc_uc, port_data_uc);
   }
-  nn_log (LC_CONFIG, "rtps_init: domainid %d participantid %d\n", config.domainId.value, config.participantIndex);
+  DDS_LOG(DDS_LC_CONFIG, "rtps_init: domainid %d participantid %d\n", config.domainId.value, config.participantIndex);
 
   if (config.pcap_file && *config.pcap_file)
   {
@@ -1083,7 +1132,7 @@ int rtps_init (void)
   if (gv.m_factory->m_connless)
   {
     if (!(config.many_sockets_mode == MSM_NO_UNICAST && config.allowMulticast))
-      TRACE (("Unicast Ports: discovery %d data %d\n", ddsi_tran_port (gv.disc_conn_uc), ddsi_tran_port (gv.data_conn_uc)));
+      DDS_TRACE("Unicast Ports: discovery %d data %d\n", ddsi_tran_port (gv.disc_conn_uc), ddsi_tran_port (gv.data_conn_uc));
 
     if (config.allowMulticast)
     {
@@ -1118,7 +1167,7 @@ int rtps_init (void)
       gv.listener = ddsi_factory_create_listener (gv.m_factory, config.tcp_port, NULL);
       if (gv.listener == NULL || ddsi_listener_listen (gv.listener) != 0)
       {
-        NN_ERROR ("Failed to create %s listener\n", gv.m_factory->m_typename);
+        DDS_ERROR("Failed to create %s listener\n", gv.m_factory->m_typename);
         if (gv.listener)
           ddsi_listener_free(gv.listener);
         goto err_mc_conn;
@@ -1137,7 +1186,7 @@ int rtps_init (void)
   /* Create shared transmit connection */
 
   gv.tev_conn = gv.data_conn_uc;
-  TRACE (("Timed event transmit port: %d\n", (int) ddsi_tran_port (gv.tev_conn)));
+  DDS_TRACE("Timed event transmit port: %d\n", (int) ddsi_tran_port (gv.tev_conn));
 
 #ifdef DDSI_INCLUDE_NETWORK_CHANNELS
   {
@@ -1158,14 +1207,14 @@ int rtps_init (void)
         ddsi_tran_free_qos (qos);
         if (chptr->transmit_conn == NULL)
         {
-          NN_FATAL ("failed to create transmit connection for channel %s\n", chptr->name);
+          DDS_FATAL("failed to create transmit connection for channel %s\n", chptr->name);
         }
       }
       else
       {
         chptr->transmit_conn = gv.data_conn_uc;
       }
-      TRACE (("channel %s: transmit port %d\n", chptr->name, (int) ddsi_tran_port (chptr->transmit_conn)));
+      DDS_TRACE("channel %s: transmit port %d\n", chptr->name, (int) ddsi_tran_port (chptr->transmit_conn));
 
 #ifdef DDSI_INCLUDE_BANDWIDTH_LIMITING
       if (chptr->auxiliary_bandwidth_limit > 0 || lookup_thread_properties (tname))
@@ -1234,7 +1283,7 @@ int rtps_init (void)
     gv.builtins_dqueue = nn_dqueue_new ("builtins", config.delivery_queue_maxsamples, builtins_dqueue_handler, NULL);
     if ((r = xeventq_start (gv.xevents, NULL)) < 0)
     {
-      NN_FATAL ("failed to start global event processing thread (%d)\n", r);
+      DDS_FATAL("failed to start global event processing thread (%d)\n", r);
     }
   }
 
@@ -1255,7 +1304,7 @@ int rtps_init (void)
       {
         int r;
         if ((r = xeventq_start (chptr->evq, chptr->name)) < 0)
-          NN_FATAL ("failed to start event processing thread for channel '%s' (%d)\n", chptr->name, r);
+          DDS_FATAL("failed to start event processing thread for channel '%s' (%d)\n", chptr->name, r);
       }
       chptr = chptr->next;
     }
@@ -1266,7 +1315,7 @@ int rtps_init (void)
 
   if (setup_and_start_recv_threads () < 0)
   {
-    NN_FATAL ("failed to start receive threads\n");
+    DDS_FATAL("failed to start receive threads\n");
   }
 
   if (gv.listener)
@@ -1299,7 +1348,7 @@ err_mc_conn:
     ddsi_conn_free (gv.data_conn_uc);
   free_group_membership(gv.mship);
 err_unicast_sockets:
-  dds_tkmap_free (gv.m_tkmap);
+  ddsi_tkmap_free (gv.m_tkmap);
   nn_reorder_free (gv.spdp_reorder);
   nn_defrag_free (gv.spdp_defrag);
   os_mutexDestroy (&gv.spdp_lock);
@@ -1311,6 +1360,7 @@ err_unicast_sockets:
   lease_management_term ();
   os_condDestroy (&gv.participant_set_cond);
   os_mutexDestroy (&gv.participant_set_lock);
+  free_special_topics ();
 #ifdef DDSI_INCLUDE_ENCRYPTION
   if (q_security_plugin.free_decoder)
     q_security_plugin.free_decoder (gv.recvSecurityCodec);
@@ -1325,8 +1375,9 @@ err_unicast_sockets:
   nn_xqos_fini (&gv.default_xqos_wr);
   nn_xqos_fini (&gv.default_xqos_rd);
   nn_plist_fini (&gv.default_plist_pp);
-  ddsi_serstatepool_free (gv.serpool);
+  ddsi_serdatapool_free (gv.serpool);
   nn_xmsgpool_free (gv.xmsgpool);
+  ddsi_iid_fini ();
   (ddsi_plugin.fini_fn) ();
 #ifdef DDSI_INCLUDE_NETWORK_PARTITIONS
 err_network_partition_addrset:
@@ -1580,7 +1631,7 @@ void rtps_term (void)
     }
   }
 
-  dds_tkmap_free (gv.m_tkmap);
+  ddsi_tkmap_free (gv.m_tkmap);
 
   ephash_free (gv.guid_hash);
   gv.guid_hash = NULL;
@@ -1588,6 +1639,7 @@ void rtps_term (void)
   lease_management_term ();
   os_mutexDestroy (&gv.participant_set_lock);
   os_condDestroy (&gv.participant_set_cond);
+  free_special_topics ();
 
   nn_xqos_fini (&gv.builtin_endpoint_xqos_wr);
   nn_xqos_fini (&gv.builtin_endpoint_xqos_rd);
@@ -1619,8 +1671,9 @@ OS_WARNING_MSVC_ON(6001);
       os_free (gv.interfaces[i].name);
   }
 
-  ddsi_serstatepool_free (gv.serpool);
+  ddsi_serdatapool_free (gv.serpool);
   nn_xmsgpool_free (gv.xmsgpool);
+  ddsi_iid_fini ();
   (ddsi_plugin.fini_fn) ();
-  nn_log (LC_CONFIG, "Finis.\n");
+  DDS_LOG(DDS_LC_CONFIG, "Finis.\n");
 }

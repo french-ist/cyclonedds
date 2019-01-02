@@ -13,13 +13,11 @@
 #include "ddsi/q_entity.h"
 #include "ddsi/q_thread.h"
 #include "ddsi/q_config.h"
-#include "q__osplser.h"
 #include "dds__init.h"
 #include "dds__qos.h"
 #include "dds__domain.h"
 #include "dds__participant.h"
 #include "dds__err.h"
-#include "dds__report.h"
 
 #define DDS_PARTICIPANT_STATUS_MASK    0u
 
@@ -31,9 +29,14 @@ static dds_return_t
 dds_participant_status_validate(
         uint32_t mask)
 {
-    return (mask & ~(DDS_PARTICIPANT_STATUS_MASK)) ?
-                     DDS_ERRNO(DDS_RETCODE_BAD_PARAMETER, "Argument mask is invalid") :
-                     DDS_RETCODE_OK;
+    dds_return_t ret = DDS_RETCODE_OK;
+
+    if (mask & ~(DDS_PARTICIPANT_STATUS_MASK)) {
+        DDS_ERROR("Argument mask is invalid\n");
+        ret = DDS_ERRNO(DDS_RETCODE_BAD_PARAMETER);
+    }
+
+    return ret;
 }
 
 static dds_return_t
@@ -105,10 +108,12 @@ dds_participant_qos_validate(
 
     /* Check consistency. */
     if ((qos->present & QP_USER_DATA) && !validate_octetseq(&qos->user_data)) {
-        ret = DDS_ERRNO(DDS_RETCODE_INCONSISTENT_POLICY, "User data QoS policy is inconsistent and caused an error");
+        DDS_ERROR("User data QoS policy is inconsistent and caused an error\n");
+        ret = DDS_ERRNO(DDS_RETCODE_INCONSISTENT_POLICY);
     }
     if ((qos->present & QP_PRISMTECH_ENTITY_FACTORY) && !validate_entityfactory_qospolicy(&qos->entity_factory)) {
-        ret = DDS_ERRNO(DDS_RETCODE_INCONSISTENT_POLICY, "Prismtech entity factory QoS policy is inconsistent and caused an error");
+        DDS_ERROR("Prismtech entity factory QoS policy is inconsistent and caused an error\n");
+        ret = DDS_ERRNO(DDS_RETCODE_INCONSISTENT_POLICY);
     }
     return ret;
 }
@@ -125,7 +130,8 @@ dds_participant_qos_set(
     if (ret == DDS_RETCODE_OK) {
         if (enabled) {
             /* TODO: CHAM-95: DDSI does not support changing QoS policies. */
-            ret = DDS_ERRNO(DDS_RETCODE_UNSUPPORTED, "Changing the participant QoS is not supported.");
+            DDS_ERROR("Changing the participant QoS is not supported\n");
+            ret = DDS_ERRNO(DDS_RETCODE_UNSUPPORTED);
         }
     }
     return ret;
@@ -154,9 +160,6 @@ dds_create_participant(
         goto fail_dds_init;
     }
 
-    /* Report stack is only useful after dds (and thus os) init. */
-    DDS_REPORT_STACK();
-
     /* Check domain id */
     ret = dds__check_domain (domain);
     if (ret != DDS_RETCODE_OK) {
@@ -171,18 +174,18 @@ dds_create_participant(
             e = (dds_entity_t)ret;
             goto fail_qos_validation;
         }
-        new_qos = dds_qos_create ();
+        new_qos = dds_create_qos ();
         /* Only returns failure when one of the qos args is NULL, which
          * is not the case here. */
-        (void)dds_qos_copy(new_qos, qos);
+        (void)dds_copy_qos(new_qos, qos);
     } else {
         /* Use default qos. */
-        new_qos = dds_qos_create ();
+        new_qos = dds_create_qos ();
     }
 
     /* Translate qos */
     nn_plist_init_empty(&plist);
-    dds_qos_merge (&plist.qos, new_qos);
+    dds_merge_qos (&plist.qos, new_qos);
 
     thr = lookup_thread_state ();
     asleep = !vtime_awake_p (thr->vtime);
@@ -195,7 +198,8 @@ dds_create_participant(
     }
     nn_plist_fini (&plist);
     if (q_rc != 0) {
-        e = DDS_ERRNO(DDS_RETCODE_ERROR, "Internal error");
+        DDS_ERROR("Internal error");
+        e = DDS_ERRNO(DDS_RETCODE_ERROR);
         goto fail_new_participant;
     }
 
@@ -220,16 +224,14 @@ dds_create_participant(
     dds_pp_head = &pp->m_entity;
     os_mutexUnlock (&dds_global.m_mutex);
 
-    DDS_REPORT_FLUSH(false);
     return e;
 
 fail_entity_init:
     dds_free(pp);
 fail_new_participant:
-    dds_qos_delete(new_qos);
+    dds_delete_qos(new_qos);
 fail_qos_validation:
 fail_domain_check:
-    DDS_REPORT_FLUSH(true);
     dds_fini();
 fail_dds_init:
     return e;
@@ -248,14 +250,14 @@ dds_lookup_participant(
     os_osInit();
     init_mutex = os_getSingletonMutex();
 
-    DDS_REPORT_STACK();
-
     if ((participants != NULL) && ((size <= 0) || (size >= INT32_MAX))) {
-        ret = DDS_ERRNO(DDS_RETCODE_BAD_PARAMETER, "Array is given, but with invalid size");
+        DDS_ERROR("Array is given, but with invalid size\n");
+        ret = DDS_ERRNO(DDS_RETCODE_BAD_PARAMETER);
         goto err;
     }
     if ((participants == NULL) && (size != 0)) {
-        ret = DDS_ERRNO(DDS_RETCODE_BAD_PARAMETER, "Size is given, but no array");
+        DDS_ERROR("Size is given, but no array\n");
+        ret = DDS_ERRNO(DDS_RETCODE_BAD_PARAMETER);
         goto err;
     }
 
@@ -285,7 +287,6 @@ dds_lookup_participant(
     os_mutexUnlock (init_mutex);
 
 err:
-    DDS_REPORT_FLUSH(ret != DDS_RETCODE_OK);
     os_osExit();
     return ret;
 }

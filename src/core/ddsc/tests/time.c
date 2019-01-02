@@ -9,20 +9,18 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-#ifndef _DDS_IID_H_
-#define _DDS_IID_H_
+#include "CUnit/Test.h"
+#include "ddsc/dds.h"
 
-#include "dds__types.h"
+CU_Test(ddsc_time, request_time)
+{
+    dds_time_t now, then;
+    dds_duration_t pause = 1 * DDS_NSECS_IN_SEC;
 
-#if defined (__cplusplus)
-extern "C" {
-#endif
-
-void dds_iid_init (void);
-void dds_iid_fini (void);
-uint64_t dds_iid_gen (void);
-
-#if defined (__cplusplus)
+    now = dds_time();
+    CU_ASSERT_FATAL(now > 0);
+    /* Sleep for 1 second, every platform should (hopefully) support that */
+    dds_sleepfor(pause);
+    then = dds_time();
+    CU_ASSERT_FATAL(then >= (now + pause));
 }
-#endif
-#endif
