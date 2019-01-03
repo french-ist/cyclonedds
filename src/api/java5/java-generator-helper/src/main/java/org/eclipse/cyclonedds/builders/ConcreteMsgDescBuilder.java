@@ -112,14 +112,7 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
         javaCode.append("\t\tret.m_ops = "+listParams.get(7)+";\n");
         javaCode.append("\t\tret.m_meta = "+listParams.get(8)+";\n");
         javaCode.append("\t\treturn ret;\n");
-        
-        //javaCode.append("\tpublic dds_topic_descriptor "+variableName+" = new dds_topic_descriptor(\n");
-        /*for(int i=0;i<listParams.size();i++){
-            javaCode.append("\t\t" + listParams.get(i));
-            if(i< listParams.size()-1){
-                javaCode.append(",\n");
-            }
-        }*/
+
         javaCode.append("\t};\n");
         return javaCode.toString();
     }

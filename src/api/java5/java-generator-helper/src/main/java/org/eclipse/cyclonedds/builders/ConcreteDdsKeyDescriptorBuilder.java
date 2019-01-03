@@ -49,7 +49,7 @@ public class ConcreteDdsKeyDescriptorBuilder implements DdsKeyDescriptorBuilder 
         }
 
         StringBuilder javaCode =new StringBuilder();        
-        javaCode.append("\tpublic dds_key_descriptor[] "+keysVariableName+" = {\n");
+        javaCode.append("\tprivate dds_key_descriptor[] "+keysVariableName+" = {\n");
         for (int i=0;i<getDdsKeyDescCount(); i++){
             javaCode.append("\t\tnew dds_key_descriptor(stringToPointer("
                 + ddsKeyDescriptorList.get(i).name 

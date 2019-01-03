@@ -96,13 +96,16 @@ public class DdscLibrary implements Library {
 	 * @returns - Pointer to the initialized dds_qos_t structure, NULL if unsuccessful.<br>
 	 * Original signature : <code>dds_qos_t* dds_qos_create()</code><br>
 	 */
-	public static native PointerByReference dds_qos_create();
+	//public static native PointerByReference dds_qos_create();
+	public static native DdscLibrary.dds_qos_t dds_qos_create();
+
 	/**
 	 * @brief Delete memory allocated to QoS-policies structure<br>
 	 * @param[in] qos - Pointer to dds_qos_t structure<br>
 	 * Original signature : <code>void dds_qos_delete(__declspec(__restrict) dds_qos_t*)</code><br>
 	 */
-	public static native void dds_qos_delete(PointerByReference qos);
+	//public static native void dds_qos_delete(PointerByReference qos);
+	public static native void dds_qos_delete(org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qos_t qos);
 	/**
 	 * @brief Reset a QoS-policies structure to default values<br>
 	 * @param[in,out] qos - Pointer to the dds_qos_t structure<br>
@@ -304,5 +307,5 @@ public class DdscLibrary implements Library {
 		public dds_qos_t() {
 			super();
 		}
-	};
+	}
 }

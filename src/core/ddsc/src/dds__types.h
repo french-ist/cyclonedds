@@ -38,7 +38,7 @@ struct dds_readcond;
 struct dds_guardcond;
 struct dds_statuscond;
 
-struct sertopic;
+struct ddsi_sertopic;
 struct rhc;
 
 /* Internal entity status flags */
@@ -169,7 +169,7 @@ typedef struct dds_reader
   struct reader * m_rd;
   bool m_data_on_readers;
   bool m_loan_out;
-  char * m_loan;
+  void * m_loan;
   uint32_t m_loan_size;
 
   /* Status metrics */
@@ -200,11 +200,18 @@ typedef struct dds_writer
 }
 dds_writer;
 
+#ifndef DDS_TOPIC_INTERN_FILTER_FN_DEFINED
+#define DDS_TOPIC_INTERN_FILTER_FN_DEFINED
+typedef bool (*dds_topic_intern_filter_fn) (const void * sample, void *ctx);
+#endif
+
 typedef struct dds_topic
 {
   struct dds_entity m_entity;
-  struct sertopic * m_stopic;
-  const dds_topic_descriptor_t * m_descriptor;
+  struct ddsi_sertopic * m_stopic;
+
+  dds_topic_intern_filter_fn filter_fn;
+  void * filter_ctx;
 
   /* Status metrics */
 
@@ -252,13 +259,6 @@ typedef struct dds_waitset
   dds_attachment *triggered;
 }
 dds_waitset;
-
-typedef struct dds_iid
-{
-  uint64_t counter;
-  uint32_t key[4];
-}
-dds_iid;
 
 /* Globals */
 

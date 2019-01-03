@@ -32,9 +32,8 @@ public class Launcher {
         
         //reading from C
         HelloworldDirectMapping.helloPointerArrayFromC(samplePtr, intPtr);        
-        int size = intPtr.getValue();        
-        Pointer arrayPtr = samplePtr.getValue();
-        HelloWorldData_Msg arryRef = new HelloWorldData_Msg(arrayPtr);
+        int size = intPtr.getValue();
+        HelloWorldData_Msg arryRef = new HelloWorldData_Msg(samplePtr.getValue());
         arryRef.read();
 
         //showing
@@ -43,5 +42,14 @@ public class Launcher {
             System.out.println("helloPointerArrayFromC String:{"+msgArray[i].message+"} int:{"+msgArray[i].userID+"} ");
         }
 
+        //---------------------- helloArrayFromJava ---------------------------
+        HelloWorldData_Msg.ByReference helloByRef = new HelloWorldData_Msg.ByReference();
+        int nb = 3;
+        HelloWorldData_Msg[] arrMsg =  (HelloWorldData_Msg[])helloByRef.toArray(nb);
+        for(int i=0;i<nb;i++){
+            arrMsg[i].userID = (i+3)*17;
+            arrMsg[i].message = "Message_" + arrMsg[i].userID;            
+        }
+        HelloworldDirectMapping.helloArrayFromJava(helloByRef, nb);
     }
 }

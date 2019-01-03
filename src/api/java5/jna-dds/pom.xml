@@ -142,18 +142,6 @@
 				</executions>
 			</plugin>
 
-			<!-- *.so localisation -->
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.19.1</version>
-				<configuration>
-					<systemPropertyVariables>
-						<propertyName>jna.library.path</propertyName>
-						<buildDirectory>target/main/linux-x86-64</buildDirectory>
-					</systemPropertyVariables>
-				</configuration>
-			</plugin>
-
 			<!-- Copy to right directory-->
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>

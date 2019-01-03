@@ -90,7 +90,7 @@ public class ConcreteMessageOptionsBuilder implements JavaCodeBuilder{
         }
 
         StringBuilder javaCode = new StringBuilder();
-        javaCode.append("\tpublic Integer[] "+arrayName+" = {\n");
+        javaCode.append("\tprivate Integer[] "+arrayName+" = {\n");
         for(int i=0;i<listParams.size();i++){
             javaCode.append("\t\t" + listParams.get(i));
             if(i<listParams.size()-1){

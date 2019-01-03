@@ -17,12 +17,12 @@
 #include "dds__key.h"
 #include "dds__alloc.h"
 #include "os/os.h"
+#include "ddsi/q_md5.h"
 
-/*
-#define OP_DEBUG_READ 1
-#define OP_DEBUG_WRITE 1
-#define OP_DEBUG_KEY 1
-*/
+//#define OP_DEBUG_READ 1
+//#define OP_DEBUG_WRITE 1
+//#define OP_DEBUG_KEY 1
+
 
 #if defined OP_DEBUG_WRITE || defined OP_DEBUG_READ || defined OP_DEBUG_KEY
 static const char * stream_op_type[11] =
@@ -147,7 +147,7 @@ size_t dds_stream_check_optimize (_In_ const dds_topic_descriptor_t * desc)
   void * sample = dds_alloc (desc->m_size);
   uint8_t * ptr1;
   uint8_t * ptr2;
-  size_t size = desc->m_size;
+  uint32_t size = desc->m_size;
   uint8_t val = 1;
 
   dds_stream_init (&os, size);
@@ -165,11 +165,11 @@ size_t dds_stream_check_optimize (_In_ const dds_topic_descriptor_t * desc)
   dds_sample_free_contents (sample, desc->m_ops);
   dds_free (sample);
   dds_stream_fini (&os);
-  dds_log_info ("Marshalling for type: %s is%s optimised\n", desc->m_typename, size ? "" : " not");
+  DDS_INFO("Marshalling for type: %s is%s optimised\n", desc->m_typename, size ? "" : " not");
   return size;
 }
 
-dds_stream_t * dds_stream_create (size_t size)
+dds_stream_t * dds_stream_create (uint32_t size)
 {
   dds_stream_t * stream = (dds_stream_t*) dds_alloc (sizeof (*stream));
   dds_stream_init (stream, size);
@@ -190,7 +190,7 @@ void dds_stream_fini (dds_stream_t * st)
   }
 }
 
-void dds_stream_init (dds_stream_t * st, size_t size)
+void dds_stream_init (dds_stream_t * st, uint32_t size)
 {
   memset (st, 0, sizeof (*st));
   DDS_CDR_REINIT (st, size);
@@ -201,13 +201,13 @@ void dds_stream_reset (dds_stream_t * st)
   DDS_CDR_RESET (st);
 }
 
-void dds_stream_grow (dds_stream_t * st, size_t size)
+void dds_stream_grow (dds_stream_t * st, uint32_t size)
 {
-  size_t needed = size + st->m_index;
+  uint32_t needed = size + st->m_index;
 
   /* Reallocate on 4k boundry */
 
-  size_t newSize = (needed & ~(size_t)0xfff) + 0x1000;
+  uint32_t newSize = (needed & ~(uint32_t)0xfff) + 0x1000;
   uint8_t * old = st->m_buffer.p8;
 
   st->m_buffer.p8 = dds_realloc (old, newSize);
@@ -378,21 +378,17 @@ void dds_stream_read_buffer (dds_stream_t * is, uint8_t * buffer, uint32_t len)
   }
 }
 
-void dds_stream_read_sample (dds_stream_t * is, void * data, const struct sertopic * topic)
+void dds_stream_read_sample (dds_stream_t * is, void * data, const struct ddsi_sertopic_default * topic)
 {
-  const struct dds_topic_descriptor * desc = (const struct dds_topic_descriptor *) topic->type;
-
+  const struct dds_topic_descriptor * desc = topic->type;
+  /* Check if can copy directly from stream buffer */
+  if (topic->opt_size && DDS_IS_OK (is, desc->m_size) && (is->m_endian == DDS_ENDIAN))
   {
-    /* Check if can copy directly from stream buffer */
-
-    if (topic->opt_size && DDS_IS_OK (is, desc->m_size) && (is->m_endian == DDS_ENDIAN))
-    {
-      DDS_IS_GET_BYTES (is, data, desc->m_size);
-    }
-    else
-    {
-      dds_stream_read (is, data, desc->m_ops);
-    }
+    DDS_IS_GET_BYTES (is, data, desc->m_size);
+  }
+  else
+  {
+    dds_stream_read (is, data, desc->m_ops);
   }
 }
 
@@ -456,9 +452,20 @@ void dds_stream_write_string (dds_stream_t * os, const char * val)
   }
 }
 
-void dds_stream_write_buffer (dds_stream_t * os, uint32_t len, uint8_t * buffer)
+void dds_stream_write_buffer (dds_stream_t * os, uint32_t len, const uint8_t * buffer)
 {
   DDS_OS_PUT_BYTES (os, buffer, len);
+}
+
+void *dds_stream_address (dds_stream_t * s)
+{
+  return DDS_CDR_ADDRESS(s, void);
+}
+
+void *dds_stream_alignto (dds_stream_t * s, uint32_t a)
+{
+  DDS_CDR_ALIGNTO (s, a);
+  return DDS_CDR_ADDRESS (s, void);
 }
 
 static void dds_stream_write
@@ -483,7 +490,7 @@ static void dds_stream_write
       {
         type = DDS_OP_TYPE (op);
 #ifdef OP_DEBUG_WRITE
-        TRACE (("W-ADR: %s offset %d\n", stream_op_type[type], ops[1]));
+        DDS_TRACE("W-ADR: %s offset %d\n", stream_op_type[type], ops[1]);
 #endif
         addr = data + ops[1];
         ops += 2;
@@ -512,7 +519,7 @@ static void dds_stream_write
           case DDS_OP_VAL_STR:
           {
 #ifdef OP_DEBUG_WRITE
-            TRACE (("W-STR: %s\n", *((char**) addr)));
+            DDS_TRACE("W-STR: %s\n", *((char**) addr));
 #endif
             dds_stream_write_string (os, *((char**) addr));
             break;
@@ -524,7 +531,7 @@ static void dds_stream_write
             num = seq->_length;
 
 #ifdef OP_DEBUG_WRITE
-            TRACE (("W-SEQ: %s <%d>\n", stream_op_type[subtype], num));
+            DDS_TRACE("W-SEQ: %s <%d>\n", stream_op_type[subtype], num);
 #endif
             DDS_OS_PUT4 (os, num, uint32_t);
             if (num || (subtype > DDS_OP_VAL_STR))
@@ -551,7 +558,7 @@ static void dds_stream_write
                   while (num--)
                   {
 #ifdef OP_DEBUG_WRITE
-                    TRACE (("W-SEQ STR: %s\n", *ptr));
+                    DDS_TRACE("W-SEQ STR: %s\n", *ptr);
 #endif
                     dds_stream_write_string (os, *ptr);
                     ptr++;
@@ -565,7 +572,7 @@ static void dds_stream_write
                   while (num--)
                   {
 #ifdef OP_DEBUG_WRITE
-                    TRACE (("W-SEQ BST[%d]: %s\n", align, ptr));
+                    DDS_TRACE("W-SEQ BST[%d]: %s\n", align, ptr);
 #endif
                     dds_stream_write_string (os, ptr);
                     ptr += align;
@@ -596,7 +603,7 @@ static void dds_stream_write
             num = *ops++;
 
 #ifdef OP_DEBUG_WRITE
-            TRACE (("W-ARR: %s [%d]\n", stream_op_type[subtype], num));
+            DDS_TRACE("W-ARR: %s [%d]\n", stream_op_type[subtype], num);
 #endif
             switch (subtype)
             {
@@ -686,7 +693,7 @@ static void dds_stream_write
               default: assert (0);
             }
 #ifdef OP_DEBUG_WRITE
-            TRACE (("W-UNI: switch %s case %d/%d\n", stream_op_type[subtype], disc, num));
+            DDS_TRACE("W-UNI: switch %s case %d/%d\n", stream_op_type[subtype], disc, num);
 #endif
 
             /* Write case matching discriminant */
@@ -703,7 +710,7 @@ static void dds_stream_write
                 addr = data + jeq_op[2];
 
 #ifdef OP_DEBUG_WRITE
-                TRACE (("W-UNI: case type %s\n", stream_op_type[subtype]));
+                DDS_TRACE("W-UNI: case type %s\n", stream_op_type[subtype]);
 #endif
                 switch (subtype)
                 {
@@ -746,7 +753,7 @@ static void dds_stream_write
           case DDS_OP_VAL_BST:
           {
 #ifdef OP_DEBUG_WRITE
-            TRACE (("W-BST: %s\n", (char*) addr));
+            DDS_TRACE("W-BST: %s\n", (char*) addr);
 #endif
             dds_stream_write_string (os, (char*) addr);
             ops++;
@@ -759,7 +766,7 @@ static void dds_stream_write
       case DDS_OP_JSR: /* Implies nested type */
       {
 #ifdef OP_DEBUG_WRITE
-        TRACE (("W-JSR: %d\n", DDS_OP_JUMP (op)));
+        DDS_TRACE("W-JSR: %d\n", DDS_OP_JUMP (op));
 #endif
         dds_stream_write (os, data, ops + DDS_OP_JUMP (op));
         ops++;
@@ -769,7 +776,7 @@ static void dds_stream_write
     }
   }
 #ifdef OP_DEBUG_WRITE
-  TRACE (("W-RTS:\n"));
+  DDS_TRACE("W-RTS:\n");
 #endif
 }
 
@@ -790,7 +797,7 @@ static void dds_stream_read (dds_stream_t * is, char * data, const uint32_t * op
       {
         type = DDS_OP_TYPE (op);
 #ifdef OP_DEBUG_READ
-        TRACE (("R-ADR: %s offset %d\n", stream_op_type[type], ops[1]));
+        DDS_TRACE("R-ADR: %s offset %d\n", stream_op_type[type], ops[1]);
 #endif
         addr = data + ops[1];
         ops += 2;
@@ -819,7 +826,7 @@ static void dds_stream_read (dds_stream_t * is, char * data, const uint32_t * op
           case DDS_OP_VAL_STR:
           {
 #ifdef OP_DEBUG_READ
-            TRACE (("R-STR: @ %p\n", addr));
+            DDS_TRACE("R-STR: @ %p\n", addr);
 #endif
             *(char**) addr = dds_stream_reuse_string (is, *((char**) addr), 0);
             break;
@@ -831,7 +838,7 @@ static void dds_stream_read (dds_stream_t * is, char * data, const uint32_t * op
             num = dds_stream_read_uint32 (is);
 
 #ifdef OP_DEBUG_READ
-            TRACE (("R-SEQ: %s <%d>\n", stream_op_type[subtype], num));
+            DDS_TRACE("R-SEQ: %s <%d>\n", stream_op_type[subtype], num);
 #endif
             /* Maintain max sequence length (may not have been set by caller) */
 
@@ -980,7 +987,7 @@ static void dds_stream_read (dds_stream_t * is, char * data, const uint32_t * op
             num = *ops++;
 
 #ifdef OP_DEBUG_READ
-            TRACE (("R-ARR: %s [%d]\n", stream_op_type[subtype], num));
+            DDS_TRACE("R-ARR: %s [%d]\n", stream_op_type[subtype], num);
 #endif
             switch (subtype)
             {
@@ -1073,7 +1080,7 @@ static void dds_stream_read (dds_stream_t * is, char * data, const uint32_t * op
             }
 
 #ifdef OP_DEBUG_READ
-            TRACE (("R-UNI: switch %s case %d/%d\n", stream_op_type[subtype], disc, num));
+            DDS_TRACE("R-UNI: switch %s case %d/%d\n", stream_op_type[subtype], disc, num);
 #endif
 
             /* Read case matching discriminant */
@@ -1087,7 +1094,7 @@ static void dds_stream_read (dds_stream_t * is, char * data, const uint32_t * op
                 addr = data + jeq_op[2];
 
 #ifdef OP_DEBUG_READ
-                TRACE (("R-UNI: case type %s\n", stream_op_type[subtype]));
+                DDS_TRACE("R-UNI: case type %s\n", stream_op_type[subtype]);
 #endif
                 switch (subtype)
                 {
@@ -1135,7 +1142,7 @@ static void dds_stream_read (dds_stream_t * is, char * data, const uint32_t * op
           case DDS_OP_VAL_BST:
           {
 #ifdef OP_DEBUG_READ
-            TRACE (("R-BST: @ %p\n", addr));
+            DDS_TRACE("R-BST: @ %p\n", addr);
 #endif
             dds_stream_reuse_string (is, (char*) addr, *ops);
             ops++;
@@ -1148,7 +1155,7 @@ static void dds_stream_read (dds_stream_t * is, char * data, const uint32_t * op
       case DDS_OP_JSR: /* Implies nested type */
       {
 #ifdef OP_DEBUG_READ
-        TRACE (("R-JSR: %d\n", DDS_OP_JUMP (op)));
+        DDS_TRACE("R-JSR: %d\n", DDS_OP_JUMP (op));
 #endif
         dds_stream_read (is, data, ops + DDS_OP_JUMP (op));
         ops++;
@@ -1158,13 +1165,13 @@ static void dds_stream_read (dds_stream_t * is, char * data, const uint32_t * op
     }
   }
 #ifdef OP_DEBUG_READ
-  TRACE (("R-RTS:\n"));
+  DDS_TRACE("R-RTS:\n");
 #endif
 }
 
-void dds_stream_write_sample (dds_stream_t * os, const void * data, const struct sertopic * topic)
+void dds_stream_write_sample (dds_stream_t * os, const void * data, const struct ddsi_sertopic_default * topic)
 {
-  const struct dds_topic_descriptor * desc = (const struct dds_topic_descriptor *) topic->type;
+  const struct dds_topic_descriptor * desc = topic->type;
 
   if (topic->opt_size && DDS_CDR_ALIGNED (os, desc->m_align))
   {
@@ -1176,16 +1183,17 @@ void dds_stream_write_sample (dds_stream_t * os, const void * data, const struct
   }
 }
 
-void dds_stream_from_serstate (_Out_ dds_stream_t * s, _In_ const serstate_t st)
+void dds_stream_from_serdata_default (_Out_ dds_stream_t * s, _In_ const struct ddsi_serdata_default *d)
 {
   s->m_failed = false;
-  s->m_buffer.p8 = (uint8_t*) st->data;
-  s->m_size = st->size + offsetof (struct serdata, data);
-  s->m_index = offsetof (struct serdata, data);
-  s->m_endian = (st->data->v.bswap) ? (! DDS_ENDIAN) : DDS_ENDIAN;
+  s->m_buffer.p8 = (uint8_t*) d;
+  s->m_index = (uint32_t) offsetof (struct ddsi_serdata_default, data);
+  s->m_size = d->size + s->m_index;
+  assert (d->hdr.identifier == CDR_LE || d->hdr.identifier == CDR_BE);
+  s->m_endian = (d->hdr.identifier == CDR_LE);
 }
 
-void dds_stream_add_to_serstate (_Inout_ dds_stream_t * s, _Inout_ serstate_t st)
+void dds_stream_add_to_serdata_default (dds_stream_t * s, struct ddsi_serdata_default **d)
 {
   /* DDSI requires 4 byte alignment */
 
@@ -1193,18 +1201,14 @@ void dds_stream_add_to_serstate (_Inout_ dds_stream_t * s, _Inout_ serstate_t st
 
   /* Reset data pointer as stream may have reallocated */
 
-  st->data = s->m_buffer.pv;
-  st->pos += (s->m_index - offsetof (struct serdata, data));
-  st->size = (s->m_size - offsetof(struct serdata, data));
+  (*d) = s->m_buffer.pv;
+  (*d)->pos = (s->m_index - (uint32_t)offsetof (struct ddsi_serdata_default, data));
+  (*d)->size = (s->m_size - (uint32_t)offsetof (struct ddsi_serdata_default, data));
 }
 
-void dds_stream_write_key
-(
-  dds_stream_t * os,
-  const char * sample,
-  const dds_topic_descriptor_t * desc
-)
+void dds_stream_write_key (dds_stream_t * os, const char * sample, const struct ddsi_sertopic_default * topic)
 {
+  const struct dds_topic_descriptor * desc = (const struct dds_topic_descriptor *) topic->type;
   uint32_t i;
   const char * src;
   const uint32_t * op;
@@ -1255,13 +1259,7 @@ void dds_stream_write_key
   of key hash. Input stream may contain full sample of just key data.
 */
 
-static uint32_t dds_stream_get_keyhash
-(
-  dds_stream_t * is,
-  char * dst,
-  const uint32_t * ops,
-  const bool just_key
-)
+uint32_t dds_stream_extract_key (dds_stream_t *is, dds_stream_t *os, const uint32_t *ops, const bool just_key)
 {
   uint32_t align;
   uint32_t op;
@@ -1269,9 +1267,9 @@ static uint32_t dds_stream_get_keyhash
   uint32_t subtype;
   uint32_t num;
   uint32_t len;
+  const uint32_t origin = os->m_index;
   bool is_key;
   bool have_data;
-  const char * origin = dst;
 
   while ((op = *ops) != DDS_OP_RTS)
   {
@@ -1280,7 +1278,7 @@ static uint32_t dds_stream_get_keyhash
       case DDS_OP_ADR:
       {
         type = DDS_OP_TYPE (op);
-        is_key = (op & DDS_OP_FLAG_KEY) && (dst != NULL);
+        is_key = (op & DDS_OP_FLAG_KEY) && (os != NULL);
         have_data = is_key || !just_key;
         ops += 2;
         if (type <= DDS_OP_VAL_8BY)
@@ -1306,50 +1304,36 @@ static uint32_t dds_stream_get_keyhash
 #ifdef OP_DEBUG_KEY
         if (is_key)
         {
-          TRACE (("K-ADR: %s\n", stream_op_type[type]));
+          DDS_TRACE("K-ADR: %s\n", stream_op_type[type]);
         }
 #endif
         switch (type)
         {
           case DDS_OP_VAL_1BY:
           {
-            *dst++ = (char) DDS_IS_GET1 (is);
+            uint8_t v = DDS_IS_GET1 (is);
+            DDS_OS_PUT1 (os, v);
             break;
           }
           case DDS_OP_VAL_2BY:
           {
-            uint16_t u16 = *DDS_CDR_ADDRESS (is, uint16_t);
-            if (is->m_endian)
-            {
-              u16 = DDS_SWAP16 (u16);
-            }
-            memcpy (dst, &u16, sizeof (u16));
-            is->m_index += 2;
-            dst += 2;
+            uint16_t v;
+            DDS_IS_GET2 (is, v);
+            DDS_OS_PUT2 (os, v);
             break;
           }
           case DDS_OP_VAL_4BY:
           {
-            uint32_t u32 = *DDS_CDR_ADDRESS (is, uint32_t);
-            if (is->m_endian)
-            {
-              u32 = DDS_SWAP32 (u32);
-            }
-            memcpy (dst, &u32, sizeof (u32));
-            is->m_index += 4;
-            dst += 4;
+            uint32_t v;
+            DDS_IS_GET4 (is, v, uint32_t);
+            DDS_OS_PUT4 (os, v, uint32_t);
             break;
           }
           case DDS_OP_VAL_8BY:
           {
-            uint64_t u64 = *DDS_CDR_ADDRESS (is, uint64_t);
-            if (is->m_endian)
-            {
-              u64 = DDS_SWAP64 (u64);
-            }
-            memcpy (dst, &u64, sizeof (u64));
-            is->m_index += 8;
-            dst += 8;
+            uint64_t v;
+            DDS_IS_GET8 (is, v, uint64_t);
+            DDS_OS_PUT8 (os, v, uint64_t);
             break;
           }
           case DDS_OP_VAL_STR:
@@ -1360,13 +1344,10 @@ static uint32_t dds_stream_get_keyhash
               len = dds_stream_read_uint32 (is);
               if (is_key)
               {
-                uint32_t be32 = toBE4u (len);
-                memcpy (dst, &be32, 4);
-                dst += 4;
-                memcpy (dst, DDS_CDR_ADDRESS (is, void), len);
-                dst += len;
+                DDS_OS_PUT4 (os, len, uint32_t);
+                DDS_OS_PUT_BYTES(os, DDS_CDR_ADDRESS (is, void), len);
 #ifdef OP_DEBUG_KEY
-                TRACE (("K-ADR: String/BString (%d)\n", len));
+                DDS_TRACE("K-ADR: String/BString (%d)\n", len);
 #endif
               }
               is->m_index += len;
@@ -1417,7 +1398,7 @@ static uint32_t dds_stream_get_keyhash
                   const uint32_t jmp = DDS_OP_ADR_JMP (ops[1]);
                   while (num--)
                   {
-                    dds_stream_get_keyhash (is, NULL, jsr_ops, just_key);
+                    dds_stream_extract_key (is, NULL, jsr_ops, just_key);
                   }
                   ops += jmp ? (jmp - 2) : 2;
                   break;
@@ -1436,7 +1417,7 @@ static uint32_t dds_stream_get_keyhash
 #ifdef OP_DEBUG_KEY
             if (is_key)
             {
-              TRACE (("K-ADR: %s[%d]\n", stream_op_type[subtype], num));
+              DDS_TRACE("K-ADR: %s[%d]\n", stream_op_type[subtype], num);
             }
 #endif
             switch (subtype)
@@ -1451,8 +1432,12 @@ static uint32_t dds_stream_get_keyhash
                   align = dds_op_size[subtype];
                   if (is_key)
                   {
+                    char *dst;
+                    DDS_CDR_ALIGNTO (os, align);
+                    DDS_CDR_RESIZE (os, num * align);
+                    dst = DDS_CDR_ADDRESS(os, char);
                     dds_stream_read_fixed_buffer (is, dst, num, align, is->m_endian);
-                    dst += num * align;
+                    os->m_index += num * align;
                   }
                   is->m_index += num * align;
                 }
@@ -1474,7 +1459,7 @@ static uint32_t dds_stream_get_keyhash
                 const uint32_t jmp = DDS_OP_ADR_JMP (*ops);
                 while (num--)
                 {
-                  dds_stream_get_keyhash (is, NULL, jsr_ops, just_key);
+                  dds_stream_extract_key (is, NULL, jsr_ops, just_key);
                 }
                 ops += jmp ? (jmp - 3) : 2;
                 break;
@@ -1494,7 +1479,7 @@ static uint32_t dds_stream_get_keyhash
             assert (! is_key);
 
 #ifdef OP_DEBUG_KEY
-            TRACE (("K-UNI: switch %s cases %d\n", stream_op_type[subtype], num));
+            DDS_TRACE("K-UNI: switch %s cases %d\n", stream_op_type[subtype], num);
 #endif
             /* Read discriminant */
 
@@ -1550,7 +1535,7 @@ static uint32_t dds_stream_get_keyhash
                     }
                     default:
                     {
-                      dds_stream_get_keyhash (is, NULL, jeq_op + DDS_OP_ADR_JSR (jeq_op[0]), just_key);
+                      dds_stream_extract_key (is, NULL, jeq_op + DDS_OP_ADR_JSR (jeq_op[0]), just_key);
                       break;
                     }
                   }
@@ -1571,21 +1556,21 @@ static uint32_t dds_stream_get_keyhash
       }
       case DDS_OP_JSR: /* Implies nested type */
       {
-        dst += dds_stream_get_keyhash (is, dst, ops + DDS_OP_JUMP (op), just_key);
+        dds_stream_extract_key (is, os, ops + DDS_OP_JUMP (op), just_key);
         ops++;
         break;
       }
       default: assert (0);
     }
   }
-  return (uint32_t) (dst - origin);
+  return os->m_index - origin;
 }
 
 #ifndef NDEBUG
 static bool keyhash_is_reset(const dds_key_hash_t *kh)
 {
   static const char nullhash[sizeof(kh->m_hash)] = { 0 };
-  return kh->m_flags == 0 && memcmp(kh->m_hash, nullhash, sizeof(nullhash)) == 0;
+  return !kh->m_set && memcmp(kh->m_hash, nullhash, sizeof(nullhash)) == 0;
 }
 #endif
 
@@ -1597,44 +1582,35 @@ void dds_stream_read_keyhash
   const bool just_key
 )
 {
-  char * dst;
-
   assert (keyhash_is_reset(kh));
-
+  kh->m_set = 1;
   if (desc->m_nkeys == 0)
+    kh->m_iskey = 1;
+  else if (desc->m_flagset & DDS_TOPIC_FIXED_KEY)
   {
-    kh->m_flags = DDS_KEY_SET | DDS_KEY_HASH_SET | DDS_KEY_IS_HASH;
-    return;
-  }
-
-  /* Select key buffer to use */
-
-  kh->m_flags = DDS_KEY_SET | DDS_KEY_HASH_SET;
-  if (desc->m_flagset & DDS_TOPIC_FIXED_KEY)
-  {
-    kh->m_flags |= DDS_KEY_IS_HASH;
-    dst = kh->m_hash;
-  }
-  else
-  {
-    if (is->m_size > kh->m_key_buff_size)
-    {
-      kh->m_key_buff = dds_realloc (kh->m_key_buff, is->m_size);
-      kh->m_key_buff_size = (uint32_t) is->m_size;
-    }
-    dst = kh->m_key_buff;
-  }
-  kh->m_key_len = dds_stream_get_keyhash (is, dst, desc->m_ops, just_key);
-
-  if (kh->m_flags & DDS_KEY_IS_HASH)
-  {
-    assert (kh->m_key_len <= 16);
-    kh->m_key_len = 16;
+    dds_stream_t os;
+    uint32_t ncheck;
+    kh->m_iskey = 1;
+    dds_stream_init(&os, 0);
+    os.m_buffer.pv = kh->m_hash;
+    os.m_size = 16;
+    os.m_endian = 0;
+    ncheck = dds_stream_extract_key (is, &os, desc->m_ops, just_key);
+    assert(ncheck <= 16);
+    (void)ncheck;
   }
   else
   {
-    /* Hash is md5 of key */
-    dds_key_md5 (kh);
+    dds_stream_t os;
+    md5_state_t md5st;
+    kh->m_iskey = 0;
+    dds_stream_init (&os, 0);
+    os.m_endian = 0;
+    dds_stream_extract_key (is, &os, desc->m_ops, just_key);
+    md5_init (&md5st);
+    md5_append (&md5st, os.m_buffer.p8, os.m_index);
+    md5_finish (&md5st, (unsigned char *) kh->m_hash);
+    dds_stream_fini (&os);
   }
 }
 

@@ -48,15 +48,12 @@ typedef _Return_type_success_(return >  0) int32_t dds_entity_t;
 #include "ddsc/dds_public_error.h"
 #include "ddsc/dds_public_status.h"
 #include "ddsc/dds_public_listener.h"
-#include "ddsc/dds_public_log.h"
-#include "dds_dcps_builtintopics.h"
 
 #if defined (__cplusplus)
 extern "C" {
 #endif
 
-/* FIXME: rename serdata, abstract it properly, etc */
-struct serdata;
+struct ddsi_serdata;
 
 /**
  * @brief Returns the default domain identifier.
@@ -76,15 +73,9 @@ DDS_EXPORT dds_domainid_t dds_domain_default (void);
  * @{
  */
 extern DDS_EXPORT const dds_entity_t DDS_BUILTIN_TOPIC_DCPSPARTICIPANT;
-extern DDS_EXPORT const dds_entity_t DDS_BUILTIN_TOPIC_CMPARTICIPANT;
-extern DDS_EXPORT const dds_entity_t DDS_BUILTIN_TOPIC_DCPSTYPE;
 extern DDS_EXPORT const dds_entity_t DDS_BUILTIN_TOPIC_DCPSTOPIC;
 extern DDS_EXPORT const dds_entity_t DDS_BUILTIN_TOPIC_DCPSPUBLICATION;
-extern DDS_EXPORT const dds_entity_t DDS_BUILTIN_TOPIC_CMPUBLISHER;
 extern DDS_EXPORT const dds_entity_t DDS_BUILTIN_TOPIC_DCPSSUBSCRIPTION;
-extern DDS_EXPORT const dds_entity_t DDS_BUILTIN_TOPIC_CMSUBSCRIBER;
-extern DDS_EXPORT const dds_entity_t DDS_BUILTIN_TOPIC_CMDATAWRITER;
-extern DDS_EXPORT const dds_entity_t DDS_BUILTIN_TOPIC_CMDATAREADER;
 /** @}*/
 
 /** @name Communication Status definitions
@@ -178,6 +169,29 @@ typedef struct dds_sample_info
   uint32_t absolute_generation_rank;
 }
 dds_sample_info_t;
+
+typedef struct dds_builtintopic_guid
+{
+  uint8_t v[16];
+}
+dds_builtintopic_guid_t;
+
+typedef struct dds_builtintopic_participant
+{
+  dds_builtintopic_guid_t key;
+  dds_qos_t *qos;
+}
+dds_builtintopic_participant_t;
+
+typedef struct dds_builtintopic_endpoint
+{
+  dds_builtintopic_guid_t key;
+  dds_builtintopic_guid_t participant_key;
+  char *topic_name;
+  char *type_name;
+  dds_qos_t *qos;
+}
+dds_builtintopic_endpoint_t;
 
 /*
   All entities are represented by a process-private handle, with one
@@ -518,9 +532,15 @@ dds_get_status_changes(
  */
 _Pre_satisfies_(entity & DDS_ENTITY_KIND_MASK)
 DDS_EXPORT _Check_return_ dds_return_t
-dds_get_enabled_status(
+dds_get_status_mask(
         _In_  dds_entity_t entity,
-        _Out_ uint32_t *status);
+        _Out_ uint32_t *mask);
+
+_Pre_satisfies_(entity & DDS_ENTITY_KIND_MASK)
+DDS_EXPORT _Check_return_ dds_return_t
+DDS_DEPRECATED_EXPORT dds_get_enabled_status(
+        _In_  dds_entity_t entity,
+        _Out_ uint32_t *mask);
 
 /**
  * @brief Set status enabled on entity
@@ -543,6 +563,13 @@ dds_get_enabled_status(
  */
 _Pre_satisfies_(entity & DDS_ENTITY_KIND_MASK)
 DDS_EXPORT dds_return_t
+dds_set_status_mask(
+        _In_ dds_entity_t entity,
+        _In_ uint32_t mask);
+
+_Pre_satisfies_(entity & DDS_ENTITY_KIND_MASK)
+DDS_EXPORT dds_return_t
+DDS_DEPRECATED_EXPORT
 dds_set_enabled_status(
         _In_ dds_entity_t entity,
         _In_ uint32_t mask);
@@ -949,7 +976,7 @@ dds_lookup_participant(
         _In_        size_t size);
 
 /**
- * @brief Creates a new topic.
+ * @brief Creates a new topic with default type handling.
  *
  * The type name for the topic is taken from the generated descriptor. Topic
  * matching is done on a combination of topic name and type name.
@@ -976,6 +1003,39 @@ dds_create_topic(
         _In_z_ const char *name,
         _In_opt_ const dds_qos_t *qos,
         _In_opt_ const dds_listener_t *listener);
+
+/**
+ * @brief Creates a new topic with arbitrary type handling.
+ *
+ * The type name for the topic is taken from the provided "sertopic" object. Topic
+ * matching is done on a combination of topic name and type name.
+ *
+ * @param[in]  participant  Participant on which to create the topic.
+ * @param[in]  sertopic     Internal description of the topic type.
+ * @param[in]  name         Name of the topic.
+ * @param[in]  qos          QoS to set on the new topic (can be NULL).
+ * @param[in]  listener     Any listener functions associated with the new topic (can be NULL).
+ * @param[in]  sedp_plist   Topic description to be published as part of discovery (if NULL, not published).
+ *
+ * @returns A valid topic handle or an error code.
+ *
+ * @retval >=0
+ *             A valid topic handle.
+ * @retval DDS_RETCODE_BAD_PARAMETER
+ *             Either participant, descriptor, name or qos is invalid.
+ */
+/* TODO: Check list of retcodes is complete. */
+struct ddsi_sertopic;
+struct nn_plist;
+_Pre_satisfies_((participant & DDS_ENTITY_KIND_MASK) == DDS_KIND_PARTICIPANT)
+DDS_EXPORT dds_entity_t
+dds_create_topic_arbitrary (
+        _In_ dds_entity_t participant,
+        _In_ struct ddsi_sertopic *sertopic,
+        _In_z_ const char *name,
+        _In_opt_ const dds_qos_t *qos,
+        _In_opt_ const dds_listener_t *listener,
+        _In_opt_ const struct nn_plist *sedp_plist);
 
 /**
  * @brief Finds a named topic.
@@ -1050,6 +1110,13 @@ typedef bool (*dds_topic_filter_fn) (const void * sample);
  */
 _Pre_satisfies_((topic & DDS_ENTITY_KIND_MASK) == DDS_KIND_TOPIC)
 DDS_EXPORT void
+dds_set_topic_filter(
+        dds_entity_t topic,
+        dds_topic_filter_fn filter);
+
+_Pre_satisfies_((topic & DDS_ENTITY_KIND_MASK) == DDS_KIND_TOPIC)
+DDS_EXPORT void
+DDS_DEPRECATED_EXPORT
 dds_topic_set_filter(
         dds_entity_t topic,
         dds_topic_filter_fn filter);
@@ -1063,6 +1130,12 @@ dds_topic_set_filter(
  */
 _Pre_satisfies_((topic & DDS_ENTITY_KIND_MASK) == DDS_KIND_TOPIC)
 DDS_EXPORT dds_topic_filter_fn
+dds_get_topic_filter(
+        dds_entity_t topic);
+
+_Pre_satisfies_((topic & DDS_ENTITY_KIND_MASK) == DDS_KIND_TOPIC)
+DDS_EXPORT dds_topic_filter_fn
+DDS_DEPRECATED_EXPORT
 dds_topic_get_filter(
         dds_entity_t topic);
 
@@ -1613,7 +1686,7 @@ dds_dispose_ts(
  *
  * <b><i>Instance Handle</i></b><br>
  * The given instance handle must correspond to the value that was returned by either
- * the dds_register_instance operation, dds_register_instance_ts or dds_instance_lookup.
+ * the dds_register_instance operation, dds_register_instance_ts or dds_lookup_instance.
  * If there is no correspondence, then the result of the operation is unspecified.
  *
  * @param[in]  writer The writer to dispose the data instance from.
@@ -1710,7 +1783,7 @@ _Pre_satisfies_((writer & DDS_ENTITY_KIND_MASK) == DDS_KIND_WRITER)
 DDS_EXPORT int
 dds_writecdr(
         dds_entity_t writer,
-        struct serdata *serdata);
+        struct ddsi_serdata *serdata);
 
 /**
  * @brief Write the value of a data instance along with the source timestamp passed.
@@ -2722,7 +2795,7 @@ dds_take_mask_wl(
 DDS_EXPORT int
 dds_takecdr(
         dds_entity_t reader_or_condition,
-        struct serdata **buf,
+        struct ddsi_serdata **buf,
         uint32_t maxs,
         dds_sample_info_t *si,
         uint32_t mask);
@@ -3039,7 +3112,7 @@ dds_read_next_wl(
 _Pre_satisfies_(((reader_or_condition & DDS_ENTITY_KIND_MASK) == DDS_KIND_READER ) ||\
                 ((reader_or_condition & DDS_ENTITY_KIND_MASK) == DDS_KIND_COND_READ ) || \
                 ((reader_or_condition & DDS_ENTITY_KIND_MASK) == DDS_KIND_COND_QUERY ))
-DDS_EXPORT _Must_inspect_result_ dds_return_t
+DDS_EXPORT dds_return_t
 dds_return_loan(
         _In_ dds_entity_t reader_or_condition,
         _Inout_updates_(bufsz) void **buf,
@@ -3053,7 +3126,7 @@ dds_return_loan(
     T x = { ... };
     T y;
     dds_instance_handle_t ih;
-    ih = dds_instance_lookup (e, &x);
+    ih = dds_lookup_instance (e, &x);
     dds_instance_get_key (e, ih, &y);
 */
 
@@ -3067,7 +3140,14 @@ dds_return_loan(
  */
 _Pre_satisfies_(entity & DDS_ENTITY_KIND_MASK)
 DDS_EXPORT dds_instance_handle_t
-dds_instance_lookup(
+dds_lookup_instance(
+        dds_entity_t entity,
+        const void *data);
+
+_Pre_satisfies_(entity & DDS_ENTITY_KIND_MASK)
+DDS_EXPORT dds_instance_handle_t
+DDS_DEPRECATED_EXPORT
+dds_instance_lookup (
         dds_entity_t entity,
         const void *data);
 
