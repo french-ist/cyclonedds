@@ -10,8 +10,6 @@ cp ../../../../build/core/include/ddsc/* .
 cp ../../../../build/core/*.h .
 cp ../../../core/ddsc/src/*.h .
 
-#./check_if_operations_in_library.sh
-
 echo "=== Generate jna interface for all headers"
 for each in `cat headers.txt`
 do  
@@ -39,7 +37,8 @@ do
             do    
                 sed -i "s/org.eclipse.cyclonedds.ddsc/org.eclipse.cyclonedds.ddsc.$SIMPLE_NAME/g" $src
                 # Add import in order to compile
-                sed -i "/package org.eclipse.cyclonedds.ddsc.$SIMPLE_NAME/a import org.eclipse.cyclonedds.helper.*;" $src             # Remove comments 
+                sed -i "/package org.eclipse.cyclonedds.ddsc.$SIMPLE_NAME/a import org.eclipse.cyclonedds.helper.*;" $src
+                # Remove comments 
                 for cmt in jnaerator nativelibs4java
                 do
                 sed -i /$cmt/d $src
