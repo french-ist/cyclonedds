@@ -1,0 +1,64 @@
+ 
+dds_attach_t dds__types/DdscLibrary.java
+
+dds_inconsistent_topic_status_t dds_public_listener/DdscLibrary.java -> dds__types/DdscLibrary.java
+
+dds_inconsistent_topic_status_t dds__types/DdscLibrary.java
+dds_key_hash_t dds__stream/DdscLibrary.java
+
+dds_listener_t dds/DdscLibrary.java -> dds_public_listener/DdscLibrary.java 
+dds_listener_t dds_public_listener/DdscLibrary.java 
+dds_listener_t dds__subscriber/DdscLibrary.java -> dds_public_listener/DdscLibrary.java
+
+dds_liveliness_changed_status_t dds_public_listener/DdscLibrary.java
+dds_liveliness_changed_status_t dds__types/DdscLibrary.java
+
+dds_liveliness_lost_status_t dds_public_listener/DdscLibrary.java
+dds_liveliness_lost_status_t dds__types/DdscLibrary.java
+
+dds_offered_deadline_missed_status_t dds_public_listener/DdscLibrary.java
+dds_offered_deadline_missed_status_t dds__types/DdscLibrary.java
+
+dds_offered_incompatible_qos_status_t dds_public_listener/DdscLibrary.java
+dds_offered_incompatible_qos_status_t dds__types/DdscLibrary.java
+
+dds_publication_matched_status_t dds_public_listener/DdscLibrary.java
+dds_publication_matched_status_t dds__types/DdscLibrary.java
+
+dds_qos_t dds/DdscLibrary.java
+dds_qos_t dds_public_qos/DdscLibrary.java
+dds_qos_t dds__subscriber/DdscLibrary.java
+dds_qos_t dds__types/DdscLibrary.java
+
+dds_requested_deadline_missed_status_t dds_public_listener/DdscLibrary.java
+dds_requested_deadline_missed_status_t dds__types/DdscLibrary.java
+
+dds_requested_incompatible_qos_status_t dds_public_listener/DdscLibrary.java
+dds_requested_incompatible_qos_status_t dds__types/DdscLibrary.java
+
+dds_sample_info_t dds__rhc/DdscLibrary.java
+
+dds_sample_lost_status_t dds_public_listener/DdscLibrary.java
+dds_sample_lost_status_t dds__types/DdscLibrary.java
+
+dds_sample_rejected_status_t dds_public_listener/DdscLibrary.java
+dds_sample_rejected_status_t dds__types/DdscLibrary.java
+
+dds_stream_t dds__stream/DdscLibrary.java
+
+dds_subscription_matched_status_t dds_public_listener/DdscLibrary.java
+dds_subscription_matched_status_t dds__types/DdscLibrary.java
+
+dds_topic_descriptor_t dds/DdscLibrary.java
+dds_topic_descriptor_t dds__stream/DdscLibrary.java
+dds_topic_descriptor_t dds__types/DdscLibrary.java
+
+nn_guid_t dds__types/DdscLibrary.java
+serdata_t q__osplser/DdscLibrary.java
+
+serstate_t dds__stream/DdscLibrary.java
+serstate_t q__osplser/DdscLibrary.java
+
+ut_avlNode_t dds__types/DdscLibrary.java
+ut_avlTree_t dds__types/DdscLibrary.java
+ut_handle_t dds__types/DdscLibrary.java
