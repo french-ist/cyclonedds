@@ -33,7 +33,7 @@ public class Remplacements {
             if(txt.indexOf("char*") != -1){
                 return txt.replace("(", "(\"").replace(")", "\")");
             } else {
-                return txt.replace("sizeof", "getNativeSize").replace("(", "(\"").replace(")", "\")");
+                return txt.replace("sizeof", "getIntSize").replace("(", "(\"").replace(")", "\")");
             }
         } else if(txt.indexOf("offsetof")!=-1){
             return txt.replace("(", "(\"").replace(")", "\")").replace(",","\",\"");
