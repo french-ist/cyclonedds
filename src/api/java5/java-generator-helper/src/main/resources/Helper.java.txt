@@ -23,7 +23,11 @@ private dds_key_descriptor.ByReference getByReference(dds_key_descriptor[] hello
 }
 
 public int getNativeSize(String string) {
-    return (int) sizeof(string);
+    return new NativeSize(sizeof(string));
+}
+
+public int getIntSize(String string) {
+    return (int)sizeof(string);
 }
 
 public Integer offsetof(String clazz, String field){
