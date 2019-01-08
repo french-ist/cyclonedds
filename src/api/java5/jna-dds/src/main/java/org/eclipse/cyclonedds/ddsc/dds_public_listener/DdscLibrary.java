@@ -59,18 +59,30 @@ public class DdscLibrary implements Library {
 	 * @brief Allocate memory and initializes to default values (::DDS_LUNSET) of a listener<br>
 	 * @param[in] arg optional pointer that will be passed on to the listener callbacks<br>
 	 * @return Returns a pointer to the allocated memory for dds_listener_t structure.<br>
+	 * Original signature : <code>dds_listener_t* dds_create_listener(void*)</code><br>
+	 */
+	public static native PointerByReference dds_create_listener(Pointer arg);
+	/**
 	 * Original signature : <code>dds_listener_t* dds_listener_create(void*)</code><br>
 	 */
 	public static native PointerByReference dds_listener_create(Pointer arg);
 	/**
 	 * @brief Delete the memory allocated to listener structure<br>
 	 * @param[in] listener pointer to the listener struct to delete<br>
+	 * Original signature : <code>void dds_delete_listener(__declspec(__restrict) dds_listener_t*)</code><br>
+	 */
+	public static native void dds_delete_listener(PointerByReference listener);
+	/**
 	 * Original signature : <code>void dds_listener_delete(__declspec(__restrict) dds_listener_t*)</code><br>
 	 */
 	public static native void dds_listener_delete(PointerByReference listener);
 	/**
 	 * @brief Reset the listener structure contents to ::DDS_LUNSET<br>
 	 * @param[in,out] listener pointer to the listener struct to reset<br>
+	 * Original signature : <code>void dds_reset_listener(__declspec(__restrict) dds_listener_t*)</code><br>
+	 */
+	public static native void dds_reset_listener(PointerByReference listener);
+	/**
 	 * Original signature : <code>void dds_listener_reset(__declspec(__restrict) dds_listener_t*)</code><br>
 	 */
 	public static native void dds_listener_reset(PointerByReference listener);
@@ -78,6 +90,10 @@ public class DdscLibrary implements Library {
 	 * @brief Copy the listener callbacks from source to destination<br>
 	 * @param[in,out] dst The pointer to the destination listener structure, where the content is to copied<br>
 	 * @param[in] src The pointer to the source listener structure to be copied<br>
+	 * Original signature : <code>void dds_copy_listener(__declspec(__restrict) dds_listener_t*, __declspec(__restrict) const dds_listener_t*)</code><br>
+	 */
+	public static native void dds_copy_listener(PointerByReference dst, PointerByReference src);
+	/**
 	 * Original signature : <code>void dds_listener_copy(__declspec(__restrict) dds_listener_t*, __declspec(__restrict) const dds_listener_t*)</code><br>
 	 */
 	public static native void dds_listener_copy(PointerByReference dst, PointerByReference src);
@@ -87,6 +103,10 @@ public class DdscLibrary implements Library {
 	 * those set to DDS_LUNSET are copied from @p src.<br>
 	 * @param[in,out] dst The pointer to the destination listener structure, where the content is merged<br>
 	 * @param[in] src The pointer to the source listener structure to be copied<br>
+	 * Original signature : <code>void dds_merge_listener(__declspec(__restrict) dds_listener_t*, __declspec(__restrict) const dds_listener_t*)</code><br>
+	 */
+	public static native void dds_merge_listener(PointerByReference dst, PointerByReference src);
+	/**
 	 * Original signature : <code>void dds_listener_merge(__declspec(__restrict) dds_listener_t*, __declspec(__restrict) const dds_listener_t*)</code><br>
 	 */
 	public static native void dds_listener_merge(PointerByReference dst, PointerByReference src);

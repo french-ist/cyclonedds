@@ -1,5 +1,6 @@
 package org.eclipse.cyclonedds.ddsc.dds;
 import org.eclipse.cyclonedds.helper.*;
+//import org.eclipse.cyclonedds.ddsc.dds_public_impl;
 import com.sun.jna.Callback;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
@@ -19,82 +20,6 @@ public class DdscLibrary implements Library {
 	static {
 		Native.register(DdscLibrary.class, DdscLibrary.JNA_NATIVE_LIB);
 	}
-	/**
-	 * enum values
-	 */
-	public static interface DDS_DurabilityQosPolicyKind {
-		public static final int DDS_VOLATILE_DURABILITY_QOS = 0;
-		public static final int DDS_TRANSIENT_LOCAL_DURABILITY_QOS = 1;
-		public static final int DDS_TRANSIENT_DURABILITY_QOS = 2;
-		public static final int DDS_PERSISTENT_DURABILITY_QOS = 3;
-	};
-	/**
-	 * enum values
-	 */
-	public static interface DDS_PresentationQosPolicyAccessScopeKind {
-		public static final int DDS_INSTANCE_PRESENTATION_QOS = 0;
-		public static final int DDS_TOPIC_PRESENTATION_QOS = 1;
-		public static final int DDS_GROUP_PRESENTATION_QOS = 2;
-	};
-	/**
-	 * enum values
-	 */
-	public static interface DDS_OwnershipQosPolicyKind {
-		public static final int DDS_SHARED_OWNERSHIP_QOS = 0;
-		public static final int DDS_EXCLUSIVE_OWNERSHIP_QOS = 1;
-	};
-	/**
-	 * enum values
-	 */
-	public static interface DDS_LivelinessQosPolicyKind {
-		public static final int DDS_AUTOMATIC_LIVELINESS_QOS = 0;
-		public static final int DDS_MANUAL_BY_PARTICIPANT_LIVELINESS_QOS = 1;
-		public static final int DDS_MANUAL_BY_TOPIC_LIVELINESS_QOS = 2;
-	};
-	/**
-	 * enum values
-	 */
-	public static interface DDS_ReliabilityQosPolicyKind {
-		public static final int DDS_BEST_EFFORT_RELIABILITY_QOS = 0;
-		public static final int DDS_RELIABLE_RELIABILITY_QOS = 1;
-	};
-	/**
-	 * enum values
-	 */
-	public static interface DDS_DestinationOrderQosPolicyKind {
-		public static final int DDS_BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS = 0;
-		public static final int DDS_BY_SOURCE_TIMESTAMP_DESTINATIONORDER_QOS = 1;
-	};
-	/**
-	 * enum values
-	 */
-	public static interface DDS_HistoryQosPolicyKind {
-		public static final int DDS_KEEP_LAST_HISTORY_QOS = 0;
-		public static final int DDS_KEEP_ALL_HISTORY_QOS = 1;
-	};
-	/**
-	 * enum values
-	 */
-	public static interface DDS_InvalidSampleVisibilityQosPolicyKind {
-		public static final int DDS_NO_INVALID_SAMPLES = 0;
-		public static final int DDS_MINIMUM_INVALID_SAMPLES = 1;
-		public static final int DDS_ALL_INVALID_SAMPLES = 2;
-	};
-	/**
-	 * enum values
-	 */
-	public static interface DDS_SchedulingClassQosPolicyKind {
-		public static final int DDS_SCHEDULE_DEFAULT = 0;
-		public static final int DDS_SCHEDULE_TIMESHARING = 1;
-		public static final int DDS_SCHEDULE_REALTIME = 2;
-	};
-	/**
-	 * enum values
-	 */
-	public static interface DDS_SchedulingPriorityQosPolicyKind {
-		public static final int DDS_PRIORITY_RELATIVE = 0;
-		public static final int DDS_PRIORITY_ABSOLUTE = 1;
-	};
 	/**
 	 * enum values
 	 */
@@ -134,11 +59,6 @@ public class DdscLibrary implements Library {
 	public static final int DDS_NOT_ALIVE_NO_WRITERS_INSTANCE_STATE = (int)64;
 	public static final int DDS_ANY_INSTANCE_STATE = (int)(16 | 32 | 64);
 	public static final int DDS_ANY_STATE = (int)((1 | 2) | (4 | 8) | (16 | 32 | 64));
-	public static final int DDS_XCDR_REPRESENTATION = (int)0;
-	public static final int DDS_XML_REPRESENTATION = (int)1;
-	public static final int DDS_OSPL_REPRESENTATION = (int)1024;
-	public static final int DDS_GPB_REPRESENTATION = (int)1025;
-	public static final int DDS_INVALID_REPRESENTATION = (int)32767;
 	public static final int DDS_INCONSISTENT_TOPIC_STATUS = (int)1;
 	public static final int DDS_OFFERED_DEADLINE_MISSED_STATUS = (int)2;
 	public static final int DDS_REQUESTED_DEADLINE_MISSED_STATUS = (int)4;
@@ -327,9 +247,13 @@ public class DdscLibrary implements Library {
 	 *             The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *             The entity has already been deleted.<br>
-	 * Original signature : <code>dds_return_t dds_get_enabled_status(dds_entity_t, uint32_t*)</code><br>
+	 * Original signature : <code>dds_return_t dds_get_status_mask(dds_entity_t, uint32_t*)</code><br>
 	 */
-	public static native int dds_get_enabled_status(int entity, IntBuffer status);
+	public static native int dds_get_status_mask(int entity, IntBuffer mask);
+	/**
+	 * Original signature : <code>DDS_DEPRECATED_EXPORT dds_get_enabled_status(dds_entity_t, uint32_t*)</code><br>
+	 */
+	public static native DdscLibrary.DDS_DEPRECATED_EXPORT dds_get_enabled_status(int entity, IntBuffer mask);
 	/**
 	 * @brief Set status enabled on entity<br>
 	 * This operation enables the status(es) based on the mask set<br>
@@ -344,9 +268,13 @@ public class DdscLibrary implements Library {
 	 *             The operation is invoked on an inappropriate object.<br>
 	 * @retval DDS_RETCODE_ALREADY_DELETED<br>
 	 *             The entity has already been deleted.<br>
-	 * Original signature : <code>dds_return_t dds_set_enabled_status(dds_entity_t, uint32_t)</code><br>
+	 * Original signature : <code>dds_return_t dds_set_status_mask(dds_entity_t, uint32_t)</code><br>
 	 */
-	public static native int dds_set_enabled_status(int entity, int mask);
+	public static native int dds_set_status_mask(int entity, int mask);
+	/**
+	 * Original signature : <code>DDS_DEPRECATED_EXPORT dds_set_enabled_status(dds_entity_t, uint32_t)</code><br>
+	 */
+	public static native DdscLibrary.DDS_DEPRECATED_EXPORT dds_set_enabled_status(int entity, int mask);
 	/**
 	 * TODO: Link to generic QoS information documentation.<br>
 	 * Original signature : <code>dds_return_t dds_get_qos(dds_entity_t, dds_qos_t*)</code><br>
@@ -362,7 +290,6 @@ public class DdscLibrary implements Library {
 	 * Original signature : <code>dds_return_t dds_get_listener(dds_entity_t, dds_listener_t*)</code><br>
 	 */
 	public static native int dds_get_listener(int entity, DdscLibrary.dds_listener_t listener);
-public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.ddsc.dds__types.c_listener.ByReference listener); 
 	/**
 	 * TODO: Link to (generic) Listener and status information.<br>
 	 * Original signature : <code>dds_return_t dds_set_listener(dds_entity_t, const dds_listener_t*)</code><br>
@@ -467,7 +394,14 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 * Original signature : <code>dds_entity_t dds_create_topic(dds_entity_t, const dds_topic_descriptor_t*, const char*, const dds_qos_t*, const dds_listener_t*)</code><br>
 	 */
 	public static native int dds_create_topic(int participant, DdscLibrary.dds_topic_descriptor_t descriptor, String name, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
-	public static native int dds_create_topic(int participant, org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_topic_descriptor.ByReference descriptor, String name, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
+	// MANUALLY ADDED
+	public static native int dds_create_topic(int participant, org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_topic_descriptor.ByReference descriptor, String name, 
+	DdscLibrary.dds_qos_t qos, 
+	DdscLibrary.dds_listener_t listener);
+	/**
+	 * Original signature : <code>dds_entity_t dds_create_topic_arbitrary(dds_entity_t, ddsi_sertopic*, const char*, const dds_qos_t*, const dds_listener_t*, nn_plist*)</code><br>
+	 */
+	public static native int dds_create_topic_arbitrary(int participant, DdscLibrary.ddsi_sertopic sertopic, String name, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener, DdscLibrary.nn_plist sedp_plist);
 	/**
 	 * TODO: Check list of retcodes is complete.<br>
 	 * Original signature : <code>dds_entity_t dds_find_topic(dds_entity_t, const char*)</code><br>
@@ -493,16 +427,24 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 * @brief Sets a filter on a topic.<br>
 	 * @param[in]  topic   The topic on which the content filter is set.<br>
 	 * @param[in]  filter  The filter function used to filter topic samples.<br>
-	 * Original signature : <code>void dds_topic_set_filter(dds_entity_t, dds_topic_filter_fn)</code><br>
+	 * Original signature : <code>void dds_set_topic_filter(dds_entity_t, dds_topic_filter_fn)</code><br>
 	 */
-	public static native void dds_topic_set_filter(int topic, DdscLibrary.dds_topic_filter_fn filter);
+	public static native void dds_set_topic_filter(int topic, DdscLibrary.dds_topic_filter_fn filter);
+	/**
+	 * Original signature : <code>DDS_DEPRECATED_EXPORT dds_topic_set_filter(dds_entity_t, dds_topic_filter_fn)</code><br>
+	 */
+	public static native DdscLibrary.DDS_DEPRECATED_EXPORT dds_topic_set_filter(int topic, DdscLibrary.dds_topic_filter_fn filter);
 	/**
 	 * @brief Gets the filter for a topic.<br>
 	 * @param[in]  topic  The topic from which to get the filter.<br>
 	 * @returns The topic filter.<br>
-	 * Original signature : <code>dds_topic_filter_fn dds_topic_get_filter(dds_entity_t)</code><br>
+	 * Original signature : <code>dds_topic_filter_fn dds_get_topic_filter(dds_entity_t)</code><br>
 	 */
-	public static native DdscLibrary.dds_topic_filter_fn dds_topic_get_filter(int topic);
+	public static native DdscLibrary.dds_topic_filter_fn dds_get_topic_filter(int topic);
+	/**
+	 * Original signature : <code>DDS_DEPRECATED_EXPORT dds_topic_get_filter(dds_entity_t)</code><br>
+	 */
+	public static native DdscLibrary.DDS_DEPRECATED_EXPORT dds_topic_get_filter(int topic);
 	/**
 	 * @brief Creates a new instance of a DDS subscriber<br>
 	 * @param[in]  participant The participant on which the subscriber is being created.<br>
@@ -582,9 +524,9 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 * TODO: Complete list of error codes<br>
 	 * Original signature : <code>dds_entity_t dds_create_reader(dds_entity_t, dds_entity_t, const dds_qos_t*, const dds_listener_t*)</code><br>
 	 */
-	//public static native int dds_create_reader(int participant_or_subscriber, int topic, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
-	public static native int dds_create_reader(int participant_or_subscriber, int topic, org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
-
+	// MANUALLY MODIFIED
+	public static native int dds_create_reader(int participant_or_subscriber, int topic, 
+	org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
 	/**
 	 * TODO: Complete list of error codes<br>
 	 * Original signature : <code>int dds_reader_wait_for_historical_data(dds_entity_t, dds_duration_t)</code><br>
@@ -848,7 +790,7 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 * setting their dds_instance_state_t to DDS_IST_NOT_ALIVE_DISPOSED.<br>
 	 * <b><i>Instance Handle</i></b><br>
 	 * The given instance handle must correspond to the value that was returned by either<br>
-	 * the dds_register_instance operation, dds_register_instance_ts or dds_instance_lookup.<br>
+	 * the dds_register_instance operation, dds_register_instance_ts or dds_lookup_instance.<br>
 	 * If there is no correspondence, then the result of the operation is unspecified.<br>
 	 * @param[in]  writer The writer to dispose the data instance from.<br>
 	 * @param[in]  handle The handle to identify an instance.<br>
@@ -903,7 +845,6 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 * Original signature : <code>dds_return_t dds_write(dds_entity_t, const void*)</code><br>
 	 */
 	public static native int dds_write(int writer, Pointer data);
-
 	/**
 	 * TODO: What is it for and is it really needed?<br>
 	 * Original signature : <code>void dds_write_flush(dds_entity_t)</code><br>
@@ -915,9 +856,9 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 * @param[in]  cdr CDR serialized value to be written.<br>
 	 * @param[in]  size Size (in bytes) of CDR encoded data to be written.<br>
 	 * @returns A dds_return_t indicating success or failure.<br>
-	 * Original signature : <code>int dds_writecdr(dds_entity_t, serdata*)</code><br>
+	 * Original signature : <code>int dds_writecdr(dds_entity_t, ddsi_serdata*)</code><br>
 	 */
-	public static native int dds_writecdr(int writer, DdscLibrary.serdata serdata);
+	public static native int dds_writecdr(int writer, DdscLibrary.ddsi_serdata serdata);
 	/**
 	 * @brief Write the value of a data instance along with the source timestamp passed.<br>
 	 * @param[in]  writer The writer entity.<br>
@@ -1297,8 +1238,7 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 *             The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_read(dds_entity_t, void**, dds_sample_info_t*, size_t, uint32_t)</code><br>
 	 */
-	public static native int dds_read(int reader_or_condition, PointerByReference buf, dds_sample_info.ByReference si, NativeSize bufsz, int maxs);
-
+	public static native int dds_read(int reader_or_condition, PointerByReference buf, dds_sample_info si, NativeSize bufsz, int maxs);
 	/**
 	 * @brief Access and read loaned samples of data reader, readcondition or querycondition.<br>
 	 * After dds_read_wl function is being called and the data has been handled, dds_return_loan function must be called to possibly free memory.<br>
@@ -1575,11 +1515,12 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 */
 	public static native int dds_take_mask_wl(int reader_or_condition, PointerByReference buf, dds_sample_info si, int maxs, int mask);
 	/**
-	 * Original signature : <code>int dds_takecdr(dds_entity_t, serdata**, uint32_t, dds_sample_info_t*, uint32_t)</code><br>
+	 * Original signature : <code>int dds_takecdr(dds_entity_t, ddsi_serdata**, uint32_t, dds_sample_info_t*, uint32_t)</code><br>
 	 */
-	//public static native int dds_takecdr(int reader_or_condition, DdscLibrary.serdata buf[], int maxs, dds_sample_info si, int mask);
+	// MANUALLY MODIFIED
+	// public static native int dds_takecdr(int reader_or_condition, DdscLibrary.ddsi_serdata buf[], int maxs, dds_sample_info si, int mask);
 	public static native int dds_takecdr(int reader_or_condition, PointerByReference buf, int maxs, dds_sample_info si, int mask);
-	/**
+    /**
 	 * @brief Access the collection of data values (of same type) and sample info from the<br>
 	 *        data reader, readcondition or querycondition but scoped by the given<br>
 	 *        instance handle.<br>
@@ -1772,8 +1713,6 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 *             The entity has already been deleted.<br>
 	 * Original signature : <code>dds_return_t dds_read_next_wl(dds_entity_t, void**, dds_sample_info_t*)</code><br>
 	 */
-
-
 	public static native int dds_read_next_wl(int reader, PointerByReference buf, dds_sample_info si);
 	/**
 	 * TODO: Add list of possible return codes<br>
@@ -1785,9 +1724,13 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 * @param[in]  entity Reader or Writer entity.<br>
 	 * @param[in]  data   Sample with a key fields set.<br>
 	 * @returns instance handle or DDS_HANDLE_NIL if instance could not be found from key.<br>
-	 * Original signature : <code>dds_instance_handle_t dds_instance_lookup(dds_entity_t, const void*)</code><br>
+	 * Original signature : <code>dds_instance_handle_t dds_lookup_instance(dds_entity_t, const void*)</code><br>
 	 */
-	public static native long dds_instance_lookup(int entity, Pointer data);
+	public static native long dds_lookup_instance(int entity, Pointer data);
+	/**
+	 * Original signature : <code>DDS_DEPRECATED_EXPORT dds_instance_lookup(dds_entity_t, const void*)</code><br>
+	 */
+	public static native DdscLibrary.DDS_DEPRECATED_EXPORT dds_instance_lookup(int entity, Pointer data);
 	/**
 	 * TODO: Check return codes for completeness<br>
 	 * Original signature : <code>dds_return_t dds_instance_get_key(dds_entity_t, dds_instance_handle_t, void*)</code><br>
@@ -1870,11 +1813,35 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 	 * Original signature : <code>dds_entity_t dds_get_topic(dds_entity_t)</code><br>
 	 */
 	public static native int dds_get_topic(int entity);
-	public static class serdata extends PointerType {
-		public serdata(Pointer address) {
+	public static class DDS_DEPRECATED_EXPORT extends PointerType {
+		public DDS_DEPRECATED_EXPORT(Pointer address) {
 			super(address);
 		}
-		public serdata() {
+		public DDS_DEPRECATED_EXPORT() {
+			super();
+		}
+	};
+	public static class ddsi_serdata extends PointerType {
+		public ddsi_serdata(Pointer address) {
+			super(address);
+		}
+		public ddsi_serdata() {
+			super();
+		}
+	};
+	public static class ddsi_sertopic extends PointerType {
+		public ddsi_sertopic(Pointer address) {
+			super(address);
+		}
+		public ddsi_sertopic() {
+			super();
+		}
+	};
+	public static class nn_plist extends PointerType {
+		public nn_plist(Pointer address) {
+			super(address);
+		}
+		public nn_plist() {
 			super();
 		}
 	};
@@ -1902,7 +1869,4 @@ public static native int dds_get_listener(int entity, org.eclipse.cyclonedds.dds
 			super();
 		}
 	};
-
-	//public static native void dds_qset_reliability(PointerByReference qos, int kind, int max_blocking_time);
-	public static native void dds_qset_reliability(org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qos_t qos, int ddsReliabilityReliable, int max_blocking_time);
 }

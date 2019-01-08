@@ -7,7 +7,6 @@ echo "=== Generate jna interface for core/ddsc/include/ddsc/dds.h"
 cp ../../../../src/os/include/os/os_public.h .
 cp ../../../core/ddsc/include/ddsc/* .
 cp ../../../../build/core/include/ddsc/* .
-cp ../../../../build/core/*.h .
 cp ../../../core/ddsc/src/*.h .
 
 echo "=== Generate jna interface for all headers"
@@ -54,9 +53,9 @@ echo "=== Restore pom.xml"
 mv pom.xml.bk pom.xml
 
 # remove duplicated generated java class
-./remove_duplicates.sh
+#./remove_duplicates.sh
 # add more operations where needed 
-./add_operations.sh
+#./add_operations.sh
 # remove comments line number in C header
 find . -name *.java* | xargs sed -i '/<i>native declaration/d'
 

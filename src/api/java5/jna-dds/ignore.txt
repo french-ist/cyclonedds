@@ -39,3 +39,4 @@ _In_z_
 _Inout_
 _In_
 _Out_
+_Ret_notnull_

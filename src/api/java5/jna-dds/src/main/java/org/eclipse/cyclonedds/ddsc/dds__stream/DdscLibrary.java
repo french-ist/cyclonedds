@@ -5,6 +5,7 @@ import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
 import com.sun.jna.Pointer;
 import com.sun.jna.PointerType;
+import java.nio.IntBuffer;
 /**
  * JNA Wrapper for library <b>ddsc</b><br>
  */
@@ -28,29 +29,33 @@ public class DdscLibrary implements Library {
 	 * v. 1.0 which is available at<br>
 	 * http://www.eclipse.org/org/documents/edl-v10.php.<br>
 	 * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause<br>
-	 * Original signature : <code>void dds_stream_write_sample(dds_stream_t*, const void*, sertopic*)</code><br>
+	 * Original signature : <code>void dds_stream_write_sample(dds_stream_t*, const void*, ddsi_sertopic_default*)</code><br>
 	 */
-	public static native void dds_stream_write_sample(DdscLibrary.dds_stream_t os, Pointer data, DdscLibrary.sertopic topic);
+	public static native void dds_stream_write_sample(DdscLibrary.dds_stream_t os, Pointer data, DdscLibrary.ddsi_sertopic_default topic);
 	/**
-	 * Original signature : <code>void dds_stream_read_sample(dds_stream_t*, void*, sertopic*)</code><br>
+	 * Original signature : <code>void dds_stream_read_sample(dds_stream_t*, void*, ddsi_sertopic_default*)</code><br>
 	 */
-	public static native void dds_stream_read_sample(DdscLibrary.dds_stream_t is, Pointer data, DdscLibrary.sertopic topic);
+	public static native void dds_stream_read_sample(DdscLibrary.dds_stream_t is, Pointer data, DdscLibrary.ddsi_sertopic_default topic);
 	/**
 	 * Original signature : <code>size_t dds_stream_check_optimize(const dds_topic_descriptor_t*)</code><br>
 	 */
 	public static native NativeSize dds_stream_check_optimize(DdscLibrary.dds_topic_descriptor_t desc);
 	/**
-	 * Original signature : <code>void dds_stream_from_serstate(dds_stream_t*, const serstate_t)</code><br>
+	 * Original signature : <code>void dds_stream_from_serdata_default(dds_stream_t*, ddsi_serdata_default*)</code><br>
 	 */
-	public static native void dds_stream_from_serstate(DdscLibrary.dds_stream_t s, DdscLibrary.serstate_t st);
+	public static native void dds_stream_from_serdata_default(DdscLibrary.dds_stream_t s, DdscLibrary.ddsi_serdata_default d);
 	/**
-	 * Original signature : <code>void dds_stream_add_to_serstate(dds_stream_t*, serstate_t)</code><br>
+	 * Original signature : <code>void dds_stream_add_to_serdata_default(dds_stream_t*, ddsi_serdata_default**)</code><br>
 	 */
-	public static native void dds_stream_add_to_serstate(DdscLibrary.dds_stream_t s, DdscLibrary.serstate_t st);
+	public static native void dds_stream_add_to_serdata_default(DdscLibrary.dds_stream_t s, DdscLibrary.ddsi_serdata_default d[]);
 	/**
-	 * Original signature : <code>void dds_stream_write_key(dds_stream_t*, const char*, const dds_topic_descriptor_t*)</code><br>
+	 * Original signature : <code>void dds_stream_write_key(dds_stream_t*, const char*, ddsi_sertopic_default*)</code><br>
 	 */
-	public static native void dds_stream_write_key(DdscLibrary.dds_stream_t os, String sample, DdscLibrary.dds_topic_descriptor_t desc);
+	public static native void dds_stream_write_key(DdscLibrary.dds_stream_t os, String sample, DdscLibrary.ddsi_sertopic_default topic);
+	/**
+	 * Original signature : <code>uint32_t dds_stream_extract_key(dds_stream_t*, dds_stream_t*, const uint32_t*, const bool)</code><br>
+	 */
+	public static native int dds_stream_extract_key(DdscLibrary.dds_stream_t is, DdscLibrary.dds_stream_t os, IntBuffer ops, byte just_key);
 	/**
 	 * Original signature : <code>void dds_stream_read_key(dds_stream_t*, char*, const dds_topic_descriptor_t*)</code><br>
 	 */
@@ -67,19 +72,19 @@ public class DdscLibrary implements Library {
 	 * Original signature : <code>void dds_stream_swap(void*, uint32_t, uint32_t)</code><br>
 	 */
 	public static native void dds_stream_swap(Pointer buff, int size, int num);
-	public static class sertopic extends PointerType {
-		public sertopic(Pointer address) {
+	public static class ddsi_sertopic_default extends PointerType {
+		public ddsi_sertopic_default(Pointer address) {
 			super(address);
 		}
-		public sertopic() {
+		public ddsi_sertopic_default() {
 			super();
 		}
 	};
-	public static class serstate_t extends PointerType {
-		public serstate_t(Pointer address) {
+	public static class ddsi_serdata_default extends PointerType {
+		public ddsi_serdata_default(Pointer address) {
 			super(address);
 		}
-		public serstate_t() {
+		public ddsi_serdata_default() {
 			super();
 		}
 	};

@@ -10,6 +10,7 @@ do
     echo $each
     sed -i "s/$each//g" _${1}
 done
+export JNAERATOR_INCLUDE_PATH=/usr/include/x86_64-linux-gnu:/usr/lib/gcc/x86_64-linux-gnu/7/include:$JNAERATOR_INCLUDE_PATH
 # skip functions which are in headers and not in library .so
 FUNCTIONS_TO_SKIP=`cat FUNCTIONS_TO_SKIP.txt | tr '\n' '|' | sed "s/|$//g"`
 echo $FUNCTIONS_TO_SKIP

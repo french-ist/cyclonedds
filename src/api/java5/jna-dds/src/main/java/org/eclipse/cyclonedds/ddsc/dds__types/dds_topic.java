@@ -5,8 +5,8 @@ import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
 import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.dds_inconsistent_topic_status_t;
-import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.dds_topic_descriptor_t;
-import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.sertopic;
+import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.dds_topic_intern_filter_fn;
+import org.eclipse.cyclonedds.ddsc.dds__types.DdscLibrary.ddsi_sertopic;
 /**
  */
 public class dds_topic extends Structure {
@@ -18,21 +18,29 @@ public class dds_topic extends Structure {
 	public void setM_entity(dds_entity m_entity) {
 		this.m_entity = m_entity;
 	}
-	/** C type : sertopic* */
-	public sertopic m_stopic;
-	public sertopic getM_stopic() {
+	/** C type : ddsi_sertopic* */
+	public ddsi_sertopic m_stopic;
+	public ddsi_sertopic getM_stopic() {
 		return m_stopic;
 	}
-	public void setM_stopic(sertopic m_stopic) {
+	public void setM_stopic(ddsi_sertopic m_stopic) {
 		this.m_stopic = m_stopic;
 	}
-	/** C type : const dds_topic_descriptor_t* */
-	public dds_topic_descriptor_t m_descriptor;
-	public dds_topic_descriptor_t getM_descriptor() {
-		return m_descriptor;
+	/** C type : dds_topic_intern_filter_fn */
+	public dds_topic_intern_filter_fn filter_fn;
+	public dds_topic_intern_filter_fn getFilter_fn() {
+		return filter_fn;
 	}
-	public void setM_descriptor(dds_topic_descriptor_t m_descriptor) {
-		this.m_descriptor = m_descriptor;
+	public void setFilter_fn(dds_topic_intern_filter_fn filter_fn) {
+		this.filter_fn = filter_fn;
+	}
+	/** C type : void* */
+	public Pointer filter_ctx;
+	public Pointer getFilter_ctx() {
+		return filter_ctx;
+	}
+	public void setFilter_ctx(Pointer filter_ctx) {
+		this.filter_ctx = filter_ctx;
 	}
 	/** C type : dds_inconsistent_topic_status_t */
 	public dds_inconsistent_topic_status_t m_inconsistent_topic_status;
@@ -46,19 +54,21 @@ public class dds_topic extends Structure {
 		super();
 	}
 	protected List<String> getFieldOrder() {
-		return Arrays.asList("m_entity", "m_stopic", "m_descriptor", "m_inconsistent_topic_status");
+		return Arrays.asList("m_entity", "m_stopic", "filter_fn", "filter_ctx", "m_inconsistent_topic_status");
 	}
 	/**
 	 * @param m_entity C type : dds_entity<br>
-	 * @param m_stopic C type : sertopic*<br>
-	 * @param m_descriptor C type : const dds_topic_descriptor_t*<br>
+	 * @param m_stopic C type : ddsi_sertopic*<br>
+	 * @param filter_fn C type : dds_topic_intern_filter_fn<br>
+	 * @param filter_ctx C type : void*<br>
 	 * @param m_inconsistent_topic_status C type : dds_inconsistent_topic_status_t
 	 */
-	public dds_topic(dds_entity m_entity, sertopic m_stopic, dds_topic_descriptor_t m_descriptor, dds_inconsistent_topic_status_t m_inconsistent_topic_status) {
+	public dds_topic(dds_entity m_entity, ddsi_sertopic m_stopic, dds_topic_intern_filter_fn filter_fn, Pointer filter_ctx, dds_inconsistent_topic_status_t m_inconsistent_topic_status) {
 		super();
 		this.m_entity = m_entity;
 		this.m_stopic = m_stopic;
-		this.m_descriptor = m_descriptor;
+		this.filter_fn = filter_fn;
+		this.filter_ctx = filter_ctx;
 		this.m_inconsistent_topic_status = m_inconsistent_topic_status;
 	}
 	public dds_topic(Pointer peer) {

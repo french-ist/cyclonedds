@@ -31,22 +31,22 @@ public class DdscLibrary implements Library {
 	 */
 	public static native int dds_write_impl(DdscLibrary.dds_writer wr, Pointer data, long tstamp, int action);
 	/**
-	 * Original signature : <code>int dds_writecdr_impl(dds_writer*, serdata*, dds_time_t, dds_write_action)</code><br>
+	 * Original signature : <code>int dds_writecdr_impl(dds_writer*, ddsi_serdata*, dds_time_t, dds_write_action)</code><br>
 	 */
-	public static native int dds_writecdr_impl(DdscLibrary.dds_writer wr, DdscLibrary.serdata d, long tstamp, int action);
-	public static class serdata extends PointerType {
-		public serdata(Pointer address) {
-			super(address);
-		}
-		public serdata() {
-			super();
-		}
-	};
+	public static native int dds_writecdr_impl(DdscLibrary.dds_writer wr, DdscLibrary.ddsi_serdata d, long tstamp, int action);
 	public static class dds_writer extends PointerType {
 		public dds_writer(Pointer address) {
 			super(address);
 		}
 		public dds_writer() {
+			super();
+		}
+	};
+	public static class ddsi_serdata extends PointerType {
+		public ddsi_serdata(Pointer address) {
+			super(address);
+		}
+		public ddsi_serdata() {
 			super();
 		}
 	};

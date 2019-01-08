@@ -27,6 +27,9 @@ public class DdscLibrary implements Library {
 	public interface dds_entity_callback extends Callback {
 		void apply(int observer, int observed, int status);
 	};
+	public interface dds_topic_intern_filter_fn extends Callback {
+		byte apply(Pointer sample, Pointer ctx);
+	};
 	public static class dds_on_liveliness_changed_fn extends PointerType {
 		public dds_on_liveliness_changed_fn(Pointer address) {
 			super(address);
@@ -131,14 +134,6 @@ public class DdscLibrary implements Library {
 			super();
 		}
 	};
-	public static class sertopic extends PointerType {
-		public sertopic(Pointer address) {
-			super(address);
-		}
-		public sertopic() {
-			super();
-		}
-	};
 	public static class dds_on_publication_matched_fn extends PointerType {
 		public dds_on_publication_matched_fn(Pointer address) {
 			super(address);
@@ -176,14 +171,6 @@ public class DdscLibrary implements Library {
 			super(address);
 		}
 		public dds_on_data_available_fn() {
-			super();
-		}
-	};
-	public static class dds_topic_descriptor_t extends PointerType {
-		public dds_topic_descriptor_t(Pointer address) {
-			super(address);
-		}
-		public dds_topic_descriptor_t() {
 			super();
 		}
 	};
@@ -320,6 +307,14 @@ public class DdscLibrary implements Library {
 			super(address);
 		}
 		public dds_on_sample_rejected_fn() {
+			super();
+		}
+	};
+	public static class ddsi_sertopic extends PointerType {
+		public ddsi_sertopic(Pointer address) {
+			super(address);
+		}
+		public ddsi_sertopic() {
 			super();
 		}
 	};

@@ -9,11 +9,11 @@ import java.util.List;
  */
 public class dds_topic_descriptor extends Structure {
 	/** Size of topic type */
-	public NativeSize m_size;
-	public NativeSize getM_size() {
+	public int m_size;
+	public int getM_size() {
 		return m_size;
 	}
-	public void setM_size(NativeSize m_size) {
+	public void setM_size(int m_size) {
 		this.m_size = m_size;
 	}
 	/** Alignment of topic type */
@@ -113,7 +113,7 @@ public class dds_topic_descriptor extends Structure {
 	 * @param m_meta XML topic description meta data<br>
 	 * C type : const char*
 	 */
-	public dds_topic_descriptor(NativeSize m_size, int m_align, int m_flagset, int m_nkeys, Pointer m_typename, org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_key_descriptor.ByReference m_keys, int m_nops, IntByReference m_ops, Pointer m_meta) {
+	public dds_topic_descriptor(int m_size, int m_align, int m_flagset, int m_nkeys, Pointer m_typename, org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_key_descriptor.ByReference m_keys, int m_nops, IntByReference m_ops, Pointer m_meta) {
 		super();
 		this.m_size = m_size;
 		this.m_align = m_align;

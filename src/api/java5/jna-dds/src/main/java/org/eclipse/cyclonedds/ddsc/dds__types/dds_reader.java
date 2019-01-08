@@ -52,7 +52,7 @@ public class dds_reader extends Structure {
 	public void setM_loan_out(byte m_loan_out) {
 		this.m_loan_out = m_loan_out;
 	}
-	/** C type : char* */
+	/** C type : void* */
 	public Pointer m_loan;
 	public Pointer getM_loan() {
 		return m_loan;

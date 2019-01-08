@@ -16,9 +16,9 @@ public class DdscLibrary implements Library {
 		Native.register(DdscLibrary.class, DdscLibrary.JNA_NATIVE_LIB);
 	}
 	/**
-	 * Original signature : <code>rhc* dds_rhc_new(dds_reader*, sertopic*)</code><br>
+	 * Original signature : <code>rhc* dds_rhc_new(dds_reader*, ddsi_sertopic*)</code><br>
 	 */
-	public static native DdscLibrary.rhc dds_rhc_new(DdscLibrary.dds_reader reader, DdscLibrary.sertopic topic);
+	public static native DdscLibrary.rhc dds_rhc_new(DdscLibrary.dds_reader reader, DdscLibrary.ddsi_sertopic topic);
 	/**
 	 * Original signature : <code>void dds_rhc_free(rhc*)</code><br>
 	 */
@@ -32,9 +32,9 @@ public class DdscLibrary implements Library {
 	 */
 	public static native int dds_rhc_lock_samples(DdscLibrary.rhc rhc);
 	/**
-	 * Original signature : <code>bool dds_rhc_store(__declspec(__restrict) rhc*, __declspec(__restrict) proxy_writer_info*, __declspec(__restrict) serdata*, __declspec(__restrict) tkmap_instance*)</code><br>
+	 * Original signature : <code>bool dds_rhc_store(__declspec(__restrict) rhc*, __declspec(__restrict) proxy_writer_info*, __declspec(__restrict) ddsi_serdata*, __declspec(__restrict) ddsi_tkmap_instance*)</code><br>
 	 */
-	public static native byte dds_rhc_store(DdscLibrary.rhc rhc, DdscLibrary.proxy_writer_info pwr_info, DdscLibrary.serdata sample, DdscLibrary.tkmap_instance tk);
+	public static native byte dds_rhc_store(DdscLibrary.rhc rhc, DdscLibrary.proxy_writer_info pwr_info, DdscLibrary.ddsi_serdata sample, DdscLibrary.ddsi_tkmap_instance tk);
 	/**
 	 * Original signature : <code>void dds_rhc_unregister_wr(__declspec(__restrict) rhc*, __declspec(__restrict) proxy_writer_info*)</code><br>
 	 */
@@ -64,30 +64,14 @@ public class DdscLibrary implements Library {
 	 */
 	public static native void dds_rhc_remove_readcondition(DdscLibrary.dds_readcond cond);
 	/**
-	 * Original signature : <code>int dds_rhc_takecdr(rhc*, bool, serdata**, dds_sample_info_t*, uint32_t, unsigned, unsigned, unsigned, dds_instance_handle_t)</code><br>
+	 * Original signature : <code>int dds_rhc_takecdr(rhc*, bool, ddsi_serdata**, dds_sample_info_t*, uint32_t, unsigned, unsigned, unsigned, dds_instance_handle_t)</code><br>
 	 */
-	public static native int dds_rhc_takecdr(DdscLibrary.rhc rhc, byte lock, DdscLibrary.serdata values[], DdscLibrary.dds_sample_info_t info_seq, int max_samples, int sample_states, int view_states, int instance_states, long handle);
-	public static class serdata extends PointerType {
-		public serdata(Pointer address) {
+	public static native int dds_rhc_takecdr(DdscLibrary.rhc rhc, byte lock, DdscLibrary.ddsi_serdata values[], DdscLibrary.dds_sample_info_t info_seq, int max_samples, int sample_states, int view_states, int instance_states, long handle);
+	public static class ddsi_serdata extends PointerType {
+		public ddsi_serdata(Pointer address) {
 			super(address);
 		}
-		public serdata() {
-			super();
-		}
-	};
-	public static class sertopic extends PointerType {
-		public sertopic(Pointer address) {
-			super(address);
-		}
-		public sertopic() {
-			super();
-		}
-	};
-	public static class tkmap_instance extends PointerType {
-		public tkmap_instance(Pointer address) {
-			super(address);
-		}
-		public tkmap_instance() {
+		public ddsi_serdata() {
 			super();
 		}
 	};
@@ -96,6 +80,14 @@ public class DdscLibrary implements Library {
 			super(address);
 		}
 		public dds_reader() {
+			super();
+		}
+	};
+	public static class ddsi_sertopic extends PointerType {
+		public ddsi_sertopic(Pointer address) {
+			super(address);
+		}
+		public ddsi_sertopic() {
 			super();
 		}
 	};
@@ -128,6 +120,14 @@ public class DdscLibrary implements Library {
 			super(address);
 		}
 		public rhc() {
+			super();
+		}
+	};
+	public static class ddsi_tkmap_instance extends PointerType {
+		public ddsi_tkmap_instance(Pointer address) {
+			super(address);
+		}
+		public ddsi_tkmap_instance() {
 			super();
 		}
 	};

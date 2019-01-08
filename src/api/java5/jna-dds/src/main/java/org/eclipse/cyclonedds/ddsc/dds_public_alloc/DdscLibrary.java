@@ -66,6 +66,15 @@ public class DdscLibrary implements Library {
 	/**
 	 * Original signature : <code>void dds_sample_free(void*, dds_topic_descriptor*, dds_free_op_t)</code><br>
 	 */
+	public static native void dds_sample_free(Pointer sample, DdscLibrary.dds_topic_descriptor desc, int op);
 	public static native void dds_sample_free(Pointer sample, org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_topic_descriptor.ByReference desc, int op);
-	
+	// TODO : use dds_topic_descriptor.java
+	public static class dds_topic_descriptor extends PointerType {
+		public dds_topic_descriptor(Pointer address) {
+			super(address);
+		}
+		public dds_topic_descriptor() {
+			super();
+		}
+	};
 }
