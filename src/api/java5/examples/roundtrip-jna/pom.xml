@@ -36,6 +36,37 @@
 
   <build>
       <plugins>
+        <!-- extract libddsc.so -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.1.1</version>
+          <executions>
+          <execution>
+            <id>unpack</id>
+            <phase>initialize</phase>
+            <goals>
+            <goal>unpack</goal>
+            </goals>
+            <configuration>
+            <artifactItems>
+              <artifactItem>
+                <groupId>org.eclipse.cyclonedds</groupId>
+                <artifactId>jna-dds</artifactId>
+                <overWrite>true</overWrite>
+                <outputDirectory>${basedir}/target/linux-x86-64/</outputDirectory>
+                <destFileName>libddsc.so</destFileName>
+                <includes>**/*.so</includes>
+              </artifactItem>
+            </artifactItems>
+            <includes>**/libddsc.so</includes>
+            <overWriteReleases>true</overWriteReleases>
+            <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </execution>
+          </executions>
+        </plugin>
+
         <!-- Embbed every depdencies -->
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
