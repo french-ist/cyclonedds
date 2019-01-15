@@ -148,7 +148,7 @@
 						<configuration>
 							<resources>
 								<resource>
-									<directory>${basedir}/target/linux-x86-64</directory>
+									<directory>${basedir}/src/main/resources/</directory>
 								</resource>
 							</resources>
 						</configuration>
@@ -168,7 +168,8 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-						<outputDirectory>${basedir}/target/linux-x86-64</outputDirectory>
+						<!--<outputDirectory>${basedir}/target/linux-x86-64</outputDirectory>-->
+							<outputDirectory>${basedir}/src/main/resources</outputDirectory>
 							<resources>
 								<resource>
 									<directory>../../../../build/lib/</directory>
