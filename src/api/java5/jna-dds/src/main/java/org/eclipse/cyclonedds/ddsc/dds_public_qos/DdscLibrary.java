@@ -4,13 +4,13 @@ import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
 import com.sun.jna.Pointer;
-import com.sun.jna.PointerType;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.LongByReference;
 import com.sun.jna.ptr.PointerByReference;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.LongBuffer;
+
 /**
  * JNA Wrapper for library <b>ddsc</b><br>
  */
@@ -117,7 +117,7 @@ public class DdscLibrary implements Library {
 	 * Original signature : <code>void dds_qos_delete(__declspec(__restrict) dds_qos_t*)</code><br>
 	 */
 	public static native void dds_qos_delete(PointerByReference qos);
-	public static native void dds_qos_delete(org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qos_t qos);
+	public static native void dds_qos_delete(org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_qos_t qos);
 	/**
 	 * @brief Reset a QoS-policies structure to default values<br>
 	 * @param[in,out] qos - Pointer to the dds_qos_t structure<br>
@@ -284,7 +284,7 @@ public class DdscLibrary implements Library {
 	 */
 	public static native void dds_qset_reliability(PointerByReference qos, int kind, long max_blocking_time);
 	// ADDED
-	public static native void dds_qset_reliability(org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qos_t qos, int kind, long max_blocking_time);
+	public static native void dds_qset_reliability(org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_qos_t qos, int kind, long max_blocking_time);
 	/**
 	 * @brief Set the transport-priority policy of a qos structure<br>
 	 * @param[in,out] qos - Pointer to a dds_qos_t structure that will store the policy<br>
@@ -669,6 +669,10 @@ public class DdscLibrary implements Library {
 	 * Original signature : <code>bool dds_qget_durability_service(__declspec(__restrict) const dds_qos_t*, dds_duration_t*, dds_history_kind_t*, int32_t*, int32_t*, int32_t*, int32_t*)</code><br>
 	 */
 	public static native byte dds_qget_durability_service(PointerByReference qos, LongByReference service_cleanup_delay, IntByReference history_kind, IntByReference history_depth, IntByReference max_samples, IntByReference max_instances, IntByReference max_samples_per_instance);
+
+	/*
+	MANUALLY REMOVED
+	now in org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_qos_t
 	public static class dds_qos_t extends PointerType {
 		public dds_qos_t(Pointer address) {
 			super(address);
@@ -677,4 +681,5 @@ public class DdscLibrary implements Library {
 			super();
 		}
 	};
+	*/
 }

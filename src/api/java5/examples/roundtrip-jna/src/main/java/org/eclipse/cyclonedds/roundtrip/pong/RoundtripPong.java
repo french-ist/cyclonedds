@@ -23,12 +23,14 @@ public class RoundtripPong
     int reader;
     int writer;
     int readCond;
-    int waitSet;   
+    int waitSet;
+    int status;
 
     public RoundtripPong(){
         System.err.println("PONG to compare without usage of listeners");
 
-        /* Initialize sample data 
+        /*
+            TODO Initialize sample data 
             memset (data, 0, sizeof (data));
             for (int i = 0; i < MAX_SAMPLES; i++)
             {
@@ -54,7 +56,7 @@ public class RoundtripPong
             assert(helper.dds_error_check(reader, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
 
             /* Take samples */            
-            dataAvailable (reader, 0);            
+            dataAvailable (reader);            
         }
 
         /* Clean up */
@@ -77,7 +79,7 @@ public class RoundtripPong
         org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qset_partition (qos, 1, null); //TODO pubPartitions);        
         
         int publisher = DdscLibrary.dds_create_publisher (participant, qos, null);
-        assert(helper.dds_error_check(topic, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+        assert(helper.dds_error_check(publisher, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
         org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_delete_qos(qos);
       
         /* A DDS DataWriter is created on the Publisher & Topic with a modififed Qos. */  
@@ -87,51 +89,97 @@ public class RoundtripPong
 
         org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qset_writer_data_lifecycle (qos, (byte)0);
         
-        /*  writer = DdscLibrary.dds_create_writer (publisher, topic, qos, null);
+        /*
+            TODO 
+            Choose where to define dds_qos_t:
+            1) org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_qos_t
+            2) org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qos_t
+        */
+        writer = DdscLibrary.dds_create_writer (publisher, topic, new org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_qos_t(qos.getValue()), null);
         assert(helper.dds_error_check(writer, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
         org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_delete_qos (qos);
       
-        /* A DDS Subscriber is created on the domain participant. 
+        /* A DDS Subscriber is created on the domain participant. */
       
-        qos = dds_create_qos ();
-        dds_qset_partition (qos, 1, subPartitions);
+        qos = org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_create_qos ();
+        org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qset_partition (qos, 1, null) ;//TODO subPartitions);
       
-        subscriber = dds_create_subscriber (participant, qos, NULL);
-        DDS_ERR_CHECK (subscriber, DDS_CHECK_REPORT | DDS_CHECK_EXIT);
-        dds_delete_qos (qos);
+        subscriber = DdscLibrary.dds_create_subscriber (participant, new org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_qos_t(qos.getValue()), null);
+        assert(helper.dds_error_check(subscriber, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+        org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_delete_qos (qos);
       
-        /* A DDS DataReader is created on the Subscriber & Topic with a modified QoS. 
+        /* A DDS DataReader is created on the Subscriber & Topic with a modified QoS. */
       
-        qos = dds_create_qos ();
-        dds_qset_reliability (qos, DDS_RELIABILITY_RELIABLE, DDS_SECS(10));
-        *reader = dds_create_reader (subscriber, topic, qos, listener);
-        DDS_ERR_CHECK (*reader, DDS_CHECK_REPORT | DDS_CHECK_EXIT);
-        dds_delete_qos (qos);
+        qos = org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_create_qos ();        
+        org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qset_reliability (qos, org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_reliability_kind.DDS_RELIABILITY_RELIABLE, 10 * 1000000000); // DDS_SECS(10) 
+        
+        reader = DdscLibrary.dds_create_reader (subscriber, topic, qos, null);
+        assert(helper.dds_error_check(reader, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+        org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_delete_qos (qos);
       
-        waitSet = dds_create_waitset (participant);
-        if (listener == NULL) {
-          *readCond = dds_create_readcondition (*reader, DDS_ANY_STATE);
-          status = dds_waitset_attach (waitSet, *readCond, *reader);
-          DDS_ERR_CHECK (status, DDS_CHECK_REPORT | DDS_CHECK_EXIT);
-        } else {
-          *readCond = 0;
-        }
-        status = dds_waitset_attach (waitSet, waitSet, waitSet);
-        DDS_ERR_CHECK (status, DDS_CHECK_REPORT | DDS_CHECK_EXIT);
+        waitSet = DdscLibrary.dds_create_waitset (participant);        
+        
+        
+        readCond = DdscLibrary.dds_create_readcondition (reader, DdscLibrary.DDS_ANY_STATE);
+        status = DdscLibrary.dds_waitset_attach (waitSet, readCond, reader);
+        assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+        
+        status = DdscLibrary.dds_waitset_attach (waitSet, waitSet, waitSet);
+        assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
       
-        printf ("Waiting for samples from ping to send back...\n");
-        fflush (stdout);
-      */
+        System.out.println("Waiting for samples from ping to send back...\n");
+
         return participant;
-
     }
 
-    //TODO 
-    public void finalizeDds(int participant, RoundTripModule_DataType.ByReference data){
+    public void finalizeDds(int participant, RoundTripModule_DataType.ByReference data){        
+        int status = DdscLibrary.dds_delete (participant);
+        assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+        RoundTripModule_DataType.ByReference[] arrSample = (RoundTripModule_DataType.ByReference[])data.toArray(MAX_SAMPLES);
+        for (int i = 0; i < MAX_SAMPLES; i++)
+        {
+            org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_sample_free(
+                arrSample[i].getPointer(),
+                helper.getRoundTripModule_DataType_desc(),
+                org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_free_op_t.DDS_FREE_CONTENTS);
+        }
     }
 
-    //TODO
-    public void dataAvailable(int reader, Object arg){
+    public void dataAvailable(int reader){
+        //samples
+        Pointer samplesAlloc = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary
+            .dds_alloc(helper.getNativeSize("RoundTripModule_DataType"));
+        PointerByReference samples = new PointerByReference(samplesAlloc);
 
+        //infos
+        dds_sample_info.ByReference info = new  dds_sample_info.ByReference();
+        dds_sample_info[] infosArr = (dds_sample_info[]) info.toArray(MAX_SAMPLES);
+
+        int samplecount = DdscLibrary.dds_take (reader, samples, info, new NativeSize(MAX_SAMPLES), MAX_SAMPLES);
+        assert(helper.dds_error_check(samplecount, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+        
+        //TODO check if inside of for loop
+        RoundTripModule_DataType arrayMsgRef = new RoundTripModule_DataType(samples.getValue());
+        RoundTripModule_DataType[] valid_sample = (RoundTripModule_DataType[]) arrayMsgRef.toArray(MAX_SAMPLES);
+        arrayMsgRef.read();
+        info.read();        
+        
+        
+        for (int j = 0; 0 == DdscLibrary.dds_triggered (waitSet) && j < samplecount; j++)
+        { 
+            /* If writer has been disposed terminate pong */      
+          if (infosArr[j].getInstance_state() == DdscLibrary.dds_instance_state.DDS_IST_NOT_ALIVE_DISPOSED)
+          {
+            System.out.println("Received termination request. Terminating.\n");
+            DdscLibrary.dds_waitset_set_trigger (waitSet, (byte)1);
+            break;
+          }
+          else if (infosArr[j].getValid_data() > 0)
+          {
+            /* If sample is valid, send it back to ping  */            
+            status = DdscLibrary.dds_write_ts (writer, valid_sample[j].getPointer(), infosArr[j].getSource_timestamp());
+            assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+          }
+        }      
     }
 }

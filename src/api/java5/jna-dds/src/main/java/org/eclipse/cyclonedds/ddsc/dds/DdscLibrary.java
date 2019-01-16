@@ -1046,7 +1046,9 @@ public class DdscLibrary implements Library {
 	 *             The entity was already attached.<br>
 	 * Original signature : <code>dds_return_t dds_waitset_attach(dds_entity_t, dds_entity_t, dds_attach_t)</code><br>
 	 */
-	public static native int dds_waitset_attach(int waitset, int entity, IntBuffer x);
+	// MANUALLY MODIFIED
+	//public static native int dds_waitset_attach(int waitset, int entity, IntBuffer x);
+	public static native int dds_waitset_attach(int waitset, int entity, int x);
 	/**
 	 * @brief This operation detaches an Entity to the WaitSet.<br>
 	 * @param[in]  waitset  The waitset to detach the given entity from.<br>
