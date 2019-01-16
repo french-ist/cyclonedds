@@ -4,6 +4,7 @@ import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
 import com.sun.jna.Pointer;
+import com.sun.jna.StringArray;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.LongByReference;
 import com.sun.jna.ptr.PointerByReference;
@@ -274,7 +275,9 @@ public class DdscLibrary implements Library {
 	 * @param[in[ ps - Pointer to string(s) storing partition name(s)<br>
 	 * Original signature : <code>void dds_qset_partition(__declspec(__restrict) dds_qos_t*, uint32_t, __declspec(__restrict) const char**)</code><br>
 	 */
-	public static native void dds_qset_partition(PointerByReference qos, int n, PointerByReference ps);
+	// MODIFIED MANUALLY
+	// public static native void dds_qset_partition(PointerByReference qos, int n, PointerByReference ps);
+	public static native void dds_qset_partition(PointerByReference qos, int n, StringArray ps);
 	/**
 	 * @brief Set the reliability policy of a qos structure<br>
 	 * @param[in,out] qos - Pointer to a dds_qos_t structure that will store the policy<br>

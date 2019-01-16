@@ -28,7 +28,7 @@ public class RoundTripModule_DataType_Helper {
 		ret.m_align = sizeof("char*");
 		ret.m_flagset = DdscLibrary.DDS_TOPIC_NO_OPTIMIZE;
 		ret.m_nkeys = cToJavaNumber("0u");
-		ret.m_typename = stringToPointer("RoundTripModule::Msg");
+		ret.m_typename = stringToPointer("RoundTripModule::DataType");
 		ret.m_keys = null;
 		ret.m_nops = 2;
 		ret.m_ops = getIntByReference(RoundTripModule_DataType_ops);

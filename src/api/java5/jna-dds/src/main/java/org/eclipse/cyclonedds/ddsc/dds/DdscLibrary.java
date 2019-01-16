@@ -459,11 +459,15 @@ public class DdscLibrary implements Library {
 	 *             One of the parameters is invalid.<br>
 	 * Original signature : <code>dds_entity_t dds_create_subscriber(dds_entity_t, const dds_qos_t*, const dds_listener_t*)</code><br>
 	 */
-	public static native int dds_create_subscriber(int participant, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
+	// MANUALLY MODIFIED
+	// public static native int dds_create_subscriber(int participant, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
+	public static native int dds_create_subscriber(int participant, PointerByReference qos, DdscLibrary.dds_listener_t listener);
+
 	/**
 	 * TODO: Check list of error codes is complete.<br>
 	 * Original signature : <code>dds_entity_t dds_create_publisher(dds_entity_t, const dds_qos_t*, const dds_listener_t*)</code><br>
 	 */
+	// MANUALLY MODIFIED
 	public static native int dds_create_publisher(int participant, PointerByReference qos, DdscLibrary.dds_listener_t listener);
 	/**
 	 * @brief Suspends the publications of the Publisher<br>
@@ -526,6 +530,7 @@ public class DdscLibrary implements Library {
 	 */
 	// MANUALLY MODIFIED
 	public static native int dds_create_reader(int participant_or_subscriber, int topic, PointerByReference qos, DdscLibrary.dds_listener_t listener);
+
 	/**
 	 * TODO: Complete list of error codes<br>
 	 * Original signature : <code>int dds_reader_wait_for_historical_data(dds_entity_t, dds_duration_t)</code><br>
@@ -535,7 +540,9 @@ public class DdscLibrary implements Library {
 	 * TODO: Complete list of error codes<br>
 	 * Original signature : <code>dds_entity_t dds_create_writer(dds_entity_t, dds_entity_t, const dds_qos_t*, const dds_listener_t*)</code><br>
 	 */
-	public static native int dds_create_writer(int participant_or_publisher, int topic, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
+	//MANUALLY MODIFIED
+	//public static native int dds_create_writer(int participant_or_publisher, int topic, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
+	public static native int dds_create_writer(int participant_or_publisher, int topic, PointerByReference qos, DdscLibrary.dds_listener_t listener);
 
 	/**
 	 * @brief Registers an instance<br>
