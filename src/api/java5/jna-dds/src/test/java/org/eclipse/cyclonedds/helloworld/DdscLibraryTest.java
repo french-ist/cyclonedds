@@ -48,7 +48,7 @@ public class DdscLibraryTest {
         Assert.assertTrue(helper.dds_error_check(topic, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
 
         /* Create a reliable Reader. */
-        org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qos_t qos = org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qos_create();
+        PointerByReference qos = org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_create_qos();
         org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qset_reliability(qos,
                 org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_reliability_kind.DDS_RELIABILITY_RELIABLE,
                 10 * 1000000000); // DDS_SECS (10)

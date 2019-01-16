@@ -105,8 +105,8 @@ public class DdscLibrary implements Library {
 	/**
 	 * Original signature : <code>dds_qos_t* dds_qos_create()</code><br>
 	 */
-	//public static native PointerByReference dds_qos_create();
-	public static native dds_qos_t dds_qos_create();
+	//MANUALLY REMOVED
+	//public static native dds_qos_t dds_qos_create();
 	/**
 	 * @brief Delete memory allocated to QoS-policies structure<br>
 	 * @param[in] qos - Pointer to dds_qos_t structure<br>

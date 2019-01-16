@@ -464,7 +464,7 @@ public class DdscLibrary implements Library {
 	 * TODO: Check list of error codes is complete.<br>
 	 * Original signature : <code>dds_entity_t dds_create_publisher(dds_entity_t, const dds_qos_t*, const dds_listener_t*)</code><br>
 	 */
-	public static native int dds_create_publisher(int participant, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
+	public static native int dds_create_publisher(int participant, PointerByReference qos, DdscLibrary.dds_listener_t listener);
 	/**
 	 * @brief Suspends the publications of the Publisher<br>
 	 * This operation is a hint to the Service so it can optimize its performance by e.g., collecting<br>
@@ -525,8 +525,7 @@ public class DdscLibrary implements Library {
 	 * Original signature : <code>dds_entity_t dds_create_reader(dds_entity_t, dds_entity_t, const dds_qos_t*, const dds_listener_t*)</code><br>
 	 */
 	// MANUALLY MODIFIED
-	public static native int dds_create_reader(int participant_or_subscriber, int topic, 
-	org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
+	public static native int dds_create_reader(int participant_or_subscriber, int topic, PointerByReference qos, DdscLibrary.dds_listener_t listener);
 	/**
 	 * TODO: Complete list of error codes<br>
 	 * Original signature : <code>int dds_reader_wait_for_historical_data(dds_entity_t, dds_duration_t)</code><br>
@@ -537,6 +536,7 @@ public class DdscLibrary implements Library {
 	 * Original signature : <code>dds_entity_t dds_create_writer(dds_entity_t, dds_entity_t, const dds_qos_t*, const dds_listener_t*)</code><br>
 	 */
 	public static native int dds_create_writer(int participant_or_publisher, int topic, DdscLibrary.dds_qos_t qos, DdscLibrary.dds_listener_t listener);
+
 	/**
 	 * @brief Registers an instance<br>
 	 * This operation registers an instance with a key value to the data writer and<br>
