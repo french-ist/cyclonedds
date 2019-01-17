@@ -25,8 +25,18 @@ public class RoundtripPong
     int waitSet;
     int status;
 
+    private void createShutDownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+               System.out.println("W: Interrupt received, killing server…");              
+            }
+         });
+    }
+
     public RoundtripPong(){
         System.out.println("PONG to compare without usage of listeners");
+        createShutDownHook();
         
         /* Create a Participant. */        
         participant = DdscLibrary.dds_create_participant (DDS_DOMAIN_DEFAULT, null, null);
@@ -42,7 +52,7 @@ public class RoundtripPong
         {
             /* Wait for a sample from ping */
             int status = DdscLibrary.dds_waitset_wait (waitSet, wsresults, wsresultsize, waitTimeout);            
-            assert(helper.dds_error_check(reader, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+            assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
 
             /* Check if something available */
             dataAvailable (reader);

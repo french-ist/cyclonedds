@@ -5,13 +5,11 @@ import org.eclipse.cyclonedds.roundtrip.pong.RoundtripPong;
 
 public class Roundtrip
 {
-    //pong
-    public Roundtrip(){        
+    public Roundtrip(){
         new RoundtripPong();
     }
 
-    //ping
-    public Roundtrip(String payloadSize, String numSamples, String timeOut){
+    public Roundtrip(String payloadSize, String numSamples, String timeOut) {
         new RoundtripPing(payloadSize, numSamples, timeOut);
     }
 
