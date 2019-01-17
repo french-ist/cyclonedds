@@ -1,13 +1,13 @@
-package org.eclipse.cyclonedds.roundtrip;
+package org.eclipse.cyclonedds.roundtrip.pong;
 
-import com.sun.jna.Native;
-import com.sun.jna.Pointer;
 import com.sun.jna.StringArray;
 import com.sun.jna.ptr.PointerByReference;
 
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 import org.eclipse.cyclonedds.ddsc.dds.dds_sample_info;
 import org.eclipse.cyclonedds.helper.NativeSize;
+import org.eclipse.cyclonedds.roundtrip.RoundTripModule_DataType;
+import org.eclipse.cyclonedds.roundtrip.RoundTripModule_DataType_Helper;
 
 public class RoundtripPong 
 {

@@ -1,4 +1,4 @@
-package org.eclipse.cyclonedds.roundtrip;
+package org.eclipse.cyclonedds.roundtrip.ping;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -10,10 +10,8 @@ import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 import org.eclipse.cyclonedds.ddsc.dds.dds_sample_info;
 import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_sequence;
 import org.eclipse.cyclonedds.helper.NativeSize;
-
-
-import java.util.Arrays;
-import java.util.Comparator;
+import org.eclipse.cyclonedds.roundtrip.RoundTripModule_DataType;
+import org.eclipse.cyclonedds.roundtrip.RoundTripModule_DataType_Helper;
 
 public class RoundtripPing
 {
@@ -21,112 +19,16 @@ public class RoundtripPing
 
     int DDS_CHECK_REPORT = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_REPORT;
     int DDS_CHECK_EXIT = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_EXIT;
+    int MAX_SAMPLES = 100;    
+    int DDS_DOMAIN_DEFAULT = 0;
     long DDS_NSECS_IN_USEC = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.DDS_NSECS_IN_USEC;
     long US_IN_ONE_SEC = 1000000L;
 
-    int MAX_SAMPLES = 100;
-    int TIME_STATS_SIZE_INCREMENT = 50000;
-    int DDS_DOMAIN_DEFAULT = 0;
-
-    class ExampleTimeStats
-    {
-        Long[] values;
-        int valuesSize;
-        int valuesMax;
-        double average;
-        long min; //dds_time_t min;
-        long max;
-        long count;
-    }
-
-    public void exampleInitTimeStats (ExampleTimeStats stats)
-    {
-        stats = new ExampleTimeStats();
-        stats.values = new Long[TIME_STATS_SIZE_INCREMENT]; //(dds_time_t*) malloc (TIME_STATS_SIZE_INCREMENT * sizeof (dds_time_t));
-        stats.valuesSize = 0;
-        stats.valuesMax = TIME_STATS_SIZE_INCREMENT;
-        stats.average = 0;
-        stats.min = 0;
-        stats.max = 0;
-        stats.count = 0;
-    }
-
-    public void exampleResetTimeStats (ExampleTimeStats stats)
-    {
-        stats = new ExampleTimeStats();
-        stats.valuesSize = 0;
-        stats.average = 0;
-        stats.min = 0;
-        stats.max = 0;
-        stats.count = 0;
-    }
-
-    public void exampleDeleteTimeStats (ExampleTimeStats stats)
-    {
-        stats.values = null;
-    }
-
-    public ExampleTimeStats exampleAddTimingToTimeStats(ExampleTimeStats stats, long timing)
-    {
-        if (stats.valuesSize > stats.valuesMax)
-        {
-          stats.values = new Long[stats.valuesMax + TIME_STATS_SIZE_INCREMENT];//dds_time_t * temp = (dds_time_t*) realloc (stats.values, (stats.valuesMax + TIME_STATS_SIZE_INCREMENT) * sizeof (dds_time_t));
-          stats.valuesMax += TIME_STATS_SIZE_INCREMENT;
-        }
-        if (stats.values != null && stats.valuesSize < stats.valuesMax)
-        {
-          stats.values[stats.valuesSize++] = timing;
-        }
-        stats.average = ((double)stats.count * stats.average + (double)timing) / (double)(stats.count + 1);
-        stats.min = (stats.count == 0 || timing < stats.min) ? timing : stats.min;
-        stats.max = (stats.count == 0 || timing > stats.max) ? timing : stats.max;
-        stats.count++;
-        return stats;
-    }
-
-
-    public Double exampleGetMedianFromTimeStats (ExampleTimeStats stats)
-    {
-        //see ping.c#86
-        Double median = 0.0;
-        Arrays.sort(stats.values, new Comparator<Long>(){
-            @Override
-            public int compare(Long ul_a, Long ul_b) {
-                if (ul_a < ul_b) return -1;
-                if (ul_a > ul_b) return 1;
-                return 0;
-            }
-        });
-
-        if (stats.valuesSize % 2 == 0)
-        {
-            median = (double)(stats.values[(int)stats.valuesSize / 2 - 1] + stats.values[(int)stats.valuesSize / 2]) / 2;
-        }
-        else
-        {
-            median = (double)stats.values[(int)stats.valuesSize / 2];
-        }
-        return median;
-    }
-
-    public long exampleGet99PercentileFromTimeStats (ExampleTimeStats stats){
-        Arrays.sort(stats.values, new Comparator<Long>(){
-            @Override
-            public int compare(Long ul_a, Long ul_b) {
-                if (ul_a < ul_b) return -1;
-                if (ul_a > ul_b) return 1;
-                return 0;
-            }
-        });
-        return stats.values[(int)stats.valuesSize - (int)stats.valuesSize/100];
-    }
-
-    //TODO move this near use case
-    int waitSet;
+    //TODO move this near use case    
     int reader;
     int writer = 0; //TODO initalized in prepareDds
     int participant;
-    int readCond;
+    
     long startTime;
     long preWriteTime;
     long postWriteTime;
@@ -149,12 +51,12 @@ public class RoundtripPing
 
         /* Update stats */
         difference = (postWriteTime - preWriteTime)/DDS_NSECS_IN_USEC;
-        writeAccess = exampleAddTimingToTimeStats (writeAccess, difference);
-        writeAccessOverall = exampleAddTimingToTimeStats (writeAccessOverall, difference);
+        writeAccess.exampleAddTimingToTimeStats (difference);
+        writeAccessOverall.exampleAddTimingToTimeStats (difference);
 
         difference = (postTakeTime - preTakeTime)/DDS_NSECS_IN_USEC;
-        readAccess = exampleAddTimingToTimeStats (readAccess, difference);
-        readAccessOverall = exampleAddTimingToTimeStats (readAccessOverall, difference);
+        readAccess.exampleAddTimingToTimeStats (difference);
+        readAccessOverall.exampleAddTimingToTimeStats (difference);
 
         /* read infosArr[0] */
         RoundTripModule_DataType arrayMsgRef = new RoundTripModule_DataType(samplePtr.getValue());
@@ -162,8 +64,8 @@ public class RoundtripPing
         arrayMsgRef.read();
         infosPtr.read();
         difference = (postTakeTime - infosArr[0].source_timestamp)/DDS_NSECS_IN_USEC;
-        roundTrip = exampleAddTimingToTimeStats (roundTrip, difference);
-        roundTripOverall = exampleAddTimingToTimeStats (roundTripOverall, difference);
+        roundTrip.exampleAddTimingToTimeStats (difference);
+        roundTripOverall.exampleAddTimingToTimeStats (difference);
 
 
         if (!warmUp) {
@@ -173,20 +75,20 @@ public class RoundtripPing
             {
                 System.out.print((elapsed + 1)
                         + " " + roundTrip.count
-                        + " " + exampleGetMedianFromTimeStats (roundTrip) / 2
+                        + " " + roundTrip.exampleGetMedianFromTimeStats() / 2
                         + " " + roundTrip.min / 2
-                        + " " + exampleGet99PercentileFromTimeStats (roundTrip) / 2
+                        + " " + roundTrip.exampleGet99PercentileFromTimeStats () / 2
                         + " " + roundTrip.max / 2
                         + " " + writeAccess.count
-                        + " " + exampleGetMedianFromTimeStats (writeAccess)
+                        + " " + writeAccess.exampleGetMedianFromTimeStats ()
                         + " " + writeAccess.min
                         + " " + readAccess.count
-                        + " " + exampleGetMedianFromTimeStats (readAccess)
+                        + " " + readAccess.exampleGetMedianFromTimeStats ()
                         + " " + readAccess.min);
 
-                exampleResetTimeStats (roundTrip);
-                exampleResetTimeStats (writeAccess);
-                exampleResetTimeStats (readAccess);
+                roundTrip.exampleResetTimeStats();
+                writeAccess.exampleResetTimeStats();
+                readAccess.exampleResetTimeStats();
                 startTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time ();
                 elapsed++;
             }
@@ -198,6 +100,8 @@ public class RoundtripPing
         postWriteTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
     }
 
+    int waitSet;
+    int readCond;
     public void prepareDds()
     {
         /* A DDS Topic is created for our sample type on the domain participant. */
@@ -250,12 +154,12 @@ public class RoundtripPing
         assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
 
         /* Clean up */
-        exampleDeleteTimeStats (roundTrip);
-        exampleDeleteTimeStats (writeAccess);
-        exampleDeleteTimeStats (readAccess);
-        exampleDeleteTimeStats (roundTripOverall);
-        exampleDeleteTimeStats (writeAccessOverall);
-        exampleDeleteTimeStats (readAccessOverall);
+        roundTrip.exampleDeleteTimeStats ();
+        writeAccess.exampleDeleteTimeStats ();
+        readAccess.exampleDeleteTimeStats ();
+        roundTripOverall.exampleDeleteTimeStats ();
+        writeAccessOverall.exampleDeleteTimeStats ();
+        readAccessOverall.exampleDeleteTimeStats ();
 
         RoundTripModule_DataType.ByReference[] arrSample = (RoundTripModule_DataType.ByReference[]) data;
         for (int i = 0; i < MAX_SAMPLES; i++)
@@ -295,12 +199,12 @@ public class RoundtripPing
         int wsresultsize = 1; //dds_attach_t wsresults[1];
         int status;
 
-        exampleInitTimeStats (roundTrip);
-        exampleInitTimeStats (writeAccess);
-        exampleInitTimeStats (readAccess);
-        exampleInitTimeStats (roundTripOverall);
-        exampleInitTimeStats (writeAccessOverall);
-        exampleInitTimeStats (readAccessOverall);
+        roundTrip = new  ExampleTimeStats(); 
+        writeAccess = new  ExampleTimeStats(); 
+        readAccess = new  ExampleTimeStats(); 
+        roundTripOverall = new  ExampleTimeStats(); 
+        writeAccessOverall = new  ExampleTimeStats(); 
+        readAccessOverall = new  ExampleTimeStats(); 
 
         /* Create a Participant. */
         participant = DdscLibrary.dds_create_participant (DDS_DOMAIN_DEFAULT, null, null);
@@ -330,7 +234,8 @@ public class RoundtripPing
 
         /* setting the payload for publication data */
         pub_data.setPayload(dsPubData);
-        Pointer buffer = new Memory(Math.toIntExact(payloadSize) * Native.getNativeSize(Byte.TYPE));
+        int memSize = (Math.toIntExact(payloadSize)==0? 1:Math.toIntExact(payloadSize)) * Native.getNativeSize(Byte.TYPE);
+        Pointer buffer = new Memory(memSize);
         for (int i = 0; i < payloadSize; i++)
         {
             buffer.setByte(i * Native.getNativeSize(Byte.TYPE), (byte)'a');
@@ -375,9 +280,9 @@ public class RoundtripPing
             System.out.print("# Seconds     Count   median      min      99%%      max      Count   median      min      Count   median      min\n");
         }
 
-        exampleResetTimeStats (roundTrip);
-        exampleResetTimeStats (writeAccess);
-        exampleResetTimeStats (readAccess);
+        roundTrip.exampleResetTimeStats ();
+        writeAccess.exampleResetTimeStats ();
+        readAccess.exampleResetTimeStats ();
         startTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time ();
 
         /* Write a sample that pong can send back */
@@ -401,15 +306,15 @@ public class RoundtripPing
             (
                 "\n# Overall"
                 + " " + roundTripOverall.count
-                + " " + exampleGetMedianFromTimeStats (roundTripOverall) / 2
+                + " " + roundTripOverall.exampleGetMedianFromTimeStats () / 2
                 + " " + roundTripOverall.min / 2
-                + " " + exampleGet99PercentileFromTimeStats (roundTripOverall) / 2
+                + " " + roundTripOverall.exampleGet99PercentileFromTimeStats () / 2
                 + " " + roundTripOverall.max / 2
                 + " " + writeAccessOverall.count
-                + " " + exampleGetMedianFromTimeStats (writeAccessOverall)
+                + " " + writeAccessOverall.exampleGetMedianFromTimeStats ()
                 + " " + writeAccessOverall.min
                 + " " + readAccessOverall.count
-                + " " + exampleGetMedianFromTimeStats (readAccessOverall)
+                + " " + readAccessOverall.exampleGetMedianFromTimeStats ()
                 + " " + readAccessOverall.min
             );
         }
