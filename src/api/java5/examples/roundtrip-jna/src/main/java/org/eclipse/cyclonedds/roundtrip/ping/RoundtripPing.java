@@ -25,8 +25,7 @@ public class RoundtripPing
     long US_IN_ONE_SEC = 1000000L;
 
     //TODO move this near use case    
-    int reader;
-    int writer = 0; //TODO initalized in prepareDds
+
     int participant;
     
     long startTime;
@@ -74,17 +73,17 @@ public class RoundtripPing
             if (difference > US_IN_ONE_SEC)
             {
                 System.out.print((elapsed + 1)
-                        + " " + roundTrip.count
-                        + " " + roundTrip.exampleGetMedianFromTimeStats() / 2
-                        + " " + roundTrip.min / 2
-                        + " " + roundTrip.exampleGet99PercentileFromTimeStats () / 2
-                        + " " + roundTrip.max / 2
-                        + " " + writeAccess.count
-                        + " " + writeAccess.exampleGetMedianFromTimeStats ()
-                        + " " + writeAccess.min
-                        + " " + readAccess.count
-                        + " " + readAccess.exampleGetMedianFromTimeStats ()
-                        + " " + readAccess.min);
+                        + "\t\t" + roundTrip.count
+                        + "\t" + roundTrip.exampleGetMedianFromTimeStats() / 2
+                        + "\t" + roundTrip.min / 2
+                        + "\t" + roundTrip.exampleGet99PercentileFromTimeStats () / 2
+                        + "\t" + roundTrip.max / 2
+                        + "\t" + writeAccess.count
+                        + "\t" + writeAccess.exampleGetMedianFromTimeStats ()
+                        + "\t" + writeAccess.min
+                        + "\t" + readAccess.count
+                        + "\t" + readAccess.exampleGetMedianFromTimeStats ()
+                        + "\t" + readAccess.min + "\n");
 
                 roundTrip.exampleResetTimeStats();
                 writeAccess.exampleResetTimeStats();
@@ -102,6 +101,8 @@ public class RoundtripPing
 
     int waitSet;
     int readCond;
+    int reader;
+    int writer;
     public void prepareDds()
     {
         /* A DDS Topic is created for our sample type on the domain participant. */
@@ -121,8 +122,8 @@ public class RoundtripPing
         PointerByReference dwQos =  org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_create_qos ();
         org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qset_reliability (dwQos, org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_reliability_kind.DDS_RELIABILITY_RELIABLE, 10 * 1000000000); // DDS_SECS(10) 
         org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qset_writer_data_lifecycle (dwQos, (byte)0);
-        int wr = DdscLibrary.dds_create_writer (publisher, topic, dwQos, null);
-        assert(helper.dds_error_check(wr, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+        writer = DdscLibrary.dds_create_writer (publisher, topic, dwQos, null);
+        assert(helper.dds_error_check(writer, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
         org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_delete_qos (dwQos);
 
         /* A DDS Subscriber is created on the domain participant. */
@@ -136,12 +137,12 @@ public class RoundtripPing
         /* A DDS DataReader is created on the Subscriber & Topic with a modified QoS. */
         PointerByReference drQos = org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_create_qos ();
         org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qset_reliability (drQos, org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_reliability_kind.DDS_RELIABILITY_RELIABLE, 10 * 1000000000); // DDS_SECS(10)
-        int rd = DdscLibrary.dds_create_reader (subscriber, topic, drQos, null);
-        assert(helper.dds_error_check(rd, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+        reader = DdscLibrary.dds_create_reader (subscriber, topic, drQos, null);
+        assert(helper.dds_error_check(reader, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
         org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_delete_qos (drQos);
 
         waitSet = DdscLibrary.dds_create_waitset (participant);
-        readCond = DdscLibrary.dds_create_readcondition (rd, DdscLibrary.DDS_ANY_STATE);
+        readCond = DdscLibrary.dds_create_readcondition (reader, DdscLibrary.DDS_ANY_STATE);
         int status = DdscLibrary.dds_waitset_attach (waitSet, readCond, reader);
         assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
         status = DdscLibrary.dds_waitset_attach (waitSet, waitSet, waitSet);
@@ -202,7 +203,7 @@ public class RoundtripPing
     private RoundtripPing(String _payloadSize, String _numSamples, String _timeOut, boolean quit){
         System.out.print("Usage (parameters must be supplied in order):\n"
             + "./ping [payloadSize (bytes, 0 - 100M)] [numSamples (0 = infinite)] [timeOut (seconds, 0 = infinite)]\n"
-            //+ "./ping quit - ping sends a quit signal to pong.\n"
+            + "./ping quit - ping sends a quit signal to pong.\n"
             + "Defaults:\n"
             + "./ping 0 0 0\n");
         ctrlHandler();
@@ -338,17 +339,17 @@ public class RoundtripPing
             System.out.print
             (
                 "\n# Overall"
-                + " " + roundTripOverall.count
-                + " " + roundTripOverall.exampleGetMedianFromTimeStats () / 2
-                + " " + roundTripOverall.min / 2
-                + " " + roundTripOverall.exampleGet99PercentileFromTimeStats () / 2
-                + " " + roundTripOverall.max / 2
-                + " " + writeAccessOverall.count
-                + " " + writeAccessOverall.exampleGetMedianFromTimeStats ()
-                + " " + writeAccessOverall.min
-                + " " + readAccessOverall.count
-                + " " + readAccessOverall.exampleGetMedianFromTimeStats ()
-                + " " + readAccessOverall.min
+                + "\t\t" + roundTripOverall.count
+                + "\t" + roundTripOverall.exampleGetMedianFromTimeStats () / 2
+                + "\t" + roundTripOverall.min / 2
+                + "\t" + roundTripOverall.exampleGet99PercentileFromTimeStats () / 2
+                + "\t" + roundTripOverall.max / 2
+                + "\t" + writeAccessOverall.count
+                + "\t" + writeAccessOverall.exampleGetMedianFromTimeStats ()
+                + "\t" + writeAccessOverall.min
+                + "\t" + readAccessOverall.count
+                + "\t" + readAccessOverall.exampleGetMedianFromTimeStats ()
+                + "\t" + readAccessOverall.min + "\n"
             );
         }
 

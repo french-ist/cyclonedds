@@ -62,9 +62,12 @@ public class ExampleTimeStats
     {
         //see ping.c#86
         Double median = 0.0;
-        Arrays.sort(values, new Comparator<Long>(){
+        Arrays.sort(values, new Comparator<Long>(){            
             @Override
             public int compare(Long ul_a, Long ul_b) {
+                if(ul_a == null || ul_b == null){
+                    return 0;
+                }
                 if (ul_a < ul_b) return -1;
                 if (ul_a > ul_b) return 1;
                 return 0;
@@ -87,6 +90,9 @@ public class ExampleTimeStats
         Arrays.sort(values, new Comparator<Long>(){
             @Override
             public int compare(Long ul_a, Long ul_b) {
+                if(ul_a == null || ul_b == null){
+                    return 0;
+                }
                 if (ul_a < ul_b) return -1;
                 if (ul_a > ul_b) return 1;
                 return 0;
