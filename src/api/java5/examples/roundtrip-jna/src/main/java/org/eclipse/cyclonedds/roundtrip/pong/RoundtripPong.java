@@ -25,18 +25,19 @@ public class RoundtripPong
     int waitSet;
     int status;
 
-    private void createShutDownHook() {
+    private void ctrlHandler() {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override
             public void run() {
-               System.out.println("W: Interrupt received, killing server…");              
+               System.out.println("Interrupt received");
+               DdscLibrary.dds_waitset_set_trigger (waitSet, (byte)1);           
             }
          });
     }
 
     public RoundtripPong(){
-        System.out.println("PONG to compare without usage of listeners");
-        createShutDownHook();
+        System.out.println("PONG without usage of listeners");
+        ctrlHandler();
         
         /* Create a Participant. */        
         participant = DdscLibrary.dds_create_participant (DDS_DOMAIN_DEFAULT, null, null);
@@ -117,6 +118,8 @@ public class RoundtripPong
     {
         int status = DdscLibrary.dds_delete (participant);
         assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+        /*
+        TODO check for the good parameter
         RoundTripModule_DataType.ByReference[] arrSample = (RoundTripModule_DataType.ByReference[])data;
         for (int i = 0; i < MAX_SAMPLES; i++)
         {
@@ -124,7 +127,7 @@ public class RoundtripPong
                 arrSample[i].getPointer(),
                 helper.getRoundTripModule_DataType_desc(),
                 org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_free_op_t.DDS_FREE_CONTENTS);
-        }
+        }*/
     }
 
     /* define pointer for dds_take */
@@ -133,6 +136,7 @@ public class RoundtripPong
             helper.getNativeSize("RoundTripModule_DataType")));
 
     RoundTripModule_DataType[] valid_sample;
+
     public void dataAvailable(int reader){
         /* Infos */
         dds_sample_info.ByReference infosPtr = new dds_sample_info.ByReference();

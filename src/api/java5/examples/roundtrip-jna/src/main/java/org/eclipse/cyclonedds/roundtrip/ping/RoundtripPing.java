@@ -161,6 +161,8 @@ public class RoundtripPing
         writeAccessOverall.exampleDeleteTimeStats ();
         readAccessOverall.exampleDeleteTimeStats ();
 
+        /*
+        TODO check the rigth parameter
         RoundTripModule_DataType.ByReference[] arrSample = (RoundTripModule_DataType.ByReference[]) data;
         for (int i = 0; i < MAX_SAMPLES; i++)
         {
@@ -169,6 +171,7 @@ public class RoundtripPing
                 helper.getRoundTripModule_DataType_desc(),
                 org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_free_op_t.DDS_FREE_CONTENTS);
         }
+        */
 
         org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_sample_free(
                 pub_data.getPointer(),
@@ -187,12 +190,22 @@ public class RoundtripPing
     RoundTripModule_DataType[] sub_data;
     RoundTripModule_DataType.ByReference pub_data;
 
+    public RoundtripPing(){                
+        this("0", "0", "0", true);        
+    }
+
     public RoundtripPing(String _payloadSize, String _numSamples, String _timeOut){
+        this("0", "0", "0", false);
+    }
+
+    boolean quit = false;
+    private RoundtripPing(String _payloadSize, String _numSamples, String _timeOut, boolean quit){
         System.out.print("Usage (parameters must be supplied in order):\n"
             + "./ping [payloadSize (bytes, 0 - 100M)] [numSamples (0 = infinite)] [timeOut (seconds, 0 = infinite)]\n"
             //+ "./ping quit - ping sends a quit signal to pong.\n"
             + "Defaults:\n"
             + "./ping 0 0 0\n");
+        ctrlHandler();
 
         Long time;
         Long difference = 0L;
@@ -213,6 +226,27 @@ public class RoundtripPing
         /* Prepare dds */
         prepareDds();
 
+        /* test if quit */
+        if(quit){
+            System.out.println("Sending termination request.\n");
+            /* pong uses a waitset which is triggered by instance disposal, and
+              quits when it fires. */
+            org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_sleepfor (1 * 1000000000); // DDS_SECS(10) 
+            
+            pub_data = new RoundTripModule_DataType.ByReference();
+            dds_sequence dsPubData = new dds_sequence.ByReference();
+            dsPubData.set_length(0);
+            dsPubData._buffer = null;
+            dsPubData._release = (byte)1;
+            dsPubData.set_maximum(0);
+            pub_data.setPayload(dsPubData);
+            status = DdscLibrary.dds_writedispose (writer, pub_data.getPointer());
+            assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+            org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_sleepfor (1 * 1000000000); // DDS_SECS(10) 
+            finalizeDds(participant, null); //TODO set the right data
+            return;
+        }
+
         Long payloadSize = Long.parseLong(_payloadSize);
         if (payloadSize > 100 * 1048576)
         {
@@ -227,8 +261,7 @@ public class RoundtripPing
         pub_data = new RoundTripModule_DataType.ByReference();
         dds_sequence dsPubData = new dds_sequence.ByReference();
         dsPubData.set_length(Math.toIntExact(payloadSize));
-        dsPubData.set_buffer(payloadSize != 0 ?
-            org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(new NativeSize(payloadSize)) : null);
+        dsPubData.set_buffer(payloadSize != 0 ? org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(new NativeSize(payloadSize)) : null);
         dsPubData.set_release((byte)1); //true
         dsPubData.set_maximum(0);
 
@@ -321,6 +354,16 @@ public class RoundtripPing
 
         finalizeDds(participant, sub_data);
 
+    }
+
+	private void ctrlHandler() {
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+               System.out.println("Interrupt received");
+               DdscLibrary.dds_waitset_set_trigger (waitSet, (byte)1);           
+            }
+         });
     }
 
 

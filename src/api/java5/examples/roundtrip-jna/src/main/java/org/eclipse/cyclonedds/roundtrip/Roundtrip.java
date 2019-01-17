@@ -25,7 +25,10 @@ public class Roundtrip
             new Roundtrip();
         } else if(args.length == 4 && args[0].equals("ping")){
             new Roundtrip(args[1], args[2], args[3]);
-        } else {
+        } else if (args.length == 2 && args[0].equals("ping") && args[1].equals("quit")){
+            new RoundtripPing();
+        }
+        else {
             System.err.println("bad arguments:" + args.length);
             System.exit(-1);
         }
