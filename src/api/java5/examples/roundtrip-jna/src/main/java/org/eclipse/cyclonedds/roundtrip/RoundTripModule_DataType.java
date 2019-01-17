@@ -22,7 +22,11 @@ public class RoundTripModule_DataType extends Structure {
 	public RoundTripModule_DataType(dds_sequence payload) {
 		super();
 		this.payload = payload;
-    }
+	}
+
+	public void setPayload(dds_sequence payload) {
+		this.payload = payload;
+	}
 
 	public RoundTripModule_DataType(Pointer peer) {
 		super(peer);

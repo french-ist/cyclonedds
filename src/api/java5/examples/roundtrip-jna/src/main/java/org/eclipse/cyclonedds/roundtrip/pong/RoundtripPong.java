@@ -1,10 +1,7 @@
 package org.eclipse.cyclonedds.roundtrip;
 
-import java.nio.IntBuffer;
-
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
-import com.sun.jna.Memory;
 import com.sun.jna.StringArray;
 import com.sun.jna.ptr.PointerByReference;
 
@@ -16,9 +13,8 @@ public class RoundtripPong
 {
     int DDS_CHECK_REPORT = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_REPORT;
     int DDS_CHECK_EXIT = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_EXIT;
-    int MAX_SAMPLES=10;
-    int DDS_DOMAIN_DEFAULT=0;
-    RoundTripModule_DataType.ByReference data;
+    int MAX_SAMPLES = 10;
+    int DDS_DOMAIN_DEFAULT = 0;
     RoundTripModule_DataType_Helper helper = new RoundTripModule_DataType_Helper();
 
     int participant;
@@ -29,21 +25,8 @@ public class RoundtripPong
     int waitSet;
     int status;
 
-    PointerByReference samplePtr;
-
     public RoundtripPong(){
         System.out.println("PONG to compare without usage of listeners");
-
-        /*
-            TODO Initialize sample data 
-            memset (data, 0, sizeof (data));
-            for (int i = 0; i < MAX_SAMPLES; i++)
-            {
-                samplePtr[i] = &data[i];
-            }
-        */
-        Pointer samplesAlloc = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(helper.getNativeSize("RoundTripModule_DataType"));
-        samplePtr = new PointerByReference(samplesAlloc);
         
         /* Create a Participant. */        
         participant = DdscLibrary.dds_create_participant (DDS_DOMAIN_DEFAULT, null, null);
@@ -52,7 +35,7 @@ public class RoundtripPong
         prepareDds();
 
         /* while waitSet not triggered, wait sample from ping */
-        PointerByReference wsresults = null;   //wsresults[1];
+        PointerByReference wsresults = new PointerByReference();   //wsresults[1];
         NativeSize wsresultsize = new NativeSize(1);        
         long waitTimeout = 99999L;
         while (DdscLibrary.dds_triggered (waitSet) != 1)
@@ -61,18 +44,16 @@ public class RoundtripPong
             int status = DdscLibrary.dds_waitset_wait (waitSet, wsresults, wsresultsize, waitTimeout);            
             assert(helper.dds_error_check(reader, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
 
-            /* Take samplePtr */
+            /* Check if something available */
             dataAvailable (reader);
         }
 
         /* Clean up */
-        finalizeDds(participant, data);
+        finalizeDds(participant, valid_sample);
     }
     
     public void prepareDds()
-    {
-        System.out.println("# prepareDds#72");
-      
+    { 
         /* A DDS Topic is created for our sample type on the domain participant. */
         int topic = DdscLibrary.dds_create_topic(participant,
             helper.getRoundTripModule_DataType_desc(), "RoundTrip", null, null);
@@ -91,34 +72,27 @@ public class RoundtripPong
         qos =  org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_create_qos ();
         org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qset_reliability (qos, 
             org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_reliability_kind.DDS_RELIABILITY_RELIABLE, 10 * 1000000000); // DDS_SECS(10) 
-
         org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qset_writer_data_lifecycle (qos, (byte)0);
-
         writer = DdscLibrary.dds_create_writer (publisher, topic, qos, null);
         assert(helper.dds_error_check(writer, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
         org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_delete_qos (qos);
       
         /* A DDS Subscriber is created on the domain participant. */
-      
         qos = org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_create_qos ();
         String[] subPartitions = {"ping"};
         org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qset_partition (qos, 1, new StringArray(subPartitions));
-
         subscriber = DdscLibrary.dds_create_subscriber (participant, qos, null);
         assert(helper.dds_error_check(subscriber, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
         org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_delete_qos (qos);
       
         /* A DDS DataReader is created on the Subscriber & Topic with a modified QoS. */
-      
         qos = org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_create_qos ();        
-        org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qset_reliability (qos, org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_reliability_kind.DDS_RELIABILITY_RELIABLE, 10 * 1000000000); // DDS_SECS(10) 
-        
+        org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_qset_reliability (qos, org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_reliability_kind.DDS_RELIABILITY_RELIABLE, 10 * 1000000000); // DDS_SECS(10)
         reader = DdscLibrary.dds_create_reader (subscriber, topic, qos, null);
         assert(helper.dds_error_check(reader, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
         org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_delete_qos (qos);
         
         waitSet = DdscLibrary.dds_create_waitset (participant);
-
         readCond = DdscLibrary.dds_create_readcondition (reader, DdscLibrary.DDS_ANY_STATE);
         status = DdscLibrary.dds_waitset_attach (waitSet, readCond, reader);
         assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
@@ -129,10 +103,11 @@ public class RoundtripPong
         System.out.println("Waiting for samples from ping to send back...\n");
     }
 
-    public void finalizeDds(int participant, RoundTripModule_DataType.ByReference data){        
+    public void finalizeDds(int participant, RoundTripModule_DataType[] data)
+    {
         int status = DdscLibrary.dds_delete (participant);
         assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
-        RoundTripModule_DataType.ByReference[] arrSample = (RoundTripModule_DataType.ByReference[])data.toArray(MAX_SAMPLES);
+        RoundTripModule_DataType.ByReference[] arrSample = (RoundTripModule_DataType.ByReference[])data;
         for (int i = 0; i < MAX_SAMPLES; i++)
         {
             org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_sample_free(
@@ -140,21 +115,25 @@ public class RoundtripPong
                 helper.getRoundTripModule_DataType_desc(),
                 org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_free_op_t.DDS_FREE_CONTENTS);
         }
-        System.err.println("# finalizeDds#139");
     }
 
-    public void dataAvailable(int reader){
+    /* define pointer for dds_take */
+    PointerByReference samplePtr = new PointerByReference(
+        org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(
+            helper.getNativeSize("RoundTripModule_DataType")));
 
-        /* infos */
-        dds_sample_info.ByReference infosPtr = new  dds_sample_info.ByReference();
+    RoundTripModule_DataType[] valid_sample;
+    public void dataAvailable(int reader){
+        /* Infos */
+        dds_sample_info.ByReference infosPtr = new dds_sample_info.ByReference();
         dds_sample_info[] infosArr = (dds_sample_info[]) infosPtr.toArray(MAX_SAMPLES);
 
         int samplecount = DdscLibrary.dds_take (reader, samplePtr, infosPtr, new NativeSize(MAX_SAMPLES), MAX_SAMPLES);
         assert(helper.dds_error_check(samplecount, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
 
-        /* TODO check if inside of for loop */
+        /* Setup strictures to receive samples */
         RoundTripModule_DataType arrayMsgRef = new RoundTripModule_DataType(samplePtr.getValue());
-        RoundTripModule_DataType[] valid_sample = (RoundTripModule_DataType[]) arrayMsgRef.toArray(MAX_SAMPLES);
+        valid_sample = (RoundTripModule_DataType[]) arrayMsgRef.toArray(MAX_SAMPLES);
         arrayMsgRef.read();
         infosPtr.read();
 
