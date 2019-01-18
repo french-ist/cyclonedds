@@ -1,7 +1,7 @@
 package org.eclipse.cyclonedds.roundtrip;
 
-import org.eclipse.cyclonedds.roundtrip.ping.RoundtripPing;
-import org.eclipse.cyclonedds.roundtrip.pong.RoundtripPong;
+import org.eclipse.cyclonedds.roundtrip.ping.*;
+import org.eclipse.cyclonedds.roundtrip.pong.*;
 
 public class Roundtrip
 {
@@ -17,7 +17,8 @@ public class Roundtrip
     {
         if(args.length <=0 ){
             System.out.println("Usage 1: ping [payloadSize (bytes, 0 - 100M)] [numSamples (0 = infinite)] [timeOut (seconds, 0 = infinite)]");
-            System.out.println("Usage 2: pong");
+            System.out.println("Usage 2: ping quit");
+            System.out.println("Usage 3: pong");
             System.exit(-1);
         }
 

@@ -8,12 +8,12 @@ public class ExampleTimeStats
     int TIME_STATS_SIZE_INCREMENT = 50000;
 
     Long[] values;
-    int valuesSize;
-    int valuesMax;
-    double average;
-    long min; //dds_time_t min;
-    long max;
-    long count;
+    int valuesSize = 0;
+    int valuesMax = 0;
+    double average = 0;
+    long min = 0; //dds_time_t min;
+    long max = 0;
+    long count = 0;
 
     public ExampleTimeStats ()
     {        
@@ -98,6 +98,11 @@ public class ExampleTimeStats
                 return 0;
             }
         });
-        return values[(int)valuesSize - (int)valuesSize/100];
+        try {
+            return values[(int)valuesSize - (int)valuesSize/100];
+        } catch(Exception e){
+            return 0;
+        }
+
     }
 } 
