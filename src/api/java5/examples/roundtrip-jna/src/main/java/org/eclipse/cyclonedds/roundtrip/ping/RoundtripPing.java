@@ -38,14 +38,15 @@ public class RoundtripPing
     private RoundTripModule_DataType sub_data;
     private RoundTripModule_DataType.ByReference pub_data;
 
+    boolean sA = false;
+    RoundTripModule_DataType[] sub_data_array;
     public void dataAvailable(int reader)
     {
         long difference = 0;
 
         /* Take sample and check that it is valid */
         long preTakeTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
-        int status = DdscLibrary.dds_take (reader, samplePtr, infosPtr, nsMaxSamples, MAX_SAMPLES);
-        assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+        DdscLibrary.dds_take (reader, samplePtr, infosPtr, nsMaxSamples, MAX_SAMPLES);
         long postTakeTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
 
         /* Update stats */
@@ -58,10 +59,12 @@ public class RoundtripPing
         readAccessOverall.exampleAddTimingToTimeStats (difference);
 
         /* read infosArr[0] */
-        sub_data = new RoundTripModule_DataType(samplePtr.getValue());
-        sub_data_array = (RoundTripModule_DataType[]) sub_data.toArray(MAX_SAMPLES);
-        sub_data.read();
-        infosPtr.read();
+        if(!sA){            
+            sub_data = new RoundTripModule_DataType(samplePtr.getValue());
+            sub_data_array = (RoundTripModule_DataType[]) sub_data.toArray(MAX_SAMPLES);
+            sA = true;
+        }
+
         difference = (postTakeTime - infosArr[0].source_timestamp)/DDS_NSECS_IN_USEC;
         roundTrip.exampleAddTimingToTimeStats (difference);
         roundTripOverall.exampleAddTimingToTimeStats (difference);
@@ -94,8 +97,7 @@ public class RoundtripPing
         }
 
         preWriteTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
-        status = DdscLibrary.dds_write_ts (writer, pub_data.getPointer(), preWriteTime);
-        assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+        DdscLibrary.dds_write_ts (writer, pub_data.getPointer(), preWriteTime);
         postWriteTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
     }
 
@@ -157,7 +159,7 @@ public class RoundtripPing
     ExampleTimeStats readAccessOverall = new  ExampleTimeStats();
 
     PointerByReference samplePtr = new PointerByReference(org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(helper.getNativeSize("RoundTripModule_DataType")));
-    RoundTripModule_DataType[] sub_data_array;
+    
     
 
     public RoundtripPing(){                
@@ -223,12 +225,10 @@ public class RoundtripPing
         startTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time ();                
         while (DdscLibrary.dds_triggered(waitSet) != 1 && difference < ddsSeconds(5))
         {
-            status = DdscLibrary.dds_waitset_wait (waitSet, wsresults, wsresultsize, waitTimeout);
-            assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+            status = DdscLibrary.dds_waitset_wait (waitSet, wsresults, wsresultsize, waitTimeout);            
             if (status > 0)
             {
-                status = DdscLibrary.dds_take(reader, samplePtr, infosPtr, nsMaxSamples, MAX_SAMPLES);
-                assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+                status = DdscLibrary.dds_take(reader, samplePtr, infosPtr, nsMaxSamples, MAX_SAMPLES);                
             }
 
             long time = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
@@ -251,13 +251,12 @@ public class RoundtripPing
 
         /* Write a sample that pong can send back */
         preWriteTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time ();
-        status = DdscLibrary.dds_write_ts (writer, pub_data.getPointer(), preWriteTime);
-        assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+        status = DdscLibrary.dds_write_ts (writer, pub_data.getPointer(), preWriteTime);        
         postWriteTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time ();
         for (int i = 0; 0 == DdscLibrary.dds_triggered (waitSet) && (numSamples != null || (numSamples != null && i < numSamples)); i++)
         {
             status = DdscLibrary.dds_waitset_wait (waitSet, wsresults, wsresultsize, waitTimeout);
-            assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+            
             if (status != 0) {
                 dataAvailable(reader);
             }            
