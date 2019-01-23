@@ -120,7 +120,42 @@ public class RoundtripPong
         System.out.println("Waiting for samples from ping to send back...\n");
     }
 
-    public void finalizeDds(int participant, RoundTripModule_DataType[] data)
+    /* define pointer for dds_take */
+	PointerByReference samplePtr = new PointerByReference(
+	    org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(
+	        helper.getNativeSize("RoundTripModule_DataType")));
+	RoundTripModule_DataType[] valid_sample;
+	
+	/* Infos */
+	dds_sample_info.ByReference infosPtr = new dds_sample_info.ByReference();
+	dds_sample_info[] infosArr = (dds_sample_info[]) infosPtr.toArray(MAX_SAMPLES);
+
+	/* Call to data available */
+	public void dataAvailable(int reader){
+	    int sampleCount = DdscLibrary.dds_take (reader, samplePtr, infosPtr, new NativeSize(MAX_SAMPLES*Byte.SIZE), MAX_SAMPLES);
+	    
+	    /* Setup strictures to receive samples */
+	    RoundTripModule_DataType arrayMsgRef = new RoundTripModule_DataType(samplePtr.getValue());
+	    valid_sample = (RoundTripModule_DataType[]) arrayMsgRef.toArray(MAX_SAMPLES);
+	
+	    for (int j = 0; 0 == DdscLibrary.dds_triggered (waitSet) && j < sampleCount; j++)
+	    {
+	        /* If writer has been disposed terminate pong */
+	        if (infosArr[j].getInstance_state() == DdscLibrary.dds_instance_state.DDS_IST_NOT_ALIVE_DISPOSED)
+	        {
+	            System.out.println("Received termination request. Terminating.\n");
+	            DdscLibrary.dds_waitset_set_trigger (waitSet, (byte)1);
+	            break;
+	        }
+	        else if (infosArr[j].getValid_data() > 0)
+	        {
+	            /* If sample is valid, send it back to ping */
+	            DdscLibrary.dds_write_ts (writer, valid_sample[j].getPointer(), infosArr[j].getSource_timestamp());                
+	        }
+	    }
+	}
+
+	public void finalizeDds(int participant, RoundTripModule_DataType[] data)
     {
         int status = DdscLibrary.dds_delete (participant);
         assertTrue(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
@@ -134,42 +169,6 @@ public class RoundtripPong
                 helper.getRoundTripModule_DataType_desc(),
                 org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_free_op_t.DDS_FREE_CONTENTS);
         }*/
-    }
-
-    /* define pointer for dds_take */
-    PointerByReference samplePtr = new PointerByReference(
-        org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(
-            helper.getNativeSize("RoundTripModule_DataType")));
-
-    RoundTripModule_DataType[] valid_sample;
-    
-    /* Infos */
-    dds_sample_info.ByReference infosPtr = new dds_sample_info.ByReference();
-    dds_sample_info[] infosArr = (dds_sample_info[]) infosPtr.toArray(MAX_SAMPLES);
-    
-    /* Call to data available */
-    public void dataAvailable(int reader){
-        int samplecount = DdscLibrary.dds_take (reader, samplePtr, infosPtr, new NativeSize(MAX_SAMPLES), MAX_SAMPLES);
-
-        /* Setup strictures to receive samples */
-        RoundTripModule_DataType arrayMsgRef = new RoundTripModule_DataType(samplePtr.getValue());
-        valid_sample = (RoundTripModule_DataType[]) arrayMsgRef.toArray(MAX_SAMPLES);
-
-        for (int j = 0; 0 == DdscLibrary.dds_triggered (waitSet) && j < samplecount; j++)
-        {
-            /* If writer has been disposed terminate pong */
-            if (infosArr[j].getInstance_state() == DdscLibrary.dds_instance_state.DDS_IST_NOT_ALIVE_DISPOSED)
-            {
-                System.out.println("Received termination request. Terminating.\n");
-                DdscLibrary.dds_waitset_set_trigger (waitSet, (byte)1);
-                break;
-            }
-            else if (infosArr[j].getValid_data() > 0)
-            {
-                /* If sample is valid, send it back to ping */
-                DdscLibrary.dds_write_ts (writer, valid_sample[j].getPointer(), infosArr[j].getSource_timestamp());                
-            }
-        }
     }
 
 }
