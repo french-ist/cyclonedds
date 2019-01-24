@@ -1,5 +1,6 @@
 package org.eclipse.cyclonedds.roundtrip.pong;
 
+import com.sun.jna.Pointer;
 import com.sun.jna.StringArray;
 import com.sun.jna.ptr.PointerByReference;
 
@@ -13,9 +14,10 @@ public class RoundtripPong
 {
     int DDS_CHECK_REPORT = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_REPORT;
     int DDS_CHECK_EXIT = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_EXIT;
-    int MAX_SAMPLES = 10;
+    int MAX_SAMPLES = 100;
     int DDS_DOMAIN_DEFAULT = 0;
     RoundTripModule_DataType_Helper helper = new RoundTripModule_DataType_Helper();
+    Pointer allocTake = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(helper.getNativeSize("RoundTripModule_DataType"));
 
     int participant;
     int reader;
@@ -24,6 +26,7 @@ public class RoundtripPong
     int readCond;
     int waitSet;
     int status;
+	
 
     public void assertTrue(boolean b){
         if(!b){
@@ -66,7 +69,7 @@ public class RoundtripPong
         }
 
         /* Clean up */
-        finalizeDds(participant, valid_sample);
+        finalizeDds(participant, allocTake);
     }
     
     public void prepareDds()
@@ -121,10 +124,7 @@ public class RoundtripPong
     }
 
     /* define pointer for dds_take */
-	PointerByReference samplePtr = new PointerByReference(
-	    org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(
-	        helper.getNativeSize("RoundTripModule_DataType")));
-	RoundTripModule_DataType[] valid_sample;
+	PointerByReference samplePtr = new PointerByReference(allocTake);
 	
 	/* Infos */
 	dds_sample_info.ByReference infosPtr = new dds_sample_info.ByReference();
@@ -132,13 +132,15 @@ public class RoundtripPong
 
 	/* Call to data available */
 	public void dataAvailable(int reader){
-	    int sampleCount = DdscLibrary.dds_take (reader, samplePtr, infosPtr, new NativeSize(MAX_SAMPLES*Byte.SIZE), MAX_SAMPLES);
+	    long sampleCount = DdscLibrary.dds_take(reader, samplePtr, infosPtr, new NativeSize(MAX_SAMPLES*Byte.SIZE), MAX_SAMPLES);
 	    
 	    /* Setup strictures to receive samples */
 	    RoundTripModule_DataType arrayMsgRef = new RoundTripModule_DataType(samplePtr.getValue());
-	    valid_sample = (RoundTripModule_DataType[]) arrayMsgRef.toArray(MAX_SAMPLES);
+	    infosPtr.read();
+	    arrayMsgRef.read();
+	    RoundTripModule_DataType[] valid_sample = (RoundTripModule_DataType[]) arrayMsgRef.toArray(MAX_SAMPLES);
 	
-	    for (int j = 0; 0 == DdscLibrary.dds_triggered (waitSet) && j < sampleCount; j++)
+	    for (int j = 0; 0 == DdscLibrary.dds_triggered (waitSet) && j < (int)sampleCount; j++)
 	    {
 	        /* If writer has been disposed terminate pong */
 	        if (infosArr[j].getInstance_state() == DdscLibrary.dds_instance_state.DDS_IST_NOT_ALIVE_DISPOSED)
@@ -155,20 +157,17 @@ public class RoundtripPong
 	    }
 	}
 
-	public void finalizeDds(int participant, RoundTripModule_DataType[] data)
-    {
-        int status = DdscLibrary.dds_delete (participant);
-        assertTrue(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
-        /*
-        TODO check for the good parameter
-        RoundTripModule_DataType.ByReference[] arrSample = (RoundTripModule_DataType.ByReference[])data;
-        for (int i = 0; i < MAX_SAMPLES; i++)
-        {
-            org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_sample_free(
-                arrSample[i].getPointer(),
-                helper.getRoundTripModule_DataType_desc(),
-                org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_free_op_t.DDS_FREE_CONTENTS);
-        }*/
-    }
+	public void finalizeDds(int part, Pointer... pointers)
+	{
+		int status = DdscLibrary.dds_delete (part);
+		assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+
+		for (Pointer pointer : pointers) {
+			org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_sample_free(
+					pointer,
+					helper.getRoundTripModule_DataType_desc(),
+					org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_free_op_t.DDS_FREE_CONTENTS);	
+		}
+	}
 
 }

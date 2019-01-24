@@ -31,15 +31,15 @@ public class RoundtripPing
 	long preWriteTime = 0;
 	long postWriteTime = 0;
 	boolean warmUp = true;
-	private NativeSize bufSize = new NativeSize(MAX_SAMPLES);
+	private NativeSize bufSize = new NativeSize(MAX_SAMPLES*Byte.SIZE);
 
 	int waitSet;
 	int reader;
 	int writer;
 
-	Pointer allocReader = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(helper.getNativeSize("RoundTripModule_DataType"));
-	Pointer allocReader2 = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(helper.getNativeSize("RoundTripModule_DataType"));
-	Pointer bufferAlloc;
+	Pointer allocTake = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(helper.getNativeSize("RoundTripModule_DataType"));
+	Pointer allocWarmUp = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(helper.getNativeSize("RoundTripModule_DataType"));
+	Pointer allocPayload;
 
 	public void prepareDds()
 	{
@@ -91,13 +91,13 @@ public class RoundtripPing
 	public void dataAvailable(int reader, Pointer pointer)
 	{
 		long difference = 0;
-		PointerByReference samplePtr = new PointerByReference(allocReader);
+		PointerByReference samplePtr = new PointerByReference(allocTake);
 		dds_sample_info.ByReference infosPtr = new  dds_sample_info.ByReference();	
 		dds_sample_info[] infosArr = (dds_sample_info[]) infosPtr.toArray(MAX_SAMPLES); 
 
 		/* Take sample and check that it is valid */	    
 		long preTakeTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
-		int takeReturn = DdscLibrary.dds_take(reader, samplePtr, infosPtr, bufSize, MAX_SAMPLES);  
+		DdscLibrary.dds_take(reader, samplePtr, infosPtr, bufSize, MAX_SAMPLES);  
 		long postTakeTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();	       
 
 		/* Update stats */
@@ -111,13 +111,27 @@ public class RoundtripPing
 
 		/* read infosArr[0] */          
 		RoundTripModule_DataType sub_data = new RoundTripModule_DataType(samplePtr.getValue());
-		sub_data.read();
 		infosPtr.read();
-		if(takeReturn > 0 && infosArr[0].getValid_data() > 0) {	    	
-			//RoundTripModule_DataType[] msgArray = (RoundTripModule_DataType[])sub_data.toArray(MAX_SAMPLES);
-			//if (msgArray[0].payload.get_length() > 0)
-			//System.out.println("Data: " + msgArray[0]);
-		}
+		sub_data.read();
+		//sub_data.payload.read();
+
+		/*if(takeReturn > 0 ) 
+		{
+			RoundTripModule_DataType[] msgArray = (RoundTripModule_DataType[])sub_data.toArray(MAX_SAMPLES);
+			for (int i = 0; i < MAX_SAMPLES; i++) 
+			{
+				if(infosArr[i].getValid_data() > 0) 
+				{
+					msgArray[i].read();
+					msgArray[i].payload.read();				
+					//if (msgArray[i].payload.get_length() > 0) 
+					{
+						System.out.println("Data["+i+"] --> " + msgArray[i]);
+					}				
+				}
+			}			
+		}*/
+
 		difference = (postTakeTime - infosArr[0].source_timestamp)/DDS_NSECS_IN_USEC;
 		roundTrip.exampleAddTimingToTimeStats (difference);
 		roundTripOverall.exampleAddTimingToTimeStats (difference);
@@ -129,17 +143,17 @@ public class RoundtripPing
 			{
 				System.out.printf("%9s %9d %8.0f %8s %9s %8s %10d %8.0f %8s %10d %8.0f %8s\n",
 						(elapsed + 1),
-						roundTrip.count, 
+						roundTrip.count(), 
 						roundTrip.exampleGetMedianFromTimeStats() / 2,
-						roundTrip.min / 2,
+						roundTrip.min() / 2,
 						roundTrip.exampleGet99PercentileFromTimeStats () / 2,
-						roundTrip.max / 2,
-						writeAccess.count,
+						roundTrip.max() / 2,
+						writeAccess.count(),
 						writeAccess.exampleGetMedianFromTimeStats (),
-						writeAccess.min,
-						readAccess.count,
+						writeAccess.min(),
+						readAccess.count(),
 						readAccess.exampleGetMedianFromTimeStats (),
-						readAccess.min);
+						readAccess.min());
 
 				roundTrip.exampleResetTimeStats();
 				writeAccess.exampleResetTimeStats();
@@ -199,9 +213,9 @@ public class RoundtripPing
 		System.out.print("# payloadSize: %" +payloadSize+ " | numSamples: %" +numSamples+ " | timeOut: %" +timeOut+ "\n\n");
 
 		/* setting the payload for publication data */        
-		dds_sequence.ByReference dsPubData = new dds_sequence.ByReference();
+		dds_sequence dsPubData = new dds_sequence();
 		dsPubData.set_length(Math.toIntExact(payloadSize));
-		dsPubData.set_buffer(payloadSize > 0 ? bufferAlloc(payloadSize) : null);
+		dsPubData.set_buffer(payloadSize > 0 ? payloadBuffer(payloadSize) : null);
 		dsPubData.set_release(cBoolean(true)); //true
 		dsPubData.set_maximum(0);                
 		int memSize = Math.toIntExact(payloadSize) * Native.getNativeSize(Byte.TYPE);
@@ -221,11 +235,11 @@ public class RoundtripPing
 		PointerByReference wsResults = new PointerByReference(); //dds_attach_t wsresults[1];
 		long waitTimeout = ddsSeconds(1);
 		long difference = 0L;		       
-		int status;
+		long status;
 		NativeSize wsResultSize = new NativeSize(1);
 
 		dds_sample_info.ByReference infosPtr = new  dds_sample_info.ByReference();	    
-		PointerByReference samplePtr = new PointerByReference(allocReader2);
+		PointerByReference samplePtr = new PointerByReference(allocWarmUp);
 		startTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time ();
 		while (DdscLibrary.dds_triggered(waitSet) != 1 && difference < ddsSeconds(5))
 		{
@@ -262,7 +276,7 @@ public class RoundtripPing
 		{
 			status = DdscLibrary.dds_waitset_wait (waitSet, wsResults, wsResultSize, waitTimeout);            
 			if (status != 0) {
-				assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
+				//assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
 				dataAvailable(reader, pub_data.getPointer());
 			}            
 		}
@@ -272,26 +286,26 @@ public class RoundtripPing
 			//Confirm with ping.c#381-395
 			System.out.printf("%9s %9d %8.0f %8s %9s %8s %10d %8.0f %8s %10d %8.0f %8s\n",            
 					"\n# Overall",
-					roundTripOverall.count,
+					roundTripOverall.count(),
 					roundTripOverall.exampleGetMedianFromTimeStats () / 2,
-					roundTripOverall.min / 2,
+					roundTripOverall.min() / 2,
 					roundTripOverall.exampleGet99PercentileFromTimeStats () / 2,
-					roundTripOverall.max / 2,
-					writeAccessOverall.count,
+					roundTripOverall.max() / 2,
+					writeAccessOverall.count(),
 					writeAccessOverall.exampleGetMedianFromTimeStats (),
-					writeAccessOverall.min,
-					readAccessOverall.count,
+					writeAccessOverall.min(),
+					readAccessOverall.count(),
 					readAccessOverall.exampleGetMedianFromTimeStats (),
-					readAccessOverall.min 
+					readAccessOverall.min() 
 					);
 		}
 
-		finalizeDds(participant, bufferAlloc, allocReader, allocReader2);
+		finalizeDds(participant, allocPayload, allocTake, allocWarmUp);
 
 	}
 
-	private Pointer bufferAlloc(Long payloadSize) {		
-		return bufferAlloc = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(new NativeSize(payloadSize));
+	private Pointer payloadBuffer(Long payloadSize) {		
+		return allocPayload = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(new NativeSize(payloadSize));
 	}
 
 
@@ -301,7 +315,7 @@ public class RoundtripPing
 			/* pong uses a waitset which is triggered by instance disposal, and
               quits when it fires. */
 			org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_sleepfor(ddsSeconds(1));
-			dds_sequence.ByReference dsPubData = new dds_sequence.ByReference();
+			dds_sequence dsPubData = new dds_sequence();
 			dsPubData.set_length(0);
 			dsPubData._buffer = null;
 			dsPubData._release = cBoolean(true);
@@ -320,14 +334,6 @@ public class RoundtripPing
 	{
 		int status = DdscLibrary.dds_delete (part);
 		assert(helper.dds_error_check(status, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
-
-		/* Clean up statistics */
-		roundTrip.exampleDeleteTimeStats ();
-		writeAccess.exampleDeleteTimeStats ();
-		readAccess.exampleDeleteTimeStats ();
-		roundTripOverall.exampleDeleteTimeStats ();
-		writeAccessOverall.exampleDeleteTimeStats ();
-		readAccessOverall.exampleDeleteTimeStats ();
 
 		for (Pointer pointer : pointers) {
 			org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_sample_free(
