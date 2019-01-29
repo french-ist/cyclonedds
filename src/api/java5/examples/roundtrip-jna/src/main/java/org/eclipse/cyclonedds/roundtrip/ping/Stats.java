@@ -1,23 +1,22 @@
 package org.eclipse.cyclonedds.roundtrip.ping;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 
 
-public class ExampleTimeStats
+public class Stats
 {
-	//int TIME_STATS_SIZE_INCREMENT = 50000;
-	//int valuesSize = 0;
-	//int valuesMax = 0;
+	public static long elapsed = 0;
+	public static long startTime = 0;
+	public static long postWriteTime;
+	public static long preWriteTime;
 
 	private ArrayList<Long> values;   
-	private double average = 0;
 	private long min = 0;
 	private long max = 0;
 	private long count = 0;
 
-	public ExampleTimeStats ()
+	public Stats ()
 	{        
 		exampleResetTimeStats();
 	}
@@ -25,7 +24,6 @@ public class ExampleTimeStats
 	public void exampleResetTimeStats ()
 	{
 		values = new ArrayList<Long>();
-		average = 0;
 		min = Long.MAX_VALUE;
 		max = Long.MIN_VALUE;
 		count = 0;
@@ -34,20 +32,6 @@ public class ExampleTimeStats
 
 	public void exampleAddTimingToTimeStats(long timing)
 	{
-		/*if (valuesSize > valuesMax)
-		{
-			values = new Long[valuesMax + TIME_STATS_SIZE_INCREMENT];//dds_time_t * temp = (dds_time_t*) realloc (values, (valuesMax + TIME_STATS_SIZE_INCREMENT) * sizeof (dds_time_t));
-			valuesMax += TIME_STATS_SIZE_INCREMENT;
-		}
-		if (values != null && valuesSize < valuesMax)
-		{
-			values[valuesSize++] = timing;
-		}
-		average = ((double)count * average + (double)timing) / (double)(count + 1);
-		min = (count == 0 || timing < min) ? timing : min;
-		max = (count == 0 || timing > max) ? timing : max;
-		count++;
-		*/
 		if(timing < min) {
 			min = timing ;
 		}
@@ -77,11 +61,14 @@ public class ExampleTimeStats
 
 		if (values.size() % 2 == 0)
 		{	
-			median = ( values.get(values.size()/2 -1) + values.get(values.size()/2) ) / 2; //(v1==null? 0:v1) + (v2==null? 0:v2/2);
+			int i1 = bound(values.size()/2 -1, values.size());
+			int i2 = bound(values.size()/2, values.size());
+			median = ( values.get(i1) + values.get(i2) ) / 2; //(v1==null? 0:v1) + (v2==null? 0:v2/2);
 		}
 		else
 		{            
-			median = values.get(values.size()/2);
+			int i = bound(values.size()/2, values.size());
+			median = values.get(i);
 		}
 		return (double)median;
 	}
@@ -99,9 +86,13 @@ public class ExampleTimeStats
 			}
 		});
 
-		return values.get(values.size() - values.size()/100);
+		return values.get(bound(values.size() - values.size()/100, values.size()));
 	}
 
+	public int bound(int value, int arraySize) {
+		return Math.min(0, Math.max(value, arraySize-1));
+	}
+	
 	public long min() {
 		return min;
 	}
