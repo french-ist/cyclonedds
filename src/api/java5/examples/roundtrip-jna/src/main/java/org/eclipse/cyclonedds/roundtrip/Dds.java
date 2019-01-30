@@ -14,7 +14,7 @@ public class Dds {
 	
 	public static int DDS_CHECK_REPORT = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_REPORT;
 	public static int DDS_CHECK_EXIT = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_EXIT;	
-	public static int MAX_SAMPLES = 5;    
+	public static int MAX_SAMPLES = 10;    
 	public static int DDS_DOMAIN_DEFAULT = 0;	
 	public static long US_IN_ONE_SEC = 1000000L;
 	public static long DDS_NSECS_IN_USEC = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.DDS_NSECS_IN_USEC;

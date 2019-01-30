@@ -59,7 +59,7 @@ public class RoundtripPong
 		
 	    long sampleCount = DdscLibrary.dds_take(reader, samplePtr, infosPtr, new NativeSize(Dds.MAX_SAMPLES*Byte.SIZE), Dds.MAX_SAMPLES);
 	    
-	    /* Setup structures to receive samples */
+	    /* Setup strictures to receive samples */
 	    RoundTripModule_DataType arrayMsgRef = new RoundTripModule_DataType(samplePtr.getValue());
 	    infosPtr.read();
 	    arrayMsgRef.read();
@@ -84,7 +84,6 @@ public class RoundtripPong
 				}*/
 
 	        	/* If sample is valid, send it back to ping */
-	        	valid_sample[j].write();
 	            DdscLibrary.dds_write_ts (Dds.pongWriter, valid_sample[j].getPointer(), infosArr[j].getSource_timestamp());                
 	        }
 	    }

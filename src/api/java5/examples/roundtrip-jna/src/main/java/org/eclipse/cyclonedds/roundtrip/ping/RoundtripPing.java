@@ -40,7 +40,7 @@ public class RoundtripPing
 		RoundTripModule_DataType sub_data = new RoundTripModule_DataType(samplePtr.getValue());
 		infosPtr.read();
 		sub_data.read();
-		System.out.println(" valid_sample:" + sub_data.payload._maximum);	
+		System.out.println(" valid_sample:" + sub_data.payload._length);	
     	/*for (int i = 0; i < sub_data.payload._length; i++) {
     		System.out.print((char)sub_data.payload._buffer.getByte(i));
 		}*/
@@ -48,7 +48,7 @@ public class RoundtripPing
 		Stats.statsStuf(infosArr, preTakeTime, postTakeTime);
 
 		Stats.preWriteTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
-		DdscLibrary.dds_write_ts (Dds.pingWriter, pointer, Stats.preWriteTime);
+		DdscLibrary.dds_write_ts (Dds.pingWriter, samplePtr.getValue(), Stats.preWriteTime);
 		Stats.postWriteTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
 	}
 
@@ -76,22 +76,7 @@ public class RoundtripPing
 		Dds.testIfQuit(quit);
 		Dds.checkParameters(_payloadSize, _numSamples, _timeOut);
 
-		/* setting the payload for publication data */
-		dds_sequence dsPubData = new dds_sequence();
-		dsPubData.set_length(Math.toIntExact(Dds.payloadSize));		
-		dsPubData.set_release(Dds.cBoolean(true)); //true
-		dsPubData.set_maximum(0);                
-		int memSize = Math.toIntExact(Dds.payloadSize) * Native.getNativeSize(Byte.TYPE);
-		if(memSize > 0) {
-			Pointer buffer = new Memory(memSize);
-			for (int i = 0; i < Dds.payloadSize; i++)
-			{
-				buffer.setByte(i * Native.getNativeSize(Byte.TYPE), i%3==0? (byte)'a':(byte)'b');
-			}
-			dsPubData.set_buffer(buffer);
-		}
-		RoundTripModule_DataType.ByReference pub_data = new RoundTripModule_DataType.ByReference();       
-		pub_data.setPayload(dsPubData);
+		RoundTripModule_DataType.ByReference pub_data = setPayload();
 		
 		Dds.warmUp();		
 		ping(pub_data);
@@ -124,6 +109,27 @@ public class RoundtripPing
 		}
 
 		Dds.finalizeDds(Dds.participant, Dds.pingAllocWarmUp);
+	}
+
+
+	private RoundTripModule_DataType.ByReference setPayload() {
+		/* setting the payload for publication data */
+		dds_sequence dsPubData = new dds_sequence();
+		dsPubData.set_length(Math.toIntExact(Dds.payloadSize));		
+		dsPubData.set_release(Dds.cBoolean(true)); //true
+		dsPubData.set_maximum(0);                
+		int memSize = Math.toIntExact(Dds.payloadSize) * Native.getNativeSize(Byte.TYPE);
+		if(memSize > 0) {
+			Pointer buffer = new Memory(memSize);
+			for (int i = 0; i < Dds.payloadSize; i++)
+			{
+				buffer.setByte(i * Native.getNativeSize(Byte.TYPE), i%3==0? (byte)'a':(byte)'b');
+			}
+			dsPubData.set_buffer(buffer);
+		}
+		RoundTripModule_DataType.ByReference pub_data = new RoundTripModule_DataType.ByReference();       
+		pub_data.setPayload(dsPubData);
+		return pub_data;
 	}
 
 	public void ping(RoundTripModule_DataType.ByReference pub_data) {
