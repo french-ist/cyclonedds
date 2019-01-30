@@ -2,11 +2,16 @@ package org.eclipse.cyclonedds.roundtrip.pong;
 
 import com.sun.jna.ptr.PointerByReference;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 import org.eclipse.cyclonedds.ddsc.dds.dds_sample_info;
 import org.eclipse.cyclonedds.helper.NativeSize;
 import org.eclipse.cyclonedds.roundtrip.Dds;
 import org.eclipse.cyclonedds.roundtrip.RoundTripModule_DataType;
+import org.eclipse.cyclonedds.roundtrip.optimizer.Optimizer;
+import org.eclipse.cyclonedds.roundtrip.optimizer.TakeAllocator;
 
 public class RoundtripPong 
 {
@@ -22,8 +27,9 @@ public class RoundtripPong
 
     public RoundtripPong(){
         System.out.println("PONG without usage of listeners");
+        ExecutorService e = Executors.newFixedThreadPool(2);		
+		e.execute(opt);
         ctrlHandler();
-
         Dds.preparePongDds();
 
         /* while waitSet not triggered, wait sample from ping */
@@ -43,15 +49,17 @@ public class RoundtripPong
         Dds.finalizeDds(Dds.participant, Dds.allocTake);
     }
 
+    Optimizer opt = new Optimizer();
 	public void dataAvailable(int reader){
 		/* define pointer for dds_take */
-		PointerByReference samplePtr = new PointerByReference(Dds.allocTake);
-		dds_sample_info.ByReference infosPtr = new dds_sample_info.ByReference();
-		dds_sample_info[] infosArr = (dds_sample_info[]) infosPtr.toArray(Dds.MAX_SAMPLES);
+		TakeAllocator tObj = (TakeAllocator)opt.next();
+		PointerByReference samplePtr = tObj.samplePtr;  //new PointerByReference(Dds.allocTake);
+		dds_sample_info.ByReference infosPtr = tObj.infosPtr;//= new dds_sample_info.ByReference();
+		dds_sample_info[] infosArr = tObj.infosArr;	//(dds_sample_info[]) infosPtr.toArray(Dds.MAX_SAMPLES);
 		
 	    long sampleCount = DdscLibrary.dds_take(reader, samplePtr, infosPtr, new NativeSize(Dds.MAX_SAMPLES*Byte.SIZE), Dds.MAX_SAMPLES);
 	    
-	    /* Setup strictures to receive samples */
+	    /* Setup structures to receive samples */
 	    RoundTripModule_DataType arrayMsgRef = new RoundTripModule_DataType(samplePtr.getValue());
 	    infosPtr.read();
 	    arrayMsgRef.read();
@@ -67,8 +75,9 @@ public class RoundtripPong
 	            break;
 	        }
 	        else if (infosArr[j].getValid_data() > 0)
-	        {   	        	
-	        	/*System.out.println("valid_sample:" + (char)valid_sample[j].payload._buffer.getByte(0));	        	
+	        {
+	        	/*
+	        	System.out.println(" valid_sample:" + valid_sample[j].payload.get_maximum());	        		        	
 	        	int i;
 	        	for (i = 0; i < valid_sample[j].payload._length; i++) {
 	        		System.out.print((char)valid_sample[j].payload._buffer.getByte(i));

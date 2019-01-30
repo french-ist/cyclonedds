@@ -3,8 +3,11 @@ package org.eclipse.cyclonedds.roundtrip.ping;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import org.eclipse.cyclonedds.ddsc.dds.dds_sample_info;
+import org.eclipse.cyclonedds.roundtrip.Dds;
 
-public class Stats
+
+public class Stats implements Runnable
 {
 	public static long elapsed = 0;
 	public static long startTime = 0;
@@ -15,10 +18,56 @@ public class Stats
 	private long min = 0;
 	private long max = 0;
 	private long count = 0;
+	
+	public void run() {}
 
 	public Stats ()
 	{        
 		exampleResetTimeStats();
+	}
+	
+	public static void statsStuf(dds_sample_info[] infosArr, long preTakeTime, long postTakeTime) {
+		long difference = 0;
+		
+		/* Update stats */
+		difference = (Stats.postWriteTime - Stats.preWriteTime)/Dds.DDS_NSECS_IN_USEC;
+		Dds.writeAccess.exampleAddTimingToTimeStats (difference);
+		Dds.writeAccessOverall.exampleAddTimingToTimeStats (difference);
+
+		difference = (postTakeTime - preTakeTime)/Dds.DDS_NSECS_IN_USEC;
+		Dds.readAccess.exampleAddTimingToTimeStats (difference);
+		Dds.readAccessOverall.exampleAddTimingToTimeStats (difference);
+
+		difference = (postTakeTime - infosArr[0].source_timestamp)/Dds.DDS_NSECS_IN_USEC;
+		Dds.roundTrip.exampleAddTimingToTimeStats (difference);
+		Dds.roundTripOverall.exampleAddTimingToTimeStats (difference);
+
+		if (!Dds.shouldWarmUp) {
+			/* Print stats each second */
+			difference = (postTakeTime - Stats.startTime)/Dds.DDS_NSECS_IN_USEC;
+			if (difference > Dds.US_IN_ONE_SEC)
+			{
+				System.out.printf("%9s %9d %8.0f %8s %9s %8s %10d %8.0f %8s %10d %8.0f %8s\n",
+						(Stats.elapsed + 1),
+						Dds.roundTrip.count(), 
+						Dds.roundTrip.exampleGetMedianFromTimeStats() / 2,
+						Dds.roundTrip.min() / 2,
+						Dds.roundTrip.exampleGet99PercentileFromTimeStats () / 2,
+						Dds.roundTrip.max() / 2,
+						Dds.writeAccess.count(),
+						Dds.writeAccess.exampleGetMedianFromTimeStats (),
+						Dds.writeAccess.min(),
+						Dds.readAccess.count(),
+						Dds.readAccess.exampleGetMedianFromTimeStats (),
+						Dds.readAccess.min());
+
+				Dds.roundTrip.exampleResetTimeStats();
+				Dds.writeAccess.exampleResetTimeStats();
+				Dds.readAccess.exampleResetTimeStats();
+				Stats.startTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
+				Stats.elapsed ++;
+			}
+		}
 	}
 
 	public void exampleResetTimeStats ()

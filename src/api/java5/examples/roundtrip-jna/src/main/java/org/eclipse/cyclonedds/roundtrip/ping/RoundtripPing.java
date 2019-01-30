@@ -6,78 +6,53 @@ import com.sun.jna.Memory;
 
 import com.sun.jna.ptr.PointerByReference;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 import org.eclipse.cyclonedds.ddsc.dds.dds_sample_info;
 import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_sequence;
 import org.eclipse.cyclonedds.helper.NativeSize;
 import org.eclipse.cyclonedds.roundtrip.Dds;
 import org.eclipse.cyclonedds.roundtrip.RoundTripModule_DataType;
+import org.eclipse.cyclonedds.roundtrip.optimizer.Optimizer;
+import org.eclipse.cyclonedds.roundtrip.optimizer.TakeAllocator;
 
 public class RoundtripPing
 {
 
+	Optimizer opt = new Optimizer();
+	
 	public void dataAvailable(int reader, Pointer pointer)
-	{
-		long difference = 0;
-		PointerByReference samplePtr = new PointerByReference(Dds.allocTake);
-		dds_sample_info.ByReference infosPtr = new  dds_sample_info.ByReference();	
-		dds_sample_info[] infosArr = (dds_sample_info[]) infosPtr.toArray(Dds.MAX_SAMPLES); 
+	{		
+		TakeAllocator tObj = (TakeAllocator)opt.next();
+
+		PointerByReference samplePtr = tObj.samplePtr ;//new PointerByReference(Dds.allocTake);
+		dds_sample_info.ByReference infosPtr = tObj.infosPtr; //new  dds_sample_info.ByReference();	
+		dds_sample_info[] infosArr = tObj.infosArr; //(dds_sample_info[]) infosPtr.toArray(Dds.MAX_SAMPLES); 
 
 		/* Take sample and check that it is valid */	    
 		long preTakeTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
 		DdscLibrary.dds_take(reader, samplePtr, infosPtr, new NativeSize(Dds.MAX_SAMPLES*Byte.SIZE), Dds.MAX_SAMPLES);  
 		long postTakeTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();	       
 
-		/* Update stats */
-		difference = (Stats.postWriteTime - Stats.preWriteTime)/Dds.DDS_NSECS_IN_USEC;
-		Dds.writeAccess.exampleAddTimingToTimeStats (difference);
-		Dds.writeAccessOverall.exampleAddTimingToTimeStats (difference);
-
-		difference = (postTakeTime - preTakeTime)/Dds.DDS_NSECS_IN_USEC;
-		Dds.readAccess.exampleAddTimingToTimeStats (difference);
-		Dds.readAccessOverall.exampleAddTimingToTimeStats (difference);
-
-		/* read infosArr[0] */          
+		/* read sub_data  NO NEED TO READ PONG DATA 
 		RoundTripModule_DataType sub_data = new RoundTripModule_DataType(samplePtr.getValue());
 		infosPtr.read();
 		sub_data.read();
-
-		difference = (postTakeTime - infosArr[0].source_timestamp)/Dds.DDS_NSECS_IN_USEC;
-		Dds.roundTrip.exampleAddTimingToTimeStats (difference);
-		Dds.roundTripOverall.exampleAddTimingToTimeStats (difference);
-
-		if (!Dds.shouldWarmUp) {
-			/* Print stats each second */
-			difference = (postTakeTime - Stats.startTime)/Dds.DDS_NSECS_IN_USEC;
-			if (difference > Dds.US_IN_ONE_SEC)
-			{
-				System.out.printf("%9s %9d %8.0f %8s %9s %8s %10d %8.0f %8s %10d %8.0f %8s\n",
-						(Stats.elapsed + 1),
-						Dds.roundTrip.count(), 
-						Dds.roundTrip.exampleGetMedianFromTimeStats() / 2,
-						Dds.roundTrip.min() / 2,
-						Dds.roundTrip.exampleGet99PercentileFromTimeStats () / 2,
-						Dds.roundTrip.max() / 2,
-						Dds.writeAccess.count(),
-						Dds.writeAccess.exampleGetMedianFromTimeStats (),
-						Dds.writeAccess.min(),
-						Dds.readAccess.count(),
-						Dds.readAccess.exampleGetMedianFromTimeStats (),
-						Dds.readAccess.min());
-
-				Dds.roundTrip.exampleResetTimeStats();
-				Dds.writeAccess.exampleResetTimeStats();
-				Dds.readAccess.exampleResetTimeStats();
-				Stats.startTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
-				Stats.elapsed ++;
-			}
-		}
+		System.out.println(" valid_sample:" + sub_data.payload._maximum);	
+    	/*for (int i = 0; i < sub_data.payload._length; i++) {
+    		System.out.print((char)sub_data.payload._buffer.getByte(i));
+		}*/
+		
+		Stats.statsStuf(infosArr, preTakeTime, postTakeTime);
 
 		Stats.preWriteTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
 		DdscLibrary.dds_write_ts (Dds.pingWriter, pointer, Stats.preWriteTime);
 		Stats.postWriteTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
 	}
 
+	
 	public RoundtripPing(){                
 		this("0", "0", "0", true);        
 	}
@@ -86,7 +61,16 @@ public class RoundtripPing
 		this(payloadSize, numSamples, timeOut, false);
 	}
 
-	private RoundtripPing(String _payloadSize, String _numSamples, String _timeOut, boolean quit){
+	private RoundtripPing(String _payloadSize, String _numSamples, String _timeOut, boolean quit){		
+		ExecutorService e = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() - 4);		
+		e.execute(opt);
+		e.execute(Dds.roundTrip);
+		e.execute(Dds.writeAccess);
+		e.execute(Dds.readAccess);
+		e.execute(Dds.roundTripOverall);
+		e.execute(Dds.writeAccessOverall);
+		e.execute(Dds.readAccessOverall);				
+		
 		Dds.ctrlHandler();
 		Dds.preparePingDds();
 		Dds.testIfQuit(quit);
@@ -102,7 +86,7 @@ public class RoundtripPing
 			Pointer buffer = new Memory(memSize);
 			for (int i = 0; i < Dds.payloadSize; i++)
 			{
-				buffer.setByte(i * Native.getNativeSize(Byte.TYPE), (byte)'a');
+				buffer.setByte(i * Native.getNativeSize(Byte.TYPE), i%3==0? (byte)'a':(byte)'b');
 			}
 			dsPubData.set_buffer(buffer);
 		}
@@ -139,11 +123,10 @@ public class RoundtripPing
 					);
 		}
 
-		Dds.finalizeDds(Dds.participant, Dds.pingAllocPayload, Dds.allocTake, Dds.pingAllocWarmUp);
+		Dds.finalizeDds(Dds.participant, Dds.pingAllocWarmUp);
 	}
 
 	public void ping(RoundTripModule_DataType.ByReference pub_data) {
-		/* Write a sample that pong can send back */
 		pub_data.write();
 		Stats.preWriteTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
 		DdscLibrary.dds_write_ts (Dds.pingWriter, pub_data.getPointer(), Stats.preWriteTime);
