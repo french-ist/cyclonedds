@@ -40,7 +40,7 @@ public class RoundtripPing
 		RoundTripModule_DataType sub_data = new RoundTripModule_DataType(samplePtr.getValue());
 		infosPtr.read();
 		sub_data.read();
-		System.out.println(" valid_sample:" + sub_data.payload._length);	
+		System.out.println(" payload_length:" + sub_data.payload._length);	
     	/*for (int i = 0; i < sub_data.payload._length; i++) {
     		System.out.print((char)sub_data.payload._buffer.getByte(i));
 		}*/
@@ -48,7 +48,7 @@ public class RoundtripPing
 		Stats.statsStuf(infosArr, preTakeTime, postTakeTime);
 
 		Stats.preWriteTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
-		DdscLibrary.dds_write_ts (Dds.pingWriter, samplePtr.getValue(), Stats.preWriteTime);
+		DdscLibrary.dds_write_ts (Dds.pingWriter, pointer, Stats.preWriteTime);
 		Stats.postWriteTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
 	}
 

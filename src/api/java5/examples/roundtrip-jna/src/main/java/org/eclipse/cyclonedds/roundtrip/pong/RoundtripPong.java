@@ -1,5 +1,8 @@
 package org.eclipse.cyclonedds.roundtrip.pong;
 
+import com.sun.jna.Memory;
+import com.sun.jna.Native;
+import com.sun.jna.Pointer;
 import com.sun.jna.ptr.PointerByReference;
 
 import java.util.concurrent.ExecutorService;
@@ -7,6 +10,7 @@ import java.util.concurrent.Executors;
 
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 import org.eclipse.cyclonedds.ddsc.dds.dds_sample_info;
+import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_sequence;
 import org.eclipse.cyclonedds.helper.NativeSize;
 import org.eclipse.cyclonedds.roundtrip.Dds;
 import org.eclipse.cyclonedds.roundtrip.RoundTripModule_DataType;
@@ -84,8 +88,31 @@ public class RoundtripPong
 				}*/
 
 	        	/* If sample is valid, send it back to ping */
+	        	//RoundTripModule_DataType.ByReference payload = setPayload();
+	        	valid_sample[j].write();
 	            DdscLibrary.dds_write_ts (Dds.pongWriter, valid_sample[j].getPointer(), infosArr[j].getSource_timestamp());                
 	        }
 	    }
+	}
+	
+	@SuppressWarnings("unused")
+	private RoundTripModule_DataType.ByReference setPayload() {
+		/* setting the payload for publication data */
+		dds_sequence dsPubData = new dds_sequence();
+		dsPubData.set_length(Math.toIntExact(Dds.payloadSize));		
+		dsPubData.set_release(Dds.cBoolean(true)); //true
+		dsPubData.set_maximum(0);                
+		int memSize = Math.toIntExact(Dds.payloadSize) * Native.getNativeSize(Byte.TYPE);
+		if(memSize > 0) {
+			Pointer buffer = new Memory(memSize);
+			for (int i = 0; i < Dds.payloadSize; i++)
+			{
+				buffer.setByte(i * Native.getNativeSize(Byte.TYPE), i%3==0? (byte)'c':(byte)'d');
+			}
+			dsPubData.set_buffer(buffer);
+		}
+		RoundTripModule_DataType.ByReference pub_data = new RoundTripModule_DataType.ByReference();       
+		pub_data.setPayload(dsPubData);
+		return pub_data;
 	}
 }
