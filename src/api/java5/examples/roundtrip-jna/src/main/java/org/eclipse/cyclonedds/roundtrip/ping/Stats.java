@@ -97,14 +97,9 @@ public class Stats implements Runnable
 		//see ping.c#86
 		double median = 0.0;
 		
-		values.sort(new Comparator<Long>(){            
-			public int compare(Long ul_a, Long ul_b) {
-				if(ul_a == null || ul_b == null){
-					return 0;
-				}
-				if (ul_a < ul_b) return -1;
-				if (ul_a > ul_b) return 1;
-				return 0;
+		values.sort(new Comparator<Long>() {
+			public int compare(Long a, Long b) {
+				return (a == b) ? 0 : (a < b) ? -1 : 1;
 			}
 		});        
 
@@ -124,14 +119,9 @@ public class Stats implements Runnable
 
 	public long exampleGet99PercentileFromTimeStats ()
 	{
-		values.sort(new Comparator<Long>(){            
-			public int compare(Long ul_a, Long ul_b) {
-				if(ul_a == null || ul_b == null){
-					return 0;
-				}
-				if (ul_a < ul_b) return -1;
-				if (ul_a > ul_b) return 1;
-				return 0;
+		values.sort(new Comparator<Long>() {
+			public int compare(Long a, Long b) {
+				return (a == b) ? 0 : (a < b) ? -1 : 1;
 			}
 		});
 

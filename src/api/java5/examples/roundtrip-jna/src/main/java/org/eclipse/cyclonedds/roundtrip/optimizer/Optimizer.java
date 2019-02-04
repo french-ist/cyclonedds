@@ -1,41 +1,28 @@
 package org.eclipse.cyclonedds.roundtrip.optimizer;
 
 import java.util.LinkedList;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Optimizer implements Runnable {
 	LinkedList<Allocator> pool;
 	LinkedList<Allocator> toFreePool;	
-	private int MAX_COUNT;
-	private AtomicInteger currentCount = new AtomicInteger();
-	
-	ObjectAllocatorThread oat = new ObjectAllocatorThread();
-	
-	class ObjectAllocatorThread extends Thread {
-		@Override
-		public void run() {			
-			super.run();
-		}
-		
-		public void allocate(int nb) {
-			pool = new LinkedList<Allocator>();
-			toFreePool = new LinkedList<Allocator>();
-			for(int i=0;i<nb;i++) {
-				pool.add(new TakeAllocator());
-			}			
-			currentCount.set(pool.size());
-		}
-	};
+	private int COUNT;
 	
 	public Optimizer(int nb) {		
-		MAX_COUNT = nb;
-		currentCount.set(MAX_COUNT);
-		oat.start();
-		oat.allocate(MAX_COUNT);
+		COUNT = nb;
+		allocate();
 	}
 	
 	public Optimizer() {
-		this(25000);
+		COUNT=1000;
+		allocate();
+	}
+	
+	public void allocate() {
+		pool = new LinkedList<Allocator>();
+		toFreePool = new LinkedList<Allocator>();
+		for(int i=0;i<COUNT;i++) {
+			pool.add(new TakeAllocator());
+		}
 	}
 	
 	public void clear() {
@@ -47,20 +34,16 @@ public class Optimizer implements Runnable {
 	
 	public void reset() {
 		clear();
-		oat.allocate(MAX_COUNT);
+		allocate();
 	}
 
 	public Allocator next() {
 		Allocator obj = pool.poll();
-		if(obj==null) {
+		if(obj==null || pool.size() < COUNT/3) {
 			reset();
-			obj = pool.poll();
-		} else if (currentCount.get() < MAX_COUNT/3) {
-			oat.allocate(2*MAX_COUNT/3);
 			obj = pool.poll();
 		}
 		toFreePool.add(obj);
-		currentCount.getAndDecrement();
 		return obj;
 	}
 

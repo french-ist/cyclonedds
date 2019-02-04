@@ -62,7 +62,7 @@ public class RoundtripPing
 	}
 
 	private RoundtripPing(String _payloadSize, String _numSamples, String _timeOut, boolean quit){		
-		ExecutorService e = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() - 4);		
+		ExecutorService e = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() - 2);		
 		e.execute(opt);
 		e.execute(Dds.roundTrip);
 		e.execute(Dds.writeAccess);
