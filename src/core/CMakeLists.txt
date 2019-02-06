@@ -33,7 +33,7 @@ endif()
 
 add_definitions(-DDDSI_INCLUDE_NETWORK_PARTITIONS -DDDSI_INCLUDE_SSM)
 
-option(DDSC_ENABLE_OPENSSL "Enable openssl support" ON)
+option(DDSC_ENABLE_OPENSSL "Enable openssl support" OFF)
 if(DDSC_ENABLE_OPENSSL)
   find_package(OpenSSL)
   if(OPENSSL_FOUND)
