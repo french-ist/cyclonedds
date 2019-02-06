@@ -99,6 +99,9 @@ public class Stats implements Runnable
 		
 		values.sort(new Comparator<Long>() {
 			public int compare(Long a, Long b) {
+				if(a==null || b==null) {
+					return 0;
+				}
 				return (a == b) ? 0 : (a < b) ? -1 : 1;
 			}
 		});        
@@ -121,6 +124,9 @@ public class Stats implements Runnable
 	{
 		values.sort(new Comparator<Long>() {
 			public int compare(Long a, Long b) {
+				if(a==null || b==null) {
+					return 0;
+				}
 				return (a == b) ? 0 : (a < b) ? -1 : 1;
 			}
 		});
