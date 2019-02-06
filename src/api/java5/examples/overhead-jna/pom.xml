@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.eclipse.cyclonedds.roundtrip</groupId>
+  <artifactId>overhead</artifactId>
+  <version>1.0-SNAPSHOT</version>
+
+  <name>overhead</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.5</maven.compiler.source>
+    <maven.compiler.target>1.5</maven.compiler.target>
+  </properties>
+
+  <dependencies>	
+		<dependency>
+			<groupId>net.java.dev.jna</groupId>
+			<artifactId>jna</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+    <dependency>
+			<groupId>org.eclipse.cyclonedds</groupId>
+			<artifactId>jna-dds</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+    <dependency>
+    	<groupId>org.eclipse.cyclonedds</groupId>
+      <artifactId>jna-dds</artifactId>
+      <version>1.0-SNAPSHOT</version>    
+    </dependency>
+  </dependencies>
+
+  <build>
+      <plugins>
+        <!-- extract libddsc.so -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.1.1</version>
+          <executions>
+          <execution>
+            <id>unpack</id>
+            <phase>initialize</phase>
+            <goals>
+            <goal>unpack</goal>
+            </goals>
+            <configuration>
+            <artifactItems>
+              <artifactItem>
+                <groupId>org.eclipse.cyclonedds</groupId>
+                <artifactId>jna-dds</artifactId>
+                <overWrite>true</overWrite>
+                <outputDirectory>${basedir}/target/linux-x86-64/</outputDirectory>
+                <destFileName>libddsc.so</destFileName>
+                <includes>**/*.so</includes>
+              </artifactItem>
+            </artifactItems>
+            <includes>**/libddsc.so</includes>
+            <overWriteReleases>true</overWriteReleases>
+            <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </execution>
+          </executions>
+        </plugin>
+
+        <!-- Embbed every depdencies -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>3.1.0</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>shade</goal>
+              </goals>
+              <configuration>
+                <minimizeJar>true</minimizeJar>
+                <artifactSet>
+                  <includes>                  
+                    <include>net.java.dev.jna:jna</include>
+                    <include>org.eclipse.cyclonedds:jna-dds</include>
+                  </includes>
+                </artifactSet>            
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+
+        <!-- main classes -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.0.2</version>
+          <configuration>
+            <archive>
+              <manifest>
+                <addClasspath>true</addClasspath>
+                <classpathPrefix>lib/</classpathPrefix>
+                <mainClass>org.eclipse.cyclonedds.roundtrip.overhead.Overhead</mainClass>
+              </manifest>
+              <manifestEntries>
+                  <Class-Path>.</Class-Path>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin> 
+      </plugins>
+  </build>
+</project>
