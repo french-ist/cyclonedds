@@ -18,8 +18,15 @@ PREPEND(srcs_util "${CMAKE_CURRENT_SOURCE_DIR}/src" ut_avl.c ut_crc.c ut_expand_
 add_library(util  ${srcs_util})
 generate_export_header(util EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/exports/util/ut_export.h")
 target_link_libraries(util PUBLIC OSAPI)
-target_include_directories(util PUBLIC "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/>" "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/exports/>"
-                                        "$<INSTALL_INTERFACE:${INSTALL_PREFIX}/include/>" "$<INSTALL_INTERFACE:${INSTALL_PREFIX}/exports/>")
+
+set_property(TARGET util PROPERTY POSITION_INDEPENDENT_CODE TRUE)
+
+target_include_directories(
+  util PUBLIC
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/>"
+    "$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/exports/>"
+    "$<INSTALL_INTERFACE:${INSTALL_PREFIX}/include/>"
+    "$<INSTALL_INTERFACE:${INSTALL_PREFIX}/exports/>")
 
 # TODO: improve test inclusion.
 if((BUILD_TESTING) AND ((NOT DEFINED MSVC_VERSION) OR (MSVC_VERSION GREATER "1800")))

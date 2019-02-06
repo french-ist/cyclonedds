@@ -146,6 +146,7 @@ void dds_set_log_file(_In_ FILE *file)
     if (sinks[LOG].funcs[SET] == default_sink) {
         sinks[LOG].ptr = sinks[LOG].out;
     }
+    set_active_log_sinks();
     unlock_sink();
 }
 
@@ -156,6 +157,7 @@ void dds_set_trace_file(_In_ FILE *file)
     if (sinks[TRACE].funcs[SET] == default_sink) {
         sinks[TRACE].ptr = sinks[TRACE].out;
     }
+    set_active_log_sinks();
     unlock_sink();
 }
 
@@ -188,7 +190,7 @@ dds_set_log_mask(_In_ uint32_t cats)
 static void print_header(char *str)
 {
     int cnt;
-    char *tid, buf[MAX_TID_LEN] = { 0 };
+    char *tid, buf[MAX_TID_LEN+1] = { 0 };
     static const char fmt[] = "%10u.%06d/%*.*s:";
     os_time tv;
     unsigned sec;

@@ -20,10 +20,8 @@ PREPEND(srcs_ddsi "${CMAKE_CURRENT_LIST_DIR}/src"
     ddsi_mcgroup.c
     ddsi_serdata.c
     ddsi_serdata_default.c
-    ddsi_serdata_builtin.c
     ddsi_sertopic.c
     ddsi_sertopic_default.c
-    ddsi_sertopic_builtin.c
     ddsi_rhc_plugin.c
     ddsi_iid.c
     ddsi_tkmap.c
@@ -76,17 +74,13 @@ PREPEND(hdrs_private_ddsi "${CMAKE_CURRENT_LIST_DIR}/include/ddsi"
     ddsi_serdata.h
     ddsi_sertopic.h
     ddsi_serdata_default.h
-    ddsi_serdata_builtin.h
     ddsi_rhc_plugin.h
     ddsi_iid.h
     ddsi_tkmap.h
     probes-constants.h
     q_addrset.h
-    q_align.h
     q_bitset.h
-    q_bitset_template.h
     q_bswap.h
-    q_bswap_template.h
     q_config.h
     q_ddsi_discovery.h
     q_debmon.h
@@ -98,7 +92,6 @@ PREPEND(hdrs_private_ddsi "${CMAKE_CURRENT_LIST_DIR}/include/ddsi"
     q_gc.h
     q_globals.h
     q_hbcontrol.h
-    q_inline.h
     q_lat_estim.h
     q_lease.h
     q_log.h
@@ -117,7 +110,6 @@ PREPEND(hdrs_private_ddsi "${CMAKE_CURRENT_LIST_DIR}/include/ddsi"
     q_sockwaitset.h
     q_static_assert.h
     q_thread.h
-    q_thread_template.h
     q_time.h
     q_transmit.h
     q_inverse_uint32_set.h

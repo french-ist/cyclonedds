@@ -29,7 +29,6 @@
 #include "ddsi/q_lat_estim.h"
 #include "ddsi/q_bitset.h"
 #include "ddsi/q_xevent.h"
-#include "ddsi/q_align.h"
 #include "ddsi/q_addrset.h"
 #include "ddsi/q_ddsi_discovery.h"
 #include "ddsi/q_radmin.h"
@@ -48,15 +47,12 @@
 #include "ddsi/q_debmon.h"
 #include "ddsi/q_init.h"
 
-#include "ddsi/sysdeps.h"
-
 #include "ddsi/ddsi_tran.h"
 #include "ddsi/ddsi_udp.h"
 #include "ddsi/ddsi_tcp.h"
 #include "ddsi/ddsi_raweth.h"
 #include "ddsi/ddsi_mcgroup.h"
 #include "ddsi/ddsi_serdata_default.h"
-#include "ddsi/ddsi_serdata_builtin.h"
 
 #include "ddsi/ddsi_tkmap.h"
 #include "dds__whc.h"
@@ -426,6 +422,7 @@ static int check_thread_properties (void)
   return ok;
 }
 
+OS_WARNING_MSVC_OFF(4996);
 int rtps_config_open (void)
 {
     int status;
@@ -457,11 +454,11 @@ int rtps_config_open (void)
     }
 
     dds_set_log_mask(config.enabled_logcats);
-    dds_set_log_file(config.tracingOutputFile);
     dds_set_trace_file(config.tracingOutputFile);
 
     return status;
 }
+OS_WARNING_MSVC_ON(4996);
 
 int rtps_config_prep (struct cfgst *cfgst)
 {
@@ -489,7 +486,7 @@ int rtps_config_prep (struct cfgst *cfgst)
        inherited by readers/writers), but in many sockets mode each
        participant has its own socket, and therefore unique address
        set */
-    DDS_ERROR("Minimal built-in endpoint set mode and ManySocketsMode are incompatible\n");
+    DDS_ERROR ("Minimal built-in endpoint set mode and ManySocketsMode are incompatible\n");
     goto err_config_late_error;
   }
 
@@ -515,11 +512,11 @@ int rtps_config_prep (struct cfgst *cfgst)
     {
       double max = (double) config.auxiliary_bandwidth_limit * ((double) config.nack_delay / 1e9);
       if (max < 0)
-        DDS_FATAL("AuxiliaryBandwidthLimit * NackDelay = %g bytes is insane\n", max);
-      if (max > 2147483647.0)
-        config.max_queued_rexmit_bytes = 2147483647u;
-      else
-        config.max_queued_rexmit_bytes = (unsigned) max;
+      {
+        DDS_ERROR ("AuxiliaryBandwidthLimit * NackDelay = %g bytes is insane\n", max);
+        goto err_config_late_error;
+      }
+      config.max_queued_rexmit_bytes = max > 2147483647.0 ? 2147483647u : (unsigned) max;
     }
 #else
     config.max_queued_rexmit_bytes = 2147483647u;
@@ -529,21 +526,9 @@ int rtps_config_prep (struct cfgst *cfgst)
   /* Verify thread properties refer to defined threads */
   if (!check_thread_properties ())
   {
-    DDS_ERROR("Could not initialise configuration\n");
+    DDS_TRACE ("Could not initialise configuration\n");
     goto err_config_late_error;
   }
-
-#if ! OS_SOCKET_HAS_IPV6
-  /* If the platform doesn't support IPv6, guarantee useIpv6 is
-   false. There are two ways of going about it, one is to do it
-   silently, the other to let the user fix his config. Clearly, we
-   have chosen the latter. */
-  if (config.useIpv6)
-  {
-    DDS_ERROR("IPv6 addressing requested but not supported on this platform\n");
-    goto err_config_late_error;
-  }
-#endif
 
 #ifdef DDSI_INCLUDE_NETWORK_CHANNELS
   {
@@ -565,8 +550,7 @@ int rtps_config_prep (struct cfgst *cfgst)
 
       if (config.transport_selector != TRANS_UDP && chptr->diffserv_field != 0)
       {
-        DDS_ERROR("channel %s specifies IPv4 DiffServ settings which is incompatible with IPv6 use\n",
-                   chptr->name);
+        DDS_ERROR ("channel %s specifies IPv4 DiffServ settings which is incompatible with IPv6 use\n", chptr->name);
         error = 1;
       }
 
@@ -589,7 +573,7 @@ int rtps_config_prep (struct cfgst *cfgst)
    printed */
   if (! rtps_config_open ())
   {
-    DDS_ERROR("Could not initialise configuration\n");
+    DDS_TRACE ("Could not initialise configuration\n");
     goto err_config_late_error;
   }
 
@@ -693,7 +677,7 @@ int create_multicast_sockets(void)
   gv.disc_conn_mc = disc;
   gv.data_conn_mc = data;
   DDS_TRACE("Multicast Ports: discovery %d data %d \n",
-          ddsi_tran_port (gv.disc_conn_mc), ddsi_tran_port (gv.data_conn_mc));
+          ddsi_conn_port (gv.disc_conn_mc), ddsi_conn_port (gv.data_conn_mc));
   return 1;
 
 err_data:
@@ -784,18 +768,12 @@ static void make_special_topics (void)
 {
   gv.plist_topic = make_special_topic (PLATFORM_IS_LITTLE_ENDIAN ? PL_CDR_LE : PL_CDR_BE, &ddsi_serdata_ops_plist);
   gv.rawcdr_topic = make_special_topic (PLATFORM_IS_LITTLE_ENDIAN ? CDR_LE : CDR_BE, &ddsi_serdata_ops_rawcdr);
-  gv.builtin_participant_topic = new_sertopic_builtin (DSBT_PARTICIPANT, "DCPSParticipant", "org::eclipse::cyclonedds::builtin::DCPSParticipant");
-  gv.builtin_reader_topic = new_sertopic_builtin (DSBT_READER, "DCPSSubscription", "org::eclipse::cyclonedds::builtin::DCPSSubscription");
-  gv.builtin_writer_topic = new_sertopic_builtin (DSBT_WRITER, "DCPSPublication", "org::eclipse::cyclonedds::builtin::DCPSPublication");
 }
 
 static void free_special_topics (void)
 {
   ddsi_sertopic_unref (gv.plist_topic);
   ddsi_sertopic_unref (gv.rawcdr_topic);
-  ddsi_sertopic_unref (gv.builtin_participant_topic);
-  ddsi_sertopic_unref (gv.builtin_reader_topic);
-  ddsi_sertopic_unref (gv.builtin_writer_topic);
 }
 
 static int setup_and_start_recv_threads (void)
@@ -884,6 +862,7 @@ int rtps_init (void)
 {
   uint32_t port_disc_uc = 0;
   uint32_t port_data_uc = 0;
+  bool mc_available = true;
 
   /* Initialize implementation (Lite or OSPL) */
 
@@ -911,7 +890,7 @@ int rtps_init (void)
     tv.tv_sec = sec;
     tv.tv_nsec = usec * 1000;
     os_ctime_r (&tv, str, sizeof(str));
-    DDS_LOG(DDS_LC_INFO | DDS_LC_CONFIG, "started at %d.06%d -- %s\n", sec, usec, str);
+    DDS_LOG(DDS_LC_CONFIG, "started at %d.06%d -- %s\n", sec, usec, str);
   }
 
   /* Initialize thread pool */
@@ -960,7 +939,8 @@ int rtps_init (void)
 
   if (!find_own_ip (config.networkAddressString))
   {
-    DDS_ERROR("No network interface selected\n");
+    /* find_own_ip already logs a more informative error message */
+    DDS_LOG(DDS_LC_CONFIG, "No network interface selected\n");
     goto err_find_own_ip;
   }
   if (config.allowMulticast)
@@ -970,6 +950,11 @@ int rtps_init (void)
       DDS_WARNING("selected interface is not multicast-capable: disabling multicast\n");
       config.suppress_spdp_multicast = 1;
       config.allowMulticast = AMC_FALSE;
+      /* ensure discovery can work: firstly, that the process will be reachable on a "well-known" port
+         number, and secondly, that the local interface's IP address gets added to the discovery
+         address set */
+      config.participantIndex = PARTICIPANT_INDEX_AUTO;
+      mc_available = false;
     }
   }
   if (set_recvips () < 0)
@@ -1060,7 +1045,7 @@ int rtps_init (void)
 
   /* Template PP guid -- protected by privileged_pp_lock for simplicity */
   gv.next_ppguid.prefix.u[0] = locator_to_hopefully_unique_uint32 (&gv.ownloc);
-  gv.next_ppguid.prefix.u[1] = (unsigned) os_procIdSelf ();
+  gv.next_ppguid.prefix.u[1] = (unsigned) os_getpid ();
   gv.next_ppguid.prefix.u[2] = 1;
   gv.next_ppguid.entityid.u = NN_ENTITYID_PARTICIPANT;
 
@@ -1132,7 +1117,7 @@ int rtps_init (void)
   if (gv.m_factory->m_connless)
   {
     if (!(config.many_sockets_mode == MSM_NO_UNICAST && config.allowMulticast))
-      DDS_TRACE("Unicast Ports: discovery %d data %d\n", ddsi_tran_port (gv.disc_conn_uc), ddsi_tran_port (gv.data_conn_uc));
+      DDS_TRACE("Unicast Ports: discovery %d data %d\n", ddsi_conn_port (gv.disc_conn_uc), ddsi_conn_port (gv.data_conn_uc));
 
     if (config.allowMulticast)
     {
@@ -1147,11 +1132,11 @@ int rtps_init (void)
 
       /* Set multicast locators */
       if (!is_unspec_locator(&gv.loc_spdp_mc))
-        gv.loc_spdp_mc.port = ddsi_tran_port (gv.disc_conn_mc);
+        gv.loc_spdp_mc.port = ddsi_conn_port (gv.disc_conn_mc);
       if (!is_unspec_locator(&gv.loc_meta_mc))
-        gv.loc_meta_mc.port = ddsi_tran_port (gv.disc_conn_mc);
+        gv.loc_meta_mc.port = ddsi_conn_port (gv.disc_conn_mc);
       if (!is_unspec_locator(&gv.loc_default_mc))
-        gv.loc_default_mc.port = ddsi_tran_port (gv.data_conn_mc);
+        gv.loc_default_mc.port = ddsi_conn_port (gv.data_conn_mc);
 
       if (joinleave_spdp_defmcip (1) < 0)
         goto err_mc_conn;
@@ -1186,7 +1171,7 @@ int rtps_init (void)
   /* Create shared transmit connection */
 
   gv.tev_conn = gv.data_conn_uc;
-  DDS_TRACE("Timed event transmit port: %d\n", (int) ddsi_tran_port (gv.tev_conn));
+  DDS_TRACE("Timed event transmit port: %d\n", (int) ddsi_conn_port (gv.tev_conn));
 
 #ifdef DDSI_INCLUDE_NETWORK_CHANNELS
   {
@@ -1261,8 +1246,22 @@ int rtps_init (void)
 
   gv.as_disc = new_addrset ();
   add_to_addrset (gv.as_disc, &gv.loc_spdp_mc);
+  /* If multicast was enabled but not available, always add the local interface to the discovery address set.
+     Conversion via string and add_peer_addresses has the benefit that the port number expansion happens
+     automatically. */
+  if (!mc_available)
+  {
+    struct config_peer_listelem peer_local;
+    char local_addr[DDSI_LOCSTRLEN];
+    ddsi_locator_to_string_no_port (local_addr, sizeof (local_addr), &gv.interfaces[gv.selected_interface].loc);
+    peer_local.next = NULL;
+    peer_local.peer = local_addr;
+    add_peer_addresses (gv.as_disc, &peer_local);
+  }
   if (config.peers)
+  {
     add_peer_addresses (gv.as_disc, config.peers);
+  }
   if (config.peers_group)
   {
     gv.as_disc_group = new_addrset ();
@@ -1343,7 +1342,7 @@ err_mc_conn:
   if (gv.pcap_fp)
     os_mutexDestroy (&gv.pcap_lock);
   if (gv.disc_conn_uc != gv.disc_conn_mc)
-    ddsi_conn_free (gv.data_conn_uc);
+    ddsi_conn_free (gv.disc_conn_uc);
   if (gv.data_conn_uc != gv.disc_conn_uc)
     ddsi_conn_free (gv.data_conn_uc);
   free_group_membership(gv.mship);
@@ -1381,6 +1380,8 @@ err_unicast_sockets:
   (ddsi_plugin.fini_fn) ();
 #ifdef DDSI_INCLUDE_NETWORK_PARTITIONS
 err_network_partition_addrset:
+  for (struct config_networkpartition_listelem *np = config.networkPartitions; np; np = np->next)
+    unref_addrset (np->as);
 #endif
 err_set_ext_address:
   while (gv.recvips)
@@ -1418,7 +1419,7 @@ static void builtins_dqueue_ready_cb (void *varg)
   os_mutexUnlock (&arg->lock);
 }
 
-void rtps_term (void)
+void rtps_stop (void)
 {
   struct thread_state1 *self = lookup_thread_state ();
 #ifdef DDSI_INCLUDE_NETWORK_CHANNELS
@@ -1537,17 +1538,26 @@ void rtps_term (void)
   }
 
   /* Wait until all participants are really gone => by then we can be
-     certain that no new GC requests will be added */
+     certain that no new GC requests will be added, short of what we
+     do here */
   os_mutexLock (&gv.participant_set_lock);
   while (gv.nparticipants > 0)
     os_condWait (&gv.participant_set_cond, &gv.participant_set_lock);
   os_mutexUnlock (&gv.participant_set_lock);
 
+  /* Wait until no more GC requests are outstanding -- not really
+     necessary, but it allows us to claim the stack is quiescent
+     at this point */
+  gcreq_queue_drain (gv.gcreq_queue);
+
   /* Clean up privileged_pp -- it must be NULL now (all participants
      are gone), but the lock still needs to be destroyed */
   assert (gv.privileged_pp == NULL);
   os_mutexDestroy (&gv.privileged_pp_lock);
+}
 
+void rtps_fini (void)
+{
   /* Shut down the GC system -- no new requests will be added */
   gcreq_queue_free (gv.gcreq_queue);
 
@@ -1614,6 +1624,10 @@ void rtps_term (void)
     fclose (gv.pcap_fp);
   }
 
+#ifdef DDSI_INCLUDE_NETWORK_PARTITIONS
+  for (struct config_networkpartition_listelem *np = config.networkPartitions; np; np = np->next)
+    unref_addrset (np->as);
+#endif
   unref_addrset (gv.as_disc);
   unref_addrset (gv.as_disc_group);
 

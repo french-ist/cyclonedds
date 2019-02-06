@@ -41,8 +41,6 @@
 #include "ddsi/q_md5.h"
 #include "ddsi/q_feature_check.h"
 
-#include "ddsi/sysdeps.h"
-
 static const nn_vendorid_t ownvendorid = MY_VENDOR_ID;
 
 static int get_locator (nn_locator_t *loc, const nn_locators_t *locs, int uc_same_subnet)
@@ -305,9 +303,9 @@ int spdp_write (struct participant *pp)
 
     os_gethostname(node, sizeof(node)-1);
     node[sizeof(node)-1] = '\0';
-    size = strlen(node) + strlen(OSPL_VERSION_STR) + strlen(OSPL_HOST_STR) + strlen(OSPL_TARGET_STR) + 4; /* + ///'\0' */
+    size = strlen(node) + strlen(OS_VERSION) + strlen(OS_HOST_NAME) + strlen(OS_TARGET_NAME) + 4; /* + ///'\0' */
     ps.prismtech_participant_version_info.internals = os_malloc(size);
-    (void) snprintf(ps.prismtech_participant_version_info.internals, size, "%s/%s/%s/%s", node, OSPL_VERSION_STR, OSPL_HOST_STR, OSPL_TARGET_STR);
+    (void) snprintf(ps.prismtech_participant_version_info.internals, size, "%s/%s/%s/%s", node, OS_VERSION, OS_HOST_NAME, OS_TARGET_NAME);
     DDS_TRACE("spdp_write(%x:%x:%x:%x) - internals: %s\n", PGUID (pp->e.guid), ps.prismtech_participant_version_info.internals);
   }
 
@@ -520,9 +518,6 @@ static int handle_SPDP_alive (const struct receiver_state *rst, nn_wctime_t time
   nn_duration_t lease_duration;
   unsigned custom_flags = 0;
 
-  if (!(dds_get_log_mask() & DDS_LC_DISCOVERY))
-    DDS_LOG(DDS_LC_DISCOVERY, "SPDP ST0");
-
   if (!(datap->present & PP_PARTICIPANT_GUID) || !(datap->present & PP_BUILTIN_ENDPOINT_SET))
   {
     DDS_WARNING("data (SPDP, vendor %u.%u): no/invalid payload\n", rst->vendor.id[0], rst->vendor.id[1]);
@@ -543,7 +538,7 @@ static int handle_SPDP_alive (const struct receiver_state *rst, nn_wctime_t time
            NN_BUILTIN_ENDPOINT_PARTICIPANT_MESSAGE_DATA_WRITER)) &&
       config.assume_rti_has_pmd_endpoints)
   {
-    DDS_WARNING("data (SPDP, vendor %u.%u): assuming unadvertised PMD endpoints do exist\n",
+    DDS_LOG(DDS_LC_DISCOVERY, "data (SPDP, vendor %u.%u): assuming unadvertised PMD endpoints do exist\n",
                  rst->vendor.id[0], rst->vendor.id[1]);
     builtin_endpoint_set |=
       NN_BUILTIN_ENDPOINT_PARTICIPANT_MESSAGE_DATA_READER |
@@ -565,8 +560,6 @@ static int handle_SPDP_alive (const struct receiver_state *rst, nn_wctime_t time
         prismtech_builtin_endpoint_set |= NN_DISC_BUILTIN_ENDPOINT_CM_PUBLISHER_WRITER | NN_DISC_BUILTIN_ENDPOINT_CM_SUBSCRIBER_WRITER;
   }
 
-  DDS_LOG(DDS_LC_DISCOVERY, " %x:%x:%x:%x", PGUID (datap->participant_guid));
-
   /* Local SPDP packets may be looped back, and that may include ones
      currently being deleted.  The first thing that happens when
      deleting a participant is removing it from the hash table, and
@@ -575,7 +568,7 @@ static int handle_SPDP_alive (const struct receiver_state *rst, nn_wctime_t time
 
   if (is_deleted_participant_guid (&datap->participant_guid, DPG_REMOTE))
   {
-    DDS_LOG(DDS_LC_DISCOVERY, " (recently deleted)");
+    DDS_LOG(DDS_LC_TRACE, "SPDP ST0 %x:%x:%x:%x (recently deleted)", PGUID (datap->participant_guid));
     return 1;
   }
 
@@ -585,7 +578,7 @@ static int handle_SPDP_alive (const struct receiver_state *rst, nn_wctime_t time
       islocal = 1;
     if (islocal)
     {
-      DDS_LOG(DDS_LC_DISCOVERY, " (local %d)", islocal);
+      DDS_LOG(DDS_LC_TRACE, "SPDP ST0 %x:%x:%x:%x (local %d)", islocal, PGUID (datap->participant_guid));
       return 0;
     }
   }
@@ -596,7 +589,7 @@ static int handle_SPDP_alive (const struct receiver_state *rst, nn_wctime_t time
        are even skipping the automatic lease renewal.  Therefore do it
        regardless of
        config.arrival_of_data_asserts_pp_and_ep_liveliness. */
-    DDS_LOG(DDS_LC_DISCOVERY, " (known)");
+    DDS_LOG(DDS_LC_TRACE, "SPDP ST0 %x:%x:%x:%x (known)", PGUID (datap->participant_guid));
     lease_renew (os_atomic_ldvoidp (&proxypp->lease), now_et ());
     os_mutexLock (&proxypp->e.lock);
     if (proxypp->implicitly_created)
@@ -609,7 +602,7 @@ static int handle_SPDP_alive (const struct receiver_state *rst, nn_wctime_t time
     return 0;
   }
 
-  DDS_LOG(DDS_LC_DISCOVERY, " bes %x ptbes %x NEW", builtin_endpoint_set, prismtech_builtin_endpoint_set);
+  DDS_LOG(DDS_LC_DISCOVERY, "SPDP ST0 %x:%x:%x:%x bes %x ptbes %x NEW", PGUID (datap->participant_guid), builtin_endpoint_set, prismtech_builtin_endpoint_set);
 
   if (datap->present & PP_PARTICIPANT_LEASE_DURATION)
   {
@@ -799,14 +792,16 @@ static void handle_SPDP (const struct receiver_state *rst, nn_wctime_t timestamp
     nn_plist_t decoded_data;
     nn_plist_src_t src;
     int interesting = 0;
+    int plist_ret;
     src.protocol_version = rst->protocol_version;
     src.vendorid = rst->vendor;
     src.encoding = data->identifier;
     src.buf = (unsigned char *) data + 4;
     src.bufsz = len - 4;
-    if (nn_plist_init_frommsg (&decoded_data, NULL, ~(uint64_t)0, ~(uint64_t)0, &src) < 0)
+    if ((plist_ret = nn_plist_init_frommsg (&decoded_data, NULL, ~(uint64_t)0, ~(uint64_t)0, &src)) < 0)
     {
-      DDS_WARNING("SPDP (vendor %u.%u): invalid qos/parameters\n", src.vendorid.id[0], src.vendorid.id[1]);
+      if (plist_ret != ERR_INCOMPATIBLE)
+        DDS_WARNING("SPDP (vendor %u.%u): invalid qos/parameters\n", src.vendorid.id[0], src.vendorid.id[1]);
       return;
     }
 
@@ -1021,7 +1016,7 @@ static const char *durability_to_string (nn_durability_kind_t k)
     case NN_TRANSIENT_DURABILITY_QOS: return "transient";
     case NN_PERSISTENT_DURABILITY_QOS: return "persistent";
   }
-  abort (); return 0;
+  return "undefined-durability";
 }
 
 static struct proxy_participant *implicitly_create_proxypp (const nn_guid_t *ppguid, nn_plist_t *datap /* note: potentially modifies datap */, const nn_guid_prefix_t *src_guid_prefix, nn_vendorid_t vendorid, nn_wctime_t timestamp)
@@ -1340,14 +1335,16 @@ static void handle_SEDP (const struct receiver_state *rst, nn_wctime_t timestamp
   {
     nn_plist_t decoded_data;
     nn_plist_src_t src;
+    int plist_ret;
     src.protocol_version = rst->protocol_version;
     src.vendorid = rst->vendor;
     src.encoding = data->identifier;
     src.buf = (unsigned char *) data + 4;
     src.bufsz = len - 4;
-    if (nn_plist_init_frommsg (&decoded_data, NULL, ~(uint64_t)0, ~(uint64_t)0, &src) < 0)
+    if ((plist_ret = nn_plist_init_frommsg (&decoded_data, NULL, ~(uint64_t)0, ~(uint64_t)0, &src)) < 0)
     {
-      DDS_WARNING("SEDP (vendor %u.%u): invalid qos/parameters\n", src.vendorid.id[0], src.vendorid.id[1]);
+      if (plist_ret != ERR_INCOMPATIBLE)
+        DDS_WARNING("SEDP (vendor %u.%u): invalid qos/parameters\n", src.vendorid.id[0], src.vendorid.id[1]);
       return;
     }
 
@@ -1466,14 +1463,16 @@ static void handle_SEDP_CM (const struct receiver_state *rst, nn_entityid_t wr_e
   {
     nn_plist_t decoded_data;
     nn_plist_src_t src;
+    int plist_ret;
     src.protocol_version = rst->protocol_version;
     src.vendorid = rst->vendor;
     src.encoding = data->identifier;
     src.buf = (unsigned char *) data + 4;
     src.bufsz = len - 4;
-    if (nn_plist_init_frommsg (&decoded_data, NULL, ~(uint64_t)0, ~(uint64_t)0, &src) < 0)
+    if ((plist_ret = nn_plist_init_frommsg (&decoded_data, NULL, ~(uint64_t)0, ~(uint64_t)0, &src)) < 0)
     {
-      DDS_WARNING("SEDP_CM (vendor %u.%u): invalid qos/parameters\n", src.vendorid.id[0], src.vendorid.id[1]);
+      if (plist_ret != ERR_INCOMPATIBLE)
+        DDS_WARNING("SEDP_CM (vendor %u.%u): invalid qos/parameters\n", src.vendorid.id[0], src.vendorid.id[1]);
       return;
     }
 
@@ -1626,14 +1625,16 @@ static void handle_SEDP_GROUP (const struct receiver_state *rst, nn_wctime_t tim
   {
     nn_plist_t decoded_data;
     nn_plist_src_t src;
+    int plist_ret;
     src.protocol_version = rst->protocol_version;
     src.vendorid = rst->vendor;
     src.encoding = data->identifier;
     src.buf = (unsigned char *) data + 4;
     src.bufsz = len - 4;
-    if (nn_plist_init_frommsg (&decoded_data, NULL, ~(uint64_t)0, ~(uint64_t)0, &src) < 0)
+    if ((plist_ret = nn_plist_init_frommsg (&decoded_data, NULL, ~(uint64_t)0, ~(uint64_t)0, &src)) < 0)
     {
-      DDS_WARNING("SEDP_GROUP (vendor %u.%u): invalid qos/parameters\n", src.vendorid.id[0], src.vendorid.id[1]);
+      if (plist_ret != ERR_INCOMPATIBLE)
+        DDS_WARNING("SEDP_GROUP (vendor %u.%u): invalid qos/parameters\n", src.vendorid.id[0], src.vendorid.id[1]);
       return;
     }
 
@@ -1747,15 +1748,17 @@ int builtins_dqueue_handler (const struct nn_rsample_info *sampleinfo, const str
   {
     nn_plist_src_t src;
     size_t qos_offset = NN_RDATA_SUBMSG_OFF (fragchain) + offsetof (Data_DataFrag_common_t, octetsToInlineQos) + sizeof (msg->octetsToInlineQos) + msg->octetsToInlineQos;
+    int plist_ret;
     src.protocol_version = sampleinfo->rst->protocol_version;
     src.vendorid = sampleinfo->rst->vendor;
     src.encoding = (msg->smhdr.flags & SMFLAG_ENDIANNESS) ? PL_CDR_LE : PL_CDR_BE;
     src.buf = NN_RMSG_PAYLOADOFF (fragchain->rmsg, qos_offset);
     src.bufsz = NN_RDATA_PAYLOAD_OFF (fragchain) - qos_offset;
-    if (nn_plist_init_frommsg (&qos, NULL, PP_STATUSINFO | PP_KEYHASH, 0, &src) < 0)
+    if ((plist_ret = nn_plist_init_frommsg (&qos, NULL, PP_STATUSINFO | PP_KEYHASH, 0, &src)) < 0)
     {
-      DDS_WARNING("data(builtin, vendor %u.%u): %x:%x:%x:%x #%"PRId64": invalid inline qos\n",
-                   src.vendorid.id[0], src.vendorid.id[1], PGUID (srcguid), sampleinfo->seq);
+      if (plist_ret != ERR_INCOMPATIBLE)
+        DDS_WARNING("data(builtin, vendor %u.%u): %x:%x:%x:%x #%"PRId64": invalid inline qos\n",
+                    src.vendorid.id[0], src.vendorid.id[1], PGUID (srcguid), sampleinfo->seq);
       goto done_upd_deliv;
     }
     /* Complex qos bit also gets set when statusinfo bits other than
@@ -1834,9 +1837,9 @@ int builtins_dqueue_handler (const struct nn_rsample_info *sampleinfo, const str
           pid = PID_ENDPOINT_GUID;
           break;
         default:
-          DDS_WARNING("data(builtin, vendor %u.%u): %x:%x:%x:%x #%"PRId64": mapping keyhash to ENDPOINT_GUID",
-                       sampleinfo->rst->vendor.id[0], sampleinfo->rst->vendor.id[1],
-                       PGUID (srcguid), sampleinfo->seq);
+          DDS_LOG(DDS_LC_DISCOVERY, "data(builtin, vendor %u.%u): %x:%x:%x:%x #%"PRId64": mapping keyhash to ENDPOINT_GUID",
+                  sampleinfo->rst->vendor.id[0], sampleinfo->rst->vendor.id[1],
+                  PGUID (srcguid), sampleinfo->seq);
           pid = PID_ENDPOINT_GUID;
           break;
       }
@@ -1879,9 +1882,9 @@ int builtins_dqueue_handler (const struct nn_rsample_info *sampleinfo, const str
       handle_SEDP_GROUP (sampleinfo->rst, timestamp, statusinfo, datap, datasz);
       break;
     default:
-      DDS_WARNING ("data(builtin, vendor %u.%u): %x:%x:%x:%x #%"PRId64": not handled\n",
-                   sampleinfo->rst->vendor.id[0], sampleinfo->rst->vendor.id[1],
-                   PGUID (srcguid), sampleinfo->seq);
+      DDS_LOG (DDS_LC_DISCOVERY, "data(builtin, vendor %u.%u): %x:%x:%x:%x #%"PRId64": not handled\n",
+               sampleinfo->rst->vendor.id[0], sampleinfo->rst->vendor.id[1],
+               PGUID (srcguid), sampleinfo->seq);
       break;
   }
 

@@ -16,7 +16,6 @@
 #include "ddsi/q_gc.h"
 #include "ddsi/q_globals.h"
 #include "ddsi/q_config.h"
-#include "ddsi/sysdeps.h"
 #include "ddsi/ddsi_iid.h"
 #include "ddsi/ddsi_tkmap.h"
 #include "util/ut_hopscotch.h"
@@ -189,7 +188,6 @@ retry:
       return NULL;
 
     tk->m_sample = ddsi_serdata_to_topicless (sd);
-    tk->m_map = map;
     os_atomic_st32 (&tk->m_refc, 1);
     tk->m_iid = ddsi_iid_gen ();
     if (!ut_chhAdd (map->m_hh, tk))
@@ -203,7 +201,7 @@ retry:
 
   if (tk && rd)
   {
-    DDS_TRACE("tk=%p iid=%"PRIx64" ", &tk, tk->m_iid);
+    DDS_TRACE("tk=%p iid=%"PRIx64" ", (void *) &tk, tk->m_iid);
   }
   return tk;
 }
@@ -235,7 +233,7 @@ void ddsi_tkmap_instance_unref (_In_ struct ddsi_tkmap_instance * tk)
   } while (!os_atomic_cas32(&tk->m_refc, old, new));
   if (new == REFC_DELETE)
   {
-    struct ddsi_tkmap *map = tk->m_map;
+    struct ddsi_tkmap *map = gv.m_tkmap;
 
     /* Remove from hash table */
     int removed = ut_chhRemove(map->m_hh, tk);

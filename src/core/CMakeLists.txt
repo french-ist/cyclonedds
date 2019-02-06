@@ -9,8 +9,6 @@
 #
 # SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 #
-find_package(Abstraction REQUIRED)
-
 include (GenerateExportHeader)
 
 FUNCTION(PREPEND var prefix)
@@ -20,7 +18,6 @@ FUNCTION(PREPEND var prefix)
    ENDFOREACH(f)
    SET(${var} "${listVar}" PARENT_SCOPE)
 ENDFUNCTION(PREPEND)
-
 
 option(DDSC_SHARED "Build DDSC as a shared library" ON)
 
@@ -35,6 +32,20 @@ else()
 endif()
 
 add_definitions(-DDDSI_INCLUDE_NETWORK_PARTITIONS -DDDSI_INCLUDE_SSM)
+
+option(DDSC_ENABLE_OPENSSL "Enable openssl support" ON)
+if(DDSC_ENABLE_OPENSSL)
+  find_package(OpenSSL)
+  if(OPENSSL_FOUND)
+    add_definitions(-DDDSI_INCLUDE_SSL)
+    target_link_libraries(ddsc PRIVATE OpenSSL::SSL)
+    if(CMAKE_GENERATOR MATCHES "Visual Studio")
+      set_target_properties(ddsc PROPERTIES LINK_FLAGS "/ignore:4099")
+    endif()
+  else()
+    message(FATAL_ERROR "To build without openssl support, set DDSC_ENABLE_OPENSSL to OFF")
+  endif()
+endif()
 
 include(ddsi/CMakeLists.txt)
 include(ddsc/CMakeLists.txt)

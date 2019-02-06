@@ -26,6 +26,8 @@
 #include "os/os_atomics.h"
 #include "ddsi/ddsi_iid.h"
 
+DECL_ENTITY_LOCK_UNLOCK(extern inline, dds_topic)
+
 #define DDS_TOPIC_STATUS_MASK                                    \
                         DDS_INCONSISTENT_TOPIC_STATUS
 
@@ -90,57 +92,29 @@ dds_topic_status_validate(
   status (only defined status on a topic).
 */
 
-static void
-dds_topic_status_cb(
-        struct dds_topic *cb_t)
+static void dds_topic_status_cb (struct dds_topic *tp)
 {
-    dds_topic *topic;
-    dds__retcode_t rc;
+  struct dds_listener const * const lst = &tp->m_entity.m_listener;
 
-    if (dds_topic_lock(((dds_entity*)cb_t)->m_hdl, &topic) != DDS_RETCODE_OK) {
-        return;
-    }
-    assert(topic == cb_t);
+  os_mutexLock (&tp->m_entity.m_observers_lock);
+  while (tp->m_entity.m_cb_count > 0)
+    os_condWait (&tp->m_entity.m_observers_cond, &tp->m_entity.m_observers_lock);
+  tp->m_entity.m_cb_count++;
 
-    /* Reset the status for possible Listener call.
-     * When a listener is not called, the status will be set (again). */
+  tp->m_inconsistent_topic_status.total_count++;
+  tp->m_inconsistent_topic_status.total_count_change++;
+  if (lst->on_inconsistent_topic)
+  {
+    os_mutexUnlock (&tp->m_entity.m_observers_lock);
+    dds_entity_invoke_listener(&tp->m_entity, DDS_INCONSISTENT_TOPIC_STATUS_ID, &tp->m_inconsistent_topic_status);
+    os_mutexLock (&tp->m_entity.m_observers_lock);
+    tp->m_inconsistent_topic_status.total_count_change = 0;
+  }
 
-    /* Update status metrics. */
-    topic->m_inconsistent_topic_status.total_count++;
-    topic->m_inconsistent_topic_status.total_count_change++;
-
-
-    /* The topic needs to be unlocked when propagating the (possible) listener
-     * call because the application should be able to call this topic within
-     * the callback function. */
-    dds_topic_unlock(topic);
-
-    /* Is anybody interested within the entity hierarchy through listeners? */
-    rc = dds_entity_listener_propagation((dds_entity*)topic,
-                                         (dds_entity*)topic,
-                                         DDS_INCONSISTENT_TOPIC_STATUS,
-                                         (void*)&(topic->m_inconsistent_topic_status),
-                                         true);
-
-    if (rc == DDS_RETCODE_OK) {
-        /* Event was eaten by a listener. */
-        if (dds_topic_lock(((dds_entity*)cb_t)->m_hdl, &topic) == DDS_RETCODE_OK) {
-            /* Reset the change counts of the metrics. */
-            topic->m_inconsistent_topic_status.total_count_change = 0;
-            dds_topic_unlock(topic);
-        }
-    } else if (rc == DDS_RETCODE_NO_DATA) {
-        /* Nobody was interested through a listener (NO_DATA == NO_CALL): set the status. */
-        dds_entity_status_set((dds_entity*)topic, DDS_INCONSISTENT_TOPIC_STATUS);
-        /* Notify possible interested observers. */
-        dds_entity_status_signal((dds_entity*)topic);
-        rc = DDS_RETCODE_OK;
-    } else if (rc == DDS_RETCODE_ALREADY_DELETED) {
-        /* An entity up the hierarchy is being deleted. */
-        rc = DDS_RETCODE_OK;
-    } else {
-        /* Something went wrong up the hierarchy. */
-    }
+  dds_entity_status_set(&tp->m_entity, DDS_INCONSISTENT_TOPIC_STATUS);
+  tp->m_entity.m_cb_count--;
+  os_condBroadcast (&tp->m_entity.m_observers_cond);
+  os_mutexUnlock (&tp->m_entity.m_observers_lock);
 }
 
 struct ddsi_sertopic *
@@ -186,7 +160,7 @@ dds_topic_free(
     assert (st);
 
     os_mutexLock (&dds_global.m_mutex);
-    domain = (dds_domain*) ut_avlLookup (&dds_domaintree_def, &dds_global.m_domains, &domainid);
+    domain = ut_avlLookup (&dds_domaintree_def, &dds_global.m_domains, &domainid);
     if (domain != NULL) {
         ut_avlDelete (&dds_topictree_def, &domain->m_topics, st);
     }
@@ -318,8 +292,6 @@ static bool dupdef_qos_ok(const dds_qos_t *qos, const struct ddsi_sertopic *st)
 
 static bool sertopic_equivalent (const struct ddsi_sertopic *a, const struct ddsi_sertopic *b)
 {
-  printf ("sertopic_equivalent %p %p (%s %s; %u %u; %p %p; %p %p)\n", a, b, a->name_typename, b->name_typename, a->serdata_basehash, b->serdata_basehash, a->ops, b->ops, a->serdata_ops, b->serdata_ops);
-
   if (strcmp (a->name_typename, b->name_typename) != 0)
     return false;
   if (a->serdata_basehash != b->serdata_basehash)
@@ -460,6 +432,7 @@ dds_create_topic(
     nn_plist_t plist;
     dds_entity_t hdl;
     uint32_t index;
+    size_t keysz;
 
     if (desc == NULL){
         DDS_ERROR("Topic description is NULL");
@@ -480,10 +453,9 @@ dds_create_topic(
     }
 
     typename = desc->m_typename;
-    key = (char*) dds_alloc (strlen (name) + strlen (typename) + 2);
-    strcpy (key, name);
-    strcat (key, "/");
-    strcat (key, typename);
+    keysz = strlen (name) + strlen (typename) + 2;
+    key = (char*) dds_alloc (keysz);
+    (void) snprintf(key, keysz, "%s/%s", name, typename);
 
     st = dds_alloc (sizeof (*st));
 
@@ -492,10 +464,8 @@ dds_create_topic(
     st->c.status_cb = dds_topic_status_cb;
     st->c.status_cb_entity = NULL; /* set by dds_create_topic_arbitrary */
     st->c.name_typename = key;
-    st->c.name = dds_alloc (strlen (name) + 1);
-    strcpy (st->c.name, name);
-    st->c.typename = dds_alloc (strlen (typename) + 1);
-    strcpy (st->c.typename, typename);
+    st->c.name = dds_string_dup (name);
+    st->c.typename = dds_string_dup (typename);
     st->c.ops = &ddsi_sertopic_ops_default;
     st->c.serdata_ops = desc->m_nkeys ? &ddsi_serdata_ops_cdr : &ddsi_serdata_ops_cdr_nokey;
     st->c.serdata_basehash = ddsi_sertopic_compute_serdata_basehash (st->c.serdata_ops);
@@ -721,9 +691,9 @@ dds_get_inconsistent_topic_status(
     if (status) {
         *status = t->m_inconsistent_topic_status;
     }
-    if (((dds_entity*)t)->m_status_enable & DDS_INCONSISTENT_TOPIC_STATUS) {
+    if (t->m_entity.m_status_enable & DDS_INCONSISTENT_TOPIC_STATUS) {
         t->m_inconsistent_topic_status.total_count_change = 0;
-        dds_entity_status_reset(t, DDS_INCONSISTENT_TOPIC_STATUS);
+        dds_entity_status_reset(&t->m_entity, DDS_INCONSISTENT_TOPIC_STATUS);
     }
     dds_topic_unlock(t);
 fail:

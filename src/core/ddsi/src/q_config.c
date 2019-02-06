@@ -27,7 +27,6 @@
 #include "ddsi/q_addrset.h"
 #include "ddsi/q_nwif.h"
 #include "ddsi/q_error.h"
-#include "ddsi/sysdeps.h"
 
 #include "util/ut_xmlparser.h"
 #include "util/ut_expand_envvars.h"
@@ -166,6 +165,9 @@ DUPF(durability_cdr);
 DUPF(transport_selector);
 DUPF(many_sockets_mode);
 DU(deaf_mute);
+#ifdef DDSI_INCLUDE_SSL
+DUPF(min_tls_version);
+#endif
 #undef DUPF
 #undef DU
 #undef PF
@@ -680,7 +682,7 @@ static const struct cfgelem ssl_cfgelems[] = {
     "<p>This enables SSL/TLS for TCP.</p>" },
     { LEAF("CertificateVerification"), 1, "true", ABSOFF(ssl_verify), 0, uf_boolean, 0, pf_boolean,
     "<p>If disabled this allows SSL connections to occur even if an X509 certificate fails verification.</p>" },
-    { LEAF("VerifyClient"), 1, "false", ABSOFF(ssl_verify_client), 0, uf_boolean, 0, pf_boolean,
+    { LEAF("VerifyClient"), 1, "true", ABSOFF(ssl_verify_client), 0, uf_boolean, 0, pf_boolean,
     "<p>This enables an SSL server checking the X509 certificate of a connecting client.</p>" },
     { LEAF("SelfSignedCertificates"), 1, "false", ABSOFF(ssl_self_signed), 0, uf_boolean, 0, pf_boolean,
     "<p>This enables the use of self signed X509 certificates.</p>" },
@@ -692,6 +694,8 @@ static const struct cfgelem ssl_cfgelems[] = {
     "<p>The set of ciphers used by SSL/TLS</p>" },
     { LEAF("EntropyFile"), 1, "", ABSOFF(ssl_rand_file), 0, uf_string, ff_free, pf_string,
     "<p>The SSL/TLS random entropy file name.</p>" },
+    { LEAF("MinimumTLSVersion"), 1, "1.3", ABSOFF(ssl_min_version), 0, uf_min_tls_version, 0, pf_min_tls_version,
+    "<p>The minimum TLS version that may be negotiated, valid values are 1.2 and 1.3.</p>" },
     END_MARKER
 };
 #endif
@@ -1409,6 +1413,30 @@ static void pf_besmode(struct cfgst *cfgst, void *parent, struct cfgelem const *
     cfg_log(cfgst, "%s%s", str, is_default ? " [def]" : "");
 }
 
+#ifdef DDSI_INCLUDE_SSL
+static int uf_min_tls_version(struct cfgst *cfgst, UNUSED_ARG(void *parent), UNUSED_ARG(struct cfgelem const * const cfgelem), UNUSED_ARG(int first), const char *value)
+{
+  static const char *vs[] = {
+    "1.2", "1.3", NULL
+  };
+  static const struct ssl_min_version ms[] = {
+    {1,2}, {1,3}, {0,0}
+  };
+  int idx = list_index(vs, value);
+  struct ssl_min_version *elem = cfg_address(cfgst, parent, cfgelem);
+  assert(sizeof(vs) / sizeof(*vs) == sizeof(ms) / sizeof(*ms));
+  if ( idx < 0 )
+    return cfg_error(cfgst, "'%s': undefined value", value);
+  *elem = ms[idx];
+  return 1;
+}
+
+static void pf_min_tls_version(struct cfgst *cfgst, void *parent, struct cfgelem const * const cfgelem, int is_default)
+{
+  struct ssl_min_version *p = cfg_address(cfgst, parent, cfgelem);
+  cfg_log(cfgst, "%d.%d%s", p->major, p->minor, is_default ? " [def]" : "");
+}
+#endif
 
 static int uf_durability_cdr(struct cfgst *cfgst, UNUSED_ARG(void *parent), UNUSED_ARG(struct cfgelem const * const cfgelem), UNUSED_ARG(int first), const char *value)
 {
@@ -1473,6 +1501,7 @@ static int uf_string(struct cfgst *cfgst, void *parent, struct cfgelem const * c
     return 1;
 }
 
+OS_WARNING_MSVC_OFF(4996);
 static int uf_natint64_unit(struct cfgst *cfgst, int64_t *elem, const char *value, const struct unit *unittab, int64_t def_mult, int64_t max)
 {
     int pos;
@@ -1502,6 +1531,7 @@ static int uf_natint64_unit(struct cfgst *cfgst, int64_t *elem, const char *valu
         return cfg_error(cfgst, "%s: invalid value", value);
     }
 }
+OS_WARNING_MSVC_ON(4996);
 
 #ifdef DDSI_INCLUDE_BANDWIDTH_LIMITING
 static int uf_bandwidth(struct cfgst *cfgst, void *parent, struct cfgelem const * const cfgelem, UNUSED_ARG(int first), const char *value)
@@ -1761,6 +1791,7 @@ static void pf_sched_class(struct cfgst *cfgst, void *parent, struct cfgelem con
     cfg_log(cfgst, "%s%s", str, is_default ? " [def]" : "");
 }
 
+OS_WARNING_MSVC_OFF(4996);
 static int uf_maybe_int32(struct cfgst *cfgst, void *parent, struct cfgelem const * const cfgelem, UNUSED_ARG(int first), const char *value)
 {
     struct config_maybe_int32 *elem = cfg_address(cfgst, parent, cfgelem);
@@ -1776,6 +1807,7 @@ static int uf_maybe_int32(struct cfgst *cfgst, void *parent, struct cfgelem cons
         return cfg_error(cfgst, "'%s': neither 'default' nor a decimal integer\n", value);
     }
 }
+OS_WARNING_MSVC_ON(4996);
 
 static int uf_maybe_memsize(struct cfgst *cfgst, void *parent, struct cfgelem const * const cfgelem, UNUSED_ARG(int first), const char *value)
 {
@@ -1902,6 +1934,7 @@ static int uf_int_min_max(struct cfgst *cfgst, void *parent, struct cfgelem cons
         return 1;
 }
 
+OS_WARNING_MSVC_OFF(4996);
 static int uf_domainId(struct cfgst *cfgst, void *parent, struct cfgelem const * const cfgelem, UNUSED_ARG(int first), const char *value)
 {
   struct config_maybe_int32 *elem = cfg_address(cfgst, parent, cfgelem);
@@ -1917,6 +1950,7 @@ static int uf_domainId(struct cfgst *cfgst, void *parent, struct cfgelem const *
     return cfg_error(cfgst, "'%s': neither 'any' nor a decimal integer in 0 .. 230\n", value);
   }
 }
+OS_WARNING_MSVC_ON(4996);
 
 static int uf_participantIndex(struct cfgst *cfgst, void *parent, struct cfgelem const * const cfgelem, int first, const char *value)
 {
@@ -2745,6 +2779,7 @@ struct cfgst * config_init
             struct ut_xmlpState *qx;
             FILE *fp;
 
+            OS_WARNING_MSVC_OFF(4996);
             if ( (fp = fopen(tok, "r")) == NULL ) {
                 if ( strncmp(tok, "file://", 7) != 0 || (fp = fopen(tok + 7, "r")) == NULL ) {
                     DDS_ERROR("can't open configuration file %s\n", tok);
@@ -2753,6 +2788,7 @@ struct cfgst * config_init
                     return NULL;
                 }
             }
+            OS_WARNING_MSVC_ON(4996);
 
             cb.attr = proc_attr;
             cb.elem_close = proc_elem_close;
@@ -2844,7 +2880,7 @@ struct cfgst * config_init
                 case Q_CIPHER_NULL:
                     /* nop */
                     if ( s->key && strlen(s->key) > 0 ) {
-                        DDS_ERROR("config: DDSI2Service/Security/SecurityProfile[@cipherkey]: %s: cipher key not required\n", s->key);
+                        DDS_INFO("config: DDSI2Service/Security/SecurityProfile[@cipherkey]: %s: cipher key not required\n", s->key);
                     }
                     break;
 

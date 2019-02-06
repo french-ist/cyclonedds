@@ -22,7 +22,6 @@
 #include "ddsi/q_xqos.h"
 #include "ddsi/ddsi_tran.h"
 #include "ddsi/q_feature_check.h"
-#include "ddsi/ddsi_serdata_builtin.h"
 #include "ddsi/ddsi_rhc_plugin.h"
 
 #if defined (__cplusplus)
@@ -87,7 +86,7 @@ struct q_security_plugins
   q_securityDecoderSet (*new_decoder) (void);
   c_bool (*free_encoder) (q_securityEncoderSet);
   c_bool (*free_decoder) (q_securityDecoderSet);
-  ssize_t (*send_encoded) (ddsi_tran_conn_t, const nn_locator_t *dst, size_t niov, ddsi_iovec_t *iov, q_securityEncoderSet *, uint32_t, uint32_t);
+  ssize_t (*send_encoded) (ddsi_tran_conn_t, const nn_locator_t *dst, size_t niov, os_iovec_t *iov, q_securityEncoderSet *, uint32_t, uint32_t);
   char * (*cipher_type) (q_cipherType);
   c_bool (*cipher_type_from_string) (const char *, q_cipherType *);
   uint32_t (*header_size) (q_securityEncoderSet, uint32_t);
@@ -214,6 +213,13 @@ enum many_sockets_mode {
   MSM_MANY_UNICAST
 };
 
+#ifdef DDSI_INCLUDE_SSL
+struct ssl_min_version {
+  int major;
+  int minor;
+};
+#endif
+
 struct config
 {
   int valid;
@@ -302,6 +308,7 @@ struct config
   char * ssl_rand_file;
   char * ssl_key_pass;
   char * ssl_ciphers;
+  struct ssl_min_version ssl_min_version;
 
 #endif
 
@@ -412,7 +419,10 @@ struct ddsi_plugin
 {
   int (*init_fn) (void);
   void (*fini_fn) (void);
-  void (*builtin_write) (enum ddsi_sertopic_builtin_type type, const nn_guid_t *guid, nn_wctime_t timestamp, bool alive);
+
+  bool (*builtintopic_is_visible) (nn_entityid_t entityid, bool onlylocal, nn_vendorid_t vendorid);
+  struct ddsi_tkmap_instance * (*builtintopic_get_tkmap_entry) (const struct nn_guid *guid);
+  void (*builtintopic_write) (const struct entity_common *e, nn_wctime_t timestamp, bool alive);
 
   /* Read cache */
   struct ddsi_rhc_plugin rhc_plugin;

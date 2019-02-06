@@ -18,6 +18,7 @@
 #include "dds__domain.h"
 #include "dds__err.h"
 #include "dds__builtin.h"
+#include "dds__whc_builtintopic.h"
 #include "ddsi/ddsi_iid.h"
 #include "ddsi/ddsi_tkmap.h"
 #include "ddsi/ddsi_serdata.h"
@@ -43,7 +44,7 @@ dds_init(dds_domainid_t domain)
 {
   dds_return_t ret = DDS_RETCODE_OK;
   const char * uri;
-  char progname[50];
+  char progname[50] = "UNKNOWN"; /* FIXME: once retrieving process names is back in */
   char hostname[64];
   uint32_t len;
   os_mutex *init_mutex;
@@ -76,7 +77,7 @@ dds_init(dds_domainid_t domain)
   dds_cfgst = config_init (uri);
   if (dds_cfgst == NULL)
   {
-    DDS_ERROR("Failed to parse configuration XML file %s\n", uri);
+    DDS_LOG(DDS_LC_CONFIG, "Failed to parse configuration XML file %s\n", uri);
     ret = DDS_ERRNO(DDS_RETCODE_ERROR);
     goto fail_config;
   }
@@ -106,11 +107,9 @@ dds_init(dds_domainid_t domain)
    * main configured domain id is. */
   dds_global.m_default_domain = config.domainId.value;
 
-  dds__builtin_init();
-
   if (rtps_config_prep(dds_cfgst) != 0)
   {
-    DDS_ERROR("Failed to configure RTPS\n");
+    DDS_LOG(DDS_LC_CONFIG, "Failed to configure RTPS\n");
     ret = DDS_ERRNO(DDS_RETCODE_ERROR);
     goto fail_rtps_config;
   }
@@ -133,10 +132,12 @@ dds_init(dds_domainid_t domain)
 
   if (rtps_init() < 0)
   {
-    DDS_ERROR("Failed to initialize RTPS\n");
+    DDS_LOG(DDS_LC_CONFIG, "Failed to initialize RTPS\n");
     ret = DDS_ERRNO(DDS_RETCODE_ERROR);
     goto fail_rtps_init;
   }
+
+  dds__builtin_init ();
 
   if (gv.servicelease && nn_servicelease_start_renewing(gv.servicelease) < 0)
   {
@@ -149,17 +150,10 @@ dds_init(dds_domainid_t domain)
 
   /* Set additional default participant properties */
 
-  gv.default_plist_pp.process_id = (unsigned)os_procIdSelf();
+  gv.default_plist_pp.process_id = (unsigned)os_getpid();
   gv.default_plist_pp.present |= PP_PRISMTECH_PROCESS_ID;
-  if (os_procName(progname, sizeof(progname)) > 0)
-  {
-    gv.default_plist_pp.exec_name = dds_string_dup(progname);
-  }
-  else
-  {
-    gv.default_plist_pp.exec_name = dds_string_alloc(32);
-    (void) snprintf(gv.default_plist_pp.exec_name, 32, "%s: %u", DDSC_PROJECT_NAME, gv.default_plist_pp.process_id);
-  }
+  gv.default_plist_pp.exec_name = dds_string_alloc(32);
+  (void) snprintf(gv.default_plist_pp.exec_name, 32, "%s: %u", DDSC_PROJECT_NAME, gv.default_plist_pp.process_id);
   len = (uint32_t) (13 + strlen(gv.default_plist_pp.exec_name));
   gv.default_plist_pp.present |= PP_PRISMTECH_EXEC_NAME;
   if (os_gethostname(hostname, sizeof(hostname)) == os_resultSuccess)
@@ -179,7 +173,8 @@ skip:
 fail_servicelease_start:
   if (gv.servicelease)
     nn_servicelease_stop_renewing (gv.servicelease);
-  rtps_term ();
+  rtps_stop ();
+  rtps_fini ();
 fail_rtps_init:
   if (gv.servicelease)
   {
@@ -189,7 +184,6 @@ fail_rtps_init:
 fail_servicelease_new:
   thread_states_fini();
 fail_rtps_config:
-  dds__builtin_fini();
 fail_config_domainid:
   dds_global.m_default_domain = DDS_DOMAIN_DEFAULT;
   config_fini (dds_cfgst);
@@ -213,11 +207,11 @@ extern void dds_fini (void)
   dds_global.m_init_count--;
   if (dds_global.m_init_count == 0)
   {
-    dds__builtin_fini();
-
     if (gv.servicelease)
       nn_servicelease_stop_renewing (gv.servicelease);
-    rtps_term ();
+    rtps_stop ();
+    dds__builtin_fini ();
+    rtps_fini ();
     if (gv.servicelease)
       nn_servicelease_free (gv.servicelease);
     gv.servicelease = NULL;
@@ -254,7 +248,9 @@ void ddsi_plugin_init (void)
   ddsi_plugin.init_fn = dds__init_plugin;
   ddsi_plugin.fini_fn = dds__fini_plugin;
 
-  ddsi_plugin.builtin_write = dds__builtin_write;
+  ddsi_plugin.builtintopic_is_visible = dds__builtin_is_visible;
+  ddsi_plugin.builtintopic_get_tkmap_entry = dds__builtin_get_tkmap_entry;
+  ddsi_plugin.builtintopic_write = dds__builtin_write;
 
   ddsi_plugin.rhc_plugin.rhc_free_fn = dds_rhc_free;
   ddsi_plugin.rhc_plugin.rhc_fini_fn = dds_rhc_fini;

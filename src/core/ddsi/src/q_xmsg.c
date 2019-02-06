@@ -34,15 +34,12 @@
 #include "ddsi/q_log.h"
 #include "ddsi/q_unused.h"
 #include "ddsi/q_xmsg.h"
-#include "ddsi/q_align.h"
 #include "ddsi/q_config.h"
 #include "ddsi/q_entity.h"
 #include "ddsi/q_globals.h"
 #include "ddsi/q_ephash.h"
 #include "ddsi/q_freelist.h"
 #include "ddsi/ddsi_serdata_default.h"
-
-#include "ddsi/sysdeps.h"
 
 #define NN_XMSG_MAX_ALIGN 8
 #define NN_XMSG_CHUNK_SIZE 128
@@ -73,7 +70,7 @@ struct nn_xmsg {
   size_t sz;
   int have_params;
   struct ddsi_serdata *refd_payload;
-  ddsi_iovec_t refd_payload_iov;
+  os_iovec_t refd_payload_iov;
   int64_t maxdelay;
 #ifdef DDSI_INCLUDE_NETWORK_PARTITIONS
   uint32_t encoderid;
@@ -198,7 +195,7 @@ struct nn_xpack
   ddsi_tran_conn_t conn;
   os_sem_t sem;
   size_t niov;
-  ddsi_iovec_t iov[NN_XMSG_MAX_MESSAGE_IOVECS];
+  os_iovec_t iov[NN_XMSG_MAX_MESSAGE_IOVECS];
   enum nn_xmsg_dstmode dstmode;
 
   union
@@ -256,7 +253,7 @@ static void nn_xmsg_realfree_wrap (void *elem)
 void nn_xmsgpool_free (struct nn_xmsgpool *pool)
 {
   nn_freelist_fini (&pool->freelist, nn_xmsg_realfree_wrap);
-  DDS_TRACE("xmsgpool_free(%p)\n", pool);
+  DDS_TRACE("xmsgpool_free(%p)\n", (void *)pool);
   os_free (pool);
 }
 
@@ -1322,7 +1319,7 @@ static ssize_t nn_xpack_send1 (const nn_locator_t *loc, void * varg)
   {
     /* We drop APPROXIMATELY a fraction of xmit_lossiness * 10**(-3)
        of all packets to be sent */
-    if ((random () % 1000) < config.xmit_lossiness)
+    if ((os_random () % 1000) < config.xmit_lossiness)
     {
       DDS_TRACE("(dropped)");
       xp->call_flags = 0;
@@ -1341,7 +1338,18 @@ static ssize_t nn_xpack_send1 (const nn_locator_t *loc, void * varg)
 #endif
   {
     if (!gv.mute)
+    {
       nbytes = ddsi_conn_write (xp->conn, loc, xp->niov, xp->iov, xp->call_flags);
+#ifndef NDEBUG
+      {
+        size_t i, len;
+        for (i = 0, len = 0; i < xp->niov; i++) {
+          len += xp->iov[i].iov_len;
+        }
+        assert (nbytes == -1 || (size_t) nbytes == len);
+      }
+#endif
+    }
     else
     {
       DDS_TRACE("(dropped)");
@@ -1803,11 +1811,11 @@ int nn_xpack_addmsg (struct nn_xpack *xp, struct nn_xmsg *m, const uint32_t flag
 
   /* Append submessage; can possibly be merged with preceding iovec */
   if ((char *) xp->iov[niov-1].iov_base + xp->iov[niov-1].iov_len == (char *) m->data->payload)
-    xp->iov[niov-1].iov_len += (ddsi_iov_len_t)m->sz;
+    xp->iov[niov-1].iov_len += (os_iov_len_t)m->sz;
   else
   {
     xp->iov[niov].iov_base = m->data->payload;
-    xp->iov[niov].iov_len = (ddsi_iov_len_t)m->sz;
+    xp->iov[niov].iov_len = (os_iov_len_t)m->sz;
     niov++;
   }
   sz += m->sz;

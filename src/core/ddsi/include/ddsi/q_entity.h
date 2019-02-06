@@ -44,14 +44,14 @@ typedef void (*ddsi2direct_directread_cb_t) (const struct nn_rsample_info *sampl
 
 typedef struct status_cb_data
 {
-  uint32_t status;
+  int raw_status_id;
   uint32_t extra;
   uint64_t handle;
   bool add;
 }
 status_cb_data_t;
 
-typedef void (*status_cb_t) (void * entity, const status_cb_data_t * data);
+typedef void (*status_cb_t) (void *entity, const status_cb_data_t *data);
 
 struct prd_wr_match {
   ut_avlNode_t avlnode;
@@ -127,12 +127,15 @@ struct pwr_rd_match {
 
 struct nn_rsample_info;
 struct nn_rdata;
+struct ddsi_tkmap_instance;
 
 struct entity_common {
   enum entity_kind kind;
   nn_guid_t guid;
+  nn_wctime_t tupdate; /* timestamp of last update */
   char *name;
   uint64_t iid;
+  struct ddsi_tkmap_instance *tk;
   os_mutex lock;
   bool onlylocal;
 };
@@ -328,7 +331,7 @@ struct proxy_endpoint_common
   struct proxy_endpoint_common *next_ep; /* next \ endpoint belonging to this proxy participant */
   struct proxy_endpoint_common *prev_ep; /* prev / -- this is in arbitrary ordering */
   struct nn_xqos *xqos; /* proxy endpoint QoS lives here; FIXME: local ones should have it moved to common as well */
-  const struct ddsi_sertopic * topic; /* topic may be NULL: for built-ins, but also for never-yet matched proxies (so we don't have to know the topic; when we match, we certainly do know) */
+  struct ddsi_sertopic * topic; /* topic may be NULL: for built-ins, but also for never-yet matched proxies (so we don't have to know the topic; when we match, we certainly do know) */
   struct addrset *as; /* address set to use for communicating with this endpoint */
   nn_guid_t group_guid; /* 0:0:0:0 if not available */
   nn_vendorid_t vendor; /* cached from proxypp->vendor */
@@ -390,8 +393,11 @@ int is_deleted_participant_guid (const struct nn_guid *guid, unsigned for_what);
 
 nn_entityid_t to_entityid (unsigned u);
 int is_builtin_entityid (nn_entityid_t id, nn_vendorid_t vendorid);
+int is_builtin_endpoint (nn_entityid_t id, nn_vendorid_t vendorid);
+bool is_local_orphan_endpoint (const struct entity_common *e);
 int is_writer_entityid (nn_entityid_t id);
 int is_reader_entityid (nn_entityid_t id);
+nn_vendorid_t get_entity_vendorid (const struct entity_common *e);
 
 int pp_allocate_entityid (nn_entityid_t *id, unsigned kind, struct participant *pp);
 void pp_release_entityid(struct participant *pp, nn_entityid_t id);
@@ -473,9 +479,9 @@ struct writer *get_builtin_writer (const struct participant *pp, unsigned entity
    GUID "ppguid". May return NULL if participant unknown or
    writer/reader already known. */
 
-struct writer * new_writer (struct nn_guid *wrguid, const struct nn_guid *group_guid, const struct nn_guid *ppguid, const struct ddsi_sertopic *topic, const struct nn_xqos *xqos, struct whc * whc, status_cb_t status_cb, void * status_cb_arg);
+struct writer *new_writer (struct nn_guid *wrguid, const struct nn_guid *group_guid, const struct nn_guid *ppguid, const struct ddsi_sertopic *topic, const struct nn_xqos *xqos, struct whc * whc, status_cb_t status_cb, void *status_cb_arg);
 
-struct reader * new_reader (struct nn_guid *rdguid, const struct nn_guid *group_guid, const struct nn_guid *ppguid, const struct ddsi_sertopic *topic, const struct nn_xqos *xqos, struct rhc * rhc, status_cb_t status_cb, void * status_cb_arg);
+struct reader *new_reader (struct nn_guid *rdguid, const struct nn_guid *group_guid, const struct nn_guid *ppguid, const struct ddsi_sertopic *topic, const struct nn_xqos *xqos, struct rhc * rhc, status_cb_t status_cb, void *status_cb_arg);
 
 struct whc_node;
 struct whc_state;
@@ -491,6 +497,12 @@ int delete_writer_nolinger_locked (struct writer *wr);
 
 int delete_reader (const struct nn_guid *guid);
 uint64_t reader_instance_id (const struct nn_guid *guid);
+
+struct local_orphan_writer {
+  struct writer wr;
+};
+struct local_orphan_writer *new_local_orphan_writer (nn_entityid_t entityid, struct ddsi_sertopic *topic, const struct nn_xqos *xqos, struct whc *whc);
+void delete_local_orphan_writer (struct local_orphan_writer *wr);
 
 /* To create or delete a new proxy participant: "guid" MUST have the
    pre-defined participant entity id. Unlike delete_participant(),

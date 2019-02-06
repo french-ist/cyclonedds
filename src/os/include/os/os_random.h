@@ -9,10 +9,19 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-#ifndef NN_ALIGN_H
-#define NN_ALIGN_H
+#ifndef OS_RANDOM_H
+#define OS_RANDOM_H
 
-#define ALIGN4(x) (((x) + 3) & -4u)
-#define ALIGN8(x) (((x) + 7) & -8u)
+#include "os/os_defs.h"
 
-#endif /* NN_ALIGN_H */
+#if defined (__cplusplus)
+extern "C" {
+#endif
+
+OSAPI_EXPORT long os_random(void);
+
+#if defined (__cplusplus)
+}
+#endif
+
+#endif /* OS_RANDOM_H */

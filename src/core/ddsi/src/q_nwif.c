@@ -17,10 +17,6 @@
 
 #include "os/os.h"
 
-#ifndef _WIN32
-#include <netdb.h>
-#endif
-
 #include "ddsi/q_log.h"
 #include "ddsi/q_nwif.h"
 #include "ddsi/q_globals.h"
@@ -46,37 +42,18 @@ unsigned locator_to_hopefully_unique_uint32 (const nn_locator_t *src)
     memcpy (&id, src->address + 12, sizeof (id));
   else
   {
+#if OS_SOCKET_HAS_IPV6
     md5_state_t st;
     md5_byte_t digest[16];
     md5_init (&st);
     md5_append (&st, (const md5_byte_t *) ((const os_sockaddr_in6 *) src)->sin6_addr.s6_addr, 16);
     md5_finish (&st, digest);
     memcpy (&id, digest, sizeof (id));
+#else
+    DDS_FATAL("IPv6 unavailable\n");
+#endif
   }
   return id;
-}
-
-unsigned short get_socket_port (os_socket socket)
-{
-  os_sockaddr_storage addr;
-  socklen_t addrlen = sizeof (addr);
-  if (getsockname (socket, (os_sockaddr *) &addr, &addrlen) < 0)
-  {
-    print_sockerror ("getsockname");
-    return 0;
-  }
-  switch (addr.ss_family)
-  {
-    case AF_INET:
-      return ntohs (((os_sockaddr_in *) &addr)->sin_port);
-#if OS_SOCKET_HAS_IPV6
-    case AF_INET6:
-      return ntohs (((os_sockaddr_in6 *) &addr)->sin6_port);
-#endif
-    default:
-      abort ();
-      return 0;
-  }
 }
 
 #ifdef DDSI_INCLUDE_NETWORK_CHANNELS
@@ -377,7 +354,7 @@ int make_socket
     return -2;
   }
 
-  if (! Q_VALID_SOCKET (*sock))
+  if (! OS_VALID_SOCKET (*sock))
   {
     print_sockerror ("socket");
     return rc;
@@ -425,7 +402,7 @@ int make_socket
 fail:
 
   os_sockFree (*sock);
-  *sock = Q_INVALID_SOCKET;
+  *sock = OS_INVALID_SOCKET;
   return rc;
 }
 
@@ -481,12 +458,11 @@ int find_own_ip (const char *requested_address)
     char if_name[sizeof (last_if_name)];
     int q = 0;
 
-    strncpy (if_name, ifa->name, sizeof (if_name) - 1);
-    if_name[sizeof (if_name) - 1] = 0;
+    os_strlcpy(if_name, ifa->name, sizeof(if_name));
 
     if (strcmp (if_name, last_if_name))
       DDS_LOG(DDS_LC_CONFIG, "%s%s", sep, if_name);
-    strcpy (last_if_name, if_name);
+    os_strlcpy(last_if_name, if_name, sizeof(last_if_name));
 
     /* interface must be up */
     if ((ifa->flags & IFF_UP) == 0) {

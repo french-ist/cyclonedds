@@ -9,16 +9,20 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-#ifndef OS_PLATFORM_PROCESS_H
-#define OS_PLATFORM_PROCESS_H
+#ifndef DDS_WHC_BUILTINTOPIC_H
+#define DDS_WHC_BUILTINTOPIC_H
+
+#include "ddsi/q_whc.h"
+#include "dds__serdata_builtintopic.h"
 
 #if defined (__cplusplus)
 extern "C" {
 #endif
-    void os_processModuleInit(void);
-    void os_processModuleExit(void);
+
+struct whc *builtintopic_whc_new (enum ddsi_sertopic_builtintopic_type type);
+
 #if defined (__cplusplus)
 }
 #endif
 
-#endif
+#endif /* Q_WHC_H */

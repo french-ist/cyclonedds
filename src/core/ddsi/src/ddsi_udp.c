@@ -48,17 +48,18 @@ static struct ddsi_udp_config ddsi_udp_config_g;
 static struct ddsi_tran_factory ddsi_udp_factory_g;
 static os_atomic_uint32_t ddsi_udp_init_g = OS_ATOMIC_UINT32_INIT(0);
 
-static ssize_t ddsi_udp_conn_read (ddsi_tran_conn_t conn, unsigned char * buf, size_t len, nn_locator_t *srcloc)
+static ssize_t ddsi_udp_conn_read (ddsi_tran_conn_t conn, unsigned char * buf, size_t len, bool allow_spurious, nn_locator_t *srcloc)
 {
   int err;
   ssize_t ret;
   struct msghdr msghdr;
   os_sockaddr_storage src;
-  ddsi_iovec_t msg_iov;
+  os_iovec_t msg_iov;
   socklen_t srclen = (socklen_t) sizeof (src);
+  (void) allow_spurious;
 
   msg_iov.iov_base = (void*) buf;
-  msg_iov.iov_len = (ddsi_iov_len_t)len; /* windows uses unsigned, POISX size_t */
+  msg_iov.iov_len = (os_iov_len_t)len; /* Windows uses unsigned, POSIX (except Linux) int */
 
   msghdr.msg_name = &src;
   msghdr.msg_namelen = srclen;
@@ -103,13 +104,13 @@ static ssize_t ddsi_udp_conn_read (ddsi_tran_conn_t conn, unsigned char * buf, s
   return ret;
 }
 
-static void set_msghdr_iov (struct msghdr *mhdr, ddsi_iovec_t *iov, size_t iovlen)
+static void set_msghdr_iov (struct msghdr *mhdr, os_iovec_t *iov, size_t iovlen)
 {
   mhdr->msg_iov = iov;
-  mhdr->msg_iovlen = (ddsi_msg_iovlen_t)iovlen;
+  mhdr->msg_iovlen = (os_msg_iovlen_t)iovlen;
 }
 
-static ssize_t ddsi_udp_conn_write (ddsi_tran_conn_t conn, const nn_locator_t *dst, size_t niov, const ddsi_iovec_t *iov, uint32_t flags)
+static ssize_t ddsi_udp_conn_write (ddsi_tran_conn_t conn, const nn_locator_t *dst, size_t niov, const os_iovec_t *iov, uint32_t flags)
 {
   int err;
   ssize_t ret;
@@ -119,7 +120,7 @@ static ssize_t ddsi_udp_conn_write (ddsi_tran_conn_t conn, const nn_locator_t *d
   os_sockaddr_storage dstaddr;
   assert(niov <= INT_MAX);
   ddsi_ipaddr_from_loc(&dstaddr, dst);
-  set_msghdr_iov (&msg, (ddsi_iovec_t *) iov, niov);
+  set_msghdr_iov (&msg, (os_iovec_t *) iov, niov);
   msg.msg_name = &dstaddr;
   msg.msg_namelen = (socklen_t) os_sockaddr_get_size((os_sockaddr *) &dstaddr);
 #if !defined(__sun) || defined(_XPG4_2)
@@ -131,6 +132,8 @@ static ssize_t ddsi_udp_conn_write (ddsi_tran_conn_t conn, const nn_locator_t *d
 #endif
 #if SYSDEPS_MSGHDR_FLAGS
   msg.msg_flags = (int) flags;
+#else
+  OS_UNUSED_ARG(flags);
 #endif
 #ifdef MSG_NOSIGNAL
   sendflags |= MSG_NOSIGNAL;
@@ -187,7 +190,7 @@ static void ddsi_udp_disable_multiplexing (ddsi_tran_conn_t base)
 #endif
 }
 
-static os_handle ddsi_udp_conn_handle (ddsi_tran_base_t base)
+static os_socket ddsi_udp_conn_handle (ddsi_tran_base_t base)
 {
   return ((ddsi_udp_conn_t) base)->m_sock;
 }
@@ -203,7 +206,7 @@ static int ddsi_udp_conn_locator (ddsi_tran_base_t base, nn_locator_t *loc)
 {
   int ret = -1;
   ddsi_udp_conn_t uc = (ddsi_udp_conn_t) base;
-  if (uc->m_sock != Q_INVALID_SOCKET)
+  if (uc->m_sock != OS_INVALID_SOCKET)
   {
     loc->kind = ddsi_udp_factory_g.m_kind;
     loc->port = uc->m_base.m_base.m_port;
@@ -271,7 +274,7 @@ static ddsi_tran_conn_t ddsi_udp_create_conn
     uc->m_base.m_write_fn = ddsi_udp_conn_write;
     uc->m_base.m_disable_multiplexing_fn = ddsi_udp_disable_multiplexing;
 
-    DDS_INFO
+    DDS_TRACE
     (
       "ddsi_udp_create_conn %s socket %"PRIsock" port %u\n",
       mcast ? "multicast" : "unicast",
@@ -394,7 +397,7 @@ static int ddsi_udp_leave_mc (ddsi_tran_conn_t conn, const nn_locator_t *srcloc,
 static void ddsi_udp_release_conn (ddsi_tran_conn_t conn)
 {
   ddsi_udp_conn_t uc = (ddsi_udp_conn_t) conn;
-  DDS_INFO
+  DDS_TRACE
   (
     "ddsi_udp_release_conn %s socket %"PRIsock" port %u\n",
     conn->m_base.m_multicast ? "multicast" : "unicast",
@@ -413,7 +416,7 @@ void ddsi_udp_fini (void)
     if(os_atomic_dec32_nv (&ddsi_udp_init_g) == 0) {
         free_group_membership(ddsi_udp_config_g.mship);
         memset (&ddsi_udp_factory_g, 0, sizeof (ddsi_udp_factory_g));
-        DDS_LOG(DDS_LC_INFO | DDS_LC_CONFIG, "udp finalized\n");
+        DDS_LOG(DDS_LC_CONFIG, "udp finalized\n");
     }
 }
 
@@ -484,7 +487,7 @@ static char *ddsi_udp_locator_to_string (ddsi_tran_factory_t tran, char *dst, si
     memset (&src, 0, sizeof (src));
     src.sin_family = AF_INET;
     memcpy (&src.sin_addr.s_addr, &mcgen.ipv4, 4);
-    os_sockaddrAddressToString ((const os_sockaddr *) &src, dst, sizeof_dst);
+    os_sockaddrtostr ((const os_sockaddr *) &src, dst, sizeof_dst);
     pos = strlen (dst);
     assert (pos <= sizeof_dst);
     cnt = snprintf (dst + pos, sizeof_dst - pos, ";%u;%u;%u", mcgen.base, mcgen.count, mcgen.idx);
@@ -503,7 +506,7 @@ static void ddsi_udp_deinit(void)
   if (os_atomic_dec32_nv(&ddsi_udp_init_g) == 0) {
     if (ddsi_udp_config_g.mship)
       free_group_membership(ddsi_udp_config_g.mship);
-    DDS_LOG(DDS_LC_INFO | DDS_LC_CONFIG, "udp de-initialized\n");
+    DDS_LOG(DDS_LC_CONFIG, "udp de-initialized\n");
   }
 }
 
@@ -548,7 +551,7 @@ int ddsi_udp_init (void)
 
     ddsi_factory_add (&ddsi_udp_factory_g);
 
-    DDS_LOG(DDS_LC_INFO | DDS_LC_CONFIG, "udp initialized\n");
+    DDS_LOG(DDS_LC_CONFIG, "udp initialized\n");
   }
   return 0;
 }
