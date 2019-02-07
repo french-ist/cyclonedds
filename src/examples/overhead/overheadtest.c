@@ -13,6 +13,20 @@ static int cmp_double (const void *va, const void *vb)
   return (*a == *b) ? 0 : (*a < *b) ? -1 : 1;
 }
 
+int newSize(int size) {
+    if (size < 1024) {
+			return size+64; 
+    } else if (size > 1024 && size < 4096){
+      return size+256;
+		} else if (size > 4096 && size < 65536){
+      return size + 8192 ;
+    } else if (size > 65536 && size < 262144){
+      return size + 4096 ;
+    } else {
+      return size = (size == 0) ? 1 : 2 * size;
+    }
+}
+
 int main (int argc, char **argv)
 {
   dds_entity_t participant, topic, writer, reader;
@@ -34,7 +48,7 @@ int main (int argc, char **argv)
   DDS_ERR_CHECK (reader, DDS_CHECK_REPORT | DDS_CHECK_EXIT);
 
   printf ("%7s WRITE %6s %6s %6s %6s | READ %6s %6s %6s %6s\n", "size", "min", "median", "99%", "max", "min", "median", "99%", "max");
-  for (size_t size = 0; size <= 1048576; size = (size == 0) ? 1 : 2 * size)
+  for (size_t size = 0; size <= 1048576; size = newSize(size))
   {
     d.payload._buffer = size ? dds_alloc (size) : NULL;
     d.payload._length = d.payload._maximum = (uint32_t) size;
@@ -49,13 +63,17 @@ int main (int argc, char **argv)
     {
       const dds_time_t twrite1 = dds_time ();
       status = dds_write (writer, &d);
+      const dds_time_t twrite2 = dds_time ();            
       DDS_ERR_CHECK (status, DDS_CHECK_REPORT | DDS_CHECK_EXIT);
+
       const dds_time_t tread1 = dds_time ();
       status = dds_read (reader, samples, info, 1, 1);
+      const dds_time_t tread2 = dds_time ();
       DDS_ERR_CHECK (status, DDS_CHECK_REPORT | DDS_CHECK_EXIT);
+      
       if (status != 1) abort ();
-      tread[k] = (dds_time () - tread1) / 1e3;
-      twrite[k] = (tread1 - twrite1) / 1e3;
+      tread[k] = (tread2 - tread1) / 1e3;
+      twrite[k] = (twrite2 - twrite1) / 1e3;
     }
 
     dds_free (d.payload._buffer);
@@ -68,6 +86,8 @@ int main (int argc, char **argv)
             "", twrite[0], twrite[rounds / 2], twrite[rounds - rounds / 100], twrite[rounds - 1],
             "", tread[0], tread[rounds / 2], tread[rounds - rounds / 100], tread[rounds - 1]);
   }
+
+  
 
   dds_delete (participant);
   return 0;

@@ -27,7 +27,7 @@ public class Overhead
 			return a==b ? 0 : a<b ? -1:1;
 		}		
 	};
-	
+
 	public Overhead(){                
 		/* Create a Participant. */
 		Dds.participant = DdscLibrary.dds_create_participant (Dds.DDS_DOMAIN_DEFAULT, null, null);
@@ -50,11 +50,9 @@ public class Overhead
 		System.out.printf ("%7s WRITE %6s %6s %6s %6s | READ %6s %6s %6s %6s\n", "size", "min", "median", "99%", "max", "min", "median", "99%", "max");
 
 
-		for (int size = 0; size <= 1048576; size = (size == 0) ? 1 : 2 * size)
+		for (int size = 0; size <= 1048576; size = newSize (size))
 		{
-
 			RoundTripModule_DataType.ByReference pub_data = setPayload(size);
-
 			ArrayList<Double> writeTime= new ArrayList<Double>();
 			ArrayList<Double> readTime= new ArrayList<Double>();
 
@@ -78,22 +76,35 @@ public class Overhead
 
 				writeTime.add((double)(postWriteTime - preWriteTime)/1000);
 				readTime.add((double)(postReadTime - preReadTime)/1000);
-				
+
 				RoundTripModule_DataType sub_data = new RoundTripModule_DataType(samplePtr.getValue());
 				infosPtr.read();
 				sub_data.read();
-
 			}
 
 			//org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_free (pub_data.payload._buffer);
 
 			writeTime.sort(comparator);
 			readTime.sort(comparator);
-			
+
 			System.out.printf ("%7d %5s %6.0f %6.0f %6.0f %6.0f | %4s %6.0f %6.0f %6.0f %6.0f\n",
 					size,
 					"", writeTime.get(0), writeTime.get(rounds / 2), writeTime.get(rounds - rounds / 100), writeTime.get(rounds - 1),
 					"", readTime.get(0), readTime.get(rounds / 2), readTime.get(rounds - rounds / 100), readTime.get(rounds - 1));
+		}
+	}
+
+	public int newSize(int size) {
+		if (size < 1024) {
+			return size+64; 
+		} else if (size > 1024 && size < 4096){
+			return size+256;
+		} else if (size > 4096 && size < 65536){
+			return size + 8192 ;
+		} else if (size > 65536 && size < 262144){
+			return size + 4096 ;
+		} else {
+			return size = (size == 0) ? 1 : 2 * size;
 		}
 	}
 
@@ -117,10 +128,10 @@ public class Overhead
 		pub_data.setPayload(dsPubData);
 		return pub_data;
 	}
-	
+
 	public static void main( String[] args )
-    {
+	{
 		new Overhead();    
-    }
+	}
 
 }
