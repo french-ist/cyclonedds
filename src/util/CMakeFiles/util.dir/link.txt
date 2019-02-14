@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../lib/libutil.a  CMakeFiles/util.dir/src/ut_avl.c.o CMakeFiles/util.dir/src/ut_crc.c.o CMakeFiles/util.dir/src/ut_expand_envvars.c.o CMakeFiles/util.dir/src/ut_fibheap.c.o CMakeFiles/util.dir/src/ut_handleserver.c.o CMakeFiles/util.dir/src/ut_hopscotch.c.o CMakeFiles/util.dir/src/ut_thread_pool.c.o CMakeFiles/util.dir/src/ut_xmlparser.c.o
+/usr/bin/ranlib ../lib/libutil.a

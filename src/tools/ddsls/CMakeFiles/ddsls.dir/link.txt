@@ -1,0 +1,1 @@
+/usr/bin/cc -O2 -g -DNDEBUG   CMakeFiles/ddsls.dir/ddsls.c.o  -o ../../bin/ddsls -Wl,-rpath,/home/ndrianja/IST/cyclonedds/src/lib: ../../lib/libddsc.so.0.1.0 ../../lib/libOSAPI.a -lpthread 

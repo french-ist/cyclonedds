@@ -1,0 +1,1 @@
+/usr/bin/cc -O2 -g -DNDEBUG   CMakeFiles/HelloworldPublisher.dir/publisher.c.o CMakeFiles/HelloworldPublisher.dir/HelloWorldData.c.o  -o ../../bin/HelloworldPublisher -Wl,-rpath,/home/ndrianja/IST/cyclonedds/src/lib: ../../lib/libddsc.so.0.1.0 

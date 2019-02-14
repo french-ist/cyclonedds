@@ -1,0 +1,1 @@
+/usr/bin/cc -O2 -g -DNDEBUG   CMakeFiles/RoundtripPong.dir/pong.c.o CMakeFiles/RoundtripPong.dir/RoundTrip.c.o  -o ../../bin/RoundtripPong -Wl,-rpath,/home/ndrianja/IST/cyclonedds/src/lib ../../lib/libddsc.so.0.1.0 

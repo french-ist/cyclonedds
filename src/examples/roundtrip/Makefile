@@ -68,17 +68,6 @@ install/local/fast: preinstall/fast
 	/home/ndrianja/cmake-3.12.4-Linux-x86_64/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/home/ndrianja/cmake-3.12.4-Linux-x86_64/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target package
 package: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
@@ -100,6 +89,17 @@ package_source:
 package_source/fast: package_source
 
 .PHONY : package_source/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/home/ndrianja/cmake-3.12.4-Linux-x86_64/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # Special rule for the target rebuild_cache
 rebuild_cache:
@@ -148,14 +148,14 @@ install/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/ndrianja/IST/cyclonedds/src && $(CMAKE_COMMAND) -E cmake_progress_start /home/ndrianja/IST/cyclonedds/src/CMakeFiles /home/ndrianja/IST/cyclonedds/src/examples/helloworld/CMakeFiles/progress.marks
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f CMakeFiles/Makefile2 examples/helloworld/all
+	cd /home/ndrianja/IST/cyclonedds/src && $(CMAKE_COMMAND) -E cmake_progress_start /home/ndrianja/IST/cyclonedds/src/CMakeFiles /home/ndrianja/IST/cyclonedds/src/examples/roundtrip/CMakeFiles/progress.marks
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f CMakeFiles/Makefile2 examples/roundtrip/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/ndrianja/IST/cyclonedds/src/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f CMakeFiles/Makefile2 examples/helloworld/clean
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f CMakeFiles/Makefile2 examples/roundtrip/clean
 .PHONY : clean
 
 # The main clean target
@@ -165,12 +165,12 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f CMakeFiles/Makefile2 examples/helloworld/preinstall
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f CMakeFiles/Makefile2 examples/roundtrip/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f CMakeFiles/Makefile2 examples/helloworld/preinstall
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f CMakeFiles/Makefile2 examples/roundtrip/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
@@ -179,133 +179,133 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-examples/helloworld/CMakeFiles/HelloworldPublisher.dir/rule:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f CMakeFiles/Makefile2 examples/helloworld/CMakeFiles/HelloworldPublisher.dir/rule
-.PHONY : examples/helloworld/CMakeFiles/HelloworldPublisher.dir/rule
+examples/roundtrip/CMakeFiles/RoundtripPong.dir/rule:
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f CMakeFiles/Makefile2 examples/roundtrip/CMakeFiles/RoundtripPong.dir/rule
+.PHONY : examples/roundtrip/CMakeFiles/RoundtripPong.dir/rule
 
 # Convenience name for target.
-HelloworldPublisher: examples/helloworld/CMakeFiles/HelloworldPublisher.dir/rule
+RoundtripPong: examples/roundtrip/CMakeFiles/RoundtripPong.dir/rule
 
-.PHONY : HelloworldPublisher
+.PHONY : RoundtripPong
 
 # fast build rule for target.
-HelloworldPublisher/fast:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/helloworld/CMakeFiles/HelloworldPublisher.dir/build.make examples/helloworld/CMakeFiles/HelloworldPublisher.dir/build
-.PHONY : HelloworldPublisher/fast
+RoundtripPong/fast:
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/roundtrip/CMakeFiles/RoundtripPong.dir/build.make examples/roundtrip/CMakeFiles/RoundtripPong.dir/build
+.PHONY : RoundtripPong/fast
 
 # Convenience name for target.
-examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/rule:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f CMakeFiles/Makefile2 examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/rule
-.PHONY : examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/rule
+examples/roundtrip/CMakeFiles/RoundtripPing.dir/rule:
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f CMakeFiles/Makefile2 examples/roundtrip/CMakeFiles/RoundtripPing.dir/rule
+.PHONY : examples/roundtrip/CMakeFiles/RoundtripPing.dir/rule
 
 # Convenience name for target.
-HelloworldSubscriber: examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/rule
+RoundtripPing: examples/roundtrip/CMakeFiles/RoundtripPing.dir/rule
 
-.PHONY : HelloworldSubscriber
+.PHONY : RoundtripPing
 
 # fast build rule for target.
-HelloworldSubscriber/fast:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/build.make examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/build
-.PHONY : HelloworldSubscriber/fast
+RoundtripPing/fast:
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/roundtrip/CMakeFiles/RoundtripPing.dir/build.make examples/roundtrip/CMakeFiles/RoundtripPing.dir/build
+.PHONY : RoundtripPing/fast
 
 # Convenience name for target.
-examples/helloworld/CMakeFiles/HelloWorldData_lib_idlc_generate.dir/rule:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f CMakeFiles/Makefile2 examples/helloworld/CMakeFiles/HelloWorldData_lib_idlc_generate.dir/rule
-.PHONY : examples/helloworld/CMakeFiles/HelloWorldData_lib_idlc_generate.dir/rule
+examples/roundtrip/CMakeFiles/RoundTrip_lib_idlc_generate.dir/rule:
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f CMakeFiles/Makefile2 examples/roundtrip/CMakeFiles/RoundTrip_lib_idlc_generate.dir/rule
+.PHONY : examples/roundtrip/CMakeFiles/RoundTrip_lib_idlc_generate.dir/rule
 
 # Convenience name for target.
-HelloWorldData_lib_idlc_generate: examples/helloworld/CMakeFiles/HelloWorldData_lib_idlc_generate.dir/rule
+RoundTrip_lib_idlc_generate: examples/roundtrip/CMakeFiles/RoundTrip_lib_idlc_generate.dir/rule
 
-.PHONY : HelloWorldData_lib_idlc_generate
+.PHONY : RoundTrip_lib_idlc_generate
 
 # fast build rule for target.
-HelloWorldData_lib_idlc_generate/fast:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/helloworld/CMakeFiles/HelloWorldData_lib_idlc_generate.dir/build.make examples/helloworld/CMakeFiles/HelloWorldData_lib_idlc_generate.dir/build
-.PHONY : HelloWorldData_lib_idlc_generate/fast
+RoundTrip_lib_idlc_generate/fast:
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/roundtrip/CMakeFiles/RoundTrip_lib_idlc_generate.dir/build.make examples/roundtrip/CMakeFiles/RoundTrip_lib_idlc_generate.dir/build
+.PHONY : RoundTrip_lib_idlc_generate/fast
 
-HelloWorldData.o: HelloWorldData.c.o
+RoundTrip.o: RoundTrip.c.o
 
-.PHONY : HelloWorldData.o
-
-# target to build an object file
-HelloWorldData.c.o:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/helloworld/CMakeFiles/HelloworldPublisher.dir/build.make examples/helloworld/CMakeFiles/HelloworldPublisher.dir/HelloWorldData.c.o
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/build.make examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/HelloWorldData.c.o
-.PHONY : HelloWorldData.c.o
-
-HelloWorldData.i: HelloWorldData.c.i
-
-.PHONY : HelloWorldData.i
-
-# target to preprocess a source file
-HelloWorldData.c.i:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/helloworld/CMakeFiles/HelloworldPublisher.dir/build.make examples/helloworld/CMakeFiles/HelloworldPublisher.dir/HelloWorldData.c.i
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/build.make examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/HelloWorldData.c.i
-.PHONY : HelloWorldData.c.i
-
-HelloWorldData.s: HelloWorldData.c.s
-
-.PHONY : HelloWorldData.s
-
-# target to generate assembly for a file
-HelloWorldData.c.s:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/helloworld/CMakeFiles/HelloworldPublisher.dir/build.make examples/helloworld/CMakeFiles/HelloworldPublisher.dir/HelloWorldData.c.s
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/build.make examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/HelloWorldData.c.s
-.PHONY : HelloWorldData.c.s
-
-publisher.o: publisher.c.o
-
-.PHONY : publisher.o
+.PHONY : RoundTrip.o
 
 # target to build an object file
-publisher.c.o:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/helloworld/CMakeFiles/HelloworldPublisher.dir/build.make examples/helloworld/CMakeFiles/HelloworldPublisher.dir/publisher.c.o
-.PHONY : publisher.c.o
+RoundTrip.c.o:
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/roundtrip/CMakeFiles/RoundtripPong.dir/build.make examples/roundtrip/CMakeFiles/RoundtripPong.dir/RoundTrip.c.o
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/roundtrip/CMakeFiles/RoundtripPing.dir/build.make examples/roundtrip/CMakeFiles/RoundtripPing.dir/RoundTrip.c.o
+.PHONY : RoundTrip.c.o
 
-publisher.i: publisher.c.i
+RoundTrip.i: RoundTrip.c.i
 
-.PHONY : publisher.i
+.PHONY : RoundTrip.i
 
 # target to preprocess a source file
-publisher.c.i:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/helloworld/CMakeFiles/HelloworldPublisher.dir/build.make examples/helloworld/CMakeFiles/HelloworldPublisher.dir/publisher.c.i
-.PHONY : publisher.c.i
+RoundTrip.c.i:
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/roundtrip/CMakeFiles/RoundtripPong.dir/build.make examples/roundtrip/CMakeFiles/RoundtripPong.dir/RoundTrip.c.i
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/roundtrip/CMakeFiles/RoundtripPing.dir/build.make examples/roundtrip/CMakeFiles/RoundtripPing.dir/RoundTrip.c.i
+.PHONY : RoundTrip.c.i
 
-publisher.s: publisher.c.s
+RoundTrip.s: RoundTrip.c.s
 
-.PHONY : publisher.s
+.PHONY : RoundTrip.s
 
 # target to generate assembly for a file
-publisher.c.s:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/helloworld/CMakeFiles/HelloworldPublisher.dir/build.make examples/helloworld/CMakeFiles/HelloworldPublisher.dir/publisher.c.s
-.PHONY : publisher.c.s
+RoundTrip.c.s:
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/roundtrip/CMakeFiles/RoundtripPong.dir/build.make examples/roundtrip/CMakeFiles/RoundtripPong.dir/RoundTrip.c.s
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/roundtrip/CMakeFiles/RoundtripPing.dir/build.make examples/roundtrip/CMakeFiles/RoundtripPing.dir/RoundTrip.c.s
+.PHONY : RoundTrip.c.s
 
-subscriber.o: subscriber.c.o
+ping.o: ping.c.o
 
-.PHONY : subscriber.o
+.PHONY : ping.o
 
 # target to build an object file
-subscriber.c.o:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/build.make examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/subscriber.c.o
-.PHONY : subscriber.c.o
+ping.c.o:
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/roundtrip/CMakeFiles/RoundtripPing.dir/build.make examples/roundtrip/CMakeFiles/RoundtripPing.dir/ping.c.o
+.PHONY : ping.c.o
 
-subscriber.i: subscriber.c.i
+ping.i: ping.c.i
 
-.PHONY : subscriber.i
+.PHONY : ping.i
 
 # target to preprocess a source file
-subscriber.c.i:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/build.make examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/subscriber.c.i
-.PHONY : subscriber.c.i
+ping.c.i:
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/roundtrip/CMakeFiles/RoundtripPing.dir/build.make examples/roundtrip/CMakeFiles/RoundtripPing.dir/ping.c.i
+.PHONY : ping.c.i
 
-subscriber.s: subscriber.c.s
+ping.s: ping.c.s
 
-.PHONY : subscriber.s
+.PHONY : ping.s
 
 # target to generate assembly for a file
-subscriber.c.s:
-	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/build.make examples/helloworld/CMakeFiles/HelloworldSubscriber.dir/subscriber.c.s
-.PHONY : subscriber.c.s
+ping.c.s:
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/roundtrip/CMakeFiles/RoundtripPing.dir/build.make examples/roundtrip/CMakeFiles/RoundtripPing.dir/ping.c.s
+.PHONY : ping.c.s
+
+pong.o: pong.c.o
+
+.PHONY : pong.o
+
+# target to build an object file
+pong.c.o:
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/roundtrip/CMakeFiles/RoundtripPong.dir/build.make examples/roundtrip/CMakeFiles/RoundtripPong.dir/pong.c.o
+.PHONY : pong.c.o
+
+pong.i: pong.c.i
+
+.PHONY : pong.i
+
+# target to preprocess a source file
+pong.c.i:
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/roundtrip/CMakeFiles/RoundtripPong.dir/build.make examples/roundtrip/CMakeFiles/RoundtripPong.dir/pong.c.i
+.PHONY : pong.c.i
+
+pong.s: pong.c.s
+
+.PHONY : pong.s
+
+# target to generate assembly for a file
+pong.c.s:
+	cd /home/ndrianja/IST/cyclonedds/src && $(MAKE) -f examples/roundtrip/CMakeFiles/RoundtripPong.dir/build.make examples/roundtrip/CMakeFiles/RoundtripPong.dir/pong.c.s
+.PHONY : pong.c.s
 
 # Help Target
 help:
@@ -314,25 +314,25 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/local"
-	@echo "... edit_cache"
-	@echo "... HelloworldPublisher"
-	@echo "... HelloworldSubscriber"
-	@echo "... HelloWorldData_lib_idlc_generate"
+	@echo "... RoundtripPong"
 	@echo "... package"
+	@echo "... RoundtripPing"
+	@echo "... RoundTrip_lib_idlc_generate"
 	@echo "... package_source"
+	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... install"
-	@echo "... HelloWorldData.o"
-	@echo "... HelloWorldData.i"
-	@echo "... HelloWorldData.s"
-	@echo "... publisher.o"
-	@echo "... publisher.i"
-	@echo "... publisher.s"
-	@echo "... subscriber.o"
-	@echo "... subscriber.i"
-	@echo "... subscriber.s"
+	@echo "... RoundTrip.o"
+	@echo "... RoundTrip.i"
+	@echo "... RoundTrip.s"
+	@echo "... ping.o"
+	@echo "... ping.i"
+	@echo "... ping.s"
+	@echo "... pong.o"
+	@echo "... pong.i"
+	@echo "... pong.s"
 .PHONY : help
 
 

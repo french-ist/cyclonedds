@@ -1,0 +1,1 @@
+/usr/bin/cc -O2 -g -DNDEBUG   CMakeFiles/ThroughputSubscriber.dir/subscriber.c.o CMakeFiles/ThroughputSubscriber.dir/Throughput.c.o  -o ../../bin/ThroughputSubscriber -Wl,-rpath,/home/ndrianja/IST/cyclonedds/src/lib ../../lib/libddsc.so.0.1.0 

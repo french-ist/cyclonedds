@@ -5,3 +5,6 @@ gen.*
 .settings/
 .vs/
 build/
+release/
+**/target/**
+**/**/*.o
