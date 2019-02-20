@@ -304,6 +304,7 @@ public class DataWriterQosImpl extends EntityQosImpl<ForDataWriter> implements
         }
     }
 
+    /* TODO FRCYC
     public static DataWriterQosImpl convert(OsplServiceEnvironment env,
             DataWriterQos oldQos) {
 
@@ -377,10 +378,11 @@ public class DataWriterQosImpl extends EntityQosImpl<ForDataWriter> implements
             old.writer_data_lifecycle = PolicyConverter.convert(
                     this.environment, ((WriterDataLifecycle) this.policies
                             .get(WriterDataLifecycle.class)));
-        }
+        }        
 
 
         return old;
     }
+    */
 
 }

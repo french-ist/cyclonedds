@@ -51,7 +51,7 @@ public class SelectorImpl<TYPE> implements DataReader.Selector<TYPE> {
             AbstractDataReader<TYPE> reader) {
         this.environment = environment;
         this.reader = reader;
-        this.maxSamples = LENGTH_UNLIMITED.value;
+        this.maxSamples = Integer.MAX_VALUE;//TODO FRCYC LENGTH_UNLIMITED.value;
         this.condition = null;
         this.dataState = DataStateImpl.any(environment);
         this.queryExpression = null;

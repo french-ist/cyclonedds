@@ -273,6 +273,7 @@ org.eclipse.cyclonedds.sub.DataReaderQos {
     }
 
     public DataReaderQos convert() {
+    	/* TODO FRCYC
         DataReaderQos old = new DataReaderQos();
 
         synchronized (this.policies) {
@@ -313,6 +314,8 @@ org.eclipse.cyclonedds.sub.DataReaderQos {
                     ((UserData) this.policies.get(UserData.class)));
         }
         return old;
+        */
+    	return null;
     }
 
     public static DataReaderQosImpl convert(OsplServiceEnvironment env,
@@ -321,7 +324,7 @@ org.eclipse.cyclonedds.sub.DataReaderQos {
             throw new IllegalArgumentExceptionImpl(env,
                     "oldQos parameter is null.");
         }
-
+        /* TODO FRCYC
         DataReaderQosImpl qos = new DataReaderQosImpl(env);
 
         qos.put(Deadline.class, PolicyConverter.convert(env, oldQos.deadline));
@@ -365,6 +368,8 @@ org.eclipse.cyclonedds.sub.DataReaderQos {
             qos.put(SubscriptionKeys.class, subscriptionKeys);
         }
         return qos;
+        */
+        return null;
     }
 
     public void mergeTopicQos(TopicQos topicQos) {

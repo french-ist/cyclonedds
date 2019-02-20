@@ -52,32 +52,33 @@ import org.eclipse.cyclonedds.topic.SubscriptionBuiltinTopicDataImpl;
 public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
         DDSObject {
     private final OsplServiceEnvironment environment;
-    private final DataWriter old;
-    private final Method registerInstance;
-    private final Method registerInstanceTimestamp;
-    private final Method unregisterInstance;
-    private final Method unregisterInstanceTimestamp;
-    private final Method write;
-    private final Method writeTimestamp;
-    private final Method dispose;
-    private final Method disposeTimestamp;
-    private final Method writeDispose;
-    private final Method writeDisposeTimestamp;
-    private final Method getKeyValue;
-    private final Method lookupInstance;
-    private final Class<?> sampleHolderClz;
-    private final Field samplHolderValueField;
+    private final DataWriter old = null;
+    private final Method registerInstance = null;
+    private final Method registerInstanceTimestamp  = null;;
+    private final Method unregisterInstance = null;
+    private final Method unregisterInstanceTimestamp = null;
+    private final Method write = null;
+    private final Method writeTimestamp = null;
+    private final Method dispose = null;
+    private final Method disposeTimestamp = null;
+    private final Method writeDispose = null;
+    private final Method writeDisposeTimestamp = null;
+    private final Method getKeyValue = null;
+    private final Method lookupInstance = null;
+    private final Class<?> sampleHolderClz = null;
+    private final Field samplHolderValueField = null;
 
     public ReflectionDataWriter(OsplServiceEnvironment environment,
             DataWriter writer, Class<TYPE> typeClz) {
         Class<?> typedWriterClz;
         String typedWriterClzName;
 
-        this.old = writer;
+        //TODO FRCYC this.old = writer;
         this.environment = environment;
 
         typedWriterClzName = typeClz.getName() + "DataWriterImpl";
 
+        /* TODO FRCYC
         try {
             typedWriterClz = Class.forName(typedWriterClzName);
 
@@ -140,6 +141,7 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
                             + "that should be generated with OpenSplice idlpp ( "
                             + e.getMessage() + ").");
         }
+        */
     }
 
     @Override
@@ -176,6 +178,7 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
         return Utilities.convert(this.environment, handle);
     }
 
+    /* TODO FRCYC
     public InstanceHandle registerInstance(TYPE instanceData,
             Time sourceTimestamp) throws TimeoutException {
         long handle;
@@ -184,10 +187,11 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Illegal instanceData (null) provided.");
         }
+        
         try {
             handle = (Long) this.registerInstanceTimestamp.invoke(this.old,
                     instanceData,
-                    Utilities.convert(this.environment, sourceTimestamp));
+                    //TODO FRCYC Utilities.convert(this.environment, sourceTimestamp));
         } catch (IllegalAccessException e) {
             throw new DDSExceptionImpl(this.environment,
                     "DataWriter.registerInstance() failed (" + e.getMessage()
@@ -205,12 +209,14 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
         }
         return Utilities.convert(this.environment, handle);
     }
+    
 
     public InstanceHandle registerInstance(TYPE instanceData,
             long sourceTimestamp, TimeUnit unit) throws TimeoutException {
         return this.registerInstance(instanceData, new TimeImpl(
                 this.environment, sourceTimestamp, unit));
     }
+    */
 
     public void unregisterInstance(InstanceHandle handle)
             throws TimeoutException {
@@ -241,6 +247,7 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
         }
     }
 
+    /* TODO FRCYC
     public void unregisterInstance(InstanceHandle handle, TYPE instanceData,
             Time sourceTimestamp) throws TimeoutException {
         try {
@@ -266,13 +273,14 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
                             + ").");
         }
     }
-
+    
+    
     public void unregisterInstance(InstanceHandle handle, TYPE instanceData,
             long sourceTimestamp, TimeUnit unit) throws TimeoutException {
         this.unregisterInstance(handle, instanceData, new TimeImpl(
                 this.environment, sourceTimestamp, unit));
 
-    }
+    }*/
 
     public void write(TYPE instanceData) throws TimeoutException {
         this.write(instanceData, this.environment.getSPI().nilHandle());
@@ -280,8 +288,10 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
 
     public void write(TYPE instanceData, Time sourceTimestamp)
             throws TimeoutException {
+    	/* TODO FRCYC
         this.write(instanceData, this.environment.getSPI().nilHandle(),
                 sourceTimestamp);
+                */
     }
 
     public void write(TYPE instanceData, long sourceTimestamp, TimeUnit unit)
@@ -312,6 +322,7 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
         }
     }
 
+    /* TODO FRCYC
     public void write(TYPE instanceData, InstanceHandle handle,
             Time sourceTimestamp) throws TimeoutException {
         try {
@@ -333,11 +344,13 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
                     "DataWriter.write() failed (" + e.getMessage() + ").");
         }
     }
+	*/
 
     public void write(TYPE instanceData, InstanceHandle handle,
             long sourceTimestamp, TimeUnit unit) throws TimeoutException {
-        this.write(instanceData, handle, new TimeImpl(this.environment,
-                sourceTimestamp, unit));
+        /* TODO FRCYC
+    	this.write(instanceData, handle, new TimeImpl(this.environment,
+                sourceTimestamp, unit));*/
     }
 
     public void dispose(InstanceHandle instanceHandle) throws TimeoutException {
@@ -365,6 +378,7 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
         }
     }
 
+    /* TODO FRCYC
     public void dispose(InstanceHandle instanceHandle, TYPE instanceData,
             Time sourceTimestamp) throws TimeoutException {
         try {
@@ -389,12 +403,14 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
 
     }
 
+
     public void dispose(InstanceHandle instanceHandle, TYPE instanceData,
             long sourceTimestamp, TimeUnit unit) throws TimeoutException {
         this.dispose(instanceHandle, instanceData, new TimeImpl(
                 this.environment, sourceTimestamp, unit));
 
     }
+        */
 
     @SuppressWarnings("unchecked")
     public TYPE getKeyValue(TYPE keyHolder, InstanceHandle handle) {
@@ -564,13 +580,17 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
 
     }
 
+    
     public void assertLiveliness() {
-        int rc = this.old.assert_liveliness();
+        /* TODO FRCYC
+    	int rc = this.old.assert_liveliness();
         Utilities.checkReturnCode(rc, this.environment,
                 "DataWriter.assertLiveliness() failed.");
+                */
     }
 
     public Set<InstanceHandle> getMatchedSubscriptions() {
+    	/* TODO FRCYC
         InstanceHandleSeqHolder holder = new InstanceHandleSeqHolder();
         Set<InstanceHandle> handles;
 
@@ -584,10 +604,13 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
             handles.add(Utilities.convert(this.environment, handle));
         }
         return handles;
+        */
+    	return null;
     }
 
     public SubscriptionBuiltinTopicData getMatchedSubscriptionData(
             InstanceHandle subscriptionHandle) {
+    	/* TODO FRCYC
         SubscriptionBuiltinTopicDataHolder holder = new SubscriptionBuiltinTopicDataHolder();
         int rc = this.old.get_matched_subscription_data(holder,
                 Utilities.convert(this.environment, subscriptionHandle));
@@ -599,17 +622,23 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
         }
         throw new PreconditionNotMetExceptionImpl(this.environment,
                     "No data for this instanceHandle.");
+                    */
+    	return null;
     }
 
     public DataWriterQos getQos() {
+    	/* TODO FRCYC
         DataWriterQosHolder holder = new DataWriterQosHolder();
         int rc = this.old.get_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "DataWriter.getQos() failed.");
 
         return DataWriterQosImpl.convert(this.environment, holder.value);
+        */
+    	return null;
     }
 
+    
     public void setQos(DataWriterQos qos) {
         DataWriterQosImpl q;
 
@@ -623,17 +652,20 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Setting non-OpenSplice Qos not supported.");
         }
+        /* TODO FRCYC
         int rc = this.old.set_qos(q.convert());
         Utilities.checkReturnCode(rc, this.environment,
                 "DataWriter.setQos() failed.");
+                */
     }
 
     public void waitForAcknowledgments(Duration maxWait)
             throws TimeoutException {
+    	/* TODO FRCYC
         int rc = this.old.wait_for_acknowledgments(Utilities.convert(this.environment,
                 maxWait));
         Utilities.checkReturnCodeWithTimeout(rc, this.environment,
-                "DataWriter.waitForAcknowledgments() failed.");
+                "DataWriter.waitForAcknowledgments() failed.");*/
     }
 
     public void waitForAcknowledgments(long maxWait, TimeUnit unit)
@@ -643,6 +675,7 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
     }
 
     public LivelinessLostStatus getLivelinessLostStatus() {
+    	/* TODO FRCYC
         LivelinessLostStatusHolder holder = new LivelinessLostStatusHolder();
 
         int rc = this.old.get_liveliness_lost_status(holder);
@@ -650,19 +683,25 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
                 "DataWriter.getLivelinessLostStatus() failed.");
 
         return StatusConverter.convert(this.environment, holder.value);
+        */ 
+    	return null;
     }
 
     public OfferedDeadlineMissedStatus getOfferedDeadlineMissedStatus() {
-        OfferedDeadlineMissedStatusHolder holder = new OfferedDeadlineMissedStatusHolder();
+        /* TODO FRCYC
+    	OfferedDeadlineMissedStatusHolder holder = new OfferedDeadlineMissedStatusHolder();
 
         int rc = this.old.get_offered_deadline_missed_status(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "DataWriter.getOfferedDeadlineMissedStatus() failed.");
 
         return StatusConverter.convert(this.environment, holder.value);
+        */
+    	return null;
     }
 
     public OfferedIncompatibleQosStatus getOfferedIncompatibleQosStatus() {
+    	/* TODO FRCYC
         OfferedIncompatibleQosStatusHolder holder = new OfferedIncompatibleQosStatusHolder();
 
         int rc = this.old.get_offered_incompatible_qos_status(holder);
@@ -670,9 +709,12 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
                 "DataWriter.getOfferedIncompatibleQosStatus() failed.");
 
         return StatusConverter.convert(this.environment, holder.value);
+        */
+    	return null;
     }
 
     public PublicationMatchedStatus getPublicationMatchedStatus() {
+    	/* TODO FRCYC
         PublicationMatchedStatusHolder holder = new PublicationMatchedStatusHolder();
 
         int rc = this.old.get_publication_matched_status(holder);
@@ -680,5 +722,8 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
                 "DataWriter.getPublicationMatchedStatus() failed.");
 
         return StatusConverter.convert(this.environment, holder.value);
+        */
+    	return null;
     }
+    
 }

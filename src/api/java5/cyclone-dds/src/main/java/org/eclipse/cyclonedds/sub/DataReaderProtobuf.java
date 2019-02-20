@@ -24,6 +24,7 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.status.Status;
@@ -38,7 +39,8 @@ import org.eclipse.cyclonedds.core.status.StatusConverter;
 import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 import org.eclipse.cyclonedds.type.TypeSupportProtobuf;
 
-import SampleInfoSeqHolder;
+
+//TODO FRCYC //TODO FRCYC import SampleInfoSeqHolder;
 
 public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         AbstractDataReader<PROTOBUF_TYPE> {
@@ -76,6 +78,7 @@ public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         } else {
             this.listener = null;
         }
+        /* TODO FRCYC
         DataReader old = this.parent.getOld().create_datareader(
                 topicDescription.getOld(), oldQos, this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
@@ -84,6 +87,7 @@ public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
             Utilities.throwLastErrorException(this.environment);
         }
         this.setOld(old);
+        */
         this.preallocated = new HashMap<List<Sample<PROTOBUF_TYPE>>, PreAllocatorProtobuf<PROTOBUF_TYPE, DDS_TYPE>>();
         this.typeSupport = (TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE>) topicDescription
                 .getTypeSupport();
@@ -157,8 +161,9 @@ public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
     @Override
     public boolean readNextSample(Sample<PROTOBUF_TYPE> sample) {
         SampleImpl<DDS_TYPE> ddsSample;
-        boolean result;
+        boolean result = false;
 
+        /* TODO FRCYC
         if (sample == null) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Provided an invalid null sample.");
@@ -179,14 +184,15 @@ public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
                                 .getKeyValue()), ddsSample.getInfo());
             }
         }
+        */
         return result;
     }
 
     @Override
     public boolean takeNextSample(Sample<PROTOBUF_TYPE> sample) {
         SampleImpl<DDS_TYPE> ddsSample;
-        boolean result;
-
+        boolean result = false;
+        /* TODO FRCYC
         if (sample == null) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Provided an invalid null sample.");
@@ -206,14 +212,26 @@ public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
                         this.typeSupport.ddsKeyToProtobuf(ddsSample
                                 .getKeyValue()), ddsSample.getInfo());
             }
-        }
+        }*/
         return result;
     }
 
-    @Override
-    public Iterator<PROTOBUF_TYPE> createIterator(Object sampleSeqHolder,
-            Field sampleSeqHolderValueField, SampleInfoSeqHolder info) {
-        return new IteratorProtobuf<PROTOBUF_TYPE, DDS_TYPE>(this.environment,
-                this, sampleSeqHolder, sampleSeqHolderValueField, info);
-    }
+	@Override
+	public void enable() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<Class<? extends Status>> getStatusChanges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle getInstanceHandle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

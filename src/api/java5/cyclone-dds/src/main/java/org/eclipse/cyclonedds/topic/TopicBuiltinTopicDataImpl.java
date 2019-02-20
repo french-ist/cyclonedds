@@ -61,7 +61,7 @@ public class TopicBuiltinTopicDataImpl implements TopicBuiltinTopicData {
             TopicBuiltinTopicData old) {
         this.environment = environment;
         this.old = old;
-        this.key = new BuiltinTopicKeyImpl(this.environment, old.key);
+        // TODO FRCYC this.key = new BuiltinTopicKeyImpl(this.environment, old.key);
         this.dataRepresentation = new DataRepresentationImpl(this.environment,
                 DataRepresentation.Id.XCDR_DATA_REPRESENTATION);
         this.typeConsistency = new TypeConsistencyEnforcementImpl(
@@ -78,6 +78,7 @@ public class TopicBuiltinTopicDataImpl implements TopicBuiltinTopicData {
         return this.key;
     }
 
+    /* TODO FRCYC
     @Override
     public String getName() {
         return this.old.name;
@@ -86,7 +87,7 @@ public class TopicBuiltinTopicDataImpl implements TopicBuiltinTopicData {
     @Override
     public String getTypeName() {
         return this.old.type_name;
-    }
+    }*/
 
     @Override
     public List<String> getEquivalentTypeName() {
@@ -106,6 +107,7 @@ public class TopicBuiltinTopicDataImpl implements TopicBuiltinTopicData {
                 "TopicBuiltinTopicData.getType() not supported.");
     }
 
+/* TODO FRCYC    
     @Override
     public Durability getDurability() {
         return PolicyConverter.convert(this.environment, old.durability);
@@ -172,7 +174,8 @@ public class TopicBuiltinTopicDataImpl implements TopicBuiltinTopicData {
     public TopicData getTopicData() {
         return PolicyConverter.convert(this.environment, old.topic_data);
     }
-
+*/
+    
     @Override
     public DataRepresentation getRepresentation() {
         return this.dataRepresentation;
@@ -192,7 +195,7 @@ public class TopicBuiltinTopicDataImpl implements TopicBuiltinTopicData {
         try {
             TopicBuiltinTopicDataImpl impl = (TopicBuiltinTopicDataImpl) src;
             this.old = impl.old;
-            this.key = new BuiltinTopicKeyImpl(this.environment, this.old.key);
+            // TODO FRCYC this.key = new BuiltinTopicKeyImpl(this.environment, this.old.key);
         } catch (ClassCastException e) {
             throw new IllegalArgumentExceptionImpl(
                     this.environment,
@@ -204,4 +207,94 @@ public class TopicBuiltinTopicDataImpl implements TopicBuiltinTopicData {
     public TopicBuiltinTopicData clone() {
         return new TopicBuiltinTopicDataImpl(this.environment, this.old);
     }
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getTypeName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Durability getDurability() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DurabilityService getDurabilityService() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Deadline getDeadline() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LatencyBudget getLatencyBudget() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Liveliness getLiveliness() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Reliability getReliability() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TransportPriority getTransportPriority() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Lifespan getLifespan() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DestinationOrder getDestinationOrder() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public History getHistory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResourceLimits getResourceLimits() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Ownership getOwnership() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TopicData getTopicData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

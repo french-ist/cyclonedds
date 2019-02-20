@@ -118,6 +118,7 @@ EntityQosImpl<ForDomainParticipant> implements DomainParticipantQos {
         }
     }
 
+    /* TODO FRCYC
     public static DomainParticipantQosImpl convert(OsplServiceEnvironment env,
             DomainParticipantQos oldQos) {
 
@@ -155,5 +156,5 @@ EntityQosImpl<ForDomainParticipant> implements DomainParticipantQos {
                     .get(WatchdogScheduling.class));
         }
         return old;
-    }
+    }*/
 }

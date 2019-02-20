@@ -56,6 +56,8 @@ import org.omg.dds.core.policy.UserData;
 import org.omg.dds.core.policy.WriterDataLifecycle;
 
 public class PolicyConverter {
+	
+	/* TODO FRCYC
     public static UserDataQosPolicy convert(OsplServiceEnvironment env,
             UserData p) {
         return new UserDataQosPolicy(p.getValue());
@@ -795,16 +797,16 @@ public class PolicyConverter {
         case WRITERDATALIFECYCLE_QOS_POLICY_ID.value:
             policy = WriterDataLifecycle.class;
             break;
-        case 23: /* TODO: Add SUBSCRIPTIONKEY_QOS_POLICY_ID to classic Java PSM */
+        case 23: /* TODO: Add SUBSCRIPTIONKEY_QOS_POLICY_ID to classic Java PSM 
             policy = SubscriptionKeys.class;
             break;
-        case 24: /* TODO: Add VIEWKEY_QOS_POLICY_ID to classic Java PSM */
+        case 24: /* TODO: Add VIEWKEY_QOS_POLICY_ID to classic Java PSM 
             policy = ViewKeys.class;
             break;
-        case 25:/* TODO: Add READERLIFESPAN_QOS_POLICY_ID to classic Java PSM */
+        case 25:/* TODO: Add READERLIFESPAN_QOS_POLICY_ID to classic Java PSM 
             policy = ReaderLifespan.class;
             break;
-        case 26:/* TODO: Add SHARE_QOS_POLICY_ID to classic Java PSM */
+        case 26:/* TODO: Add SHARE_QOS_POLICY_ID to classic Java PSM 
             policy = Share.class;
             break;
         case INVALID_QOS_POLICY_ID.value:
@@ -816,4 +818,5 @@ public class PolicyConverter {
         }
         return policy;
     }
+    */
 }

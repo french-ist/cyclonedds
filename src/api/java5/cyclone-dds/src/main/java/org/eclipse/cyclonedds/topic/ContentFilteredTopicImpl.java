@@ -40,10 +40,10 @@ import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
 public class ContentFilteredTopicImpl<TYPE> implements
         TopicDescriptionExt<TYPE>, ContentFilteredTopic<TYPE> {
     private final AbstractTopic<TYPE> relatedTopic;
-    private final ContentFilteredTopic old;
+    private final ContentFilteredTopic old = null;
     private final DomainParticipantImpl parent;
     private final OsplServiceEnvironment environment;
-    private AtomicInteger refCount;
+    private AtomicInteger refCount = null;
 
     public ContentFilteredTopicImpl(OsplServiceEnvironment environment,
             DomainParticipantImpl parent, String name,
@@ -55,6 +55,7 @@ public class ContentFilteredTopicImpl<TYPE> implements
         this.relatedTopic.retain();
         this.refCount = new AtomicInteger(1);
 
+        /* TODO FRCYC
         if (expressionParameters != null) {
             this.old = parent.getOld().create_contentfilteredtopic(
                     name,
@@ -69,7 +70,7 @@ public class ContentFilteredTopicImpl<TYPE> implements
 
         if (this.old == null) {
             Utilities.throwLastErrorException(this.environment);
-        }
+        }*/
     }
 
     @Override
@@ -91,6 +92,7 @@ public class ContentFilteredTopicImpl<TYPE> implements
         return other;
     }
 
+    /* TODO FRCYC
     @Override
     public String getTypeName() {
         return this.old.get_type_name();
@@ -99,7 +101,7 @@ public class ContentFilteredTopicImpl<TYPE> implements
     @Override
     public String getName() {
         return this.old.get_name();
-    }
+    }*/
 
     @Override
     public DomainParticipant getParent() {
@@ -111,7 +113,7 @@ public class ContentFilteredTopicImpl<TYPE> implements
         int newValue = this.refCount.decrementAndGet();
 
         if (newValue == 0) {
-            this.parent.destroyContentFilteredTopic(this);
+            //TODO FRCYC this.parent.destroyContentFilteredTopic(this);
         } else if (newValue < 0) {
             throw new AlreadyClosedExceptionImpl(this.environment,
                     "ContentFilteredTopic already closed.");
@@ -128,6 +130,7 @@ public class ContentFilteredTopicImpl<TYPE> implements
         return this.old;
     }
 
+    /* TODO FRCYC
     @Override
     public String getFilterExpression() {
         return this.old.get_filter_expression();
@@ -141,6 +144,7 @@ public class ContentFilteredTopicImpl<TYPE> implements
                 "ContentFilteredTopic.getExpressionParameters() failed.");
         return Arrays.asList(holder.value);
     }
+    
 
     @Override
     public void setExpressionParameters(List<String> expressionParameters) {
@@ -152,6 +156,7 @@ public class ContentFilteredTopicImpl<TYPE> implements
                 .toArray(new String[expressionParameters.size()]));
 
     }
+    */
 
     @Override
     public Topic<? extends TYPE> getRelatedTopic() {
@@ -179,5 +184,35 @@ public class ContentFilteredTopicImpl<TYPE> implements
         assert (newValue > newValue - 1);
         assert (newValue > 1);
     }
+
+	@Override
+	public String getTypeName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getFilterExpression() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getExpressionParameters() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setExpressionParameters(List<String> expressionParameters) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

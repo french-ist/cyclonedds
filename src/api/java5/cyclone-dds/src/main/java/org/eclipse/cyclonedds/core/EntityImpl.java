@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.cyclonedds.core.AbstractDDSObject;
+import org.omg.dds.core.Entity;
 import org.omg.dds.core.EntityQos;
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.ServiceEnvironment;
@@ -149,6 +150,8 @@ public abstract class EntityImpl<OLD extends Entity, OLDPARENT, QOS extends Enti
         }
     }
 
+    
+    /* TODO FRCYC
     @Override
     public final void enable() {
         int rc = this.old.enable();
@@ -167,6 +170,7 @@ public abstract class EntityImpl<OLD extends Entity, OLDPARENT, QOS extends Enti
         return new InstanceHandleImpl(this.environment,
                 old.get_instance_handle());
     }
+    */
 
     protected abstract void destroy();
 
@@ -178,12 +182,13 @@ public abstract class EntityImpl<OLD extends Entity, OLDPARENT, QOS extends Enti
         return null;
     }
 
+    /* TODO FRCYC
     @Override
     public void setProperty(String key, String value) {
         int rc = this.old.set_property(new Property(key, value));
         Utilities.checkReturnCode(rc, this.environment,
                 "Properties.setProperty() failed.");
-    }
+    }    
 
     @Override
     public String getProperty(String key) {
@@ -194,4 +199,5 @@ public abstract class EntityImpl<OLD extends Entity, OLDPARENT, QOS extends Enti
                 "Properties.getProperty() failed.");
         return holder.value.value;
     }
+    */
 }

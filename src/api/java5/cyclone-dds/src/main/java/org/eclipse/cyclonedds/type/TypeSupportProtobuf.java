@@ -32,6 +32,7 @@ import org.omg.dds.sub.DataReaderListener;
 import org.omg.dds.sub.DataReaderQos;
 import org.omg.dds.topic.TopicListener;
 import org.omg.dds.topic.TopicQos;
+import org.omg.dds.type.TypeSupport;
 import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
 import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
@@ -45,7 +46,7 @@ import org.eclipse.cyclonedds.topic.AbstractTopic;
 import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 import org.eclipse.cyclonedds.topic.TopicProtobuf;
 
-import TypeSupport;
+//TODO FRCYC import TypeSupport;
 
 public abstract class TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         AbstractTypeSupport<PROTOBUF_TYPE> {
@@ -67,10 +68,13 @@ public abstract class TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         this.typeHash = metaHash;
         this.ddsTypeSupport = ddsTypeSupport;
 
+        /* TODO FRCYC
         org.eclipse.cyclonedds.dcps.TypeSupportImpl oldTypeSupport = (org.eclipse.cyclonedds.dcps.TypeSupportImpl)ddsTypeSupport.getOldTypeSupport();
         oldTypeSupport.set_data_representation_id(GPB_REPRESENTATION.value);
+        
         oldTypeSupport.set_meta_data(this.metaData);
         oldTypeSupport.set_type_hash(this.typeHash);
+        */
     }
 
     @SuppressWarnings("unchecked")
@@ -118,9 +122,11 @@ public abstract class TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         return this.environment;
     }
 
+    
     @Override
     public TypeSupport getOldTypeSupport() {
-        return this.ddsTypeSupport.getOldTypeSupport();
+        //TODO FRCYC return this.ddsTypeSupport.getOldTypeSupport();
+    	return null;
     }
 
     @Override

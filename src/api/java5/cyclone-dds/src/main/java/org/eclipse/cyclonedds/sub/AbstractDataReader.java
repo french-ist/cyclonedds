@@ -32,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.omg.dds.core.AlreadyClosedException;
+import org.omg.dds.core.Condition;
 import org.omg.dds.core.Duration;
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.StatusCondition;
@@ -51,6 +52,7 @@ import org.omg.dds.sub.QueryCondition;
 import org.omg.dds.sub.ReadCondition;
 import org.omg.dds.sub.Sample;
 import org.omg.dds.sub.Sample.Iterator;
+import org.omg.dds.sub.Subscriber;
 import org.omg.dds.sub.Subscriber.DataState;
 import org.omg.dds.topic.PublicationBuiltinTopicData;
 import org.omg.dds.topic.TopicDescription;
@@ -170,10 +172,12 @@ public abstract class AbstractDataReader<TYPE>
     public void destroyReadCondition(ReadConditionImpl<TYPE> condition) {
         synchronized (this.conditions) {
             ReadCondition old = condition.getOld();
+            /* TODO FRCYC
             int rc = this.getOld().delete_readcondition(old);
             this.conditions.remove(old);
             Utilities.checkReturnCode(rc, this.environment,
                     "Condition already closed.");
+                    */
         }
 
     }
@@ -188,7 +192,7 @@ public abstract class AbstractDataReader<TYPE>
                  * Intentionally ignoring potential errors during deletion as
                  * application may concurrently close conditions.
                  */
-                this.getOld().delete_readcondition(condition.getOld());
+                // TODO FRCYC this.getOld().delete_readcondition(condition.getOld());
             }
         }
         HashSet<AbstractIterator<TYPE>> clones;
@@ -226,30 +230,35 @@ public abstract class AbstractDataReader<TYPE>
         } else {
             wrapperListener = null;
         }
+        /* TODO FRCYC
         rc = this.getOld().set_listener(wrapperListener, mask);
         Utilities.checkReturnCode(rc, this.environment,
                 "DataReader.setListener() failed.");
 
         this.listener = wrapperListener;
+        */
     }
 
     @Override
     public void setListener(DataReaderListener<TYPE> listener) {
-        this.setListener(listener, StatusConverter.getAnyMask());
+        //TODO FRCYC this.setListener(listener, StatusConverter.getAnyMask());
     }
 
     @Override
     public void setListener(DataReaderListener<TYPE> listener,
             Collection<Class<? extends Status>> statuses) {
-        this.setListener(listener,
+        /* TODO FRCYC
+    	this.setListener(listener,
                 StatusConverter.convertMask(this.environment, statuses));
+                */
     }
 
     @Override
     public void setListener(DataReaderListener<TYPE> listener,
             Class<? extends Status>... statuses) {
-        this.setListener(listener,
-                StatusConverter.convertMask(this.environment, statuses));
+        /* TODO FRCYC
+    	this.setListener(listener,
+                StatusConverter.convertMask(this.environment, statuses)); */
     }
 
     @Override
@@ -259,19 +268,24 @@ public abstract class AbstractDataReader<TYPE>
 
     @Override
     public void setProperty(String key, String value) {
-        int rc = this.getOld().set_property(new Property(key, value));
+        /* TODO FRCYC
+    	int rc = this.getOld().set_property(new Property(key, value));
         Utilities.checkReturnCode(rc, this.environment,
                 "DataReader.setProperty() failed.");
+                */
     }
 
     @Override
     public String getProperty(String key) {
+    	/* TODO FRCYC
         PropertyHolder holder = new PropertyHolder();
         int rc = this.getOld().get_property(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "DataReader.getProperty() failed.");
 
         return holder.value.value;
+        */
+    	return null;
     }
 
     @SuppressWarnings("unchecked")
@@ -488,10 +502,12 @@ public abstract class AbstractDataReader<TYPE>
         return this.selector;
     }
 
+    /* TODO FRCYC
     public void returnLoan(Object sampleSeqHolder,
             SampleInfoSeqHolder infoSeqHolder) {
         this.getReflectionReader().returnLoan(sampleSeqHolder, infoSeqHolder);
     }
+    */
 
     @Override
     public Iterator<TYPE> read() {
@@ -547,20 +563,25 @@ public abstract class AbstractDataReader<TYPE>
 
     @Override
     public StatusCondition<DataReader<TYPE>> getStatusCondition() {
-        StatusCondition oldCondition = this.getOld().get_statuscondition();
+        /* TODO FRCYC
+         StatusCondition oldCondition = this.getOld().get_statuscondition();
+         
 
         if (oldCondition == null) {
             Utilities.throwLastErrorException(this.environment);
         }
         return new StatusConditionImpl<DataReader<TYPE>>(this.environment,
                 oldCondition, this);
+                */
+    	return null;
     }
 
     public abstract PreAllocator<TYPE> getPreAllocator(
             List<Sample<TYPE>> samples, Class<?> sampleSeqHolderClz,
             Field sampleSeqHolderValueField);
-
+    /* TODO FRCYC
     public abstract Sample.Iterator<?> createIterator(
             Object sampleSeqHolder,
             Field sampleSeqHolderValueField, SampleInfoSeqHolder info);
+            */
 }

@@ -24,6 +24,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.status.Status;
@@ -84,6 +85,7 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
         } else {
             this.listener = null;
         }
+        /* TODO FRCYC
         DataReader old = this.parent.getOld().create_datareader(
                 topicDescription.getOld(), oldQos, this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
@@ -91,7 +93,9 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
         if (old == null) {
             Utilities.throwLastErrorException(this.environment);
         }
+        
         this.setOld(old);
+        */
         this.reflectionReader = new ReflectionDataReader<TYPE, TYPE>(
                 this.environment, this, topicDescription.getTypeSupport()
                         .getType());
@@ -166,10 +170,29 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
         return this.reflectionReader.takeNextSample((SampleImpl<TYPE>) sample);
     }
 
+    /*
     @Override
     public Iterator<TYPE> createIterator(Object sampleSeqHolder,
             Field sampleSeqHolderValueField, SampleInfoSeqHolder info) {
         return new IteratorImpl<TYPE>(this.environment, this, sampleSeqHolder,
                 sampleSeqHolderValueField, info);
-    }
+    }*/
+
+	@Override
+	public void enable() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<Class<? extends Status>> getStatusChanges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle getInstanceHandle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -21,7 +21,9 @@
 package org.eclipse.cyclonedds.topic;
 
 import java.util.Collection;
+import java.util.Set;
 
+import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.StatusCondition;
 import org.omg.dds.core.status.InconsistentTopicStatus;
 import org.omg.dds.core.status.Status;
@@ -66,7 +68,7 @@ public class TopicImpl<TYPE>
                     "Supplied TypeSupport is null.");
         }
         this.typeSupport = typeSupport;
-
+/* TODO FRCYC
         int rc = this.typeSupport.getOldTypeSupport().register_type(
                 parent.getOld(), this.typeSupport.getTypeName());
         Utilities.checkReturnCode(
@@ -76,12 +78,14 @@ public class TopicImpl<TYPE>
                         + this.typeSupport.getTypeName() + "' failed.");
         TopicQos oldQos;
 
+
         try {
             oldQos = ((TopicQosImpl) qos).convert();
         } catch (ClassCastException e) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Cannot create Topic with non-OpenSplice qos");
         }
+*/
 
         if (listener != null) {
             this.listener = new TopicListenerImpl<TYPE>(this.environment, this,
@@ -89,6 +93,8 @@ public class TopicImpl<TYPE>
         } else {
             this.listener = null;
         }
+        
+        /* TODO FRCYC
         Topic old = this.parent.getOld().create_topic(topicName,
                 this.typeSupport.getTypeName(), oldQos, this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
@@ -97,7 +103,7 @@ public class TopicImpl<TYPE>
             Utilities.throwLastErrorException(this.environment);
         }
         this.setOld(old);
-
+*/
         if (this.listener != null) {
             this.listener.setInitialised();
         }
@@ -119,6 +125,7 @@ public class TopicImpl<TYPE>
         }
         this.setOld(old);
 
+        /* TODO FRCYC
         try {
             AbstractTypeSupport<?> temp;
 
@@ -168,6 +175,7 @@ public class TopicImpl<TYPE>
         } catch (ClassCastException cce) {
             this.typeSupport = null;
         }
+        */
     }
 
     private void setListener(TopicListener<TYPE> listener, int mask) {
@@ -180,13 +188,16 @@ public class TopicImpl<TYPE>
         } else {
             wrapperListener = null;
         }
+        /* TODO FRCYC
         rc = this.getOld().set_listener(wrapperListener, mask);
         Utilities.checkReturnCode(rc, this.environment,
                 "Topic.setListener() failed.");
-
+*/
         this.listener = wrapperListener;
     }
 
+    
+    /* TODO FRCYC
     @Override
     public void setListener(TopicListener<TYPE> listener) {
         this.setListener(listener, StatusConverter.getAnyMask());
@@ -262,6 +273,7 @@ public class TopicImpl<TYPE>
         this.parent.destroyTopic(this);
 
     }
+    */
 
     @Override
     public TypeSupport<TYPE> getTypeSupport() {
@@ -300,6 +312,115 @@ public class TopicImpl<TYPE>
         return null;
     }
 
+	@Override
+	public void disposeAllData() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public AllDataDisposedStatus getAllDataDisposedTopicStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InconsistentTopicStatus getInconsistentTopicStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusCondition<Topic<TYPE>> getStatusCondition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DomainParticipant getParent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setListener(TopicListener<TYPE> listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setListener(TopicListener<TYPE> listener, Collection<Class<? extends Status>> statuses) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setListener(TopicListener<TYPE> listener, Class<? extends Status>... statuses) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public TopicQos getQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setQos(TopicQos qos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enable() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<Class<? extends Status>> getStatusChanges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle getInstanceHandle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setProperty(String key, String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getProperty(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public org.eclipse.cyclonedds.topic.Topic getOld() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
+    /*
     @Override
     public String getName() {
         return this.getOld().get_name();
@@ -310,6 +431,7 @@ public class TopicImpl<TYPE>
         return this.parent;
     }
 
+     TODO FRCYC
     @Override
     public void disposeAllData() {
         int rc = this.getOld().dispose_all_data();
@@ -326,5 +448,6 @@ public class TopicImpl<TYPE>
 
         return StatusConverter.convert(this.environment, holder.value);
     }
+    */
 
 }

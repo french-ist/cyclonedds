@@ -30,6 +30,7 @@ import org.omg.dds.sub.DataReaderListener;
 import org.omg.dds.sub.DataReaderQos;
 import org.omg.dds.topic.TopicListener;
 import org.omg.dds.topic.TopicQos;
+import org.omg.dds.type.TypeSupport;
 import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
 import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
@@ -45,7 +46,7 @@ import org.eclipse.cyclonedds.topic.TopicImpl;
 
 public class TypeSupportImpl<TYPE> extends AbstractTypeSupport<TYPE> {
     private final OsplServiceEnvironment environment;
-    private final org.eclipse.cyclonedds.dcps.TypeSupportImpl oldTypeSupport;
+    //TODO FRCYC private final org.eclipse.cyclonedds.dcps.TypeSupportImpl oldTypeSupport;
     private final Class<TYPE> dataType;
     private final String typeName;
 
@@ -58,7 +59,7 @@ public class TypeSupportImpl<TYPE> extends AbstractTypeSupport<TYPE> {
         this.typeName = typeName;
 
         String typeSupportName = dataType.getName() + "TypeSupport";
-
+/* TODO FRCYC
         try {
             Class<? extends org.eclipse.cyclonedds.dcps.TypeSupportImpl> oldTypeSupportClaz;
 
@@ -82,7 +83,7 @@ public class TypeSupportImpl<TYPE> extends AbstractTypeSupport<TYPE> {
                     "Allocating new TypeSupport failed (" + typeSupportName
                             + "); " + e.getMessage());
         }
-
+*/
     }
 
     @Override
@@ -108,6 +109,7 @@ public class TypeSupportImpl<TYPE> extends AbstractTypeSupport<TYPE> {
         return this.dataType;
     }
 
+    /* TODO FRCYC
     @Override
     public String getTypeName() {
         if (this.typeName != null) {
@@ -120,6 +122,7 @@ public class TypeSupportImpl<TYPE> extends AbstractTypeSupport<TYPE> {
     public TypeSupport getOldTypeSupport() {
         return this.oldTypeSupport;
     }
+    */
 
     @Override
     public AbstractDataWriter<TYPE> createDataWriter(PublisherImpl publisher,
@@ -146,5 +149,19 @@ public class TypeSupportImpl<TYPE> extends AbstractTypeSupport<TYPE> {
         return new TopicImpl<TYPE>(this.environment, participant, topicName,
                 this, qos, listener, statuses);
     }
+
+	@Override
+	public TypeSupport getOldTypeSupport() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getTypeName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+    
+    
 
 }

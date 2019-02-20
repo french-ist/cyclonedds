@@ -72,13 +72,14 @@ import org.eclipse.cyclonedds.core.policy.Scheduling;
 import org.omg.dds.core.status.Status;
 import org.omg.dds.core.status.SubscriptionMatchedStatus;
 
-import SampleRejectedStatusKind;
+//TODO FRCYC import SampleRejectedStatusKind;
 
 public class StatusConverter {
     private static boolean stateTest(int state, int mask) {
         return (((state) & (mask)) == mask) ? true : false;
     }
 
+    /*
     public static Set<Class<? extends Status>> convertMask(
             OsplServiceEnvironment environment, int state) {
         HashSet<Class<? extends Status>> statuses = new HashSet<Class<? extends Status>>();
@@ -505,4 +506,5 @@ public class StatusConverter {
         return new SampleLostStatus(status.getTotalCount(),
                 status.getTotalCountChange());
     }
+    */
 }

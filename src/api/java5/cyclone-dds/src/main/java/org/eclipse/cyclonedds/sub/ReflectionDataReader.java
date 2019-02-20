@@ -57,15 +57,15 @@ import org.eclipse.cyclonedds.core.policy.PolicyConverter;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 import org.eclipse.cyclonedds.topic.PublicationBuiltinTopicDataImpl;
 
-import SampleInfoHolder;
-import SampleInfoSeqHolder;
+//TODO FRCYC import SampleInfoHolder;
+//TODO FRCYC import SampleInfoSeqHolder;
 
 public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
         implements
         DDSObject {
     private final OsplServiceEnvironment environment;
     private final AbstractDataReader<OUT_TYPE> reader;
-    private final DataReader old;
+    private final DataReader old = null;
     private final Class<?> sampleSeqHolderClz;
     private final Field sampleSeqHolderValueField;
 
@@ -76,8 +76,8 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
     private final Method take;
     private final Method readCondition;
     private final Method takeCondition;
-    private final Method readNextSample;
-    private final Method takeNextSample;
+    private final Method readNextSample = null;
+    private final Method takeNextSample = null;
     private final Method readInstance;
     private final Method takeInstance;
     private final Method readNextInstance;
@@ -92,7 +92,7 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
             AbstractDataReader<OUT_TYPE> reader, Class<TYPE> ddsTypeClz) {
         this.environment = environment;
         this.reader = reader;
-        this.old = reader.getOld();
+        //TODO FRCYC this.old = reader.getOld();
 
         Class<?> typedReaderClz;
         String typedReaderClzName = ddsTypeClz.getName() + "DataReaderImpl";
@@ -122,11 +122,12 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
             this.takeCondition = typedReaderClz.getMethod("take_w_condition",
                     this.sampleSeqHolderClz, SampleInfoSeqHolder.class,
                     int.class, ReadCondition.class);
-
+            /* TODO FRCYC            
             this.readNextSample = typedReaderClz.getMethod("read_next_sample",
                     this.sampleHolderClz, SampleInfoHolder.class);
             this.takeNextSample = typedReaderClz.getMethod("take_next_sample",
                     this.sampleHolderClz, SampleInfoHolder.class);
+			*/
 
             this.readInstance = typedReaderClz.getMethod("read_instance",
                     this.sampleSeqHolderClz, SampleInfoSeqHolder.class,
@@ -192,12 +193,15 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
     }
 
     public DataReaderQos getQos() {
-        DataReaderQosHolder holder = new DataReaderQosHolder();
+        /* TODO FRCYC
+         DataReaderQosHolder holder = new DataReaderQosHolder();
         int rc = this.old.get_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "DataReader.getQos() failed.");
 
         return DataReaderQosImpl.convert(this.environment, holder.value);
+        */
+    	return null;
     }
 
     public void setQos(DataReaderQos qos) {
@@ -213,12 +217,14 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Setting non-OpenSplice Qos not supported.");
         }
+        /* TODO FRCYC
         int rc = this.old.set_qos(q.convert());
         Utilities.checkReturnCode(rc, this.environment,
-                "DataReader.setQos() failed.");
+                "DataReader.setQos() failed."); */
     }
 
     public SampleRejectedStatus getSampleRejectedStatus() {
+    	/* TODO FRCYC
         SampleRejectedStatusHolder holder = new SampleRejectedStatusHolder();
 
         int rc = this.old.get_sample_rejected_status(holder);
@@ -226,9 +232,12 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
                 "DataReader.getSampleRejectedStatus() failed.");
 
         return StatusConverter.convert(this.environment, holder.value);
+        */
+    	return null;
     }
 
     public LivelinessChangedStatus getLivelinessChangedStatus() {
+    	/* TODO FRCYC
         LivelinessChangedStatusHolder holder = new LivelinessChangedStatusHolder();
 
         int rc = this.old.get_liveliness_changed_status(holder);
@@ -236,9 +245,12 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
                 "DataReader.getLivelinessChangedStatus() failed.");
 
         return StatusConverter.convert(this.environment, holder.value);
+    	*/
+    	return null;
     }
 
     public RequestedDeadlineMissedStatus getRequestedDeadlineMissedStatus() {
+    	/* TODO FRCYC
         RequestedDeadlineMissedStatusHolder holder = new RequestedDeadlineMissedStatusHolder();
 
         int rc = this.old.get_requested_deadline_missed_status(holder);
@@ -246,9 +258,12 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
                 "DataReader.getRequestedDeadlineMissedStatus() failed.");
 
         return StatusConverter.convert(this.environment, holder.value);
+        */
+    	return null;
     }
 
-    public RequestedIncompatibleQosStatus getRequestedIncompatibleQosStatus() {
+    public RequestedIncompatibleQosStatus getRequestedIncompatibleQosStatus() {    	
+    	/* TODO FRCYC
         RequestedIncompatibleQosStatusHolder holder = new RequestedIncompatibleQosStatusHolder();
 
         int rc = this.old.get_requested_incompatible_qos_status(holder);
@@ -256,9 +271,12 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
                 "DataReader.getRequestedIncompatibleQosStatus() failed.");
 
         return StatusConverter.convert(this.environment, holder.value);
+        */
+    	return null;
     }
 
     public SubscriptionMatchedStatus getSubscriptionMatchedStatus() {
+    	/* TODO FRCYC
         SubscriptionMatchedStatusHolder holder = new SubscriptionMatchedStatusHolder();
 
         int rc = this.old.get_subscription_matched_status(holder);
@@ -266,9 +284,12 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
                 "DataReader.getSubscriptionMatchedStatus() failed.");
 
         return StatusConverter.convert(this.environment, holder.value);
+        */
+    	return null;
     }
 
-    public SampleLostStatus getSampleLostStatus() {
+    public SampleLostStatus getSampleLostStatus() {    	
+    	/* TODO FRCYC
         SampleLostStatusHolder holder = new SampleLostStatusHolder();
 
         int rc = this.old.get_sample_lost_status(holder);
@@ -276,14 +297,17 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
                 "DataReader.getSampleLostStatus() failed.");
 
         return StatusConverter.convert(this.environment, holder.value);
+        */
+    	return null;
     }
 
     public void waitForHistoricalData(Duration maxWait) throws TimeoutException {
+    	/* TODO FRCYC
         int rc = this.old.wait_for_historical_data(Utilities.convert(this.environment,
                 maxWait));
         Utilities.checkReturnCodeWithTimeout(rc, this.environment,
                 "DataReader.waitForHistoricalData() failed.");
-
+		*/
     }
 
     public void waitForHistoricalData(long maxWait, TimeUnit unit)
@@ -308,14 +332,17 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
         } else {
             params = null;
         }
+        /* TODO FRCYC
         int rc = this.old.wait_for_historical_data_w_condition(
                 filterExpression, params,
                 Utilities.convert(this.environment, minSourceTimestamp),
                 Utilities.convert(this.environment, maxSourceTimestamp),
+                
                 PolicyConverter.convert(this.environment, resourceLimits),
                 Utilities.convert(this.environment, maxWait));
         Utilities.checkReturnCodeWithTimeout(rc, this.environment,
                 "DataReader.waitForHistoricalData() failed.");
+                */
     }
 
     public void waitForHistoricalData(String filterExpression,
@@ -328,6 +355,7 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
     }
 
     public Set<InstanceHandle> getMatchedPublications() {
+    	/* TODO FRCYC
         InstanceHandleSeqHolder holder = new InstanceHandleSeqHolder();
         Set<InstanceHandle> handles;
 
@@ -341,10 +369,14 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
             handles.add(Utilities.convert(this.environment, handle));
         }
         return handles;
+    	*/
+    	return null;
     }
+    
 
     public PublicationBuiltinTopicData getMatchedPublicationData(
             InstanceHandle publicationHandle) {
+    	/* TODO FRCYC
         PublicationBuiltinTopicDataHolder holder = new PublicationBuiltinTopicDataHolder();
         int rc = this.old.get_matched_publication_data(holder,
                 Utilities.convert(this.environment, publicationHandle));
@@ -356,6 +388,8 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
         }
         throw new PreconditionNotMetExceptionImpl(this.environment,
                     "No data for this instanceHandle.");
+                    */
+    	return null;
     }
 
     public TYPE getKeyValue(TYPE keyHolder, InstanceHandle handle) {
@@ -472,7 +506,10 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
     }
 
     public Iterator<OUT_TYPE> read() {
+    	/* TODO FRCYC
         return this.read(LENGTH_UNLIMITED.value);
+        */
+    	return null;
     }
 
     @SuppressWarnings("unchecked")
@@ -562,8 +599,11 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
                     this.environment,
                     "Reading with non-OpenSplice DataState, InstanceHandle or ReadCondition not supported");
         }
+        /* TODO FRCYC
         return (Iterator<OUT_TYPE>) this.reader.createIterator(
                 sampleSeqHolder, this.sampleSeqHolderValueField, info);
+                */
+        return null;
     }
 
     @SuppressWarnings("unchecked")
@@ -571,13 +611,16 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
         SampleInfoSeqHolder info = new SampleInfoSeqHolder();
         Object sampleSeqHolder;
 
+        /*
         try {
             sampleSeqHolder = this.sampleSeqHolderClz.newInstance();
+             TODO FRCYC
             int rc = (Integer) this.read.invoke(this.old, sampleSeqHolder,
                     info, maxSamples, ANY_SAMPLE_STATE.value,
                     ANY_VIEW_STATE.value, ANY_INSTANCE_STATE.value);
             Utilities.checkReturnCode(rc, this.environment,
                     "DataReader.read() failed.");
+                    
         } catch (InstantiationException e) {
             throw new DDSExceptionImpl(environment, "Internal error ("
                     + e.getMessage() + ").");
@@ -593,26 +636,32 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
             throw new DDSExceptionImpl(environment, "Internal error ("
                     + e.getMessage() + ").");
         }
+        /* TODO FRCYC
         return (Iterator<OUT_TYPE>) this.reader.createIterator(
                 sampleSeqHolder, this.sampleSeqHolderValueField, info);
+                */
+        return null;
     }
 
     public Iterator<OUT_TYPE> take() {
-        return this.take(LENGTH_UNLIMITED.value);
+    	//TODO FRCYC        return this.take(LENGTH_UNLIMITED.value);
+    	return null;
     }
 
     @SuppressWarnings("unchecked")
     public Iterator<OUT_TYPE> take(int maxSamples) {
         SampleInfoSeqHolder info = new SampleInfoSeqHolder();
         Object sampleSeqHolder;
-
+        /* 
         try {
+        	TODO FRCYC
             sampleSeqHolder = this.sampleSeqHolderClz.newInstance();
             int rc = (Integer) this.take.invoke(this.old, sampleSeqHolder,
                     info, maxSamples, ANY_SAMPLE_STATE.value,
                     ANY_VIEW_STATE.value, ANY_INSTANCE_STATE.value);
             Utilities.checkReturnCode(rc, this.environment,
                     "DataReader.take() failed.");
+                   
         } catch (InstantiationException e) {
             throw new DDSExceptionImpl(environment, "Internal error ("
                     + e.getMessage() + ").");
@@ -628,8 +677,11 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
             throw new DDSExceptionImpl(environment, "Internal error ("
                     + e.getMessage() + ").");
         }
+        
         return (Iterator<OUT_TYPE>) this.reader.createIterator(
                 sampleSeqHolder, this.sampleSeqHolderValueField, info);
+                */
+        return null;
     }
 
     public Field getSampleSeqHolderValueField() {
@@ -723,8 +775,10 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
                     this.environment,
                     "Taking with non-OpenSplice DataState, InstanceHandle or ReadCondition not supported");
         }
+        /* TODO FRCYC
         return (Iterator<OUT_TYPE>) this.reader.createIterator(
-                sampleSeqHolder, this.sampleSeqHolderValueField, info);
+                sampleSeqHolder, this.sampleSeqHolderValueField, info);*/
+        return null;
     }
 
     @SuppressWarnings("unchecked")
@@ -747,6 +801,7 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
             Utilities.checkReturnCode(rc, this.environment,
                     "DataReader.readNextSample() failed.");
 
+            /* TODO FRCYC
             if (rc == RETCODE_OK.value) {
                 sample.setContent(
                         (TYPE) this.sampleHolderValueField.get(sampleHolder),
@@ -755,6 +810,7 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
             } else {
                 result = false;
             }
+            */
 
         } catch (InstantiationException e) {
             throw new DDSExceptionImpl(environment, "Internal error ("
@@ -774,7 +830,8 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
             throw new DDSExceptionImpl(environment, "Internal error ("
                     + e.getMessage() + ").");
         }
-        return result;
+        // TODO FRCYC return result;
+        return false;
     }
 
     @SuppressWarnings("unchecked")
@@ -795,7 +852,7 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
                     sampleHolder, info);
             Utilities.checkReturnCode(rc, this.environment,
                     "DataReader.readNextSample() failed.");
-
+/* TODO FRCYC
             if (rc == RETCODE_OK.value) {
                 sample.setContent(
                         (TYPE) this.sampleHolderValueField.get(sampleHolder),
@@ -804,6 +861,7 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
             } else {
                 result = false;
             }
+            */
 
         } catch (InstantiationException e) {
             throw new DDSExceptionImpl(environment, "Internal error ("
@@ -823,20 +881,23 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
             throw new DDSExceptionImpl(environment, "Internal error ("
                     + e.getMessage() + ").");
         }
-        return result;
+     // TODO FRCYC return result;
+        return false;
     }
 
     public List<Sample<OUT_TYPE>> take(List<Sample<OUT_TYPE>> samples) {
         PreAllocator<OUT_TYPE> pa = this.reader.getPreAllocator(samples,
                 this.sampleSeqHolderClz, this.sampleSeqHolderValueField);
-
+        /* TODO FRCYC
         try {
+        	
             int rc = (Integer) this.take.invoke(this.old,
                     pa.getDataSeqHolder(), pa.getInfoSeqHolder(),
                     LENGTH_UNLIMITED.value, ANY_SAMPLE_STATE.value,
                     ANY_VIEW_STATE.value, ANY_INSTANCE_STATE.value);
             Utilities.checkReturnCode(rc, this.environment,
                     "DataReader.read() failed.");
+                    
         } catch (IllegalAccessException e) {
             throw new DDSExceptionImpl(environment, "Internal error ("
                     + e.getMessage() + ").");
@@ -850,7 +911,7 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
                     + e.getMessage() + ").");
         }
         pa.updateReferences();
-
+*/
         return pa.getSampleList();
     }
 
@@ -1036,6 +1097,7 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
         PreAllocator<OUT_TYPE> pa = this.reader.getPreAllocator(samples,
                 this.sampleSeqHolderClz, this.sampleSeqHolderValueField);
 
+        /* TODO FRCYC
         try {
             int rc = (Integer) this.read.invoke(this.old,
                     pa.getDataSeqHolder(), pa.getInfoSeqHolder(),
@@ -1056,7 +1118,7 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
                     + e.getMessage() + ").");
         }
         pa.updateReferences();
-
+         */
         return pa.getSampleList();
     }
 }

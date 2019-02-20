@@ -1,5 +1,5 @@
 /*
- *                         Vortex OpenSplice
+git status *                         Vortex OpenSplice
  *
  *   This software and documentation are Copyright 2006 to TO_YEAR ADLINK
  *   Technology Limited, its affiliated companies and licensors. All rights

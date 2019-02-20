@@ -29,7 +29,7 @@ import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
 import org.eclipse.cyclonedds.type.TypeSupportProtobuf;
 
-import SampleInfoSeqHolder;
+//TODO FRCYC import SampleInfoSeqHolder;
 
 public class IteratorProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         AbstractIterator<PROTOBUF_TYPE> implements
@@ -58,11 +58,13 @@ public class IteratorProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
             this.data = new ArrayList<PROTOBUF_TYPE>(ddsData.length);
 
             for (int i = 0; i < ddsData.length; i++) {
-                if (this.infoSeqHolder.value[i].valid_data) {
+                /* TODO FRCYC
+            	if (this.infoSeqHolder.value[i].valid_data) {
                     this.data.add(typeSupport.ddsToProtobuf(ddsData[i]));
                 } else {
                     this.data.add(typeSupport.ddsKeyToProtobuf(ddsData[i]));
                 }
+                */
             }
         } catch (SecurityException e) {
             throw new IllegalArgumentExceptionImpl(environment,

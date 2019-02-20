@@ -26,7 +26,7 @@ import org.omg.dds.core.Duration;
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.Time;
 
-import ErrorInfo;
+//TODO FRCYC import ErrorInfo;
 
 public class Utilities {
 
@@ -43,6 +43,7 @@ public class Utilities {
     private static void checkReturnCode(int retCode,
             OsplServiceEnvironment environment, String message,
             boolean withTimeOut) throws TimeOutExceptionImpl {
+        /* TODO FRCYC
         switch (retCode) {
         case RETCODE_PRECONDITION_NOT_MET.value:
             throw new PreconditionNotMetExceptionImpl(environment,
@@ -86,8 +87,10 @@ public class Utilities {
         default:
             break;
         }
+        */
     }
 
+    /* TODO FRCYC
     private static String getDetails(ErrorInfo errorInfo, String message) {
         String result = "";
         StringHolder messageHolder = new StringHolder();
@@ -121,7 +124,10 @@ public class Utilities {
         }
         return result;
     }
+    */
 
+    /*
+     * TODO FRCYC
     private static String getErrorMessage(int retCode, String message) {
         String output;
         ErrorInfo errorInfo = new ErrorInfo();
@@ -145,6 +151,7 @@ public class Utilities {
         }
         return output;
     }
+    */
 
     public static String getOsplExceptionStack(Exception ex,
             StackTraceElement[] stack) {
@@ -179,9 +186,11 @@ public class Utilities {
         checkReturnCode(retCode, environment, message, true);
     }
 
+    
     public static void throwLastErrorException(
             OsplServiceEnvironment environment) {
-        String message;
+        /* TODO FRCYC
+    	String message;
         int code;
         ErrorInfo errorInfo = new ErrorInfo();
         int result = errorInfo.update();
@@ -226,9 +235,11 @@ public class Utilities {
             throw new DDSExceptionImpl(environment, message);
 
         }
+        */
 
     }
-
+    
+    /* TODO FRCYC
     public static Duration_t convert(OsplServiceEnvironment environment,
             Duration d) {
         if (d == null) {
@@ -246,6 +257,8 @@ public class Utilities {
     public static Duration convert(OsplServiceEnvironment env, Duration_t d) {
         return new DurationImpl(env, d.sec, d.nanosec);
     }
+    */
+    
 
     public static long convert(OsplServiceEnvironment environment,
             InstanceHandle h) {
@@ -265,6 +278,13 @@ public class Utilities {
         return new InstanceHandleImpl(env, handle);
     }
 
+	public static Object convert(OsplServiceEnvironment environment, Time sourceTimestamp) {
+		// TODO FRCYC Auto-generated method stub
+		return null;
+	}
+
+    /*
+     * TODO FRCYC
     public static Time_t convert(OsplServiceEnvironment environment, Time t) {
         if (t == null) {
             throw new IllegalArgumentExceptionImpl(environment,
@@ -277,8 +297,11 @@ public class Utilities {
                     "Usage of non-OpenSplice Time implementation is not supported.");
         }
     }
+     
 
     public static Time convert(OsplServiceEnvironment env, Time_t t) {
         return new TimeImpl(env, t.sec, t.nanosec);
     }
+    */
+    
 }

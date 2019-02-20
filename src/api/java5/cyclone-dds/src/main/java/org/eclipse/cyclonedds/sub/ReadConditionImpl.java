@@ -35,7 +35,7 @@ import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
 import org.eclipse.cyclonedds.core.Utilities;
 
 public class ReadConditionImpl<TYPE> implements ReadCondition<TYPE>,
-        Condition<ReadCondition> {
+        Condition<Condition> {
     protected final OsplServiceEnvironment environment;
     protected ReadCondition old;
     protected final AbstractDataReader<TYPE> parent;
@@ -78,6 +78,7 @@ public class ReadConditionImpl<TYPE> implements ReadCondition<TYPE>,
                     "Illegal DataState (null) provided.");
         }
 
+        /* TODO FRCYC
         if (setupCondition) {
             this.old = parent.getOld().create_readcondition(
                     this.state.getOldSampleState(),
@@ -88,12 +89,15 @@ public class ReadConditionImpl<TYPE> implements ReadCondition<TYPE>,
                 Utilities.throwLastErrorException(this.environment);
             }
         }
+        */
     }
 
     @Override
     public boolean getTriggerValue() {
-        return this.old.get_trigger_value();
+        //TODO FRCYC return this.old.get_trigger_value();
+    	return false;
     }
+    
 
     @Override
     public ServiceEnvironment getEnvironment() {
@@ -133,9 +137,11 @@ public class ReadConditionImpl<TYPE> implements ReadCondition<TYPE>,
         return this.state.clone();
     }
 
-    @Override
-    public ReadCondition getOldCondition() {
-        return this.old;
-    }
+	@Override
+	public Condition getOldCondition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+   
 }

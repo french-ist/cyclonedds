@@ -38,7 +38,7 @@ public abstract class AbstractDataWriter<TYPE>
 
     @Override
     protected void destroy() {
-        this.parent.destroyDataWriter(this);
+        // TODO FRCYC this.parent.destroyDataWriter(this);
     }
 
     @Override

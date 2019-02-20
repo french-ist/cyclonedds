@@ -22,6 +22,7 @@ package org.eclipse.cyclonedds.core;
 
 import java.util.EventListener;
 
+import org.omg.dds.core.Entity;
 import org.omg.dds.core.EntityQos;
 
 public abstract class DomainEntityImpl<

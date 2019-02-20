@@ -70,7 +70,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
         DataWriterQos oldQos;
 
         try {
-            oldQos = ((DataWriterQosImpl) qos).convert();
+            //oldQos = ((DataWriterQosImpl) qos).convert();
         } catch (ClassCastException e) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Cannot create DataWriter with non-OpenSplice qos");
@@ -82,7 +82,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
         } else {
             this.listener = null;
         }
-        // To be replaced by JNA/JNI access
+        /* FRCYC To be replaced by JNA/JNI access
         DataWriter old = this.parent.getOld().create_datawriter(
                 topic.getOld(), oldQos, this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
@@ -91,6 +91,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
             Utilities.throwLastErrorException(this.environment);
         }
         this.setOld(old);
+        */
         this.reflectionWriter = new ReflectionDataWriter<TYPE>(
                 this.environment, this.getOld(), this.topic.getTypeSupport()
                         .getType());
@@ -101,6 +102,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
         }
     }
 
+    /* TODO FRCYC 
     private void setListener(DataWriterListener<TYPE> listener, int mask) {
         DataWriterListenerImpl<TYPE> wrapperListener;
         int rc;
@@ -136,6 +138,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
         this.setListener(listener,
                 StatusConverter.convertMask(this.environment, statuses));
     }
+    */
 
     @Override
     public DataWriterQos getQos() {
@@ -144,7 +147,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
 
     @Override
     public void setQos(DataWriterQos qos) {
-        this.reflectionWriter.setQos(qos);
+        //TODO FRCYC this.reflectionWriter.setQos(qos);
     }
 
     @SuppressWarnings("unchecked")
@@ -168,18 +171,19 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
     @Override
     public void waitForAcknowledgments(Duration maxWait)
             throws TimeoutException {
-        this.reflectionWriter.waitForAcknowledgments(maxWait);
+        //TODO FRCYC this.reflectionWriter.waitForAcknowledgments(maxWait);
     }
 
+    /* TODO FRCYC
     @Override
     public void waitForAcknowledgments(long maxWait, TimeUnit unit)
             throws TimeoutException {
-        this.reflectionWriter.waitForAcknowledgments(maxWait, unit);
+    	TODO FRCYC this.reflectionWriter.waitForAcknowledgments(maxWait, unit);
     }
 
     @Override
     public LivelinessLostStatus getLivelinessLostStatus() {
-        return this.reflectionWriter.getLivelinessLostStatus();
+    	TODO FRCYC return this.reflectionWriter.getLivelinessLostStatus();
     }
 
     @Override
@@ -196,6 +200,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
     public PublicationMatchedStatus getPublicationMatchedStatus() {
         return this.reflectionWriter.getPublicationMatchedStatus();
     }
+    */
 
     @Override
     public void assertLiveliness() {
@@ -220,6 +225,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
         return this.reflectionWriter.registerInstance(instanceData);
     }
 
+    /* TODO FRCYC
     @Override
     public InstanceHandle registerInstance(TYPE instanceData,
             Time sourceTimestamp) throws TimeoutException {
@@ -232,7 +238,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
             long sourceTimestamp, TimeUnit unit) throws TimeoutException {
         return this.reflectionWriter.registerInstance(instanceData,
                 sourceTimestamp, unit);
-    }
+    }*/
 
     @Override
     public void unregisterInstance(InstanceHandle handle)
@@ -246,6 +252,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
         this.reflectionWriter.unregisterInstance(handle, instanceData);
     }
 
+    /* TODO FRCYC 
     @Override
     public void unregisterInstance(InstanceHandle handle, TYPE instanceData,
             Time sourceTimestamp) throws TimeoutException {
@@ -258,7 +265,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
             long sourceTimestamp, TimeUnit unit) throws TimeoutException {
         this.reflectionWriter.unregisterInstance(handle, instanceData,
                 sourceTimestamp, unit);
-    }
+    }*/
 
     @Override
     public void write(TYPE instanceData) throws TimeoutException {
@@ -269,8 +276,9 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
     @Override
     public void write(TYPE instanceData, Time sourceTimestamp)
             throws TimeoutException {
-        this.reflectionWriter.write(instanceData, this.environment.getSPI()
+        /* TODO FRCYC this.reflectionWriter.write(instanceData, this.environment.getSPI()
                 .nilHandle(), sourceTimestamp);
+                */
     }
 
     @Override
@@ -289,8 +297,9 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
     @Override
     public void write(TYPE instanceData, InstanceHandle handle,
             Time sourceTimestamp) throws TimeoutException {
-        this.reflectionWriter.write(instanceData, handle, sourceTimestamp);
+        //TODO FRCYC this.reflectionWriter.write(instanceData, handle, sourceTimestamp);
     }
+    
 
     @Override
     public void write(TYPE instanceData, InstanceHandle handle,
@@ -313,15 +322,19 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
     @Override
     public void dispose(InstanceHandle instanceHandle, TYPE instanceData,
             Time sourceTimestamp) throws TimeoutException {
-        this.reflectionWriter.dispose(instanceHandle, instanceData,
+        /* TODO FRCYC
+    	this.reflectionWriter.dispose(instanceHandle, instanceData,
                 sourceTimestamp);
+                */
     }
 
     @Override
     public void dispose(InstanceHandle instanceHandle, TYPE instanceData,
             long sourceTimestamp, TimeUnit unit) throws TimeoutException {
-        this.reflectionWriter.dispose(instanceHandle, instanceData,
+        /* TODO FRCYC
+    	this.reflectionWriter.dispose(instanceHandle, instanceData,
                 sourceTimestamp, unit);
+                */
     }
 
     @Override
@@ -339,6 +352,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
         return this.reflectionWriter.lookupInstance(keyHolder);
     }
 
+    /* TODO FRCYC
     @Override
     public StatusCondition<DataWriter<TYPE>> getStatusCondition() {
         StatusCondition oldCondition = this.getOld().get_statuscondition();
@@ -348,7 +362,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
         }
         return new StatusConditionImpl<DataWriter<TYPE>>(this.environment,
                 oldCondition, this);
-    }
+    }*/
 
     @Override
     public void writeDispose(TYPE instanceData) throws TimeoutException {
@@ -394,4 +408,115 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
         super.destroy();
         this.topic.close();
     }
+
+	@Override
+	public StatusCondition<DataWriter<TYPE>> getStatusCondition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setListener(DataWriterListener<TYPE> listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setListener(DataWriterListener<TYPE> listener, Collection<Class<? extends Status>> statuses) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setListener(DataWriterListener<TYPE> listener, Class<? extends Status>... statuses) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enable() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<Class<? extends Status>> getStatusChanges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle getInstanceHandle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setProperty(String key, String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getProperty(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void waitForAcknowledgments(long maxWait, TimeUnit unit) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public LivelinessLostStatus getLivelinessLostStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OfferedDeadlineMissedStatus getOfferedDeadlineMissedStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OfferedIncompatibleQosStatus getOfferedIncompatibleQosStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PublicationMatchedStatus getPublicationMatchedStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle registerInstance(TYPE instanceData, Time sourceTimestamp) throws TimeoutException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle registerInstance(TYPE instanceData, long sourceTimestamp, TimeUnit unit)
+			throws TimeoutException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void unregisterInstance(InstanceHandle handle, TYPE instanceData, Time sourceTimestamp)
+			throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void unregisterInstance(InstanceHandle handle, TYPE instanceData, long sourceTimestamp, TimeUnit unit)
+			throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
 }

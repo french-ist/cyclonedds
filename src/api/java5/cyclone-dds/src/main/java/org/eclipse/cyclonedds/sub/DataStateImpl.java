@@ -65,7 +65,8 @@ public class DataStateImpl implements Subscriber.DataState {
 
     public static SampleState getSampleStateFromOld(OsplServiceEnvironment env,
             int state) {
-        switch (state) {
+        /* TODO FRCYC
+    	switch (state) {
         case READ_SAMPLE_STATE.value:
             return SampleState.READ;
         case NOT_READ_SAMPLE_STATE.value:
@@ -73,10 +74,13 @@ public class DataStateImpl implements Subscriber.DataState {
         default:
             throw new IllegalArgumentExceptionImpl(env, "Invalid SampleState");
         }
+        */
+    	return null;
     }
 
     public static ViewState getViewStateFromOld(OsplServiceEnvironment env,
             int state) {
+    	/* TODO FRCYC
         switch (state) {
         case NEW_VIEW_STATE.value:
             return ViewState.NEW;
@@ -84,11 +88,13 @@ public class DataStateImpl implements Subscriber.DataState {
             return ViewState.NOT_NEW;
         default:
             throw new IllegalArgumentExceptionImpl(env, "Invalid ViewState");
-        }
+        }*/
+    	return null;
     }
 
     public static InstanceState getInstanceStateFromOld(
             OsplServiceEnvironment env, int state) {
+    	/* TODO FRCYC
         switch (state) {
         case ALIVE_INSTANCE_STATE.value:
             return InstanceState.ALIVE;
@@ -99,6 +105,8 @@ public class DataStateImpl implements Subscriber.DataState {
         default:
             throw new IllegalArgumentExceptionImpl(env, "Invalid InstanceState");
         }
+        */
+    	return null;
     }
 
     @Override
@@ -198,6 +206,7 @@ public class DataStateImpl implements Subscriber.DataState {
     }
 
     public int getOldSampleState() {
+    	/* TODO FRCYC
         int result;
 
         boolean read = this.sampleState.contains(SampleState.READ);
@@ -214,9 +223,12 @@ public class DataStateImpl implements Subscriber.DataState {
                     "Incomplete DataState: no SampleState set.");
         }
         return result;
+        */
+        return 0;
     }
 
     public void withOldSampleState(int state) {
+    	/* TODO FRCYC
         switch (state) {
         case ANY_INSTANCE_STATE.value:
             this.sampleState.add(SampleState.READ);
@@ -232,9 +244,11 @@ public class DataStateImpl implements Subscriber.DataState {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Invalid SampleState");
         }
+        */
     }
 
     public int getOldViewState() {
+    	/* TODO FRCYC
         int result;
 
         boolean _new = this.viewState.contains(ViewState.NEW);
@@ -251,9 +265,12 @@ public class DataStateImpl implements Subscriber.DataState {
                     "Incomplete DataState: no ViewState set.");
         }
         return result;
+        */
+    	return 0;
     }
 
     public void withOldViewState(int state) {
+    	/* TODO FRCYC
         switch (state) {
         case ANY_VIEW_STATE.value:
             this.viewState.add(ViewState.NEW);
@@ -269,11 +286,13 @@ public class DataStateImpl implements Subscriber.DataState {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Invalid ViewState");
         }
+        */
     }
 
     public int getOldInstanceState() {
         int result = 0;
 
+        /* TODO FRCYC
         boolean alive = this.instanceState.contains(InstanceState.ALIVE);
         boolean disposed = this.instanceState
                 .contains(InstanceState.NOT_ALIVE_DISPOSED);
@@ -296,11 +315,13 @@ public class DataStateImpl implements Subscriber.DataState {
         if (result == 0) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Incomplete DataState: no InstanceState set.");
-        }
+        }*/
         return result;
+        
     }
 
     public void withOldInstanceState(int state) {
+    	/* TODO FRCYC
         switch (state) {
         case ANY_INSTANCE_STATE.value:
             this.instanceState.add(InstanceState.ALIVE);
@@ -325,6 +346,7 @@ public class DataStateImpl implements Subscriber.DataState {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Invalid InstanceState");
         }
+        */
     }
 
     public static DataStateImpl any(OsplServiceEnvironment environment) {

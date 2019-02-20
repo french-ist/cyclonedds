@@ -145,6 +145,8 @@ public class OsplServiceEnvironment extends ServiceEnvironment {
             return new DurationImpl(this.environment, duration, unit);
         }
 
+        /*
+         * TODO FRCYC
         @Override
         public Duration infiniteDuration() {
             return new DurationImpl(this.environment,
@@ -197,6 +199,7 @@ public class OsplServiceEnvironment extends ServiceEnvironment {
             return StatusConverter.convertMask(this.environment,
                     STATUS_MASK_NONE.value);
         }
+        */
 
         @Override
         public QosProvider newQosProvider(String uri, String profile) {
@@ -225,6 +228,60 @@ public class OsplServiceEnvironment extends ServiceEnvironment {
             throw new UnsupportedOperationExceptionImpl(this.environment,
                     "newKeyedBytes() not implemented yet.");
         }
+
+		@Override
+		public Duration infiniteDuration() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Duration zeroDuration() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public ModifiableTime newTime(long time, TimeUnit units) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Time invalidTime() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public InstanceHandle nilHandle() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public GuardCondition newGuardCondition() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public WaitSet newWaitSet() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Set<Class<? extends Status>> allStatusKinds() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public Set<Class<? extends Status>> noStatusKinds() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 
     }
 

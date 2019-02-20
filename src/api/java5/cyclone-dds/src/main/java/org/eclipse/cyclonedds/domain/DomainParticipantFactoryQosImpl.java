@@ -69,12 +69,15 @@ public class DomainParticipantFactoryQosImpl extends
         DomainParticipantFactoryQosImpl qos = new DomainParticipantFactoryQosImpl(
                 env);
 
+        /*TODO FRCYC
         qos.put(EntityFactory.class, new EntityFactoryImpl(env,
                 oldQos.entity_factory.autoenable_created_entities));
+           */
 
         return qos;
     }
 
+    /* TODO FRCYC
     public DomainParticipantFactoryQos convert() {
         DomainParticipantFactoryQos old = new DomainParticipantFactoryQos(
                 new EntityFactoryQosPolicy());
@@ -85,6 +88,7 @@ public class DomainParticipantFactoryQosImpl extends
         }
         return old;
     }
+    */
 
     @Override
     public DomainParticipantFactoryQos withPolicy(

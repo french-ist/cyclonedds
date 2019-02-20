@@ -83,9 +83,10 @@ import org.eclipse.cyclonedds.topic.TopicImpl;
 import org.eclipse.cyclonedds.topic.TopicQosImpl;
 import org.eclipse.cyclonedds.type.AbstractTypeSupport;
 
+/* TODO FRCYC
 import DomainParticipantQosHolder;
 import Time_tHolder;
-
+*/
 public class DomainParticipantImpl
         extends
         EntityImpl<DomainParticipant, DomainParticipantFactory, DomainParticipantQos, DomainParticipantListener, DomainParticipantListenerImpl>
@@ -99,7 +100,8 @@ public class DomainParticipantImpl
             DomainParticipantFactoryImpl factory, int domainId,
             DomainParticipantQos qos, DomainParticipantListener listener,
             Collection<Class<? extends Status>> statuses) {
-        super(environment, DomainParticipantFactory.get_instance());
+        //TODO FRCYC super(environment, DomainParticipantFactory.get_instance());
+    	super(environment, null);
         this.factory = factory;
         this.topics = new HashMap<TopicDescription, TopicDescriptionExt<?>>();
         this.publishers = new HashMap<Publisher, PublisherImpl>();
@@ -112,6 +114,7 @@ public class DomainParticipantImpl
 
         DomainParticipantQos oldQos;
 
+        /*
         try {
             oldQos = ((DomainParticipantQosImpl) qos).convert();
         } catch (ClassCastException e) {
@@ -124,6 +127,7 @@ public class DomainParticipantImpl
         } else {
             this.listener = null;
         }
+         TODO FRCYC
         DomainParticipant old = this.getOldParent().create_participant(
                 domainId,
                 oldQos,
@@ -138,6 +142,7 @@ public class DomainParticipantImpl
         if (this.listener != null) {
             this.listener.setInitialised();
         }
+        */
     }
 
     @SuppressWarnings("unchecked")
@@ -146,7 +151,8 @@ public class DomainParticipantImpl
             return (Topic<TYPE>) this.topics.get(oldTopic);
         }
     }
-
+    
+    /* TODO FRCYC
     private void setListener(
             org.omg.dds.domain.DomainParticipantListener listener, int mask) {
         DomainParticipantListenerImpl wrapperListener;
@@ -167,6 +173,7 @@ public class DomainParticipantImpl
         this.listener = wrapperListener;
     }
 
+    
     @Override
     public DomainParticipantQos getQos() {
         DomainParticipantQosHolder holder;
@@ -179,6 +186,7 @@ public class DomainParticipantImpl
 
         return DomainParticipantQosImpl.convert(this.environment, holder.value);
     }
+    
 
     @Override
     public void setQos(DomainParticipantQos qos) {
@@ -195,10 +203,12 @@ public class DomainParticipantImpl
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Setting non-OpenSplice Qos not supported.");
         }
+        
         rc = this.getOld().set_qos(oldQos);
         Utilities.checkReturnCode(rc, this.environment,
                 "DomainParticipant.setQos() failed.");
     }
+    */
 
     @Override
     public Publisher createPublisher() {
@@ -264,10 +274,11 @@ public class DomainParticipantImpl
 
     @Override
     public Subscriber getBuiltinSubscriber() {
-        SubscriberImpl result;
+        SubscriberImpl result = null;
 
         synchronized (this.subscribers) {
-            Subscriber old = this.getOld().get_builtin_subscriber();
+            /* TODO FRCYC
+        	Subscriber old = this.getOld().get_builtin_subscriber();
 
             if (old == null) {
                 Utilities.throwLastErrorException(this.environment);
@@ -277,7 +288,7 @@ public class DomainParticipantImpl
             if (result == null) {
                 result = new SubscriberImpl(this.environment, this, old);
                 this.subscribers.put(old, result);
-            }
+            }*/
         }
         return result;
     }
@@ -396,7 +407,8 @@ public class DomainParticipantImpl
     public <TYPE> Topic<TYPE> findTopic(String topicName, Duration timeout)
             throws TimeoutException {
         TopicImpl<TYPE> result = null;
-        Topic old = this.getOld().find_topic(topicName,
+        /*TODO FRCYC
+         * Topic old = this.getOld().find_topic(topicName,
                 Utilities.convert(this.environment, timeout));
 
         if (old != null) {
@@ -415,6 +427,7 @@ public class DomainParticipantImpl
                         "Type of Topic does not match provided Type.");
             }
         }
+        */
         return result;
     }
 
@@ -436,6 +449,7 @@ public class DomainParticipantImpl
                         td = topic.cast();
                     }
                 }
+                /*TODO FRCYC
                 if (td == null) {
                     TopicDescription builtinTopic = this.getOld()
                             .lookup_topicdescription(name);
@@ -450,10 +464,10 @@ public class DomainParticipantImpl
                             this.topics.put(builtinTopic, wrapper);
                             td = wrapper;
                         } catch (ClassCastException cce) {
-                            /* Ignore this */
+                            /* Ignore this 
                         }
                     }
-                }
+                }*/
             }
         }
         return td;
@@ -560,9 +574,9 @@ public class DomainParticipantImpl
                 try {
                     if (topic instanceof ContentFilteredTopicImpl) {
                         topic.close();
-                    } else if (topic instanceof MultiTopicImpl) {
+                    } /* TODO FRCYC else if (topic instanceof MultiTopicImpl) {
                         topic.close();
-                    }
+                    } */
                 } catch (AlreadyClosedException a) {
                     /* Entity may be closed concurrently by application */
                 }
@@ -581,11 +595,13 @@ public class DomainParticipantImpl
     @Override
     public void ignoreParticipant(InstanceHandle handle) {
         try {
+        	/* TODO FRCYC
             int rc = this.getOld().ignore_participant(
                     Utilities.convert(
                     this.environment, handle));
             Utilities.checkReturnCode(rc, environment,
                     "DomainParticipant.ignoreParticipant() failed");
+                    */
         } catch (ClassCastException cce) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Usage of non OpenSplice InstanceHandle not supported.");
@@ -595,12 +611,14 @@ public class DomainParticipantImpl
     @Override
     public void ignoreTopic(InstanceHandle handle) {
         try {
+        	/* TODO FRCYC
             int rc = this.getOld().ignore_topic(
                     Utilities.convert(this.environment,
                     handle));
 
             Utilities.checkReturnCode(rc, environment,
                     "DomainParticipant.ignoreTopic() failed");
+                    */
         } catch (ClassCastException cce) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Usage of non OpenSplice InstanceHandle not supported.");
@@ -609,13 +627,14 @@ public class DomainParticipantImpl
 
     @Override
     public void ignorePublication(InstanceHandle handle) {
-        try {
+        try { /* TODO FRCYC
             int rc = this.getOld().ignore_publication(
                     Utilities.convert(
                     this.environment, handle));
 
             Utilities.checkReturnCode(rc, environment,
                     "DomainParticipant.ignorePublication() failed");
+                    */
         } catch (ClassCastException cce) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Usage of non OpenSplice InstanceHandle not supported.");
@@ -625,18 +644,22 @@ public class DomainParticipantImpl
     @Override
     public void ignoreSubscription(InstanceHandle handle) {
         try {
+        	/* TODO FRCYC
             int rc = this.getOld().ignore_subscription(
                     Utilities.convert(
                     this.environment, handle));
 
             Utilities.checkReturnCode(rc, environment,
                     "DomainParticipant.ignoreSubscription() failed");
+                    */
         } catch (ClassCastException cce) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Usage of non OpenSplice InstanceHandle not supported.");
         }
     }
 
+    /* TODO FRCYC
+    
     @Override
     public int getDomainId() {
         return this.getOld().get_domain_id();
@@ -865,6 +888,7 @@ public class DomainParticipantImpl
         this.setListener(listener,
                 StatusConverter.convertMask(this.environment, statuses));
     }
+    */
 
     public <TYPE> DataWriter<TYPE> lookupDataWriter(DataWriter old) {
         DataWriter<TYPE> writer;
@@ -930,6 +954,181 @@ public class DomainParticipantImpl
         return subscriber;
     }
 
+	@Override
+	public void setListener(DomainParticipantListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setListener(DomainParticipantListener listener, Collection<Class<? extends Status>> statuses) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setListener(DomainParticipantListener listener, Class<? extends Status>... statuses) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public DomainParticipantQos getQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setQos(DomainParticipantQos qos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enable() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<Class<? extends Status>> getStatusChanges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle getInstanceHandle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteHistoricalData(String partitionExpression, String topicExpression) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void createPersistentSnapshot(String partitionExpression, String topicExpression, String uri) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setProperty(String key, String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getProperty(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getDomainId() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void assertLiveliness() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public PublisherQos getDefaultPublisherQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setDefaultPublisherQos(PublisherQos qos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public SubscriberQos getDefaultSubscriberQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setDefaultSubscriberQos(SubscriberQos qos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public TopicQos getDefaultTopicQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setDefaultTopicQos(TopicQos qos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<InstanceHandle> getDiscoveredParticipants() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ParticipantBuiltinTopicData getDiscoveredParticipantData(InstanceHandle participantHandle) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<InstanceHandle> getDiscoveredTopics() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TopicBuiltinTopicData getDiscoveredTopicData(InstanceHandle topicHandle) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean containsEntity(InstanceHandle handle) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ModifiableTime getCurrentTime(ModifiableTime currentTime) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Time getCurrentTime() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusCondition<DomainParticipant> getStatusCondition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
+    /*TODO FRCYC
     public void destroyPublisher(PublisherImpl child) {
         Publisher old = child.getOld();
         old.delete_contained_entities();
@@ -1014,4 +1213,5 @@ public class DomainParticipantImpl
                 "Properties.getProperty() failed.");
         return holder.value.value;
     }
+    */
 }

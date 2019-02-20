@@ -22,6 +22,7 @@ package org.eclipse.cyclonedds.topic;
 
 import java.io.Serializable;
 
+import org.omg.dds.core.event.InconsistentTopicEvent;
 import org.omg.dds.topic.TopicListener;
 import org.eclipse.cyclonedds.core.Listener;
 import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
@@ -29,12 +30,12 @@ import org.eclipse.cyclonedds.core.event.AllDataDisposedEventImpl;
 import org.eclipse.cyclonedds.core.event.InconsistentTopicEventImpl;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 
-import AllDataDisposedTopicStatusHolder;
-import InconsistentTopicStatus;
+//TODO FRCYC import AllDataDisposedTopicStatusHolder;
+//TODO FRCYC import InconsistentTopicStatus;
 
 public class TopicListenerImpl<TYPE> extends
  Listener<TopicListener<TYPE>>
-        implements ExtTopicListener, Serializable {
+        implements TopicListener, Serializable { //TODO FRCYC ExtTopicListener
     private static final long serialVersionUID = -3957061097858393241L;
     private final transient AbstractTopic<TYPE> topic;
     private final transient org.eclipse.cyclonedds.topic.TopicListener<TYPE> extListener;
@@ -57,6 +58,13 @@ public class TopicListenerImpl<TYPE> extends
         }
     }
 
+	@Override
+	public void onInconsistentTopic(InconsistentTopicEvent status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+    /* TODO FRCYC
     @Override
     public void on_inconsistent_topic(Topic arg0,
             InconsistentTopicStatus arg1) {
@@ -87,5 +95,5 @@ public class TopicListenerImpl<TYPE> extends
                 }
             }
         }
-    }
+    }*/
 }

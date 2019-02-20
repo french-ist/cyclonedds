@@ -27,7 +27,7 @@ import org.eclipse.cyclonedds.core.AlreadyClosedExceptionImpl;
 import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 
-import SampleInfoSeqHolder;
+//TODO FRCYC //TODO FRCYC import SampleInfoSeqHolder;
 
 public abstract class AbstractIterator<TYPE> implements Sample.Iterator<TYPE> {
     protected final AbstractDataReader<TYPE> reader;
@@ -63,9 +63,11 @@ public abstract class AbstractIterator<TYPE> implements Sample.Iterator<TYPE> {
             throw new AlreadyClosedExceptionImpl(this.environment,
                     "Iterator already closed.");
         }
+        /* TODO FRCYC 
         if (infoSeqHolder.value.length > this.currentIndex) {
             return true;
         }
+        */
         return false;
     }
 
@@ -106,7 +108,7 @@ public abstract class AbstractIterator<TYPE> implements Sample.Iterator<TYPE> {
                     "Iterator already closed.");
         }
         this.currentIndex = -1;
-        this.reader.returnLoan(this.sampleSeqHolder, this.infoSeqHolder);
+        //TODO FRCYC this.reader.returnLoan(this.sampleSeqHolder, this.infoSeqHolder);
         this.reader.deregisterIterator(this);
     }
 
@@ -135,12 +137,13 @@ public abstract class AbstractIterator<TYPE> implements Sample.Iterator<TYPE> {
                     "Iterator already closed.");
         }
         int index = this.currentIndex++;
-
+/* TODO FRCYC
         if (this.initUntil < index) {
             this.samples[index] = new SampleImpl<TYPE>(this.environment,
                     this.getData(index), this.infoSeqHolder.value[index]);
             this.initUntil++;
         }
+        */
         return this.samples[index];
     }
 

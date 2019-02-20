@@ -64,7 +64,8 @@ public class InstanceHandleImpl extends InstanceHandle {
 
     @Override
     public boolean isNil() {
-        return (this.value == HANDLE_NIL.value);
+        //TODO FRCYC return (this.value == HANDLE_NIL.value);
+    	return false;
     }
 
     public long getValue(){

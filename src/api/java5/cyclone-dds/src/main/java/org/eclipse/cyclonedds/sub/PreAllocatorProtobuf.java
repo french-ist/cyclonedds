@@ -31,7 +31,7 @@ import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
 import org.eclipse.cyclonedds.type.TypeSupportProtobuf;
 
-import SampleInfoSeqHolder;
+//TODO FRCYC import SampleInfoSeqHolder;
 
 public class PreAllocatorProtobuf<PROTOBUF_TYPE, DDS_TYPE> implements
         PreAllocator<PROTOBUF_TYPE> {
@@ -88,7 +88,7 @@ public class PreAllocatorProtobuf<PROTOBUF_TYPE, DDS_TYPE> implements
         try {
             Object dataValue = this.dataSeqHolderValueField
                     .get(this.dataSeqHolder);
-
+            /* TODO FRCYC
             for (int i = 0; i < this.infoSeqHolder.value.length; i++) {
                 if (this.infoSeqHolder.value[i].valid_data) {
                     this.sampleList.add(new SampleImpl<PROTOBUF_TYPE>(
@@ -102,6 +102,7 @@ public class PreAllocatorProtobuf<PROTOBUF_TYPE, DDS_TYPE> implements
                         this.infoSeqHolder.value[i]));
                 }
             }
+            */
 
         } catch (IllegalArgumentException e) {
             throw new DDSExceptionImpl(this.environment, "Internal error ("

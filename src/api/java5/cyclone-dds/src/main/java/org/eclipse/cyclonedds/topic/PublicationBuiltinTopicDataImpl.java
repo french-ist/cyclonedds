@@ -65,9 +65,8 @@ public class PublicationBuiltinTopicDataImpl implements
             PublicationBuiltinTopicData old) {
         this.environment = environment;
         this.old = old;
-        this.key = new BuiltinTopicKeyImpl(this.environment, old.key);
-        this.participantKey = new BuiltinTopicKeyImpl(this.environment,
-                old.participant_key);
+      //TODO FRCYC this.key = new BuiltinTopicKeyImpl(this.environment, old.key);
+      //TODO FRCYC  this.participantKey = new BuiltinTopicKeyImpl(this.environment,                old.participant_key);
         this.dataRepresentation = new DataRepresentationImpl(this.environment,
                 DataRepresentation.Id.XCDR_DATA_REPRESENTATION);
         this.typeConsistency = new TypeConsistencyEnforcementImpl(
@@ -92,12 +91,14 @@ public class PublicationBuiltinTopicDataImpl implements
 
     @Override
     public String getTopicName() {
-        return old.topic_name;
+        //TODO FRCYC return old.topic_name;
+    	return null;
     }
 
     @Override
     public String getTypeName() {
-        return old.type_name;
+    	//TODO FRCYC return old.type_name;
+    	return null;
     }
 
     @Override
@@ -120,7 +121,8 @@ public class PublicationBuiltinTopicDataImpl implements
 
     @Override
     public Durability getDurability() {
-        return PolicyConverter.convert(this.environment, old.durability);
+        //TODO FRCYC return PolicyConverter.convert(this.environment, old.durability);
+    	return null;
     }
 
     @Override
@@ -134,68 +136,81 @@ public class PublicationBuiltinTopicDataImpl implements
 
     @Override
     public Deadline getDeadline() {
-        return PolicyConverter.convert(this.environment, old.deadline);
+    	//TODO FRCYC return PolicyConverter.convert(this.environment, old.deadline);
+    	return null;
     }
 
     @Override
     public LatencyBudget getLatencyBudget() {
-        return PolicyConverter.convert(this.environment, old.latency_budget);
+    	//TODO FRCYC return PolicyConverter.convert(this.environment, old.latency_budget);
+    	return null;
     }
 
     @Override
     public Liveliness getLiveliness() {
-        return PolicyConverter.convert(this.environment, old.liveliness);
+    	//TODO FRCYC return PolicyConverter.convert(this.environment, old.liveliness);
+    	return null;
     }
 
     @Override
     public Reliability getReliability() {
-        return PolicyConverter.convert(this.environment, old.reliability);
+    	//TODO FRCYC return PolicyConverter.convert(this.environment, old.reliability);
+    	return null;
     }
 
     @Override
     public Lifespan getLifespan() {
-        return PolicyConverter.convert(this.environment, old.lifespan);
+    	//TODO FRCYC return PolicyConverter.convert(this.environment, old.lifespan);
+    	return null;
     }
 
     @Override
     public UserData getUserData() {
-        return PolicyConverter.convert(this.environment, old.user_data);
+    	//TODO FRCYC return PolicyConverter.convert(this.environment, old.user_data);
+    	return null;
     }
 
     @Override
     public Ownership getOwnership() {
-        return PolicyConverter.convert(this.environment, old.ownership);
+        //TODO FRCYC return PolicyConverter.convert(this.environment, old.ownership);
+    	return null;
     }
 
     @Override
     public OwnershipStrength getOwnershipStrength() {
-        return PolicyConverter
-                .convert(this.environment, old.ownership_strength);
+    	//TODO FRCYC return PolicyConverter.convert(this.environment, old.ownership_strength);
+
+    	return null;
     }
 
     @Override
     public DestinationOrder getDestinationOrder() {
-        return PolicyConverter.convert(this.environment, old.destination_order);
+    	//TODO FRCYC return PolicyConverter.convert(this.environment, old.destination_order);
+    	return null;
     }
 
     @Override
     public Presentation getPresentation() {
-        return PolicyConverter.convert(this.environment, old.presentation);
+    	//TODO FRCYC return PolicyConverter.convert(this.environment, old.presentation);
+    	return null;
     }
 
     @Override
     public Partition getPartition() {
-        return PolicyConverter.convert(this.environment, old.partition);
+    	//TODO FRCYC return PolicyConverter.convert(this.environment, old.partition);
+    	return null;
     }
 
     @Override
     public TopicData getTopicData() {
-        return PolicyConverter.convert(this.environment, old.topic_data);
+    	//TODO FRCYC return PolicyConverter.convert(this.environment, old.topic_data);
+    	return null;
     }
 
     @Override
     public GroupData getGroupData() {
-        return PolicyConverter.convert(this.environment, old.group_data);
+    	//TODO FRCYC return PolicyConverter.convert(this.environment, old.group_data);
+    	return null;
     }
 
     @Override
@@ -217,9 +232,8 @@ public class PublicationBuiltinTopicDataImpl implements
         try {
             PublicationBuiltinTopicDataImpl impl = (PublicationBuiltinTopicDataImpl) src;
             this.old = impl.old;
-            this.key = new BuiltinTopicKeyImpl(this.environment, this.old.key);
-            this.participantKey = new BuiltinTopicKeyImpl(this.environment,
-                    this.old.participant_key);
+            //TODO FRCYC this.key = new BuiltinTopicKeyImpl(this.environment, this.old.key);
+            //TODO FRCYC this.participantKey = new BuiltinTopicKeyImpl(this.environment, this.old.participant_key);
         } catch (ClassCastException e) {
             throw new IllegalArgumentExceptionImpl(
                     this.environment,

@@ -385,7 +385,9 @@ public class ModifiableTimeImpl extends ModifiableTime {
 
     @Override
     public boolean isValid() {
-        if (this.seconds == TIMESTAMP_INVALID_SEC.value
+        /*
+         * TODO FRCYC
+    	if (this.seconds == TIMESTAMP_INVALID_SEC.value
                 && this.nanoseconds == TIMESTAMP_INVALID_NSEC.value) {
             return false;
         }
@@ -393,6 +395,7 @@ public class ModifiableTimeImpl extends ModifiableTime {
                 && ((this.nanoseconds != INFINITE_NANOSECONDS) || (this.seconds != INFINITE_SECONDS))) {
             return false;
         }
+        */
         return true;
     }
 
@@ -402,9 +405,11 @@ public class ModifiableTimeImpl extends ModifiableTime {
                 this.nanoseconds);
     }
 
+    /* TODO FRCYC
     public Time_t convert() {
         return new Time_t((int) this.seconds, (int) this.nanoseconds);
     }
+    */
 
     @Override
     public String toString() {

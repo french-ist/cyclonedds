@@ -33,12 +33,12 @@ import org.omg.dds.core.WaitSet;
 
 public class WaitSetImpl extends WaitSet {
     private final OsplServiceEnvironment environment;
-    private final WaitSet oldWaitSet;
+    //TODO FRCYC private final WaitSet oldWaitSet;
     private ConcurrentHashMap<Condition, org.omg.dds.core.Condition> conditions;
 
     public WaitSetImpl(OsplServiceEnvironment environment) {
         this.environment = environment;
-        this.oldWaitSet = new WaitSet();
+        //this.oldWaitSet = new WaitSet();
         this.conditions = new ConcurrentHashMap<Condition, org.omg.dds.core.Condition>();
     }
 
@@ -47,6 +47,7 @@ public class WaitSetImpl extends WaitSet {
         return this.environment;
     }
 
+    /* TODO FRCYC
     @Override
     public void waitForConditions() {
         ConditionSeqHolder holder = new ConditionSeqHolder();
@@ -180,6 +181,7 @@ public class WaitSetImpl extends WaitSet {
         this.conditions.remove(old);
 
     }
+    */
 
     @Override
     public Collection<Condition> getConditions() {
@@ -190,4 +192,53 @@ public class WaitSetImpl extends WaitSet {
     public String toString() {
         return "WaitSet (" + Integer.toHexString(this.hashCode()) + ")";
     }
+
+	@Override
+	public void waitForConditions() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void waitForConditions(Collection<Condition> activeConditions) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void waitForConditions(Duration timeout) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void waitForConditions(long timeout, TimeUnit unit) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void waitForConditions(Collection<Condition> activeConditions, Duration timeout) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void waitForConditions(Collection<Condition> activeConditions, long timeout, TimeUnit unit)
+			throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void attachCondition(Condition cond) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void detachCondition(Condition cond) {
+		// TODO Auto-generated method stub
+		
+	}
 }

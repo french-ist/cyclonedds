@@ -26,10 +26,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.omg.dds.core.AlreadyClosedException;
+import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.StatusCondition;
 import org.omg.dds.core.status.Status;
+import org.omg.dds.domain.DomainParticipant;
 import org.omg.dds.pub.DataWriter;
 import org.omg.dds.sub.DataReader;
 import org.omg.dds.sub.DataReaderListener;
@@ -83,6 +86,7 @@ public class SubscriberImpl
         } else {
             this.listener = null;
         }
+        /* TODO FRCYC
         Subscriber old = this.parent.getOld().create_subscriber(oldQos,
                 this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
@@ -91,6 +95,7 @@ public class SubscriberImpl
             Utilities.throwLastErrorException(this.environment);
         }
         this.setOld(old);
+        */
         this.readers = new HashMap<DataReader, AbstractDataReader<?>>();
         this.isBuiltin = false;
 
@@ -127,40 +132,45 @@ public class SubscriberImpl
         } else {
             wrapperListener = null;
         }
+        /* FRCYC
         rc = this.getOld().set_listener(wrapperListener, mask);
         Utilities.checkReturnCode(rc, this.environment,
                 "Subscriber.setListener() failed.");
 
         this.listener = wrapperListener;
+        */
     }
 
     @Override
     public void setListener(SubscriberListener listener) {
-        this.setListener(listener, StatusConverter.getAnyMask());
+        //TODO FRCYC this.setListener(listener, StatusConverter.getAnyMask());
     }
 
     @Override
     public void setListener(SubscriberListener listener,
             Collection<Class<? extends Status>> statuses) {
-        this.setListener(listener,
-                StatusConverter.convertMask(this.environment, statuses));
+    	//TODO FRCYC this.setListener(listener,
+        //        StatusConverter.convertMask(this.environment, statuses));
     }
 
     @Override
     public void setListener(SubscriberListener listener,
             Class<? extends Status>... statuses) {
-        this.setListener(listener,
-                StatusConverter.convertMask(this.environment, statuses));
+    	//TODO FRCYC this.setListener(listener,
+                //StatusConverter.convertMask(this.environment, statuses));
     }
 
     @Override
     public SubscriberQos getQos() {
-        SubscriberQosHolder holder = new SubscriberQosHolder();
+        /* TODO FRCYC
+         * SubscriberQosHolder holder = new SubscriberQosHolder();
         int rc = this.getOld().get_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Subscriber.getQos() failed.");
 
         return SubscriberQosImpl.convert(this.environment, holder.value);
+        */
+    	return null;
     }
 
     @Override
@@ -177,9 +187,11 @@ public class SubscriberImpl
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Setting non-OpenSplice Qos not supported.");
         }
+        /* TODO FRCYC
         int rc = this.getOld().set_qos(q.convert());
         Utilities.checkReturnCode(rc, this.environment,
                 "Subscriber.setQos() failed.");
+                */
 
     }
 
@@ -251,12 +263,12 @@ public class SubscriberImpl
                     }
                 }
             }
-            DataReader builtinReader = this.getOld()
-                    .lookup_datareader(topicName);
+            /*TODO FRCYC DataReader builtinReader = this.getOld().lookup_datareader(topicName);
 
             if (builtinReader != null) {
                 return this.initBuiltinReader(builtinReader);
             }
+            */
         }
         return null;
     }
@@ -280,12 +292,14 @@ public class SubscriberImpl
                     }
                 }
             }
+            /* TODO FRCYC
             DataReader builtinReader = this.getOld()
                     .lookup_datareader(topicDescription.getName());
 
             if (builtinReader != null) {
                 return this.initBuiltinReader(builtinReader, topicDescription);
             }
+            */
         }
         return null;
     }
@@ -295,8 +309,9 @@ public class SubscriberImpl
         DataReaderImpl<TYPE> result = null;
 
         if (oldBuiltin != null) {
-            TopicDescription classicTopicDescription = oldBuiltin
+            /*TODO FRCYC TopicDescription classicTopicDescription = oldBuiltin
                     .get_topicdescription();
+                    
 
             if (classicTopicDescription != null) {
                 TopicDescription<TYPE> td = this.getParent()
@@ -310,6 +325,7 @@ public class SubscriberImpl
                 throw new DDSExceptionImpl(this.environment,
                         "Classic DataReader has no TopicDescription.");
             }
+            */
         }
         return result;
     }
@@ -317,7 +333,7 @@ public class SubscriberImpl
     private <TYPE> DataReaderImpl<TYPE> initBuiltinReader(
             DataReader oldBuiltin, TopicDescription<TYPE> td) {
         DataReaderImpl<TYPE> result = null;
-
+        /* TODO FRCYC
         if (oldBuiltin != null) {
             result = new DataReaderImpl<TYPE>(this.environment, this,
                     (TopicDescriptionExt<TYPE>) td, oldBuiltin);
@@ -326,6 +342,8 @@ public class SubscriberImpl
             }
         }
         return result;
+        */
+        return null;
     }
 
     public <TYPE> DataReader<TYPE> lookupDataReader(DataReader old) {
@@ -361,6 +379,7 @@ public class SubscriberImpl
 
     public Collection<DataReader<?>> getDataReaders(
             Collection<DataReader<?>> readers) {
+    	/* TODO FRCYC
         DataReaderSeqHolder oldReaders = new DataReaderSeqHolder();
 
         synchronized (this.readers) {
@@ -375,11 +394,15 @@ public class SubscriberImpl
             }
         }
         return readers;
+        */ 
+    	return null;
     }
 
     @Override
     public Collection<DataReader<?>> getDataReaders() {
         List<DataReader<?>> readers = new ArrayList<DataReader<?>>();
+        
+        /* TODO FRCYC
         DataReaderSeqHolder oldReaders = new DataReaderSeqHolder();
 
         synchronized (this.readers) {
@@ -392,7 +415,7 @@ public class SubscriberImpl
             for (DataReader oldReader : oldReaders.value) {
                 readers.add(this.readers.get(oldReader));
             }
-        }
+        }*/
         return readers;
     }
     @Override
@@ -402,6 +425,7 @@ public class SubscriberImpl
                     "Supplied DataState is null.");
         }
         List<DataReader<?>> readers = new ArrayList<DataReader<?>>();
+        /* TODO FRCYC
         DataReaderSeqHolder oldReaders = new DataReaderSeqHolder();
 
         try {
@@ -422,9 +446,11 @@ public class SubscriberImpl
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Non-OpenSplice DataState implementation not supported.");
         }
+        */
         return readers;
     }
 
+    /* TODO FRCYC
     @Override
     public void notifyDataReaders() {
         int rc = this.getOld().notify_datareaders();
@@ -471,6 +497,7 @@ public class SubscriberImpl
                     "Non-OpenSplice DataReaderQos not supported.");
         }
     }
+    */
 
     @Override
     public DataReaderQos copyFromTopicQos(DataReaderQos drQos, TopicQos tQos) {
@@ -497,13 +524,15 @@ public class SubscriberImpl
 
     @Override
     public StatusCondition<Subscriber> getStatusCondition() {
-        StatusCondition oldCondition = this.getOld().get_statuscondition();
+        /* TODO FRCYC StatusCondition oldCondition = this.getOld().get_statuscondition();
 
         if (oldCondition == null) {
             Utilities.throwLastErrorException(this.environment);
         }
         return new StatusConditionImpl<Subscriber>(this.environment,
                 oldCondition, this);
+                */
+    	return null;
     }
 
     @Override
@@ -516,14 +545,16 @@ public class SubscriberImpl
         return new DataStateImpl(this.environment);
     }
 
+    /* TODO FRCYC
     @Override
     protected void destroy() {
         this.closeContainedEntities();
         this.parent.destroySubscriber(this);
     }
-
+     */
     public void destroyDataReader(AbstractDataReader<?> dataReader) {
-        DataReader old = dataReader.getOld();
+        /* TODO FRCYC
+    	DataReader old = dataReader.getOld();
         old.delete_contained_entities();
         int rc = this.getOld().delete_datareader(old);
         synchronized (this.readers) {
@@ -531,5 +562,75 @@ public class SubscriberImpl
         }
         Utilities.checkReturnCode(rc, this.environment,
                 "DataReader.close() failed.");
+                */
     }
+    
+
+	@Override
+	public void enable() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<Class<? extends Status>> getStatusChanges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle getInstanceHandle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setProperty(String key, String value) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getProperty(String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void notifyDataReaders() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void beginAccess() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void endAccess() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public DataReaderQos getDefaultDataReaderQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setDefaultDataReaderQos(DataReaderQos qos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 }

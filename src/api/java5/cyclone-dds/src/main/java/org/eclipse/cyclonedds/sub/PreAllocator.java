@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.omg.dds.sub.Sample;
 
-import SampleInfoSeqHolder;
+//TODO FRCYC import SampleInfoSeqHolder;
 
 public interface PreAllocator<TYPE> {
     public void setSampleList(List<Sample<TYPE>> preAllocated);

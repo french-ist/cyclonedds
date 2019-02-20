@@ -30,8 +30,8 @@ import org.eclipse.cyclonedds.core.DDSExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
 
-import SampleInfo;
-import SampleInfoSeqHolder;
+//TODO FRCYC import SampleInfo;
+//TODO FRCYC import SampleInfoSeqHolder;
 
 public class PreAllocatorImpl<TYPE> implements PreAllocator<TYPE> {
     private final OsplServiceEnvironment environment;
@@ -68,12 +68,13 @@ public class PreAllocatorImpl<TYPE> implements PreAllocator<TYPE> {
                     if (this.lastLength == -1) {
                         this.infoSeqHolder = new SampleInfoSeqHolder();
                         this.dataSeqHolder = dataSeqHolderClaz.newInstance();
-                    }
+                    }/* TODO FRCYC
                     this.infoSeqHolder.value = new SampleInfo[preAllocated
                             .size()];
                     this.dataSeqHolderValueField.set(this.dataSeqHolder,
                             Array.newInstance(dataClaz, preAllocated.size()));
                     this.copyData();
+                    */
                 }
             } else {
                 this.sampleList = preAllocated;
@@ -98,16 +99,18 @@ public class PreAllocatorImpl<TYPE> implements PreAllocator<TYPE> {
         int i = 0;
 
         try {
-            this.infoSeqHolder.value = new SampleInfo[this.sampleList.size()];
+            //TODO FRCYC this.infoSeqHolder.value = new SampleInfo[this.sampleList.size()];
             this.dataSeqHolderValueField.set(this.dataSeqHolder,
                     Array.newInstance(dataClaz, this.sampleList.size()));
             Object dataValue = this.dataSeqHolderValueField
                     .get(this.dataSeqHolder);
 
             for (Sample<TYPE> sample : this.sampleList) {
+            	/* TODO FRCYC 
                 this.infoSeqHolder.value[i] = ((SampleImpl<TYPE>) sample)
                         .getInfo();
                 Array.set(dataValue, i++, sample.getData());
+                */
             }
         } catch (IllegalAccessException e) {
             throw new DDSExceptionImpl(this.environment, "Internal error ("
@@ -128,7 +131,7 @@ public class PreAllocatorImpl<TYPE> implements PreAllocator<TYPE> {
         int index;
 
         assert (this.lastLength == this.sampleList.size());
-
+        /* TODO FRCYC
         if (this.infoSeqHolder.value.length > this.lastLength) {
             try {
                 Object dataValue = this.dataSeqHolderValueField
@@ -159,6 +162,7 @@ public class PreAllocatorImpl<TYPE> implements PreAllocator<TYPE> {
             }
         }
         this.lastLength = this.sampleList.size();
+        */
     }
 
     @Override

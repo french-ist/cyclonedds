@@ -31,8 +31,8 @@ public class DurationImpl extends Duration {
     private final long seconds;
     private final long nanoseconds;
     private final long totalNanos;
-    public final static int INFINITE_SECONDS = DURATION_INFINITE_SEC.value;
-    public final static int INFINITE_NANOSECONDS = DURATION_INFINITE_NSEC.value;
+    public final static int INFINITE_SECONDS = Integer.MAX_VALUE;//TODO FRCYC DURATION_INFINITE_SEC.value;
+    public final static int INFINITE_NANOSECONDS = Integer.MAX_VALUE;//TODO FRCYC DURATION_INFINITE_NSEC.value;
 
     public DurationImpl(OsplServiceEnvironment environment, long duration,
             TimeUnit unit) {
@@ -311,9 +311,10 @@ public class DurationImpl extends Duration {
         return this.subtract(temp);
     }
 
+    /*TODO FRCYC
     public Duration_t convert() {
         return new Duration_t((int) this.seconds, (int) this.nanoseconds);
-    }
+    }*/
 
     @Override
     public boolean equals(Object other) {

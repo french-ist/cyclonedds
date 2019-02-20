@@ -22,6 +22,13 @@ package org.eclipse.cyclonedds.sub;
 
 import java.io.Serializable;
 
+import org.omg.dds.core.event.DataAvailableEvent;
+import org.omg.dds.core.event.LivelinessChangedEvent;
+import org.omg.dds.core.event.RequestedDeadlineMissedEvent;
+import org.omg.dds.core.event.RequestedIncompatibleQosEvent;
+import org.omg.dds.core.event.SampleLostEvent;
+import org.omg.dds.core.event.SampleRejectedEvent;
+import org.omg.dds.core.event.SubscriptionMatchedEvent;
 import org.omg.dds.sub.DataReader;
 import org.omg.dds.sub.DataReaderListener;
 import org.eclipse.cyclonedds.core.Listener;
@@ -36,12 +43,14 @@ import org.eclipse.cyclonedds.core.event.SubscriptionMatchedEventImpl;
 import org.eclipse.cyclonedds.core.status.DataAvailableStatusImpl;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 
+/* TODO FRCYC
 import LivelinessChangedStatus;
 import RequestedDeadlineMissedStatus;
 import RequestedIncompatibleQosStatus;
 import SampleLostStatus;
 import SampleRejectedStatus;
 import SubscriptionMatchedStatus;
+*/
 
 public class DataReaderListenerImpl<TYPE> extends
         Listener<DataReaderListener<TYPE>> implements DataReaderListener,
@@ -61,6 +70,7 @@ public class DataReaderListenerImpl<TYPE> extends
         this.reader = reader;
     }
 
+    /*
     @Override
     public void on_requested_deadline_missed(DataReader reader,
             RequestedDeadlineMissedStatus status) {
@@ -124,4 +134,47 @@ public class DataReaderListenerImpl<TYPE> extends
                 this.environment, this.reader, StatusConverter.convert(
                         this.environment, status)));
     }
+    */
+    
+	@Override
+	public void onRequestedDeadlineMissed(RequestedDeadlineMissedEvent status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRequestedIncompatibleQos(RequestedIncompatibleQosEvent status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSampleRejected(SampleRejectedEvent status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onLivelinessChanged(LivelinessChangedEvent status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDataAvailable(DataAvailableEvent status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSubscriptionMatched(SubscriptionMatchedEvent status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSampleLost(SampleLostEvent status) {
+		// TODO Auto-generated method stub
+		
+	}
 }

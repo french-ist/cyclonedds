@@ -23,17 +23,17 @@ package org.eclipse.cyclonedds.core;
 import org.omg.dds.core.GuardCondition;
 import org.omg.dds.core.ServiceEnvironment;
 
-public class GuardConditionImpl extends GuardCondition implements org.eclipse.cyclonedds.core.Condition<GuardCondition> {
+public class GuardConditionImpl extends GuardCondition implements org.eclipse.cyclonedds.core.Condition<Condition> {
     private final OsplServiceEnvironment environment;
-    private final GuardCondition oldGuardCondition;
+    //TODO FRCYC private final GuardCondition oldGuardCondition;
 
 
     public GuardConditionImpl(OsplServiceEnvironment environment){
         this.environment = environment;
-        this.oldGuardCondition = new GuardCondition();
+        //this.oldGuardCondition = new GuardCondition();
     }
 
-    @Override
+    /*
     public boolean getTriggerValue() {
         return this.oldGuardCondition.get_trigger_value();
     }
@@ -52,9 +52,34 @@ public class GuardConditionImpl extends GuardCondition implements org.eclipse.cy
     public GuardCondition getOldCondition() {
         return this.oldGuardCondition;
     }
+    */
 
     @Override
     public String toString() {
         return "GuardCondition (" + Integer.toHexString(hashCode()) + ")";
     }
+
+	@Override
+	public boolean getTriggerValue() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ServiceEnvironment getEnvironment() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Condition getOldCondition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setTriggerValue(boolean value) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -106,6 +106,7 @@ public class PublisherQosImpl extends EntityQosImpl<ForPublisher> implements
         }
     }
 
+    /* TODO FRCYC
     public static PublisherQosImpl convert(OsplServiceEnvironment env,
             PublisherQos oldQos) {
         if (oldQos == null) {
@@ -142,4 +143,5 @@ public class PublisherQosImpl extends EntityQosImpl<ForPublisher> implements
         }
         return old;
     }
+    */
 }

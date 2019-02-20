@@ -39,7 +39,7 @@ public class ParticipantBuiltinTopicDataImpl implements
             ParticipantBuiltinTopicData old) {
         this.environment = environment;
         this.old = old;
-        this.key = new BuiltinTopicKeyImpl(this.environment, old.key);
+        //TODO FRCYC this.key = new BuiltinTopicKeyImpl(this.environment, old.key);
     }
 
     @Override
@@ -52,6 +52,7 @@ public class ParticipantBuiltinTopicDataImpl implements
         return this.key;
     }
 
+    /*
     @Override
     public UserData getUserData() {
         return PolicyConverter.convert(this.environment, old.user_data);
@@ -72,10 +73,22 @@ public class ParticipantBuiltinTopicDataImpl implements
                     this.environment,
                     "ParticipantBuiltinTopicData.copyFrom() on non-OpenSplice ParticipantBuiltinTopicData implementation is not supported.");
         }
-    }
+    }*/
 
     @Override
     public ParticipantBuiltinTopicData clone() {
         return new ParticipantBuiltinTopicDataImpl(this.environment, this.old);
     }
+
+	@Override
+	public UserData getUserData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void copyFrom(ParticipantBuiltinTopicData src) {
+		// TODO Auto-generated method stub
+		
+	}
 }

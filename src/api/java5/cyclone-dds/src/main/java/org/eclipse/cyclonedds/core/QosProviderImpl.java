@@ -36,10 +36,10 @@ import org.eclipse.cyclonedds.sub.DataReaderQosImpl;
 import org.eclipse.cyclonedds.sub.SubscriberQosImpl;
 import org.eclipse.cyclonedds.topic.TopicQosImpl;
 
-import DataReaderQosHolder;
-import DataWriterQosHolder;
-import PublisherQosHolder;
-import SubscriberQosHolder;
+//import DataReaderQosHolder;
+//import DataWriterQosHolder;
+//import PublisherQosHolder;
+//import SubscriberQosHolder;
 
 public class QosProviderImpl extends QosProvider {
     private final OsplServiceEnvironment environment;
@@ -52,9 +52,9 @@ public class QosProviderImpl extends QosProvider {
         }
         this.environment = environment;
         try {
-            this.old = new QosProvider(uri, profile);
+            // TODO FRCYC this.old = new QosProvider(uri, profile);
         } catch (NullPointerException npe) {
-            Utilities.throwLastErrorException(this.environment);
+            //TODO FRCYC Utilities.throwLastErrorException(this.environment);
         }
     }
 
@@ -79,6 +79,73 @@ public class QosProviderImpl extends QosProvider {
         return this.getDomainParticipantQos(null);
     }
 
+	@Override
+	public DomainParticipantQos getDomainParticipantQos(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TopicQos getTopicQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TopicQos getTopicQos(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SubscriberQos getSubscriberQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SubscriberQos getSubscriberQos(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PublisherQos getPublisherQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PublisherQos getPublisherQos(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DataReaderQos getDataReaderQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DataReaderQos getDataReaderQos(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DataWriterQos getDataWriterQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DataWriterQos getDataWriterQos(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    /* TODO FRCYC
     @Override
     public DomainParticipantQos getDomainParticipantQos(String id) {
         DomainParticipantQosHolder holder = new DomainParticipantQosHolder();
@@ -175,5 +242,5 @@ public class QosProviderImpl extends QosProvider {
         }
         return DataWriterQosImpl.convert(this.environment, holder.value);
     }
-
+    */
 }

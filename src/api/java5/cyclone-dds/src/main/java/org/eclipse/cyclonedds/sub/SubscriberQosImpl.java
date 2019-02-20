@@ -125,6 +125,7 @@ public class SubscriberQosImpl extends EntityQosImpl<ForSubscriber> implements
 
     public static SubscriberQosImpl convert(OsplServiceEnvironment env,
             SubscriberQos oldQos) {
+    	/* TODO FRCYC
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,
                     "oldQos parameter is null.");
@@ -147,9 +148,12 @@ public class SubscriberQosImpl extends EntityQosImpl<ForSubscriber> implements
         }
 
         return qos;
+        */
+    	return null;
     }
 
     public SubscriberQos convert() {
+    	/* TODO FRCYC
         SubscriberQos old = new SubscriberQos();
 
         synchronized (this.policies) {
@@ -173,6 +177,8 @@ public class SubscriberQosImpl extends EntityQosImpl<ForSubscriber> implements
                     .get(Share.class)));
         }
         return old;
+        */
+    	return null;
     }
 
 }

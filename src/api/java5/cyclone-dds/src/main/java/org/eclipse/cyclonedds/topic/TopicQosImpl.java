@@ -281,7 +281,7 @@ public class TopicQosImpl extends EntityQosImpl<ForTopic> implements TopicQos {
         }
 
         TopicQosImpl qos = new TopicQosImpl(env);
-
+/* TODO FRCYC
         qos.put(Deadline.class, PolicyConverter.convert(env, oldQos.deadline));
         qos.put(DestinationOrder.class,
                 PolicyConverter.convert(env, oldQos.destination_order));
@@ -304,11 +304,11 @@ public class TopicQosImpl extends EntityQosImpl<ForTopic> implements TopicQos {
                 PolicyConverter.convert(env, oldQos.topic_data));
         qos.put(TransportPriority.class,
                 PolicyConverter.convert(env, oldQos.transport_priority));
-
+*/
         return qos;
     }
 
-    public TopicQos convert() {
+    public TopicQos convert() { /* TODO FRCYC
         TopicQos old = new TopicQos();
 
         synchronized (this.policies) {
@@ -360,6 +360,8 @@ public class TopicQosImpl extends EntityQosImpl<ForTopic> implements TopicQos {
         }
 
         return old;
+    */
+    	return null;
     }
 
 }

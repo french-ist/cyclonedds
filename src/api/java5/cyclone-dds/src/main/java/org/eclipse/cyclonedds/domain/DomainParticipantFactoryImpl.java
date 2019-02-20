@@ -37,9 +37,12 @@ import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
 import org.eclipse.cyclonedds.core.Utilities;
 
+/*
+ TODO FRCYC
 import org.eclipse.cyclonedds.ddsc.DdscLibrary;
 import org.eclipse.cyclonedds.ddsc.NativeSize;
 import org.eclipse.cyclonedds.ddsc.DdscLibrary.*;
+*/
 
 public class DomainParticipantFactoryImpl extends DomainParticipantFactory
         implements org.eclipse.cyclonedds.domain.DomainParticipantFactory {
@@ -89,6 +92,43 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
         return createParticipant(domainId, qos, listener, Arrays.asList(statuses));
     }
 
+	@Override
+	public void detachAllDomains(boolean blockOperations, boolean deleteEntities) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public DomainParticipant lookupParticipant(int domainId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DomainParticipantFactoryQos getQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setQos(DomainParticipantFactoryQos qos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public DomainParticipantQos getDefaultParticipantQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setDefaultParticipantQos(DomainParticipantQos qos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+    /* TODO FRCYC
     @Override
     public DomainParticipant lookupParticipant(int domainId) {
         DomainParticipantImpl participant;
@@ -165,5 +205,6 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
     public void detachAllDomains(boolean blockOperations, boolean deleteEntities) {
         this.factory.detach_all_domains(blockOperations, deleteEntities);
     }
+    */
 
 }
