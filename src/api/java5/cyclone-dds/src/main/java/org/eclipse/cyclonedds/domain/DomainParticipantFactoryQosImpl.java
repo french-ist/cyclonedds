@@ -60,7 +60,7 @@ public class DomainParticipantFactoryQosImpl extends
     }
 
     public static DomainParticipantFactoryQosImpl convert(
-            OsplServiceEnvironment env, DDS.DomainParticipantFactoryQos oldQos) {
+            OsplServiceEnvironment env, DomainParticipantFactoryQos oldQos) {
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,
                     "oldQos parameter is null.");
@@ -75,9 +75,9 @@ public class DomainParticipantFactoryQosImpl extends
         return qos;
     }
 
-    public DDS.DomainParticipantFactoryQos convert() {
-        DDS.DomainParticipantFactoryQos old = new DDS.DomainParticipantFactoryQos(
-                new DDS.EntityFactoryQosPolicy());
+    public DomainParticipantFactoryQos convert() {
+        DomainParticipantFactoryQos old = new DomainParticipantFactoryQos(
+                new EntityFactoryQosPolicy());
 
         synchronized (this.policies) {
             old.entity_factory.autoenable_created_entities = ((EntityFactory) this.policies

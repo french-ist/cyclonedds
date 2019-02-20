@@ -52,13 +52,13 @@ import org.eclipse.cyclonedds.core.policy.TypeConsistencyEnforcementImpl;
 public class TopicBuiltinTopicDataImpl implements TopicBuiltinTopicData {
     private static final long serialVersionUID = 4997312302065915561L;
     private final transient OsplServiceEnvironment environment;
-    private DDS.TopicBuiltinTopicData old;
+    private TopicBuiltinTopicData old;
     private BuiltinTopicKey key;
     private final TypeConsistencyEnforcement typeConsistency;
     private final DataRepresentation dataRepresentation;
 
     public TopicBuiltinTopicDataImpl(OsplServiceEnvironment environment,
-            DDS.TopicBuiltinTopicData old) {
+            TopicBuiltinTopicData old) {
         this.environment = environment;
         this.old = old;
         this.key = new BuiltinTopicKeyImpl(this.environment, old.key);

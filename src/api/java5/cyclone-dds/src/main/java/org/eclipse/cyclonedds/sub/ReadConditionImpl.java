@@ -35,9 +35,9 @@ import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
 import org.eclipse.cyclonedds.core.Utilities;
 
 public class ReadConditionImpl<TYPE> implements ReadCondition<TYPE>,
-        Condition<DDS.ReadCondition> {
+        Condition<ReadCondition> {
     protected final OsplServiceEnvironment environment;
-    protected DDS.ReadCondition old;
+    protected ReadCondition old;
     protected final AbstractDataReader<TYPE> parent;
     protected final DataStateImpl state;
 
@@ -120,7 +120,7 @@ public class ReadConditionImpl<TYPE> implements ReadCondition<TYPE>,
         return this.parent;
     }
 
-    public DDS.ReadCondition getOld() {
+    public ReadCondition getOld() {
         return this.old;
     }
 
@@ -134,7 +134,7 @@ public class ReadConditionImpl<TYPE> implements ReadCondition<TYPE>,
     }
 
     @Override
-    public DDS.ReadCondition getOldCondition() {
+    public ReadCondition getOldCondition() {
         return this.old;
     }
 

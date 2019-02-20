@@ -28,7 +28,7 @@ import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
 
 public abstract class AbstractDataWriter<TYPE>
         extends
-        DomainEntityImpl<DDS.DataWriter, PublisherImpl, DDS.Publisher, DataWriterQos, DataWriterListener<TYPE>, DataWriterListenerImpl<TYPE>>
+        DomainEntityImpl<DataWriter, PublisherImpl, Publisher, DataWriterQos, DataWriterListener<TYPE>, DataWriterListenerImpl<TYPE>>
         implements org.eclipse.cyclonedds.pub.DataWriter<TYPE> {
 
     public AbstractDataWriter(OsplServiceEnvironment environment,

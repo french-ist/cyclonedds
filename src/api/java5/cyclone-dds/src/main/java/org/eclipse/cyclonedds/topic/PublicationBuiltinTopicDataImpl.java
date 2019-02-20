@@ -55,14 +55,14 @@ public class PublicationBuiltinTopicDataImpl implements
         PublicationBuiltinTopicData {
     private static final long serialVersionUID = -6604763092552114237L;
     private final transient OsplServiceEnvironment environment;
-    private DDS.PublicationBuiltinTopicData old;
+    private PublicationBuiltinTopicData old;
     private BuiltinTopicKey key;
     private BuiltinTopicKey participantKey;
     private final TypeConsistencyEnforcement typeConsistency;
     private final DataRepresentation dataRepresentation;
 
     public PublicationBuiltinTopicDataImpl(OsplServiceEnvironment environment,
-            DDS.PublicationBuiltinTopicData old) {
+            PublicationBuiltinTopicData old) {
         this.environment = environment;
         this.old = old;
         this.key = new BuiltinTopicKeyImpl(this.environment, old.key);

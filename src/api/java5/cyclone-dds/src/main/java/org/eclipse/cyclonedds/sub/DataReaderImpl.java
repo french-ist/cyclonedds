@@ -43,7 +43,7 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
 
     public DataReaderImpl(OsplServiceEnvironment environment,
             SubscriberImpl parent, TopicDescriptionExt<TYPE> topicDescription,
-            DDS.DataReader old) {
+            DataReader old) {
         super(environment, parent, topicDescription);
         this.setOld(old);
         this.reflectionReader = new ReflectionDataReader<TYPE, TYPE>(
@@ -69,7 +69,7 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
                     "Supplied TopicDescription is null.");
         }
 
-        DDS.DataReaderQos oldQos;
+        DataReaderQos oldQos;
 
         try {
             oldQos = ((DataReaderQosImpl) qos).convert();
@@ -84,7 +84,7 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
         } else {
             this.listener = null;
         }
-        DDS.DataReader old = this.parent.getOld().create_datareader(
+        DataReader old = this.parent.getOld().create_datareader(
                 topicDescription.getOld(), oldQos, this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
 
@@ -168,7 +168,7 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
 
     @Override
     public Iterator<TYPE> createIterator(Object sampleSeqHolder,
-            Field sampleSeqHolderValueField, DDS.SampleInfoSeqHolder info) {
+            Field sampleSeqHolderValueField, SampleInfoSeqHolder info) {
         return new IteratorImpl<TYPE>(this.environment, this, sampleSeqHolder,
                 sampleSeqHolderValueField, info);
     }

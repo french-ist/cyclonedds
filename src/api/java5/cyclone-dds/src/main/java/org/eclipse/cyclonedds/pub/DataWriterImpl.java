@@ -67,7 +67,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Supplied Topic is null.");
         }
-        DDS.DataWriterQos oldQos;
+        DataWriterQos oldQos;
 
         try {
             oldQos = ((DataWriterQosImpl) qos).convert();
@@ -83,7 +83,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
             this.listener = null;
         }
         // To be replaced by JNA/JNI access
-        DDS.DataWriter old = this.parent.getOld().create_datawriter(
+        DataWriter old = this.parent.getOld().create_datawriter(
                 topic.getOld(), oldQos, this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
 
@@ -341,7 +341,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
 
     @Override
     public StatusCondition<DataWriter<TYPE>> getStatusCondition() {
-        DDS.StatusCondition oldCondition = this.getOld().get_statuscondition();
+        StatusCondition oldCondition = this.getOld().get_statuscondition();
 
         if (oldCondition == null) {
             Utilities.throwLastErrorException(this.environment);

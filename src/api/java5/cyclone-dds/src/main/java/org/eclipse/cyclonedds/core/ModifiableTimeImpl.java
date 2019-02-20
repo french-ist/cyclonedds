@@ -385,8 +385,8 @@ public class ModifiableTimeImpl extends ModifiableTime {
 
     @Override
     public boolean isValid() {
-        if (this.seconds == DDS.TIMESTAMP_INVALID_SEC.value
-                && this.nanoseconds == DDS.TIMESTAMP_INVALID_NSEC.value) {
+        if (this.seconds == TIMESTAMP_INVALID_SEC.value
+                && this.nanoseconds == TIMESTAMP_INVALID_NSEC.value) {
             return false;
         }
         if ((this.nanoseconds >= 1000000000)
@@ -402,8 +402,8 @@ public class ModifiableTimeImpl extends ModifiableTime {
                 this.nanoseconds);
     }
 
-    public DDS.Time_t convert() {
-        return new DDS.Time_t((int) this.seconds, (int) this.nanoseconds);
+    public Time_t convert() {
+        return new Time_t((int) this.seconds, (int) this.nanoseconds);
     }
 
     @Override

@@ -83,34 +83,34 @@ import org.eclipse.cyclonedds.topic.TopicImpl;
 import org.eclipse.cyclonedds.topic.TopicQosImpl;
 import org.eclipse.cyclonedds.type.AbstractTypeSupport;
 
-import DDS.DomainParticipantQosHolder;
-import DDS.Time_tHolder;
+import DomainParticipantQosHolder;
+import Time_tHolder;
 
 public class DomainParticipantImpl
         extends
-        EntityImpl<DDS.DomainParticipant, DDS.DomainParticipantFactory, DomainParticipantQos, DomainParticipantListener, DomainParticipantListenerImpl>
+        EntityImpl<DomainParticipant, DomainParticipantFactory, DomainParticipantQos, DomainParticipantListener, DomainParticipantListenerImpl>
         implements DomainParticipant, org.eclipse.cyclonedds.domain.DomainParticipant {
     private final DomainParticipantFactoryImpl factory;
-    private final HashMap<DDS.TopicDescription, TopicDescriptionExt<?>> topics;
-    private final HashMap<DDS.Publisher, PublisherImpl> publishers;
-    private final HashMap<DDS.Subscriber, SubscriberImpl> subscribers;
+    private final HashMap<TopicDescription, TopicDescriptionExt<?>> topics;
+    private final HashMap<Publisher, PublisherImpl> publishers;
+    private final HashMap<Subscriber, SubscriberImpl> subscribers;
 
     public DomainParticipantImpl(OsplServiceEnvironment environment,
             DomainParticipantFactoryImpl factory, int domainId,
             DomainParticipantQos qos, DomainParticipantListener listener,
             Collection<Class<? extends Status>> statuses) {
-        super(environment, DDS.DomainParticipantFactory.get_instance());
+        super(environment, DomainParticipantFactory.get_instance());
         this.factory = factory;
-        this.topics = new HashMap<DDS.TopicDescription, TopicDescriptionExt<?>>();
-        this.publishers = new HashMap<DDS.Publisher, PublisherImpl>();
-        this.subscribers = new HashMap<DDS.Subscriber, SubscriberImpl>();
+        this.topics = new HashMap<TopicDescription, TopicDescriptionExt<?>>();
+        this.publishers = new HashMap<Publisher, PublisherImpl>();
+        this.subscribers = new HashMap<Subscriber, SubscriberImpl>();
 
         if (qos == null) {
             throw new IllegalArgumentExceptionImpl(environment,
                     "Supplied DomainParticipantQos is null.");
         }
 
-        DDS.DomainParticipantQos oldQos;
+        DomainParticipantQos oldQos;
 
         try {
             oldQos = ((DomainParticipantQosImpl) qos).convert();
@@ -124,7 +124,7 @@ public class DomainParticipantImpl
         } else {
             this.listener = null;
         }
-        DDS.DomainParticipant old = this.getOldParent().create_participant(
+        DomainParticipant old = this.getOldParent().create_participant(
                 domainId,
                 oldQos,
                 this.listener,
@@ -141,7 +141,7 @@ public class DomainParticipantImpl
     }
 
     @SuppressWarnings("unchecked")
-    public <TYPE> Topic<TYPE> getTopic(DDS.Topic oldTopic) {
+    public <TYPE> Topic<TYPE> getTopic(Topic oldTopic) {
         synchronized (this.topics) {
             return (Topic<TYPE>) this.topics.get(oldTopic);
         }
@@ -182,7 +182,7 @@ public class DomainParticipantImpl
 
     @Override
     public void setQos(DomainParticipantQos qos) {
-        DDS.DomainParticipantQos oldQos;
+        DomainParticipantQos oldQos;
         int rc;
 
         if (qos == null) {
@@ -267,7 +267,7 @@ public class DomainParticipantImpl
         SubscriberImpl result;
 
         synchronized (this.subscribers) {
-            DDS.Subscriber old = this.getOld().get_builtin_subscriber();
+            Subscriber old = this.getOld().get_builtin_subscriber();
 
             if (old == null) {
                 Utilities.throwLastErrorException(this.environment);
@@ -396,7 +396,7 @@ public class DomainParticipantImpl
     public <TYPE> Topic<TYPE> findTopic(String topicName, Duration timeout)
             throws TimeoutException {
         TopicImpl<TYPE> result = null;
-        DDS.Topic old = this.getOld().find_topic(topicName,
+        Topic old = this.getOld().find_topic(topicName,
                 Utilities.convert(this.environment, timeout));
 
         if (old != null) {
@@ -437,7 +437,7 @@ public class DomainParticipantImpl
                     }
                 }
                 if (td == null) {
-                    DDS.TopicDescription builtinTopic = this.getOld()
+                    TopicDescription builtinTopic = this.getOld()
                             .lookup_topicdescription(name);
 
                     if (builtinTopic != null) {
@@ -445,7 +445,7 @@ public class DomainParticipantImpl
                         try {
                             TopicImpl<TYPE> wrapper = new TopicImpl<TYPE>(
                                     this.environment, this, name,
-                                    (DDS.Topic) builtinTopic);
+                                    (Topic) builtinTopic);
 
                             this.topics.put(builtinTopic, wrapper);
                             td = wrapper;
@@ -530,7 +530,7 @@ public class DomainParticipantImpl
     @Override
     public void closeContainedEntities() {
         synchronized (this.publishers) {
-            HashMap<DDS.Publisher, PublisherImpl> copyPub = new HashMap<DDS.Publisher, PublisherImpl>(this.publishers);
+            HashMap<Publisher, PublisherImpl> copyPub = new HashMap<Publisher, PublisherImpl>(this.publishers);
             for (PublisherImpl publisher : copyPub.values()) {
                 try{
                     publisher.close();
@@ -540,7 +540,7 @@ public class DomainParticipantImpl
             }
         }
         synchronized (this.subscribers) {
-            HashMap<DDS.Subscriber, SubscriberImpl> copySub = new HashMap<DDS.Subscriber, SubscriberImpl>(this.subscribers);
+            HashMap<Subscriber, SubscriberImpl> copySub = new HashMap<Subscriber, SubscriberImpl>(this.subscribers);
             for (SubscriberImpl subscriber : copySub.values()) {
                 try {
                     subscriber.close();
@@ -555,7 +555,7 @@ public class DomainParticipantImpl
          * entities still refer to them, so close the latter two first.
          */
         synchronized (this.topics) {
-            HashMap<DDS.TopicDescription, TopicDescriptionExt<?>> copyTop = new HashMap<DDS.TopicDescription, TopicDescriptionExt<?>>(this.topics);
+            HashMap<TopicDescription, TopicDescriptionExt<?>> copyTop = new HashMap<TopicDescription, TopicDescriptionExt<?>>(this.topics);
             for (TopicDescriptionExt<?> topic : copyTop.values()) {
                 try {
                     if (topic instanceof ContentFilteredTopicImpl) {
@@ -567,7 +567,7 @@ public class DomainParticipantImpl
                     /* Entity may be closed concurrently by application */
                 }
             }
-            copyTop = new HashMap<DDS.TopicDescription, TopicDescriptionExt<?>>(this.topics);
+            copyTop = new HashMap<TopicDescription, TopicDescriptionExt<?>>(this.topics);
             for (TopicDescriptionExt<?> topic : copyTop.values()) {
                 try {
                     topic.close();
@@ -652,7 +652,7 @@ public class DomainParticipantImpl
 
     @Override
     public PublisherQos getDefaultPublisherQos() {
-        DDS.PublisherQosHolder holder = new DDS.PublisherQosHolder();
+        PublisherQosHolder holder = new PublisherQosHolder();
         int rc = this.getOld().get_default_publisher_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "DomainParticipant.getDefaultPublisherQos() failed.");
@@ -677,7 +677,7 @@ public class DomainParticipantImpl
 
     @Override
     public SubscriberQos getDefaultSubscriberQos() {
-        DDS.SubscriberQosHolder holder = new DDS.SubscriberQosHolder();
+        SubscriberQosHolder holder = new SubscriberQosHolder();
         int rc = this.getOld().get_default_subscriber_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "DomainParticipant.getDefaultSubscriberQos() failed.");
@@ -702,7 +702,7 @@ public class DomainParticipantImpl
 
     @Override
     public TopicQos getDefaultTopicQos() {
-        DDS.TopicQosHolder holder = new DDS.TopicQosHolder();
+        TopicQosHolder holder = new TopicQosHolder();
         int rc = this.getOld().get_default_topic_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "DomainParticipant.getDefaultTopicQos() failed.");
@@ -726,7 +726,7 @@ public class DomainParticipantImpl
 
     @Override
     public Set<InstanceHandle> getDiscoveredParticipants() {
-        DDS.InstanceHandleSeqHolder holder = new DDS.InstanceHandleSeqHolder();
+        InstanceHandleSeqHolder holder = new InstanceHandleSeqHolder();
         int rc = this.getOld().get_discovered_participants(holder);
 
         Utilities.checkReturnCode(rc, this.environment,
@@ -744,7 +744,7 @@ public class DomainParticipantImpl
     @Override
     public ParticipantBuiltinTopicData getDiscoveredParticipantData(
             InstanceHandle participantHandle) {
-        DDS.ParticipantBuiltinTopicDataHolder holder = new DDS.ParticipantBuiltinTopicDataHolder();
+        ParticipantBuiltinTopicDataHolder holder = new ParticipantBuiltinTopicDataHolder();
         int rc = this.getOld().get_discovered_participant_data(holder,
                 Utilities.convert(this.environment, participantHandle));
         Utilities.checkReturnCode(rc, this.environment,
@@ -760,7 +760,7 @@ public class DomainParticipantImpl
 
     @Override
     public Set<InstanceHandle> getDiscoveredTopics() {
-        DDS.InstanceHandleSeqHolder holder = new DDS.InstanceHandleSeqHolder();
+        InstanceHandleSeqHolder holder = new InstanceHandleSeqHolder();
         int rc = this.getOld().get_discovered_topics(holder);
 
         Utilities.checkReturnCode(rc, this.environment,
@@ -778,7 +778,7 @@ public class DomainParticipantImpl
     @Override
     public TopicBuiltinTopicData getDiscoveredTopicData(
             InstanceHandle topicHandle) {
-        DDS.TopicBuiltinTopicDataHolder holder = new DDS.TopicBuiltinTopicDataHolder();
+        TopicBuiltinTopicDataHolder holder = new TopicBuiltinTopicDataHolder();
         int rc = this.getOld().get_discovered_topic_data(holder,
                 Utilities.convert(this.environment, topicHandle));
         Utilities.checkReturnCode(rc, this.environment,
@@ -829,7 +829,7 @@ public class DomainParticipantImpl
 
     @Override
     public StatusCondition<DomainParticipant> getStatusCondition() {
-        DDS.StatusCondition oldCondition = this.getOld().get_statuscondition();
+        StatusCondition oldCondition = this.getOld().get_statuscondition();
 
         if (oldCondition == null) {
             Utilities.throwLastErrorException(this.environment);
@@ -866,7 +866,7 @@ public class DomainParticipantImpl
                 StatusConverter.convertMask(this.environment, statuses));
     }
 
-    public <TYPE> DataWriter<TYPE> lookupDataWriter(DDS.DataWriter old) {
+    public <TYPE> DataWriter<TYPE> lookupDataWriter(DataWriter old) {
         DataWriter<TYPE> writer;
 
         synchronized (this.publishers) {
@@ -881,7 +881,7 @@ public class DomainParticipantImpl
         return null;
     }
 
-    public <TYPE> DataReader<TYPE> lookupDataReader(DDS.DataReader classic) {
+    public <TYPE> DataReader<TYPE> lookupDataReader(DataReader classic) {
         DataReader<TYPE> reader;
         boolean seenBuiltin = false;
 
@@ -908,7 +908,7 @@ public class DomainParticipantImpl
         return null;
     }
 
-    public org.omg.dds.sub.Subscriber lookupSubscriber(DDS.Subscriber subs) {
+    public org.omg.dds.sub.Subscriber lookupSubscriber(Subscriber subs) {
         SubscriberImpl subscriber;
         SubscriberImpl builtinSub;
 
@@ -931,7 +931,7 @@ public class DomainParticipantImpl
     }
 
     public void destroyPublisher(PublisherImpl child) {
-        DDS.Publisher old = child.getOld();
+        Publisher old = child.getOld();
         old.delete_contained_entities();
         int rc = this.getOld().delete_publisher(old);
         synchronized (this.publishers) {
@@ -942,7 +942,7 @@ public class DomainParticipantImpl
     }
 
     public void destroySubscriber(SubscriberImpl child) {
-        DDS.Subscriber old = child.getOld();
+        Subscriber old = child.getOld();
         old.delete_contained_entities();
         int rc = this.getOld().delete_subscriber(old);
         synchronized (this.subscribers) {
@@ -953,8 +953,8 @@ public class DomainParticipantImpl
     }
 
     public <TYPE> void destroyTopic(TopicDescriptionExt<TYPE> child) {
-        DDS.TopicDescription old = child.getOld();
-        int rc = this.getOld().delete_topic((DDS.Topic) old);
+        TopicDescription old = child.getOld();
+        int rc = this.getOld().delete_topic((Topic) old);
         synchronized (this.topics) {
             this.topics.remove(old);
         }
@@ -964,7 +964,7 @@ public class DomainParticipantImpl
 
     public <TYPE> void destroyContentFilteredTopic(
             ContentFilteredTopicImpl<TYPE> child) {
-        DDS.TopicDescription old = child.getOld();
+        TopicDescription old = child.getOld();
         synchronized (this.topics) {
             TopicDescriptionExt<?> removed = this.topics.remove(old);
             if (removed == null) {
@@ -973,7 +973,7 @@ public class DomainParticipantImpl
             }
         }
         int rc = this.getOld().delete_contentfilteredtopic(
-                (DDS.ContentFilteredTopic) old);
+                (ContentFilteredTopic) old);
         Utilities.checkReturnCode(rc, this.environment,
                 "ContentFilteredTopic.close() failed.");
         child.getRelatedTopic().close();
@@ -988,7 +988,7 @@ public class DomainParticipantImpl
 
     @Override
     public void createPersistentSnapshot(String partitionExpression,String topicExpression,String uri) {
-        DDS.Domain domain = this.getOldParent().lookup_domain(this.getDomainId());
+        Domain domain = this.getOldParent().lookup_domain(this.getDomainId());
         if (domain != null) {
             int rc = domain.create_persistent_snapshot(partitionExpression, topicExpression, uri);
             Utilities.checkReturnCode(rc, this.environment,"createPersistenSnapshot operation failed.");
@@ -1000,15 +1000,15 @@ public class DomainParticipantImpl
 
     @Override
     public void setProperty(String key, String value) {
-        int rc = this.getOld().set_property(new DDS.Property(key, value));
+        int rc = this.getOld().set_property(new Property(key, value));
         Utilities.checkReturnCode(rc, this.environment,
                 "Properties.setProperty() failed.");
     }
 
     @Override
     public String getProperty(String key) {
-        DDS.PropertyHolder holder = new DDS.PropertyHolder();
-        holder.value = new DDS.Property(key, null);
+        PropertyHolder holder = new PropertyHolder();
+        holder.value = new Property(key, null);
         int rc = this.getOld().get_property(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Properties.getProperty() failed.");

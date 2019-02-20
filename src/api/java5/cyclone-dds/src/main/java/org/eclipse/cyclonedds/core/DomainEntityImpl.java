@@ -25,9 +25,9 @@ import java.util.EventListener;
 import org.omg.dds.core.EntityQos;
 
 public abstract class DomainEntityImpl<
-        OLD extends DDS.Entity,
+        OLD extends Entity,
         PARENT extends EntityImpl<?, ?, ?, ?, ?>,
-        OLDPARENT extends DDS.Entity,
+        OLDPARENT extends Entity,
         QOS extends EntityQos<?>,
         LISTENER extends EventListener,
         LISTENERIMPL extends Listener<LISTENER>>

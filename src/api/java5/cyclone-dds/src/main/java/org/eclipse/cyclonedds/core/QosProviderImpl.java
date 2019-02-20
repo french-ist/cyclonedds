@@ -36,14 +36,14 @@ import org.eclipse.cyclonedds.sub.DataReaderQosImpl;
 import org.eclipse.cyclonedds.sub.SubscriberQosImpl;
 import org.eclipse.cyclonedds.topic.TopicQosImpl;
 
-import DDS.DataReaderQosHolder;
-import DDS.DataWriterQosHolder;
-import DDS.PublisherQosHolder;
-import DDS.SubscriberQosHolder;
+import DataReaderQosHolder;
+import DataWriterQosHolder;
+import PublisherQosHolder;
+import SubscriberQosHolder;
 
 public class QosProviderImpl extends QosProvider {
     private final OsplServiceEnvironment environment;
-    private DDS.QosProvider old;
+    private QosProvider old;
 
     public QosProviderImpl(OsplServiceEnvironment environment, String uri,
             String profile) {
@@ -52,7 +52,7 @@ public class QosProviderImpl extends QosProvider {
         }
         this.environment = environment;
         try {
-            this.old = new DDS.QosProvider(uri, profile);
+            this.old = new QosProvider(uri, profile);
         } catch (NullPointerException npe) {
             Utilities.throwLastErrorException(this.environment);
         }
@@ -81,11 +81,11 @@ public class QosProviderImpl extends QosProvider {
 
     @Override
     public DomainParticipantQos getDomainParticipantQos(String id) {
-        DDS.DomainParticipantQosHolder holder = new DDS.DomainParticipantQosHolder();
+        DomainParticipantQosHolder holder = new DomainParticipantQosHolder();
         int rc = old.get_participant_qos(holder, id);
         Utilities.checkReturnCode(rc, this.environment,
                 "QosProvider.getDomainParticipantQos() failed.");
-        if (rc == DDS.RETCODE_NO_DATA.value) {
+        if (rc == RETCODE_NO_DATA.value) {
             return null;
         }
         return DomainParticipantQosImpl.convert(this.environment, holder.value);
@@ -98,11 +98,11 @@ public class QosProviderImpl extends QosProvider {
 
     @Override
     public TopicQos getTopicQos(String id) {
-        DDS.TopicQosHolder holder = new DDS.TopicQosHolder();
+        TopicQosHolder holder = new TopicQosHolder();
         int rc = old.get_topic_qos(holder, id);
         Utilities.checkReturnCode(rc, this.environment,
                 "QosProvider.getTopicQos() failed.");
-        if (rc == DDS.RETCODE_NO_DATA.value) {
+        if (rc == RETCODE_NO_DATA.value) {
             return null;
         }
         return TopicQosImpl.convert(this.environment, holder.value);
@@ -119,7 +119,7 @@ public class QosProviderImpl extends QosProvider {
         int rc = this.old.get_subscriber_qos(holder, id);
         Utilities.checkReturnCode(rc, this.environment,
                 "QosProvider.getSubscriberQos() failed.");
-        if (rc == DDS.RETCODE_NO_DATA.value) {
+        if (rc == RETCODE_NO_DATA.value) {
             return null;
         }
         return SubscriberQosImpl.convert(this.environment, holder.value);
@@ -136,7 +136,7 @@ public class QosProviderImpl extends QosProvider {
         int rc = this.old.get_publisher_qos(holder, id);
         Utilities.checkReturnCode(rc, this.environment,
                 "QosProvider.getPublisherQos() failed.");
-        if (rc == DDS.RETCODE_NO_DATA.value) {
+        if (rc == RETCODE_NO_DATA.value) {
             return null;
         }
         return PublisherQosImpl.convert(this.environment, holder.value);
@@ -153,7 +153,7 @@ public class QosProviderImpl extends QosProvider {
         int rc = this.old.get_datareader_qos(holder, id);
         Utilities.checkReturnCode(rc, this.environment,
                 "QosProvider.getDataReaderQos() failed.");
-        if (rc == DDS.RETCODE_NO_DATA.value) {
+        if (rc == RETCODE_NO_DATA.value) {
             return null;
         }
         return DataReaderQosImpl.convert(this.environment, holder.value);
@@ -170,7 +170,7 @@ public class QosProviderImpl extends QosProvider {
         int rc = this.old.get_datawriter_qos(holder, id);
         Utilities.checkReturnCode(rc, this.environment,
                 "QosProvider.getDataWriterQos() failed.");
-        if (rc == DDS.RETCODE_NO_DATA.value) {
+        if (rc == RETCODE_NO_DATA.value) {
             return null;
         }
         return DataWriterQosImpl.convert(this.environment, holder.value);

@@ -32,11 +32,11 @@ public class ParticipantBuiltinTopicDataImpl implements
         ParticipantBuiltinTopicData {
     private static final long serialVersionUID = 9013061767095970450L;
     private final transient OsplServiceEnvironment environment;
-    private DDS.ParticipantBuiltinTopicData old;
+    private ParticipantBuiltinTopicData old;
     private BuiltinTopicKey key;
 
     public ParticipantBuiltinTopicDataImpl(OsplServiceEnvironment environment,
-            DDS.ParticipantBuiltinTopicData old) {
+            ParticipantBuiltinTopicData old) {
         this.environment = environment;
         this.old = old;
         this.key = new BuiltinTopicKeyImpl(this.environment, old.key);

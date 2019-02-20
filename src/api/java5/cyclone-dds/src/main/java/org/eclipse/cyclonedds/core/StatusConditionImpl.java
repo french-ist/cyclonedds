@@ -31,13 +31,13 @@ import org.omg.dds.core.status.Status;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 
 public class StatusConditionImpl<T extends Entity<?, ?>> implements
-        StatusCondition<T>, Condition<DDS.StatusCondition> {
-    private final DDS.StatusCondition old;
+        StatusCondition<T>, Condition<StatusCondition> {
+    private final StatusCondition old;
     private final T parent;
     private final OsplServiceEnvironment environment;
 
     public StatusConditionImpl(OsplServiceEnvironment environment,
-            DDS.StatusCondition oldCondition, T parent) {
+            StatusCondition oldCondition, T parent) {
         this.old = oldCondition;
         this.parent = parent;
         this.environment = environment;
@@ -80,7 +80,7 @@ public class StatusConditionImpl<T extends Entity<?, ?>> implements
     }
 
     @Override
-    public DDS.StatusCondition getOldCondition() {
+    public StatusCondition getOldCondition() {
         return this.old;
     }
 

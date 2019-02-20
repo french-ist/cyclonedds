@@ -43,26 +43,26 @@ import org.eclipse.cyclonedds.core.status.DataAvailableStatusImpl;
 import org.eclipse.cyclonedds.core.status.DataOnReadersStatusImpl;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 
-import DDS.AllDataDisposedTopicStatusHolder;
-import DDS.DataReader;
-import DDS.DataWriter;
-import DDS.InconsistentTopicStatus;
-import DDS.LivelinessChangedStatus;
-import DDS.LivelinessLostStatus;
-import DDS.OfferedDeadlineMissedStatus;
-import DDS.OfferedIncompatibleQosStatus;
-import DDS.PublicationMatchedStatus;
-import DDS.RequestedDeadlineMissedStatus;
-import DDS.RequestedIncompatibleQosStatus;
-import DDS.SampleLostStatus;
-import DDS.SampleRejectedStatus;
-import DDS.Subscriber;
-import DDS.SubscriptionMatchedStatus;
-import DDS.Topic;
+import AllDataDisposedTopicStatusHolder;
+import DataReader;
+import DataWriter;
+import InconsistentTopicStatus;
+import LivelinessChangedStatus;
+import LivelinessLostStatus;
+import OfferedDeadlineMissedStatus;
+import OfferedIncompatibleQosStatus;
+import PublicationMatchedStatus;
+import RequestedDeadlineMissedStatus;
+import RequestedIncompatibleQosStatus;
+import SampleLostStatus;
+import SampleRejectedStatus;
+import Subscriber;
+import SubscriptionMatchedStatus;
+import Topic;
 
 public class DomainParticipantListenerImpl extends
         Listener<DomainParticipantListener> implements
-        DDS.ExtDomainParticipantListener, Serializable {
+        ExtDomainParticipantListener, Serializable {
     private static final long serialVersionUID = -3531755144455417494L;
     private final transient DomainParticipantImpl participant;
     private final transient org.eclipse.cyclonedds.domain.DomainParticipantListener extListener;
@@ -285,7 +285,7 @@ public class DomainParticipantListenerImpl extends
         AllDataDisposedTopicStatusHolder holder = new AllDataDisposedTopicStatusHolder();
         int rc = arg0.get_all_data_disposed_topic_status(holder);
 
-        if (rc != DDS.RETCODE_OK.value) {
+        if (rc != RETCODE_OK.value) {
             return;
         }
 

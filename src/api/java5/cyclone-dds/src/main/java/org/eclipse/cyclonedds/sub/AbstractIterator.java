@@ -27,7 +27,7 @@ import org.eclipse.cyclonedds.core.AlreadyClosedExceptionImpl;
 import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 
-import DDS.SampleInfoSeqHolder;
+import SampleInfoSeqHolder;
 
 public abstract class AbstractIterator<TYPE> implements Sample.Iterator<TYPE> {
     protected final AbstractDataReader<TYPE> reader;

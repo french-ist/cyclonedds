@@ -52,7 +52,7 @@ import org.eclipse.cyclonedds.topic.SubscriptionBuiltinTopicDataImpl;
 public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
         DDSObject {
     private final OsplServiceEnvironment environment;
-    private final DDS.DataWriter old;
+    private final DataWriter old;
     private final Method registerInstance;
     private final Method registerInstanceTimestamp;
     private final Method unregisterInstance;
@@ -69,7 +69,7 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
     private final Field samplHolderValueField;
 
     public ReflectionDataWriter(OsplServiceEnvironment environment,
-            DDS.DataWriter writer, Class<TYPE> typeClz) {
+            DataWriter writer, Class<TYPE> typeClz) {
         Class<?> typedWriterClz;
         String typedWriterClzName;
 
@@ -88,25 +88,25 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
             this.registerInstance = typedWriterClz.getMethod(
                     "register_instance", typeClz);
             this.registerInstanceTimestamp = typedWriterClz.getMethod(
-                    "register_instance_w_timestamp", typeClz, DDS.Time_t.class);
+                    "register_instance_w_timestamp", typeClz, Time_t.class);
             this.unregisterInstance = typedWriterClz.getMethod(
                     "unregister_instance", typeClz, long.class);
             this.unregisterInstanceTimestamp = typedWriterClz.getMethod(
                     "unregister_instance_w_timestamp", typeClz, long.class,
-                    DDS.Time_t.class);
+                    Time_t.class);
             this.write = typedWriterClz.getMethod("write", typeClz, long.class);
             this.writeTimestamp = typedWriterClz.getMethod("write_w_timestamp",
-                    typeClz, long.class, DDS.Time_t.class);
+                    typeClz, long.class, Time_t.class);
             this.dispose = typedWriterClz.getMethod("dispose", typeClz,
                     long.class);
             this.disposeTimestamp = typedWriterClz.getMethod(
                     "dispose_w_timestamp", typeClz, long.class,
-                    DDS.Time_t.class);
+                    Time_t.class);
             this.writeDispose = typedWriterClz.getMethod("writedispose",
                     typeClz, long.class);
             this.writeDisposeTimestamp = typedWriterClz.getMethod(
                     "writedispose_w_timestamp", typeClz, long.class,
-                    DDS.Time_t.class);
+                    Time_t.class);
             this.getKeyValue = typedWriterClz.getMethod("get_key_value",
                     this.sampleHolderClz, long.class);
             this.lookupInstance = typedWriterClz.getMethod("lookup_instance",
@@ -571,7 +571,7 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
     }
 
     public Set<InstanceHandle> getMatchedSubscriptions() {
-        DDS.InstanceHandleSeqHolder holder = new DDS.InstanceHandleSeqHolder();
+        InstanceHandleSeqHolder holder = new InstanceHandleSeqHolder();
         Set<InstanceHandle> handles;
 
         int rc = this.old.get_matched_subscriptions(holder);
@@ -588,7 +588,7 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
 
     public SubscriptionBuiltinTopicData getMatchedSubscriptionData(
             InstanceHandle subscriptionHandle) {
-        DDS.SubscriptionBuiltinTopicDataHolder holder = new DDS.SubscriptionBuiltinTopicDataHolder();
+        SubscriptionBuiltinTopicDataHolder holder = new SubscriptionBuiltinTopicDataHolder();
         int rc = this.old.get_matched_subscription_data(holder,
                 Utilities.convert(this.environment, subscriptionHandle));
         Utilities.checkReturnCode(rc, this.environment,
@@ -602,7 +602,7 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
     }
 
     public DataWriterQos getQos() {
-        DDS.DataWriterQosHolder holder = new DDS.DataWriterQosHolder();
+        DataWriterQosHolder holder = new DataWriterQosHolder();
         int rc = this.old.get_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "DataWriter.getQos() failed.");
@@ -643,7 +643,7 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
     }
 
     public LivelinessLostStatus getLivelinessLostStatus() {
-        DDS.LivelinessLostStatusHolder holder = new DDS.LivelinessLostStatusHolder();
+        LivelinessLostStatusHolder holder = new LivelinessLostStatusHolder();
 
         int rc = this.old.get_liveliness_lost_status(holder);
         Utilities.checkReturnCode(rc, this.environment,
@@ -653,7 +653,7 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
     }
 
     public OfferedDeadlineMissedStatus getOfferedDeadlineMissedStatus() {
-        DDS.OfferedDeadlineMissedStatusHolder holder = new DDS.OfferedDeadlineMissedStatusHolder();
+        OfferedDeadlineMissedStatusHolder holder = new OfferedDeadlineMissedStatusHolder();
 
         int rc = this.old.get_offered_deadline_missed_status(holder);
         Utilities.checkReturnCode(rc, this.environment,
@@ -663,7 +663,7 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
     }
 
     public OfferedIncompatibleQosStatus getOfferedIncompatibleQosStatus() {
-        DDS.OfferedIncompatibleQosStatusHolder holder = new DDS.OfferedIncompatibleQosStatusHolder();
+        OfferedIncompatibleQosStatusHolder holder = new OfferedIncompatibleQosStatusHolder();
 
         int rc = this.old.get_offered_incompatible_qos_status(holder);
         Utilities.checkReturnCode(rc, this.environment,
@@ -673,7 +673,7 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
     }
 
     public PublicationMatchedStatus getPublicationMatchedStatus() {
-        DDS.PublicationMatchedStatusHolder holder = new DDS.PublicationMatchedStatusHolder();
+        PublicationMatchedStatusHolder holder = new PublicationMatchedStatusHolder();
 
         int rc = this.old.get_publication_matched_status(holder);
         Utilities.checkReturnCode(rc, this.environment,

@@ -124,7 +124,7 @@ public class SubscriberQosImpl extends EntityQosImpl<ForSubscriber> implements
     }
 
     public static SubscriberQosImpl convert(OsplServiceEnvironment env,
-            DDS.SubscriberQos oldQos) {
+            SubscriberQos oldQos) {
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,
                     "oldQos parameter is null.");
@@ -149,8 +149,8 @@ public class SubscriberQosImpl extends EntityQosImpl<ForSubscriber> implements
         return qos;
     }
 
-    public DDS.SubscriberQos convert() {
-        DDS.SubscriberQos old = new DDS.SubscriberQos();
+    public SubscriberQos convert() {
+        SubscriberQos old = new SubscriberQos();
 
         synchronized (this.policies) {
             old.entity_factory = PolicyConverter

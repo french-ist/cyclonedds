@@ -64,7 +64,7 @@ public class InstanceHandleImpl extends InstanceHandle {
 
     @Override
     public boolean isNil() {
-        return (this.value == DDS.HANDLE_NIL.value);
+        return (this.value == HANDLE_NIL.value);
     }
 
     public long getValue(){

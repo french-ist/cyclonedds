@@ -66,11 +66,11 @@ import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 
 public abstract class AbstractDataReader<TYPE>
         extends
-        DomainEntityImpl<DDS.DataReader, SubscriberImpl, DDS.Subscriber, DataReaderQos, DataReaderListener<TYPE>, DataReaderListenerImpl<TYPE>>
+        DomainEntityImpl<DataReader, SubscriberImpl, Subscriber, DataReaderQos, DataReaderListener<TYPE>, DataReaderListenerImpl<TYPE>>
         implements org.eclipse.cyclonedds.sub.DataReader<TYPE> {
 
     protected final TopicDescriptionExt<TYPE> topicDescription;
-    protected final HashMap<DDS.Condition, ReadConditionImpl<TYPE>> conditions;
+    protected final HashMap<Condition, ReadConditionImpl<TYPE>> conditions;
     protected final HashSet<AbstractIterator<TYPE>> iterators;
     protected final Selector<TYPE> selector;
 
@@ -80,7 +80,7 @@ public abstract class AbstractDataReader<TYPE>
         super(environment, parent, parent.getOld());
 
         this.topicDescription = topicDescription;
-        this.conditions = new HashMap<DDS.Condition, ReadConditionImpl<TYPE>>();
+        this.conditions = new HashMap<Condition, ReadConditionImpl<TYPE>>();
         this.iterators = new HashSet<AbstractIterator<TYPE>>();
         this.selector = new SelectorImpl<TYPE>(environment, this);
     }
@@ -169,7 +169,7 @@ public abstract class AbstractDataReader<TYPE>
 
     public void destroyReadCondition(ReadConditionImpl<TYPE> condition) {
         synchronized (this.conditions) {
-            DDS.ReadCondition old = condition.getOld();
+            ReadCondition old = condition.getOld();
             int rc = this.getOld().delete_readcondition(old);
             this.conditions.remove(old);
             Utilities.checkReturnCode(rc, this.environment,
@@ -182,7 +182,7 @@ public abstract class AbstractDataReader<TYPE>
     @Override
     public void closeContainedEntities() {
         synchronized (this.conditions) {
-            HashMap<DDS.Condition, ReadConditionImpl<TYPE>> copyConditions = new HashMap<DDS.Condition, ReadConditionImpl<TYPE>>(this.conditions);
+            HashMap<Condition, ReadConditionImpl<TYPE>> copyConditions = new HashMap<Condition, ReadConditionImpl<TYPE>>(this.conditions);
             for (ReadConditionImpl<TYPE> condition : copyConditions.values()) {
                 /*
                  * Intentionally ignoring potential errors during deletion as
@@ -259,14 +259,14 @@ public abstract class AbstractDataReader<TYPE>
 
     @Override
     public void setProperty(String key, String value) {
-        int rc = this.getOld().set_property(new DDS.Property(key, value));
+        int rc = this.getOld().set_property(new Property(key, value));
         Utilities.checkReturnCode(rc, this.environment,
                 "DataReader.setProperty() failed.");
     }
 
     @Override
     public String getProperty(String key) {
-        DDS.PropertyHolder holder = new DDS.PropertyHolder();
+        PropertyHolder holder = new PropertyHolder();
         int rc = this.getOld().get_property(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "DataReader.getProperty() failed.");
@@ -489,7 +489,7 @@ public abstract class AbstractDataReader<TYPE>
     }
 
     public void returnLoan(Object sampleSeqHolder,
-            DDS.SampleInfoSeqHolder infoSeqHolder) {
+            SampleInfoSeqHolder infoSeqHolder) {
         this.getReflectionReader().returnLoan(sampleSeqHolder, infoSeqHolder);
     }
 
@@ -547,7 +547,7 @@ public abstract class AbstractDataReader<TYPE>
 
     @Override
     public StatusCondition<DataReader<TYPE>> getStatusCondition() {
-        DDS.StatusCondition oldCondition = this.getOld().get_statuscondition();
+        StatusCondition oldCondition = this.getOld().get_statuscondition();
 
         if (oldCondition == null) {
             Utilities.throwLastErrorException(this.environment);
@@ -562,5 +562,5 @@ public abstract class AbstractDataReader<TYPE>
 
     public abstract Sample.Iterator<?> createIterator(
             Object sampleSeqHolder,
-            Field sampleSeqHolderValueField, DDS.SampleInfoSeqHolder info);
+            Field sampleSeqHolderValueField, SampleInfoSeqHolder info);
 }

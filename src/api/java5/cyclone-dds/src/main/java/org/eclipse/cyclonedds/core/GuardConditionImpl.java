@@ -23,14 +23,14 @@ package org.eclipse.cyclonedds.core;
 import org.omg.dds.core.GuardCondition;
 import org.omg.dds.core.ServiceEnvironment;
 
-public class GuardConditionImpl extends GuardCondition implements org.eclipse.cyclonedds.core.Condition<DDS.GuardCondition> {
+public class GuardConditionImpl extends GuardCondition implements org.eclipse.cyclonedds.core.Condition<GuardCondition> {
     private final OsplServiceEnvironment environment;
-    private final DDS.GuardCondition oldGuardCondition;
+    private final GuardCondition oldGuardCondition;
 
 
     public GuardConditionImpl(OsplServiceEnvironment environment){
         this.environment = environment;
-        this.oldGuardCondition = new DDS.GuardCondition();
+        this.oldGuardCondition = new GuardCondition();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class GuardConditionImpl extends GuardCondition implements org.eclipse.cy
     }
 
     @Override
-    public DDS.GuardCondition getOldCondition() {
+    public GuardCondition getOldCondition() {
         return this.oldGuardCondition;
     }
 

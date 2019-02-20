@@ -35,10 +35,10 @@ public class SampleImpl<TYPE> implements org.eclipse.cyclonedds.sub.Sample<TYPE>
     private static final long serialVersionUID = 1010323161410625511L;
     private transient OsplServiceEnvironment environment;
     private TYPE data;
-    private DDS.SampleInfo info;
+    private SampleInfo info;
 
     public SampleImpl(OsplServiceEnvironment environment, TYPE data,
-            DDS.SampleInfo info) {
+            SampleInfo info) {
         this.environment = environment;
         this.data = data;
         this.info = info;
@@ -66,15 +66,15 @@ public class SampleImpl<TYPE> implements org.eclipse.cyclonedds.sub.Sample<TYPE>
         this.data = data;
     }
 
-    public void setInfo(DDS.SampleInfo info){
+    public void setInfo(SampleInfo info){
         this.info = info;
     }
 
-    public DDS.SampleInfo getInfo(){
+    public SampleInfo getInfo(){
         return this.info;
     }
 
-    public void setContent(TYPE data, DDS.SampleInfo info){
+    public void setContent(TYPE data, SampleInfo info){
         this.data = data;
         this.info = info;
     }

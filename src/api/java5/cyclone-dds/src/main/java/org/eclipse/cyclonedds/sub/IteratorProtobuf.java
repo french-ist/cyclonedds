@@ -29,7 +29,7 @@ import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
 import org.eclipse.cyclonedds.type.TypeSupportProtobuf;
 
-import DDS.SampleInfoSeqHolder;
+import SampleInfoSeqHolder;
 
 public class IteratorProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         AbstractIterator<PROTOBUF_TYPE> implements

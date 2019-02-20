@@ -273,7 +273,7 @@ public class TopicQosImpl extends EntityQosImpl<ForTopic> implements TopicQos {
     }
 
     public static TopicQosImpl convert(OsplServiceEnvironment env,
-            DDS.TopicQos oldQos) {
+            TopicQos oldQos) {
 
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,
@@ -308,8 +308,8 @@ public class TopicQosImpl extends EntityQosImpl<ForTopic> implements TopicQos {
         return qos;
     }
 
-    public DDS.TopicQos convert() {
-        DDS.TopicQos old = new DDS.TopicQos();
+    public TopicQos convert() {
+        TopicQos old = new TopicQos();
 
         synchronized (this.policies) {
             old.deadline = PolicyConverter.convert(this.environment,

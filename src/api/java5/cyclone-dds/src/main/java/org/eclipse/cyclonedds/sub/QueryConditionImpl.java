@@ -31,7 +31,7 @@ import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
 import org.eclipse.cyclonedds.core.Utilities;
 
 public class QueryConditionImpl<TYPE> extends ReadConditionImpl<TYPE> implements
-        QueryCondition<TYPE>, Condition<DDS.ReadCondition> {
+        QueryCondition<TYPE>, Condition<ReadCondition> {
     public QueryConditionImpl(OsplServiceEnvironment environment,
             AbstractDataReader<TYPE> parent, DataStateImpl state,
             String queryExpression, List<String> queryParameters) {
@@ -75,13 +75,13 @@ public class QueryConditionImpl<TYPE> extends ReadConditionImpl<TYPE> implements
 
     @Override
     public String getQueryExpression() {
-        return ((DDS.QueryCondition) this.old).get_query_expression();
+        return ((QueryCondition) this.old).get_query_expression();
     }
 
     @Override
     public List<String> getQueryParameters() {
-        DDS.StringSeqHolder holder = new DDS.StringSeqHolder();
-        int rc = ((DDS.QueryCondition) this.old).get_query_parameters(holder);
+        StringSeqHolder holder = new StringSeqHolder();
+        int rc = ((QueryCondition) this.old).get_query_parameters(holder);
 
         Utilities.checkReturnCode(rc, this.environment,
                 "QueryCondition.getQueryParameters() failed");
@@ -105,7 +105,7 @@ public class QueryConditionImpl<TYPE> extends ReadConditionImpl<TYPE> implements
                         "Invalid query parameter (null) provided.");
             }
         }
-        ((DDS.QueryCondition) this.old).set_query_parameters(queryParameters
+        ((QueryCondition) this.old).set_query_parameters(queryParameters
                 .toArray(new String[queryParameters.size()]));
     }
 
@@ -125,7 +125,7 @@ public class QueryConditionImpl<TYPE> extends ReadConditionImpl<TYPE> implements
     }
 
     @Override
-    public DDS.ReadCondition getOldCondition() {
+    public ReadCondition getOldCondition() {
         return this.old;
     }
 

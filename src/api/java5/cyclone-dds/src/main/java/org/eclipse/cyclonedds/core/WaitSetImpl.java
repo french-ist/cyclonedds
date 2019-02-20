@@ -33,13 +33,13 @@ import org.omg.dds.core.WaitSet;
 
 public class WaitSetImpl extends WaitSet {
     private final OsplServiceEnvironment environment;
-    private final DDS.WaitSet oldWaitSet;
-    private ConcurrentHashMap<DDS.Condition, org.omg.dds.core.Condition> conditions;
+    private final WaitSet oldWaitSet;
+    private ConcurrentHashMap<Condition, org.omg.dds.core.Condition> conditions;
 
     public WaitSetImpl(OsplServiceEnvironment environment) {
         this.environment = environment;
-        this.oldWaitSet = new DDS.WaitSet();
-        this.conditions = new ConcurrentHashMap<DDS.Condition, org.omg.dds.core.Condition>();
+        this.oldWaitSet = new WaitSet();
+        this.conditions = new ConcurrentHashMap<Condition, org.omg.dds.core.Condition>();
     }
 
     @Override
@@ -49,8 +49,8 @@ public class WaitSetImpl extends WaitSet {
 
     @Override
     public void waitForConditions() {
-        DDS.ConditionSeqHolder holder = new DDS.ConditionSeqHolder();
-        int rc = this.oldWaitSet._wait(holder, DDS.DURATION_INFINITE.value);
+        ConditionSeqHolder holder = new ConditionSeqHolder();
+        int rc = this.oldWaitSet._wait(holder, DURATION_INFINITE.value);
 
         Utilities.checkReturnCode(rc, this.environment,
                 "Waitset.waitForConditions() failed.");
@@ -65,15 +65,15 @@ public class WaitSetImpl extends WaitSet {
                     "Illegal Collection<Condition> (null) provided.");
         }
 
-        DDS.ConditionSeqHolder holder = new DDS.ConditionSeqHolder();
-        int rc = this.oldWaitSet._wait(holder, DDS.DURATION_INFINITE.value);
+        ConditionSeqHolder holder = new ConditionSeqHolder();
+        int rc = this.oldWaitSet._wait(holder, DURATION_INFINITE.value);
 
         Utilities.checkReturnCode(rc, this.environment,
                 "Waitset.waitForConditions() failed.");
 
         activeConditions.clear();
 
-        for (DDS.Condition cond : holder.value) {
+        for (Condition cond : holder.value) {
             activeConditions.add(this.conditions.get(cond));
         }
     }
@@ -84,8 +84,8 @@ public class WaitSetImpl extends WaitSet {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Illegal Duration (null) provided.");
         }
-        DDS.ConditionSeqHolder holder = new DDS.ConditionSeqHolder();
-        DDS.Duration_t oldTimeout = Utilities
+        ConditionSeqHolder holder = new ConditionSeqHolder();
+        Duration_t oldTimeout = Utilities
                 .convert(this.environment, timeout);
 
         int rc = this.oldWaitSet._wait(holder, oldTimeout);
@@ -110,8 +110,8 @@ public class WaitSetImpl extends WaitSet {
                     "Illegal Collection<Condition> (null) provided.");
 
         }
-        DDS.ConditionSeqHolder holder = new DDS.ConditionSeqHolder();
-        DDS.Duration_t oldTimeout = Utilities
+        ConditionSeqHolder holder = new ConditionSeqHolder();
+        Duration_t oldTimeout = Utilities
                 .convert(this.environment, timeout);
 
         int rc = this.oldWaitSet._wait(holder, oldTimeout);
@@ -121,7 +121,7 @@ public class WaitSetImpl extends WaitSet {
 
         activeConditions.clear();
 
-        for (DDS.Condition cond : holder.value) {
+        for (Condition cond : holder.value) {
             activeConditions.add(this.conditions.get(cond));
         }
 
@@ -149,7 +149,7 @@ public class WaitSetImpl extends WaitSet {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Attaching non-OpenSplice Condition implementation is not supported.");
         }
-        DDS.Condition old = c.getOldCondition();
+        Condition old = c.getOldCondition();
         int rc = this.oldWaitSet.attach_condition(old);
         Utilities.checkReturnCode(rc, this.environment,
                 "Attaching condition failed.");
@@ -172,7 +172,7 @@ public class WaitSetImpl extends WaitSet {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Detaching non-OpenSplice Condition implementation is not supported.");
         }
-        DDS.Condition old = c.getOldCondition();
+        Condition old = c.getOldCondition();
         int rc = this.oldWaitSet.detach_condition(old);
         Utilities.checkReturnCode(rc, this.environment,
                 "Detaching condition failed.");

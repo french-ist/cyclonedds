@@ -272,8 +272,8 @@ org.eclipse.cyclonedds.sub.DataReaderQos {
         }
     }
 
-    public DDS.DataReaderQos convert() {
-        DDS.DataReaderQos old = new DDS.DataReaderQos();
+    public DataReaderQos convert() {
+        DataReaderQos old = new DataReaderQos();
 
         synchronized (this.policies) {
             old.deadline = PolicyConverter.convert(this.environment,
@@ -316,7 +316,7 @@ org.eclipse.cyclonedds.sub.DataReaderQos {
     }
 
     public static DataReaderQosImpl convert(OsplServiceEnvironment env,
-            DDS.DataReaderQos oldQos) {
+            DataReaderQos oldQos) {
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,
                     "oldQos parameter is null.");

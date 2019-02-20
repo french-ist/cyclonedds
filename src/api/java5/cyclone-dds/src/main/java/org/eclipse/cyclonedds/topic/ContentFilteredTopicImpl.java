@@ -40,7 +40,7 @@ import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
 public class ContentFilteredTopicImpl<TYPE> implements
         TopicDescriptionExt<TYPE>, ContentFilteredTopic<TYPE> {
     private final AbstractTopic<TYPE> relatedTopic;
-    private final DDS.ContentFilteredTopic old;
+    private final ContentFilteredTopic old;
     private final DomainParticipantImpl parent;
     private final OsplServiceEnvironment environment;
     private AtomicInteger refCount;
@@ -124,7 +124,7 @@ public class ContentFilteredTopicImpl<TYPE> implements
     }
 
     @Override
-    public DDS.TopicDescription getOld() {
+    public TopicDescription getOld() {
         return this.old;
     }
 
@@ -135,7 +135,7 @@ public class ContentFilteredTopicImpl<TYPE> implements
 
     @Override
     public List<String> getExpressionParameters() {
-        DDS.StringSeqHolder holder = new DDS.StringSeqHolder();
+        StringSeqHolder holder = new StringSeqHolder();
         int rc = this.old.get_expression_parameters(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "ContentFilteredTopic.getExpressionParameters() failed.");

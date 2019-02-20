@@ -54,16 +54,16 @@ import org.eclipse.cyclonedds.type.AbstractTypeSupport;
 
 public class PublisherImpl
 extends
-DomainEntityImpl<DDS.Publisher, DomainParticipantImpl, DDS.DomainParticipant, PublisherQos, PublisherListener, PublisherListenerImpl>
+DomainEntityImpl<Publisher, DomainParticipantImpl, DomainParticipant, PublisherQos, PublisherListener, PublisherListenerImpl>
 implements Publisher {
-    private final HashMap<DDS.DataWriter, DataWriter<?>> writers;
+    private final HashMap<DataWriter, DataWriter<?>> writers;
 
     public PublisherImpl(OsplServiceEnvironment environment,
             DomainParticipantImpl parent, PublisherQos qos,
             PublisherListener listener,
             Collection<Class<? extends Status>> statuses) {
         super(environment, parent, parent.getOld());
-        DDS.PublisherQos oldQos;
+        PublisherQos oldQos;
 
         if (qos == null) {
             throw new IllegalArgumentExceptionImpl(this.environment,
@@ -83,7 +83,7 @@ implements Publisher {
         } else {
             this.listener = null;
         }
-        DDS.Publisher old = this.parent.getOld().create_publisher(oldQos,
+        Publisher old = this.parent.getOld().create_publisher(oldQos,
                 this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
 
@@ -91,7 +91,7 @@ implements Publisher {
             Utilities.throwLastErrorException(this.environment);
         }
         this.setOld(old);
-        this.writers = new HashMap<DDS.DataWriter, DataWriter<?>>();
+        this.writers = new HashMap<DataWriter, DataWriter<?>>();
 
         if (this.listener != null) {
             this.listener.setInitialised();
@@ -136,7 +136,7 @@ implements Publisher {
 
     @Override
     public PublisherQos getQos() {
-        DDS.PublisherQosHolder holder = new DDS.PublisherQosHolder();
+        PublisherQosHolder holder = new PublisherQosHolder();
         int rc = this.getOld().get_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Publisher.getQos() failed.");
@@ -209,7 +209,7 @@ implements Publisher {
                 new HashSet<Class<? extends Status>>());
     }
 
-    public <TYPE> DataWriter<TYPE> lookupDataWriter(DDS.DataWriter writer) {
+    public <TYPE> DataWriter<TYPE> lookupDataWriter(DataWriter writer) {
         DataWriter<?> dw;
 
         synchronized (this.writers) {
@@ -270,7 +270,7 @@ implements Publisher {
     @Override
     public void closeContainedEntities() {
         synchronized(this.writers){
-            HashMap<DDS.DataWriter, DataWriter<?>> copyWriter = new HashMap<DDS.DataWriter, DataWriter<?>>(this.writers);
+            HashMap<DataWriter, DataWriter<?>> copyWriter = new HashMap<DataWriter, DataWriter<?>>(this.writers);
             for (DataWriter<?> writer : copyWriter.values()) {
                 try {
                     writer.close();
@@ -329,7 +329,7 @@ implements Publisher {
 
     @Override
     public DataWriterQos getDefaultDataWriterQos() {
-        DDS.DataWriterQosHolder holder = new DDS.DataWriterQosHolder();
+        DataWriterQosHolder holder = new DataWriterQosHolder();
         int rc = this.getOld().get_default_datawriter_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Publisher.getDefaultDataWriterQos() failed.");
@@ -379,7 +379,7 @@ implements Publisher {
 
     @Override
     public StatusCondition<Publisher> getStatusCondition() {
-        DDS.StatusCondition oldCondition = this.getOld().get_statuscondition();
+        StatusCondition oldCondition = this.getOld().get_statuscondition();
 
         if (oldCondition == null) {
             Utilities.throwLastErrorException(this.environment);
@@ -400,8 +400,8 @@ implements Publisher {
     }
 
     public void destroyDataWriter(
-            EntityImpl<DDS.DataWriter, ?, ?, ?, ?> dataWriter) {
-        DDS.DataWriter old = dataWriter.getOld();
+            EntityImpl<DataWriter, ?, ?, ?, ?> dataWriter) {
+        DataWriter old = dataWriter.getOld();
         int rc = this.getOld().delete_datawriter(old);
         synchronized(this.writers){
             this.writers.remove(old);

@@ -148,14 +148,14 @@ public class OsplServiceEnvironment extends ServiceEnvironment {
         @Override
         public Duration infiniteDuration() {
             return new DurationImpl(this.environment,
-                    DDS.DURATION_INFINITE_SEC.value,
-                    DDS.DURATION_INFINITE_NSEC.value);
+                    DURATION_INFINITE_SEC.value,
+                    DURATION_INFINITE_NSEC.value);
         }
 
         @Override
         public Duration zeroDuration() {
             return new DurationImpl(this.environment,
-                    DDS.DURATION_ZERO_SEC.value, DDS.DURATION_ZERO_NSEC.value);
+                    DURATION_ZERO_SEC.value, DURATION_ZERO_NSEC.value);
         }
 
         @Override
@@ -166,14 +166,14 @@ public class OsplServiceEnvironment extends ServiceEnvironment {
         @Override
         public Time invalidTime() {
             return new TimeImpl(this.environment,
-                    DDS.TIMESTAMP_INVALID_SEC.value,
-                    DDS.TIMESTAMP_INVALID_NSEC.value);
+                    TIMESTAMP_INVALID_SEC.value,
+                    TIMESTAMP_INVALID_NSEC.value);
         }
 
         @Override
         public InstanceHandle nilHandle() {
             return new InstanceHandleImpl(this.environment,
-                    DDS.HANDLE_NIL.value);
+                    HANDLE_NIL.value);
         }
 
         @Override
@@ -189,13 +189,13 @@ public class OsplServiceEnvironment extends ServiceEnvironment {
         @Override
         public Set<Class<? extends Status>> allStatusKinds() {
             return StatusConverter.convertMask(this.environment,
-                    DDS.STATUS_MASK_ANY_V1_2.value);
+                    STATUS_MASK_ANY_V1_2.value);
         }
 
         @Override
         public Set<Class<? extends Status>> noStatusKinds() {
             return StatusConverter.convertMask(this.environment,
-                    DDS.STATUS_MASK_NONE.value);
+                    STATUS_MASK_NONE.value);
         }
 
         @Override

@@ -31,7 +31,7 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.status.Status;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 
-public abstract class EntityImpl<OLD extends DDS.Entity, OLDPARENT, QOS extends EntityQos<?>, LISTENER extends EventListener, LISTENERIMPL extends Listener<LISTENER>>
+public abstract class EntityImpl<OLD extends Entity, OLDPARENT, QOS extends EntityQos<?>, LISTENER extends EventListener, LISTENERIMPL extends Listener<LISTENER>>
         extends AbstractDDSObject implements org.omg.dds.core.Entity<LISTENER, QOS>, Properties {
     protected final transient OsplServiceEnvironment environment;
     private final OLDPARENT oldParent;
@@ -180,15 +180,15 @@ public abstract class EntityImpl<OLD extends DDS.Entity, OLDPARENT, QOS extends 
 
     @Override
     public void setProperty(String key, String value) {
-        int rc = this.old.set_property(new DDS.Property(key, value));
+        int rc = this.old.set_property(new Property(key, value));
         Utilities.checkReturnCode(rc, this.environment,
                 "Properties.setProperty() failed.");
     }
 
     @Override
     public String getProperty(String key) {
-        DDS.PropertyHolder holder = new DDS.PropertyHolder();
-        holder.value = new DDS.Property(key, null);
+        PropertyHolder holder = new PropertyHolder();
+        holder.value = new Property(key, null);
         int rc = this.old.get_property(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Properties.getProperty() failed.");

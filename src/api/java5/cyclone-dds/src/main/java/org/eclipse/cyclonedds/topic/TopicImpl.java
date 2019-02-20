@@ -46,7 +46,7 @@ import org.eclipse.cyclonedds.type.TypeSupportImpl;
 
 public class TopicImpl<TYPE>
         extends
-        DomainEntityImpl<DDS.Topic, DomainParticipantImpl, DDS.DomainParticipant, TopicQos, TopicListener<TYPE>, TopicListenerImpl<TYPE>>
+        DomainEntityImpl<Topic, DomainParticipantImpl, DomainParticipant, TopicQos, TopicListener<TYPE>, TopicListenerImpl<TYPE>>
         implements org.eclipse.cyclonedds.topic.AbstractTopic<TYPE> {
     private AbstractTypeSupport<TYPE> typeSupport;
 
@@ -74,7 +74,7 @@ public class TopicImpl<TYPE>
                 this.environment,
                 "Registration of Type with name '"
                         + this.typeSupport.getTypeName() + "' failed.");
-        DDS.TopicQos oldQos;
+        TopicQos oldQos;
 
         try {
             oldQos = ((TopicQosImpl) qos).convert();
@@ -89,7 +89,7 @@ public class TopicImpl<TYPE>
         } else {
             this.listener = null;
         }
-        DDS.Topic old = this.parent.getOld().create_topic(topicName,
+        Topic old = this.parent.getOld().create_topic(topicName,
                 this.typeSupport.getTypeName(), oldQos, this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
 
@@ -105,7 +105,7 @@ public class TopicImpl<TYPE>
 
     @SuppressWarnings("unchecked")
     public TopicImpl(OsplServiceEnvironment environment,
-            DomainParticipantImpl participant, String topicName, DDS.Topic old) {
+            DomainParticipantImpl participant, String topicName, Topic old) {
         super(environment, participant, participant.getOld());
         this.listener = null;
 
@@ -123,44 +123,44 @@ public class TopicImpl<TYPE>
             AbstractTypeSupport<?> temp;
 
             if ("DCPSParticipant".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.ParticipantBuiltinTopicData>(
+                temp = new TypeSupportImpl<ParticipantBuiltinTopicData>(
                         this.environment,
-                        DDS.ParticipantBuiltinTopicData.class, null);
+                        ParticipantBuiltinTopicData.class, null);
             } else if ("DCPSTopic".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.TopicBuiltinTopicData>(
-                        this.environment, DDS.TopicBuiltinTopicData.class, null);
+                temp = new TypeSupportImpl<TopicBuiltinTopicData>(
+                        this.environment, TopicBuiltinTopicData.class, null);
             } else if ("CMSubscriber".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.CMSubscriberBuiltinTopicData>(
+                temp = new TypeSupportImpl<CMSubscriberBuiltinTopicData>(
                         this.environment,
-                        DDS.CMSubscriberBuiltinTopicData.class, null);
+                        CMSubscriberBuiltinTopicData.class, null);
             } else if ("CMPublisher".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.CMPublisherBuiltinTopicData>(
+                temp = new TypeSupportImpl<CMPublisherBuiltinTopicData>(
                         this.environment,
-                        DDS.CMPublisherBuiltinTopicData.class, null);
+                        CMPublisherBuiltinTopicData.class, null);
             } else if ("CMParticipant".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.CMParticipantBuiltinTopicData>(
+                temp = new TypeSupportImpl<CMParticipantBuiltinTopicData>(
                         this.environment,
-                        DDS.CMParticipantBuiltinTopicData.class, null);
+                        CMParticipantBuiltinTopicData.class, null);
             } else if ("DCPSSubscription".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.SubscriptionBuiltinTopicData>(
+                temp = new TypeSupportImpl<SubscriptionBuiltinTopicData>(
                         this.environment,
-                        DDS.SubscriptionBuiltinTopicData.class, null);
+                        SubscriptionBuiltinTopicData.class, null);
             } else if ("CMDataReader".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.CMDataReaderBuiltinTopicData>(
+                temp = new TypeSupportImpl<CMDataReaderBuiltinTopicData>(
                         this.environment,
-                        DDS.CMDataReaderBuiltinTopicData.class, null);
+                        CMDataReaderBuiltinTopicData.class, null);
             } else if ("DCPSPublication".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.PublicationBuiltinTopicData>(
+                temp = new TypeSupportImpl<PublicationBuiltinTopicData>(
                         this.environment,
-                        DDS.PublicationBuiltinTopicData.class, null);
+                        PublicationBuiltinTopicData.class, null);
             } else if ("CMDataWriter".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.CMDataWriterBuiltinTopicData>(
+                temp = new TypeSupportImpl<CMDataWriterBuiltinTopicData>(
                         this.environment,
-                        DDS.CMDataWriterBuiltinTopicData.class, null);
+                        CMDataWriterBuiltinTopicData.class, null);
             } else if ("DCPSType".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.TypeBuiltinTopicData>(
+                temp = new TypeSupportImpl<TypeBuiltinTopicData>(
                         this.environment,
-                        DDS.TypeBuiltinTopicData.class, null);
+                        TypeBuiltinTopicData.class, null);
             } else {
                 temp = null;
             }
@@ -208,7 +208,7 @@ public class TopicImpl<TYPE>
 
     @Override
     public TopicQos getQos() {
-        DDS.TopicQosHolder holder = new DDS.TopicQosHolder();
+        TopicQosHolder holder = new TopicQosHolder();
         int rc = this.getOld().get_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Topic.getQos() failed.");
@@ -238,7 +238,7 @@ public class TopicImpl<TYPE>
 
     @Override
     public InconsistentTopicStatus getInconsistentTopicStatus() {
-        DDS.InconsistentTopicStatusHolder holder = new DDS.InconsistentTopicStatusHolder();
+        InconsistentTopicStatusHolder holder = new InconsistentTopicStatusHolder();
         int rc = this.getOld().get_inconsistent_topic_status(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Topic.getInconsistentTopicStatus()");
@@ -248,7 +248,7 @@ public class TopicImpl<TYPE>
 
     @Override
     public StatusCondition<Topic<TYPE>> getStatusCondition() {
-        DDS.StatusCondition oldCondition = this.getOld().get_statuscondition();
+        StatusCondition oldCondition = this.getOld().get_statuscondition();
 
         if (oldCondition == null) {
             Utilities.throwLastErrorException(this.environment);
@@ -319,7 +319,7 @@ public class TopicImpl<TYPE>
 
     @Override
     public AllDataDisposedStatus getAllDataDisposedTopicStatus() {
-        DDS.AllDataDisposedTopicStatusHolder holder = new DDS.AllDataDisposedTopicStatusHolder();
+        AllDataDisposedTopicStatusHolder holder = new AllDataDisposedTopicStatusHolder();
         int rc = this.getOld().get_all_data_disposed_topic_status(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Topic.getAllDataDisposedTopicStatus()");

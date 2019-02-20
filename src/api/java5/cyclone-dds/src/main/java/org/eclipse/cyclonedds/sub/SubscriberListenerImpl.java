@@ -37,17 +37,17 @@ import org.eclipse.cyclonedds.core.status.DataAvailableStatusImpl;
 import org.eclipse.cyclonedds.core.status.DataOnReadersStatusImpl;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 
-import DDS.DataReader;
-import DDS.LivelinessChangedStatus;
-import DDS.RequestedDeadlineMissedStatus;
-import DDS.RequestedIncompatibleQosStatus;
-import DDS.SampleLostStatus;
-import DDS.SampleRejectedStatus;
-import DDS.Subscriber;
-import DDS.SubscriptionMatchedStatus;
+import DataReader;
+import LivelinessChangedStatus;
+import RequestedDeadlineMissedStatus;
+import RequestedIncompatibleQosStatus;
+import SampleLostStatus;
+import SampleRejectedStatus;
+import Subscriber;
+import SubscriptionMatchedStatus;
 
 public class SubscriberListenerImpl extends Listener<SubscriberListener>
-        implements DDS.SubscriberListener, Serializable {
+        implements SubscriberListener, Serializable {
     private static final long serialVersionUID = -1147185392577428150L;
     private final transient SubscriberImpl subscriber;
 

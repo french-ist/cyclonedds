@@ -71,7 +71,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Supplied Topic is null.");
         }
-        DDS.DataWriterQos oldQos;
+        DataWriterQos oldQos;
 
         this.topic = topic;
         this.typeSupport = (TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE>) topic
@@ -90,7 +90,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         } else {
             this.listener = null;
         }
-        DDS.DataWriter old = this.parent.getOld().create_datawriter(
+        DataWriter old = this.parent.getOld().create_datawriter(
                 topic.getOld(), oldQos, this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
 
@@ -212,7 +212,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
 
     @Override
     public StatusCondition<org.omg.dds.pub.DataWriter<PROTOBUF_TYPE>> getStatusCondition() {
-        DDS.StatusCondition oldCondition = this.getOld().get_statuscondition();
+        StatusCondition oldCondition = this.getOld().get_statuscondition();
 
         if (oldCondition == null) {
             Utilities.throwLastErrorException(this.environment);

@@ -38,7 +38,7 @@ import org.eclipse.cyclonedds.core.status.StatusConverter;
 import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 import org.eclipse.cyclonedds.type.TypeSupportProtobuf;
 
-import DDS.SampleInfoSeqHolder;
+import SampleInfoSeqHolder;
 
 public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         AbstractDataReader<PROTOBUF_TYPE> {
@@ -61,7 +61,7 @@ public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Supplied TopicDescription is null.");
         }
-        DDS.DataReaderQos oldQos;
+        DataReaderQos oldQos;
 
         try {
             oldQos = ((DataReaderQosImpl) qos).convert();
@@ -76,7 +76,7 @@ public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         } else {
             this.listener = null;
         }
-        DDS.DataReader old = this.parent.getOld().create_datareader(
+        DataReader old = this.parent.getOld().create_datareader(
                 topicDescription.getOld(), oldQos, this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
 

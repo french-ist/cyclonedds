@@ -45,7 +45,7 @@ import org.eclipse.cyclonedds.topic.AbstractTopic;
 import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 import org.eclipse.cyclonedds.topic.TopicProtobuf;
 
-import DDS.TypeSupport;
+import TypeSupport;
 
 public abstract class TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         AbstractTypeSupport<PROTOBUF_TYPE> {
@@ -68,7 +68,7 @@ public abstract class TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         this.ddsTypeSupport = ddsTypeSupport;
 
         org.eclipse.cyclonedds.dcps.TypeSupportImpl oldTypeSupport = (org.eclipse.cyclonedds.dcps.TypeSupportImpl)ddsTypeSupport.getOldTypeSupport();
-        oldTypeSupport.set_data_representation_id(DDS.GPB_REPRESENTATION.value);
+        oldTypeSupport.set_data_representation_id(GPB_REPRESENTATION.value);
         oldTypeSupport.set_meta_data(this.metaData);
         oldTypeSupport.set_type_hash(this.typeHash);
     }

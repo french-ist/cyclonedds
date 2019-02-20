@@ -117,7 +117,7 @@ public class TypeSupportImpl<TYPE> extends AbstractTypeSupport<TYPE> {
     }
 
     @Override
-    public DDS.TypeSupport getOldTypeSupport() {
+    public TypeSupport getOldTypeSupport() {
         return this.oldTypeSupport;
     }
 

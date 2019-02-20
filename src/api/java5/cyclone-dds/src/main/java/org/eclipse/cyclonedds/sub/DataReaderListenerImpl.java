@@ -36,15 +36,15 @@ import org.eclipse.cyclonedds.core.event.SubscriptionMatchedEventImpl;
 import org.eclipse.cyclonedds.core.status.DataAvailableStatusImpl;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 
-import DDS.LivelinessChangedStatus;
-import DDS.RequestedDeadlineMissedStatus;
-import DDS.RequestedIncompatibleQosStatus;
-import DDS.SampleLostStatus;
-import DDS.SampleRejectedStatus;
-import DDS.SubscriptionMatchedStatus;
+import LivelinessChangedStatus;
+import RequestedDeadlineMissedStatus;
+import RequestedIncompatibleQosStatus;
+import SampleLostStatus;
+import SampleRejectedStatus;
+import SubscriptionMatchedStatus;
 
 public class DataReaderListenerImpl<TYPE> extends
-        Listener<DataReaderListener<TYPE>> implements DDS.DataReaderListener,
+        Listener<DataReaderListener<TYPE>> implements DataReaderListener,
         Serializable {
     private static final long serialVersionUID = 6892152554338498323L;
     private final transient DataReader<TYPE> reader;
@@ -62,7 +62,7 @@ public class DataReaderListenerImpl<TYPE> extends
     }
 
     @Override
-    public void on_requested_deadline_missed(DDS.DataReader reader,
+    public void on_requested_deadline_missed(DataReader reader,
             RequestedDeadlineMissedStatus status) {
         this.waitUntilInitialised();
         this.listener
@@ -72,7 +72,7 @@ public class DataReaderListenerImpl<TYPE> extends
     }
 
     @Override
-    public void on_sample_rejected(DDS.DataReader reader,
+    public void on_sample_rejected(DataReader reader,
             SampleRejectedStatus status) {
         this.waitUntilInitialised();
         this.listener.onSampleRejected(new SampleRejectedEventImpl<TYPE>(
@@ -81,7 +81,7 @@ public class DataReaderListenerImpl<TYPE> extends
     }
 
     @Override
-    public void on_liveliness_changed(DDS.DataReader reader,
+    public void on_liveliness_changed(DataReader reader,
             LivelinessChangedStatus status) {
         this.waitUntilInitialised();
         this.listener.onLivelinessChanged(new LivelinessChangedEventImpl<TYPE>(
@@ -90,7 +90,7 @@ public class DataReaderListenerImpl<TYPE> extends
     }
 
     @Override
-    public void on_data_available(DDS.DataReader reader) {
+    public void on_data_available(DataReader reader) {
         this.waitUntilInitialised();
         this.listener.onDataAvailable(new DataAvailableEventImpl<TYPE>(
                 this.environment, this.reader, new DataAvailableStatusImpl(
@@ -98,7 +98,7 @@ public class DataReaderListenerImpl<TYPE> extends
     }
 
     @Override
-    public void on_requested_incompatible_qos(DDS.DataReader reader,
+    public void on_requested_incompatible_qos(DataReader reader,
             RequestedIncompatibleQosStatus status) {
         this.waitUntilInitialised();
         this.listener
@@ -108,7 +108,7 @@ public class DataReaderListenerImpl<TYPE> extends
     }
 
     @Override
-    public void on_subscription_matched(DDS.DataReader reader,
+    public void on_subscription_matched(DataReader reader,
             SubscriptionMatchedStatus status) {
         this.waitUntilInitialised();
         this.listener
@@ -118,7 +118,7 @@ public class DataReaderListenerImpl<TYPE> extends
     }
 
     @Override
-    public void on_sample_lost(DDS.DataReader reader, SampleLostStatus status) {
+    public void on_sample_lost(DataReader reader, SampleLostStatus status) {
         this.waitUntilInitialised();
         this.listener.onSampleLost(new SampleLostEventImpl<TYPE>(
                 this.environment, this.reader, StatusConverter.convert(

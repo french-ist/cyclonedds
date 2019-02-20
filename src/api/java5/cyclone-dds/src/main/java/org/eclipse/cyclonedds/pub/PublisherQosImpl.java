@@ -107,7 +107,7 @@ public class PublisherQosImpl extends EntityQosImpl<ForPublisher> implements
     }
 
     public static PublisherQosImpl convert(OsplServiceEnvironment env,
-            DDS.PublisherQos oldQos) {
+            PublisherQos oldQos) {
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,
                     "oldQos parameter is null.");
@@ -126,8 +126,8 @@ public class PublisherQosImpl extends EntityQosImpl<ForPublisher> implements
         return qos;
     }
 
-    public DDS.PublisherQos convert() {
-        DDS.PublisherQos old = new DDS.PublisherQos();
+    public PublisherQos convert() {
+        PublisherQos old = new PublisherQos();
 
         synchronized (this.policies) {
             old.entity_factory = PolicyConverter.convert(this.environment,

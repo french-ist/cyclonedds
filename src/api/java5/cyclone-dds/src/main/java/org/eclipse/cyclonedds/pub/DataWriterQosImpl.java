@@ -305,7 +305,7 @@ public class DataWriterQosImpl extends EntityQosImpl<ForDataWriter> implements
     }
 
     public static DataWriterQosImpl convert(OsplServiceEnvironment env,
-            DDS.DataWriterQos oldQos) {
+            DataWriterQos oldQos) {
 
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,
@@ -341,8 +341,8 @@ public class DataWriterQosImpl extends EntityQosImpl<ForDataWriter> implements
         return qos;
     }
 
-    public DDS.DataWriterQos convert() {
-        DDS.DataWriterQos old = new DDS.DataWriterQos();
+    public DataWriterQos convert() {
+        DataWriterQos old = new DataWriterQos();
         synchronized (this.policies) {
             old.deadline = PolicyConverter.convert(this.environment,
                     ((Deadline) this.policies.get(Deadline.class)));

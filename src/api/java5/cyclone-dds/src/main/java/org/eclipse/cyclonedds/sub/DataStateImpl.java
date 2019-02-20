@@ -66,9 +66,9 @@ public class DataStateImpl implements Subscriber.DataState {
     public static SampleState getSampleStateFromOld(OsplServiceEnvironment env,
             int state) {
         switch (state) {
-        case DDS.READ_SAMPLE_STATE.value:
+        case READ_SAMPLE_STATE.value:
             return SampleState.READ;
-        case DDS.NOT_READ_SAMPLE_STATE.value:
+        case NOT_READ_SAMPLE_STATE.value:
             return SampleState.NOT_READ;
         default:
             throw new IllegalArgumentExceptionImpl(env, "Invalid SampleState");
@@ -78,9 +78,9 @@ public class DataStateImpl implements Subscriber.DataState {
     public static ViewState getViewStateFromOld(OsplServiceEnvironment env,
             int state) {
         switch (state) {
-        case DDS.NEW_VIEW_STATE.value:
+        case NEW_VIEW_STATE.value:
             return ViewState.NEW;
-        case DDS.NOT_NEW_VIEW_STATE.value:
+        case NOT_NEW_VIEW_STATE.value:
             return ViewState.NOT_NEW;
         default:
             throw new IllegalArgumentExceptionImpl(env, "Invalid ViewState");
@@ -90,11 +90,11 @@ public class DataStateImpl implements Subscriber.DataState {
     public static InstanceState getInstanceStateFromOld(
             OsplServiceEnvironment env, int state) {
         switch (state) {
-        case DDS.ALIVE_INSTANCE_STATE.value:
+        case ALIVE_INSTANCE_STATE.value:
             return InstanceState.ALIVE;
-        case DDS.NOT_ALIVE_DISPOSED_INSTANCE_STATE.value:
+        case NOT_ALIVE_DISPOSED_INSTANCE_STATE.value:
             return InstanceState.NOT_ALIVE_DISPOSED;
-        case DDS.NOT_ALIVE_NO_WRITERS_INSTANCE_STATE.value:
+        case NOT_ALIVE_NO_WRITERS_INSTANCE_STATE.value:
             return InstanceState.NOT_ALIVE_NO_WRITERS;
         default:
             throw new IllegalArgumentExceptionImpl(env, "Invalid InstanceState");
@@ -204,11 +204,11 @@ public class DataStateImpl implements Subscriber.DataState {
         boolean notRead = this.sampleState.contains(SampleState.NOT_READ);
 
         if (read && notRead) {
-            result = DDS.ANY_SAMPLE_STATE.value;
+            result = ANY_SAMPLE_STATE.value;
         } else if (read) {
-            result = DDS.READ_SAMPLE_STATE.value;
+            result = READ_SAMPLE_STATE.value;
         } else if (notRead) {
-            result = DDS.NOT_READ_SAMPLE_STATE.value;
+            result = NOT_READ_SAMPLE_STATE.value;
         } else {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Incomplete DataState: no SampleState set.");
@@ -218,14 +218,14 @@ public class DataStateImpl implements Subscriber.DataState {
 
     public void withOldSampleState(int state) {
         switch (state) {
-        case DDS.ANY_INSTANCE_STATE.value:
+        case ANY_INSTANCE_STATE.value:
             this.sampleState.add(SampleState.READ);
             this.sampleState.add(SampleState.NOT_READ);
             break;
-        case DDS.READ_SAMPLE_STATE.value:
+        case READ_SAMPLE_STATE.value:
             this.sampleState.add(SampleState.READ);
             break;
-        case DDS.NOT_READ_SAMPLE_STATE.value:
+        case NOT_READ_SAMPLE_STATE.value:
             this.sampleState.add(SampleState.NOT_READ);
             break;
         default:
@@ -241,11 +241,11 @@ public class DataStateImpl implements Subscriber.DataState {
         boolean notNew = this.viewState.contains(ViewState.NOT_NEW);
 
         if (_new && notNew) {
-            result = DDS.ANY_VIEW_STATE.value;
+            result = ANY_VIEW_STATE.value;
         } else if (_new) {
-            result = DDS.NEW_VIEW_STATE.value;
+            result = NEW_VIEW_STATE.value;
         } else if (notNew) {
-            result = DDS.NOT_NEW_VIEW_STATE.value;
+            result = NOT_NEW_VIEW_STATE.value;
         } else {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Incomplete DataState: no ViewState set.");
@@ -255,14 +255,14 @@ public class DataStateImpl implements Subscriber.DataState {
 
     public void withOldViewState(int state) {
         switch (state) {
-        case DDS.ANY_VIEW_STATE.value:
+        case ANY_VIEW_STATE.value:
             this.viewState.add(ViewState.NEW);
             this.viewState.add(ViewState.NOT_NEW);
             break;
-        case DDS.NEW_VIEW_STATE.value:
+        case NEW_VIEW_STATE.value:
             this.viewState.add(ViewState.NEW);
             break;
-        case DDS.NOT_NEW_VIEW_STATE.value:
+        case NOT_NEW_VIEW_STATE.value:
             this.viewState.add(ViewState.NOT_NEW);
             break;
         default:
@@ -281,17 +281,17 @@ public class DataStateImpl implements Subscriber.DataState {
                 .contains(InstanceState.NOT_ALIVE_NO_WRITERS);
 
         if (alive) {
-            result |= DDS.ALIVE_INSTANCE_STATE.value;
+            result |= ALIVE_INSTANCE_STATE.value;
         }
         if (disposed) {
-            result |= DDS.NOT_ALIVE_DISPOSED_INSTANCE_STATE.value;
+            result |= NOT_ALIVE_DISPOSED_INSTANCE_STATE.value;
         }
         if (noWriters) {
-            result |= DDS.NOT_ALIVE_NO_WRITERS_INSTANCE_STATE.value;
+            result |= NOT_ALIVE_NO_WRITERS_INSTANCE_STATE.value;
         }
         
         if (alive && disposed && noWriters) {
-            result = DDS.ANY_INSTANCE_STATE.value;
+            result = ANY_INSTANCE_STATE.value;
         }
         if (result == 0) {
             throw new IllegalArgumentExceptionImpl(this.environment,
@@ -302,23 +302,23 @@ public class DataStateImpl implements Subscriber.DataState {
 
     public void withOldInstanceState(int state) {
         switch (state) {
-        case DDS.ANY_INSTANCE_STATE.value:
+        case ANY_INSTANCE_STATE.value:
             this.instanceState.add(InstanceState.ALIVE);
             this.instanceState.add(InstanceState.NOT_ALIVE_DISPOSED);
             this.instanceState.add(InstanceState.NOT_ALIVE_NO_WRITERS);
             break;
-        case DDS.NOT_ALIVE_INSTANCE_STATE.value:
+        case NOT_ALIVE_INSTANCE_STATE.value:
             this.instanceState.remove(InstanceState.ALIVE);
             this.instanceState.add(InstanceState.NOT_ALIVE_DISPOSED);
             this.instanceState.add(InstanceState.NOT_ALIVE_NO_WRITERS);
             break;
-        case DDS.ALIVE_INSTANCE_STATE.value:
+        case ALIVE_INSTANCE_STATE.value:
             this.instanceState.add(InstanceState.ALIVE);
             break;
-        case DDS.NOT_ALIVE_DISPOSED_INSTANCE_STATE.value:
+        case NOT_ALIVE_DISPOSED_INSTANCE_STATE.value:
             this.instanceState.add(InstanceState.NOT_ALIVE_DISPOSED);
             break;
-        case DDS.NOT_ALIVE_NO_WRITERS_INSTANCE_STATE.value:
+        case NOT_ALIVE_NO_WRITERS_INSTANCE_STATE.value:
             this.instanceState.add(InstanceState.NOT_ALIVE_NO_WRITERS);
             break;
         default:

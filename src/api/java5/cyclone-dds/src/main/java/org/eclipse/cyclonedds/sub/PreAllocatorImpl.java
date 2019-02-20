@@ -30,8 +30,8 @@ import org.eclipse.cyclonedds.core.DDSExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
 
-import DDS.SampleInfo;
-import DDS.SampleInfoSeqHolder;
+import SampleInfo;
+import SampleInfoSeqHolder;
 
 public class PreAllocatorImpl<TYPE> implements PreAllocator<TYPE> {
     private final OsplServiceEnvironment environment;

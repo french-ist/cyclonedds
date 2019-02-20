@@ -119,7 +119,7 @@ EntityQosImpl<ForDomainParticipant> implements DomainParticipantQos {
     }
 
     public static DomainParticipantQosImpl convert(OsplServiceEnvironment env,
-            DDS.DomainParticipantQos oldQos) {
+            DomainParticipantQos oldQos) {
 
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,
@@ -139,8 +139,8 @@ EntityQosImpl<ForDomainParticipant> implements DomainParticipantQos {
         return qos;
     }
 
-    public DDS.DomainParticipantQos convert() {
-        DDS.DomainParticipantQos old = new DDS.DomainParticipantQos();
+    public DomainParticipantQos convert() {
+        DomainParticipantQos old = new DomainParticipantQos();
 
         synchronized (this.policies) {
             old.entity_factory = PolicyConverter.convert(this.environment,

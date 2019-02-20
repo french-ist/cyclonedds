@@ -26,7 +26,7 @@ import org.eclipse.cyclonedds.core.DDSExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
 
-import DDS.SampleInfoSeqHolder;
+import SampleInfoSeqHolder;
 
 public class IteratorImpl<TYPE> extends AbstractIterator<TYPE> {
     private TYPE[] data;

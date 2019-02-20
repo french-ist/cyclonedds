@@ -63,7 +63,7 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
 
     @Override
     public DomainParticipant createParticipant() {
-        // return createParticipant(DDS.DOMAIN_ID_DEFAULT.value);
+        // return createParticipant(DOMAIN_ID_DEFAULT.value);
         return createParticipant(0);
     }
 
@@ -111,7 +111,7 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
     public DomainParticipantFactoryQos getQos() {
         public static native DdscLibrary.dds_return_t dds_get_qos(DdscLibrary.dds_entity_t entity, DdscLibrary.dds_qos_t qos);
  
-        DDS.DomainParticipantFactoryQosHolder holder = new DDS.DomainParticipantFactoryQosHolder();
+        DomainParticipantFactoryQosHolder holder = new DomainParticipantFactoryQosHolder();
         DdscLibrary.dds_return_t rc = dds_get_qos(DdscLibrary.dds_entity_t entity, qos);
 
         Utilities.checkReturnCode(rc.getPointer().getInt(0), this.environment, "DomainParticipantFactory.getQos() failed.");
@@ -135,10 +135,10 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
     @Override
     public DomainParticipantQos getDefaultParticipantQos() {
         DomainParticipantQos qos;
-        DDS.DomainParticipantQosHolder holder;
+        DomainParticipantQosHolder holder;
         int rc;
 
-        holder = new DDS.DomainParticipantQosHolder();
+        holder = new DomainParticipantQosHolder();
         rc = this.factory.get_default_participant_qos(holder);
         Utilities.checkReturnCode(rc, this.environment, "DomainParticipantFactory.getDefaultParticipantQos() failed.");
 
@@ -149,7 +149,7 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
 
     @Override
     public void setDefaultParticipantQos(DomainParticipantQos qos) {
-        DDS.DomainParticipantQos oldQos;
+        DomainParticipantQos oldQos;
         int rc;
 
         if (qos == null) {

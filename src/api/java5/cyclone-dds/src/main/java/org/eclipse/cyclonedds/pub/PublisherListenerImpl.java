@@ -31,14 +31,14 @@ import org.eclipse.cyclonedds.core.event.OfferedIncompatibleQosEventImpl;
 import org.eclipse.cyclonedds.core.event.PublicationMatchedEventImpl;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 
-import DDS.DataWriter;
-import DDS.LivelinessLostStatus;
-import DDS.OfferedDeadlineMissedStatus;
-import DDS.OfferedIncompatibleQosStatus;
-import DDS.PublicationMatchedStatus;
+import DataWriter;
+import LivelinessLostStatus;
+import OfferedDeadlineMissedStatus;
+import OfferedIncompatibleQosStatus;
+import PublicationMatchedStatus;
 
 public class PublisherListenerImpl extends Listener<PublisherListener>
-        implements DDS.PublisherListener, Serializable {
+        implements PublisherListener, Serializable {
     private static final long serialVersionUID = -7442074499638981651L;
     private final transient PublisherImpl publisher;
 

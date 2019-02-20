@@ -20,6 +20,6 @@
  */
 package org.eclipse.cyclonedds.core;
 
-public interface Condition<T extends DDS.Condition> extends org.omg.dds.core.Condition {
+public interface Condition<T extends Condition> extends org.omg.dds.core.Condition {
     public T getOldCondition();
 }

@@ -32,13 +32,13 @@ import org.eclipse.cyclonedds.core.event.OfferedIncompatibleQosEventImpl;
 import org.eclipse.cyclonedds.core.event.PublicationMatchedEventImpl;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 
-import DDS.LivelinessLostStatus;
-import DDS.OfferedDeadlineMissedStatus;
-import DDS.OfferedIncompatibleQosStatus;
-import DDS.PublicationMatchedStatus;
+import LivelinessLostStatus;
+import OfferedDeadlineMissedStatus;
+import OfferedIncompatibleQosStatus;
+import PublicationMatchedStatus;
 
 public class DataWriterListenerImpl<TYPE> extends
-        Listener<DataWriterListener<TYPE>> implements DDS.DataWriterListener,
+        Listener<DataWriterListener<TYPE>> implements DataWriterListener,
         Serializable {
     private static final long serialVersionUID = 8422072066415569795L;
     private final transient DataWriter<TYPE> writer;
@@ -56,7 +56,7 @@ public class DataWriterListenerImpl<TYPE> extends
     }
 
     @Override
-    public void on_liveliness_lost(DDS.DataWriter arg0,
+    public void on_liveliness_lost(DataWriter arg0,
             LivelinessLostStatus arg1) {
         this.waitUntilInitialised();
         this.listener.onLivelinessLost(new LivelinessLostEventImpl<TYPE>(
@@ -66,7 +66,7 @@ public class DataWriterListenerImpl<TYPE> extends
     }
 
     @Override
-    public void on_offered_deadline_missed(DDS.DataWriter arg0,
+    public void on_offered_deadline_missed(DataWriter arg0,
             OfferedDeadlineMissedStatus arg1) {
         this.waitUntilInitialised();
         this.listener.onOfferedDeadlineMissed(new OfferedDeadlineMissedEventImpl<TYPE>(
@@ -76,7 +76,7 @@ public class DataWriterListenerImpl<TYPE> extends
     }
 
     @Override
-    public void on_offered_incompatible_qos(DDS.DataWriter arg0,
+    public void on_offered_incompatible_qos(DataWriter arg0,
             OfferedIncompatibleQosStatus arg1) {
         this.waitUntilInitialised();
         this.listener.onOfferedIncompatibleQos(new OfferedIncompatibleQosEventImpl<TYPE>(
@@ -86,7 +86,7 @@ public class DataWriterListenerImpl<TYPE> extends
     }
 
     @Override
-    public void on_publication_matched(DDS.DataWriter arg0,
+    public void on_publication_matched(DataWriter arg0,
             PublicationMatchedStatus arg1) {
         this.waitUntilInitialised();
         this.listener.onPublicationMatched(new PublicationMatchedEventImpl<TYPE>(

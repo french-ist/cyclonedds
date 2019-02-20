@@ -53,9 +53,9 @@ import org.eclipse.cyclonedds.type.AbstractTypeSupport;
 
 public class SubscriberImpl
         extends
-        DomainEntityImpl<DDS.Subscriber, DomainParticipantImpl, DDS.DomainParticipant, SubscriberQos, SubscriberListener, SubscriberListenerImpl>
+        DomainEntityImpl<Subscriber, DomainParticipantImpl, DomainParticipant, SubscriberQos, SubscriberListener, SubscriberListenerImpl>
         implements Subscriber {
-    private final HashMap<DDS.DataReader, AbstractDataReader<?>> readers;
+    private final HashMap<DataReader, AbstractDataReader<?>> readers;
     private final boolean isBuiltin;
 
     public SubscriberImpl(OsplServiceEnvironment environment,
@@ -63,7 +63,7 @@ public class SubscriberImpl
             SubscriberListener listener,
             Collection<Class<? extends Status>> statuses) {
         super(environment, parent, parent.getOld());
-        DDS.SubscriberQos oldQos;
+        SubscriberQos oldQos;
 
         if (qos == null) {
             throw new IllegalArgumentExceptionImpl(this.environment,
@@ -83,7 +83,7 @@ public class SubscriberImpl
         } else {
             this.listener = null;
         }
-        DDS.Subscriber old = this.parent.getOld().create_subscriber(oldQos,
+        Subscriber old = this.parent.getOld().create_subscriber(oldQos,
                 this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
 
@@ -91,7 +91,7 @@ public class SubscriberImpl
             Utilities.throwLastErrorException(this.environment);
         }
         this.setOld(old);
-        this.readers = new HashMap<DDS.DataReader, AbstractDataReader<?>>();
+        this.readers = new HashMap<DataReader, AbstractDataReader<?>>();
         this.isBuiltin = false;
 
         if (this.listener != null) {
@@ -100,7 +100,7 @@ public class SubscriberImpl
     }
 
     public SubscriberImpl(OsplServiceEnvironment environment,
-            DomainParticipantImpl parent, DDS.Subscriber oldSubscriber) {
+            DomainParticipantImpl parent, Subscriber oldSubscriber) {
         super(environment, parent, parent.getOld());
 
         if (oldSubscriber == null) {
@@ -109,7 +109,7 @@ public class SubscriberImpl
         }
         this.listener = null;
         this.setOld(oldSubscriber);
-        this.readers = new HashMap<DDS.DataReader, AbstractDataReader<?>>();
+        this.readers = new HashMap<DataReader, AbstractDataReader<?>>();
         this.isBuiltin = true;
     }
 
@@ -155,7 +155,7 @@ public class SubscriberImpl
 
     @Override
     public SubscriberQos getQos() {
-        DDS.SubscriberQosHolder holder = new DDS.SubscriberQosHolder();
+        SubscriberQosHolder holder = new SubscriberQosHolder();
         int rc = this.getOld().get_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Subscriber.getQos() failed.");
@@ -251,7 +251,7 @@ public class SubscriberImpl
                     }
                 }
             }
-            DDS.DataReader builtinReader = this.getOld()
+            DataReader builtinReader = this.getOld()
                     .lookup_datareader(topicName);
 
             if (builtinReader != null) {
@@ -280,7 +280,7 @@ public class SubscriberImpl
                     }
                 }
             }
-            DDS.DataReader builtinReader = this.getOld()
+            DataReader builtinReader = this.getOld()
                     .lookup_datareader(topicDescription.getName());
 
             if (builtinReader != null) {
@@ -291,11 +291,11 @@ public class SubscriberImpl
     }
 
     private <TYPE> DataReaderImpl<TYPE> initBuiltinReader(
-            DDS.DataReader oldBuiltin) {
+            DataReader oldBuiltin) {
         DataReaderImpl<TYPE> result = null;
 
         if (oldBuiltin != null) {
-            DDS.TopicDescription classicTopicDescription = oldBuiltin
+            TopicDescription classicTopicDescription = oldBuiltin
                     .get_topicdescription();
 
             if (classicTopicDescription != null) {
@@ -315,7 +315,7 @@ public class SubscriberImpl
     }
 
     private <TYPE> DataReaderImpl<TYPE> initBuiltinReader(
-            DDS.DataReader oldBuiltin, TopicDescription<TYPE> td) {
+            DataReader oldBuiltin, TopicDescription<TYPE> td) {
         DataReaderImpl<TYPE> result = null;
 
         if (oldBuiltin != null) {
@@ -328,7 +328,7 @@ public class SubscriberImpl
         return result;
     }
 
-    public <TYPE> DataReader<TYPE> lookupDataReader(DDS.DataReader old) {
+    public <TYPE> DataReader<TYPE> lookupDataReader(DataReader old) {
         DataReader<TYPE> result;
 
         synchronized (this.readers) {
@@ -348,7 +348,7 @@ public class SubscriberImpl
     @Override
     public void closeContainedEntities() {
         synchronized (this.readers) {
-            HashMap<DDS.DataReader, AbstractDataReader<?>> copyReaders = new HashMap<DDS.DataReader, AbstractDataReader<?>>(this.readers);
+            HashMap<DataReader, AbstractDataReader<?>> copyReaders = new HashMap<DataReader, AbstractDataReader<?>>(this.readers);
             for (AbstractDataReader<?> reader : copyReaders.values()) {
                 try {
                     reader.close();
@@ -361,16 +361,16 @@ public class SubscriberImpl
 
     public Collection<DataReader<?>> getDataReaders(
             Collection<DataReader<?>> readers) {
-        DDS.DataReaderSeqHolder oldReaders = new DDS.DataReaderSeqHolder();
+        DataReaderSeqHolder oldReaders = new DataReaderSeqHolder();
 
         synchronized (this.readers) {
             int rc = this.getOld().get_datareaders(oldReaders,
-                    DDS.ANY_SAMPLE_STATE.value, DDS.ANY_VIEW_STATE.value,
-                    DDS.ANY_INSTANCE_STATE.value);
+                    ANY_SAMPLE_STATE.value, ANY_VIEW_STATE.value,
+                    ANY_INSTANCE_STATE.value);
             Utilities.checkReturnCode(rc, this.environment,
                     "Subscriber.getDataReaders() failed.");
 
-            for (DDS.DataReader oldReader : oldReaders.value) {
+            for (DataReader oldReader : oldReaders.value) {
                 readers.add(this.readers.get(oldReader));
             }
         }
@@ -380,16 +380,16 @@ public class SubscriberImpl
     @Override
     public Collection<DataReader<?>> getDataReaders() {
         List<DataReader<?>> readers = new ArrayList<DataReader<?>>();
-        DDS.DataReaderSeqHolder oldReaders = new DDS.DataReaderSeqHolder();
+        DataReaderSeqHolder oldReaders = new DataReaderSeqHolder();
 
         synchronized (this.readers) {
             int rc = this.getOld().get_datareaders(oldReaders,
-                    DDS.ANY_SAMPLE_STATE.value, DDS.ANY_VIEW_STATE.value,
-                    DDS.ANY_INSTANCE_STATE.value);
+                    ANY_SAMPLE_STATE.value, ANY_VIEW_STATE.value,
+                    ANY_INSTANCE_STATE.value);
             Utilities.checkReturnCode(rc, this.environment,
                     "Subscriber.getDataReaders() failed.");
 
-            for (DDS.DataReader oldReader : oldReaders.value) {
+            for (DataReader oldReader : oldReaders.value) {
                 readers.add(this.readers.get(oldReader));
             }
         }
@@ -402,7 +402,7 @@ public class SubscriberImpl
                     "Supplied DataState is null.");
         }
         List<DataReader<?>> readers = new ArrayList<DataReader<?>>();
-        DDS.DataReaderSeqHolder oldReaders = new DDS.DataReaderSeqHolder();
+        DataReaderSeqHolder oldReaders = new DataReaderSeqHolder();
 
         try {
             DataStateImpl state = (DataStateImpl) dataState;
@@ -414,7 +414,7 @@ public class SubscriberImpl
                 Utilities.checkReturnCode(rc, this.environment,
                         "Subscriber.getDataReaders() failed.");
 
-                for (DDS.DataReader oldReader : oldReaders.value) {
+                for (DataReader oldReader : oldReaders.value) {
                     readers.add(this.readers.get(oldReader));
                 }
             }
@@ -449,7 +449,7 @@ public class SubscriberImpl
 
     @Override
     public DataReaderQos getDefaultDataReaderQos() {
-        DDS.DataReaderQosHolder holder = new DDS.DataReaderQosHolder();
+        DataReaderQosHolder holder = new DataReaderQosHolder();
         int rc = this.getOld().get_default_datareader_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Subscriber.getDefaultDataReaderQos() failed.");
@@ -497,7 +497,7 @@ public class SubscriberImpl
 
     @Override
     public StatusCondition<Subscriber> getStatusCondition() {
-        DDS.StatusCondition oldCondition = this.getOld().get_statuscondition();
+        StatusCondition oldCondition = this.getOld().get_statuscondition();
 
         if (oldCondition == null) {
             Utilities.throwLastErrorException(this.environment);
@@ -523,7 +523,7 @@ public class SubscriberImpl
     }
 
     public void destroyDataReader(AbstractDataReader<?> dataReader) {
-        DDS.DataReader old = dataReader.getOld();
+        DataReader old = dataReader.getOld();
         old.delete_contained_entities();
         int rc = this.getOld().delete_datareader(old);
         synchronized (this.readers) {
