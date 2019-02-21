@@ -42,7 +42,7 @@ import org.omg.dds.topic.SubscriptionBuiltinTopicData;
 import org.omg.dds.topic.Topic;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.StatusConditionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
@@ -57,7 +57,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
     protected final TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> typeSupport;
 
     @SuppressWarnings("unchecked")
-    public DataWriterProtobuf(OsplServiceEnvironment environment,
+    public DataWriterProtobuf(CycloneServiceEnvironment environment,
             PublisherImpl parent, TopicProtobuf<PROTOBUF_TYPE> topic,
             DataWriterQos qos, DataWriterListener<PROTOBUF_TYPE> listener,
             Collection<Class<? extends Status>> statuses) {

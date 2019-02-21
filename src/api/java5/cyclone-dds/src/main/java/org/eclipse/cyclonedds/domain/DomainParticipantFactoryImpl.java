@@ -34,7 +34,7 @@ import org.omg.dds.domain.DomainParticipantListener;
 import org.omg.dds.domain.DomainParticipantQos;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.Utilities;
 
 /*
@@ -46,11 +46,11 @@ import org.eclipse.cyclonedds.ddsc.DdscLibrary.*;
 
 public class DomainParticipantFactoryImpl extends DomainParticipantFactory
         implements org.eclipse.cyclonedds.domain.DomainParticipantFactory {
-    private OsplServiceEnvironment environment;
+    private CycloneServiceEnvironment environment;
     private DomainParticipantFactoryQos qos;
     private DomainParticipantQos defaultDomainParticipantQoS;
 
-    public DomainParticipantFactoryImpl(OsplServiceEnvironment environment) {
+    public DomainParticipantFactoryImpl(CycloneServiceEnvironment environment) {
         this.environment = environment;
         this.defaultDomainParticipantQoS = new DomainParticipantQosImpl(environment);
         this.qos = new DomainParticipantFactoryQosImpl(environment);

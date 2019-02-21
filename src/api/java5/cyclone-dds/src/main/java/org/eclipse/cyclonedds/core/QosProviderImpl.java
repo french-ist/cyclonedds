@@ -42,10 +42,10 @@ import org.eclipse.cyclonedds.topic.TopicQosImpl;
 //import SubscriberQosHolder;
 
 public class QosProviderImpl extends QosProvider {
-    private final OsplServiceEnvironment environment;
+    private final CycloneServiceEnvironment environment;
     private QosProvider old;
 
-    public QosProviderImpl(OsplServiceEnvironment environment, String uri,
+    public QosProviderImpl(CycloneServiceEnvironment environment, String uri,
             String profile) {
         if (uri == null) {
             throw new IllegalArgumentExceptionImpl(environment, "Invalid uri provided");

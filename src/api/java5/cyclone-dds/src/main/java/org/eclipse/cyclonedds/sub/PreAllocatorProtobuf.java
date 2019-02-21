@@ -28,14 +28,14 @@ import java.util.List;
 import org.omg.dds.sub.Sample;
 import org.eclipse.cyclonedds.core.DDSExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.type.TypeSupportProtobuf;
 
 //TODO FRCYC import SampleInfoSeqHolder;
 
 public class PreAllocatorProtobuf<PROTOBUF_TYPE, DDS_TYPE> implements
         PreAllocator<PROTOBUF_TYPE> {
-    private final OsplServiceEnvironment environment;
+    private final CycloneServiceEnvironment environment;
     private final Class<?> dataSeqHolderClaz;
     private final Field dataSeqHolderValueField;
     private final TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> typeSupport;
@@ -45,7 +45,7 @@ public class PreAllocatorProtobuf<PROTOBUF_TYPE, DDS_TYPE> implements
     private List<Sample<PROTOBUF_TYPE>> sampleList;
 
     @SuppressWarnings("unchecked")
-    public PreAllocatorProtobuf(OsplServiceEnvironment environment,
+    public PreAllocatorProtobuf(CycloneServiceEnvironment environment,
             DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> reader,
             Class<?> dataSeqHolderClaz, Field dataSeqHolderValueField,
             List<Sample<PROTOBUF_TYPE>> preAllocated) {

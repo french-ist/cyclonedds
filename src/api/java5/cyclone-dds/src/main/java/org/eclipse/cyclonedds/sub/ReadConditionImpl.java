@@ -31,17 +31,17 @@ import org.omg.dds.sub.SampleState;
 import org.omg.dds.sub.ViewState;
 import org.eclipse.cyclonedds.core.Condition;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.Utilities;
 
 public class ReadConditionImpl<TYPE> implements ReadCondition<TYPE>,
         Condition<Condition> {
-    protected final OsplServiceEnvironment environment;
+    protected final CycloneServiceEnvironment environment;
     protected ReadCondition old;
     protected final AbstractDataReader<TYPE> parent;
     protected final DataStateImpl state;
 
-    public ReadConditionImpl(OsplServiceEnvironment environment,
+    public ReadConditionImpl(CycloneServiceEnvironment environment,
             AbstractDataReader<TYPE> parent,
             Collection<SampleState> sampleState,
             Collection<ViewState> viewState,
@@ -50,23 +50,23 @@ public class ReadConditionImpl<TYPE> implements ReadCondition<TYPE>,
                 viewState, instanceState), true);
     }
 
-    public ReadConditionImpl(OsplServiceEnvironment environment,
+    public ReadConditionImpl(CycloneServiceEnvironment environment,
             AbstractDataReader<TYPE> parent, DataStateImpl state) {
         this(environment, parent, state, true);
     }
 
-    public ReadConditionImpl(OsplServiceEnvironment environment,
+    public ReadConditionImpl(CycloneServiceEnvironment environment,
             AbstractDataReader<TYPE> parent) {
         this(environment, parent, DataStateImpl.any(environment), true);
     }
 
-    public ReadConditionImpl(OsplServiceEnvironment environment,
+    public ReadConditionImpl(CycloneServiceEnvironment environment,
             AbstractDataReader<TYPE> parent, boolean setupCondition) {
         this(environment, parent, DataStateImpl.any(environment),
                 setupCondition);
     }
 
-    public ReadConditionImpl(OsplServiceEnvironment environment,
+    public ReadConditionImpl(CycloneServiceEnvironment environment,
             AbstractDataReader<TYPE> parent, DataStateImpl state,
             boolean setupCondition) {
         this.environment = environment;

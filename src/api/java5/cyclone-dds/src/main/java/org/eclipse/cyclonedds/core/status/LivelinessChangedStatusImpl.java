@@ -23,18 +23,18 @@ package org.eclipse.cyclonedds.core.status;
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.status.LivelinessChangedStatus;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class LivelinessChangedStatusImpl extends LivelinessChangedStatus {
     private static final long serialVersionUID = -8177984046769155908L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
     private final int aliveCount;
     private final int notAliveCount;
     private final int aliveCountChange;
     private final int notAliveCountChange;
     private final InstanceHandle lastPublicationHandle;
 
-    public LivelinessChangedStatusImpl(OsplServiceEnvironment environment,
+    public LivelinessChangedStatusImpl(CycloneServiceEnvironment environment,
             int aliveCount, int notAliveCount, int aliveCountChange,
             int notAliveCountChange, InstanceHandle lastPublicationHandle) {
         this.environment = environment;

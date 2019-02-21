@@ -24,15 +24,15 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.event.OfferedDeadlineMissedEvent;
 import org.omg.dds.core.status.OfferedDeadlineMissedStatus;
 import org.omg.dds.pub.DataWriter;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class OfferedDeadlineMissedEventImpl<TYPE> extends
         OfferedDeadlineMissedEvent<TYPE> {
     private static final long serialVersionUID = 2240354051189759674L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
     private final OfferedDeadlineMissedStatus status;
 
-    public OfferedDeadlineMissedEventImpl(OsplServiceEnvironment environment,
+    public OfferedDeadlineMissedEventImpl(CycloneServiceEnvironment environment,
             DataWriter<TYPE> source, OfferedDeadlineMissedStatus status) {
         super(source);
         this.environment = environment;

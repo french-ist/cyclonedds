@@ -24,18 +24,18 @@ import java.util.Arrays;
 
 import org.omg.dds.core.policy.QosPolicy;
 import org.omg.dds.core.policy.TopicData;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class TopicDataImpl extends QosPolicyImpl implements TopicData {
     private static final long serialVersionUID = 9077570108733402200L;
     private final byte[] value;
 
-    public TopicDataImpl(OsplServiceEnvironment environment) {
+    public TopicDataImpl(CycloneServiceEnvironment environment) {
         super(environment);
         this.value = new byte[0];
     }
 
-    public TopicDataImpl(OsplServiceEnvironment environment, byte[] value) {
+    public TopicDataImpl(CycloneServiceEnvironment environment, byte[] value) {
         super(environment);
 
         if (value != null) {

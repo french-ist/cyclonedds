@@ -50,7 +50,7 @@ import org.omg.dds.topic.PublicationBuiltinTopicData;
 import org.eclipse.cyclonedds.core.DDSExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.InstanceHandleImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.policy.PolicyConverter;
@@ -63,7 +63,7 @@ import org.eclipse.cyclonedds.topic.PublicationBuiltinTopicDataImpl;
 public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
         implements
         DDSObject {
-    private final OsplServiceEnvironment environment;
+    private final CycloneServiceEnvironment environment;
     private final AbstractDataReader<OUT_TYPE> reader;
     private final DataReader old = null;
     private final Class<?> sampleSeqHolderClz;
@@ -88,7 +88,7 @@ public class ReflectionDataReader<TYPE, OUT_TYPE> extends AbstractDDSObject
     private final Method getKeyValue;
     private final Method lookupInstance;
 
-    public ReflectionDataReader(OsplServiceEnvironment environment,
+    public ReflectionDataReader(CycloneServiceEnvironment environment,
             AbstractDataReader<OUT_TYPE> reader, Class<TYPE> ddsTypeClz) {
         this.environment = environment;
         this.reader = reader;

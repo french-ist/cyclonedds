@@ -31,17 +31,17 @@ import org.omg.dds.sub.SampleState;
 import org.omg.dds.sub.Subscriber;
 import org.omg.dds.sub.Subscriber.DataState;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 import org.omg.dds.sub.ViewState;
 
 public class DataStateImpl implements Subscriber.DataState {
-    private OsplServiceEnvironment environment;
+    private CycloneServiceEnvironment environment;
     private HashSet<SampleState> sampleState;
     private HashSet<ViewState> viewState;
     private HashSet<InstanceState> instanceState;
 
-    public DataStateImpl(OsplServiceEnvironment environment,
+    public DataStateImpl(CycloneServiceEnvironment environment,
             Collection<SampleState> sampleState,
             Collection<ViewState> viewState,
             Collection<InstanceState> instanceState) {
@@ -51,19 +51,19 @@ public class DataStateImpl implements Subscriber.DataState {
         this.instanceState = new HashSet<InstanceState>(instanceState);
     }
 
-    public DataStateImpl(OsplServiceEnvironment environment) {
+    public DataStateImpl(CycloneServiceEnvironment environment) {
         this.environment = environment;
         this.sampleState = new HashSet<SampleState>();
         this.viewState = new HashSet<ViewState>();
         this.instanceState = new HashSet<InstanceState>();
     }
 
-    public static DataStateImpl getAnyStateDataState(OsplServiceEnvironment env) {
+    public static DataStateImpl getAnyStateDataState(CycloneServiceEnvironment env) {
         return (DataStateImpl) new DataStateImpl(env).withAnySampleState()
                 .withAnyViewState().withAnyInstanceState();
     }
 
-    public static SampleState getSampleStateFromOld(OsplServiceEnvironment env,
+    public static SampleState getSampleStateFromOld(CycloneServiceEnvironment env,
             int state) {
         /* TODO FRCYC
     	switch (state) {
@@ -78,7 +78,7 @@ public class DataStateImpl implements Subscriber.DataState {
     	return null;
     }
 
-    public static ViewState getViewStateFromOld(OsplServiceEnvironment env,
+    public static ViewState getViewStateFromOld(CycloneServiceEnvironment env,
             int state) {
     	/* TODO FRCYC
         switch (state) {
@@ -93,7 +93,7 @@ public class DataStateImpl implements Subscriber.DataState {
     }
 
     public static InstanceState getInstanceStateFromOld(
-            OsplServiceEnvironment env, int state) {
+            CycloneServiceEnvironment env, int state) {
     	/* TODO FRCYC
         switch (state) {
         case ALIVE_INSTANCE_STATE.value:
@@ -349,7 +349,7 @@ public class DataStateImpl implements Subscriber.DataState {
         */
     }
 
-    public static DataStateImpl any(OsplServiceEnvironment environment) {
+    public static DataStateImpl any(CycloneServiceEnvironment environment) {
         return (DataStateImpl) new DataStateImpl(environment)
                 .withAnySampleState().withAnyViewState().withAnyInstanceState();
     }

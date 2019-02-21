@@ -34,7 +34,7 @@ import org.eclipse.cyclonedds.core.status.StatusConverter;
 
 public abstract class EntityImpl<OLD extends Entity, OLDPARENT, QOS extends EntityQos<?>, LISTENER extends EventListener, LISTENERIMPL extends Listener<LISTENER>>
         extends AbstractDDSObject implements org.omg.dds.core.Entity<LISTENER, QOS>, Properties {
-    protected final transient OsplServiceEnvironment environment;
+    protected final transient CycloneServiceEnvironment environment;
     private final OLDPARENT oldParent;
     private OLD old;
     protected LISTENERIMPL listener;
@@ -91,7 +91,7 @@ public abstract class EntityImpl<OLD extends Entity, OLDPARENT, QOS extends Enti
         return noMoreRefs;
     }
 
-    public EntityImpl(OsplServiceEnvironment environment, OLDPARENT oldParent) {
+    public EntityImpl(CycloneServiceEnvironment environment, OLDPARENT oldParent) {
         this.environment = environment;
         this.oldParent = oldParent;
         this.listener = null;

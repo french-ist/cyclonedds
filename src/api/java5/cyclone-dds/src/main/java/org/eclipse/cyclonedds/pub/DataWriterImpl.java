@@ -41,7 +41,7 @@ import org.omg.dds.topic.SubscriptionBuiltinTopicData;
 import org.omg.dds.topic.Topic;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.StatusConditionImpl;
 import org.eclipse.cyclonedds.core.TimeImpl;
 import org.eclipse.cyclonedds.core.Utilities;
@@ -52,7 +52,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
     private final TopicImpl<TYPE> topic;
     private final ReflectionDataWriter<TYPE> reflectionWriter;
 
-    public DataWriterImpl(OsplServiceEnvironment environment,
+    public DataWriterImpl(CycloneServiceEnvironment environment,
             PublisherImpl parent, TopicImpl<TYPE> topic, DataWriterQos qos,
             DataWriterListener<TYPE> listener,
             Collection<Class<? extends Status>> statuses) {

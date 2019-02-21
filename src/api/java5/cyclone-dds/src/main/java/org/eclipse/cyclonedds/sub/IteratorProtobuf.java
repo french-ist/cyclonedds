@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import org.omg.dds.sub.Sample;
 import org.eclipse.cyclonedds.core.DDSExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.type.TypeSupportProtobuf;
 
 //TODO FRCYC import SampleInfoSeqHolder;
@@ -36,7 +36,7 @@ public class IteratorProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         Sample.Iterator<PROTOBUF_TYPE> {
     private ArrayList<PROTOBUF_TYPE> data;
 
-    public IteratorProtobuf(OsplServiceEnvironment environment,
+    public IteratorProtobuf(CycloneServiceEnvironment environment,
             DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> reader,
             Object sampleSeqHolder, Field dataSeqHolderValue,
             SampleInfoSeqHolder infoSeqHolder) {

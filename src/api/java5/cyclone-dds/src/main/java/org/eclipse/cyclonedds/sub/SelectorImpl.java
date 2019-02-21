@@ -34,10 +34,10 @@ import org.omg.dds.sub.Sample;
 import org.omg.dds.sub.Sample.Iterator;
 import org.omg.dds.sub.Subscriber.DataState;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class SelectorImpl<TYPE> implements DataReader.Selector<TYPE> {
-    private final OsplServiceEnvironment environment;
+    private final CycloneServiceEnvironment environment;
     private final AbstractDataReader<TYPE> reader;
     private final int maxSamples;
     private final InstanceHandle instance;
@@ -47,7 +47,7 @@ public class SelectorImpl<TYPE> implements DataReader.Selector<TYPE> {
     private final String queryExpression;
     private final List<String> queryParameters;
 
-    public SelectorImpl(OsplServiceEnvironment environment,
+    public SelectorImpl(CycloneServiceEnvironment environment,
             AbstractDataReader<TYPE> reader) {
         this.environment = environment;
         this.reader = reader;

@@ -32,11 +32,11 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.WaitSet;
 
 public class WaitSetImpl extends WaitSet {
-    private final OsplServiceEnvironment environment;
+    private final CycloneServiceEnvironment environment;
     //TODO FRCYC private final WaitSet oldWaitSet;
     private ConcurrentHashMap<Condition, org.omg.dds.core.Condition> conditions;
 
-    public WaitSetImpl(OsplServiceEnvironment environment) {
+    public WaitSetImpl(CycloneServiceEnvironment environment) {
         this.environment = environment;
         //this.oldWaitSet = new WaitSet();
         this.conditions = new ConcurrentHashMap<Condition, org.omg.dds.core.Condition>();

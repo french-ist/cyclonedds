@@ -24,11 +24,11 @@ import org.omg.dds.core.GuardCondition;
 import org.omg.dds.core.ServiceEnvironment;
 
 public class GuardConditionImpl extends GuardCondition implements org.eclipse.cyclonedds.core.Condition<Condition> {
-    private final OsplServiceEnvironment environment;
+    private final CycloneServiceEnvironment environment;
     //TODO FRCYC private final GuardCondition oldGuardCondition;
 
 
-    public GuardConditionImpl(OsplServiceEnvironment environment){
+    public GuardConditionImpl(CycloneServiceEnvironment environment){
         this.environment = environment;
         //this.oldGuardCondition = new GuardCondition();
     }

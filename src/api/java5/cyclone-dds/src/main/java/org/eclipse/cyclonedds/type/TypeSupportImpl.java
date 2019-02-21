@@ -31,7 +31,7 @@ import org.omg.dds.sub.DataReaderQos;
 import org.omg.dds.topic.TopicListener;
 import org.omg.dds.topic.TopicQos;
 import org.omg.dds.type.TypeSupport;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
 import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
 import org.eclipse.cyclonedds.pub.AbstractDataWriter;
@@ -45,13 +45,13 @@ import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 import org.eclipse.cyclonedds.topic.TopicImpl;
 
 public class TypeSupportImpl<TYPE> extends AbstractTypeSupport<TYPE> {
-    private final OsplServiceEnvironment environment;
+    private final CycloneServiceEnvironment environment;
     //TODO FRCYC private final org.eclipse.cyclonedds.dcps.TypeSupportImpl oldTypeSupport;
     private final Class<TYPE> dataType;
     private final String typeName;
 
     @SuppressWarnings("unchecked")
-    public TypeSupportImpl(OsplServiceEnvironment environment,
+    public TypeSupportImpl(CycloneServiceEnvironment environment,
             Class<TYPE> dataType, String typeName) {
         super();
         this.environment = environment;

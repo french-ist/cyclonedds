@@ -28,12 +28,12 @@ import org.omg.dds.core.Time;
 public class TimeImpl extends ModifiableTimeImpl {
     private static final long serialVersionUID = 7478771004119429231L;
 
-    public TimeImpl(OsplServiceEnvironment environment, long duration,
+    public TimeImpl(CycloneServiceEnvironment environment, long duration,
             TimeUnit unit) {
         super(environment, duration, unit);
     }
 
-    public TimeImpl(OsplServiceEnvironment environment, long seconds,
+    public TimeImpl(CycloneServiceEnvironment environment, long seconds,
             long nanoseconds) {
         super(environment, seconds, nanoseconds);
     }

@@ -28,7 +28,7 @@ import org.omg.dds.core.policy.QosPolicy.ForPublisher;
 import org.omg.dds.pub.PublisherQos;
 import org.eclipse.cyclonedds.core.EntityQosImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.policy.EntityFactoryImpl;
 import org.eclipse.cyclonedds.core.policy.GroupDataImpl;
 import org.eclipse.cyclonedds.core.policy.PartitionImpl;
@@ -40,12 +40,12 @@ public class PublisherQosImpl extends EntityQosImpl<ForPublisher> implements
 
     private static final long serialVersionUID = 3160319098450969471L;
 
-    public PublisherQosImpl(OsplServiceEnvironment environment,
+    public PublisherQosImpl(CycloneServiceEnvironment environment,
             ForPublisher... policies) {
         super(environment, policies);
     }
 
-    public PublisherQosImpl(OsplServiceEnvironment environment) {
+    public PublisherQosImpl(CycloneServiceEnvironment environment) {
         super(environment);
     }
 

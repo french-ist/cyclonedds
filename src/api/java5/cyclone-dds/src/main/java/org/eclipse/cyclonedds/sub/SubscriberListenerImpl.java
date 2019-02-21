@@ -32,7 +32,7 @@ import org.omg.dds.core.event.SampleRejectedEvent;
 import org.omg.dds.core.event.SubscriptionMatchedEvent;
 import org.omg.dds.sub.SubscriberListener;
 import org.eclipse.cyclonedds.core.Listener;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.event.DataAvailableEventImpl;
 import org.eclipse.cyclonedds.core.event.DataOnReadersEventImpl;
 import org.eclipse.cyclonedds.core.event.LivelinessChangedEventImpl;
@@ -61,11 +61,11 @@ public class SubscriberListenerImpl extends Listener<SubscriberListener>
     private static final long serialVersionUID = -1147185392577428150L;
     private final transient SubscriberImpl subscriber;
 
-    public SubscriberListenerImpl(OsplServiceEnvironment environment,
+    public SubscriberListenerImpl(CycloneServiceEnvironment environment,
             SubscriberImpl subscriber, SubscriberListener listener) {
         this(environment, subscriber, listener, false);
     }
-    public SubscriberListenerImpl(OsplServiceEnvironment environment,
+    public SubscriberListenerImpl(CycloneServiceEnvironment environment,
             SubscriberImpl subscriber, SubscriberListener listener,
             boolean waitUntilInitialised) {
         super(environment, listener, waitUntilInitialised);

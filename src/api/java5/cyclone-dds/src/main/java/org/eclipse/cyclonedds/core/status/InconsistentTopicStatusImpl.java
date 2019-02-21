@@ -22,15 +22,15 @@ package org.eclipse.cyclonedds.core.status;
 
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.status.InconsistentTopicStatus;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class InconsistentTopicStatusImpl extends InconsistentTopicStatus {
     private static final long serialVersionUID = 3165565648541730575L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
     private final int totalCount;
     private final int totalCountChange;
 
-    public InconsistentTopicStatusImpl(OsplServiceEnvironment environment,
+    public InconsistentTopicStatusImpl(CycloneServiceEnvironment environment,
             int totalCount, int totalCountChange) {
         this.environment = environment;
         this.totalCount = totalCount;

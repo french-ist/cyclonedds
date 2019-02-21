@@ -30,19 +30,19 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.policy.QosPolicy;
 import org.omg.dds.core.policy.QosPolicyCount;
 import org.omg.dds.core.status.OfferedIncompatibleQosStatus;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.policy.QosPolicyCountImpl;
 
 public class OfferedIncompatibleQosStatusImpl extends
         OfferedIncompatibleQosStatus {
     private static final long serialVersionUID = -3766147880242839380L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
     private final int totalCount;
     private final int totalCountChange;
     private final Class<? extends QosPolicy> lastPolicyClass;
     private final List<QosPolicyCount> policies;
 
-    public OfferedIncompatibleQosStatusImpl(OsplServiceEnvironment environment,
+    public OfferedIncompatibleQosStatusImpl(CycloneServiceEnvironment environment,
             int totalCount, int totalCountChange,
             Class<? extends QosPolicy> lastPolicyClass,
             QosPolicyCount... policies) {

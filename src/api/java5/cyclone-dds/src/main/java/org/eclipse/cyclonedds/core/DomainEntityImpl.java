@@ -22,27 +22,29 @@ package org.eclipse.cyclonedds.core;
 
 import java.util.EventListener;
 
+import org.omg.dds.core.DomainEntity;
 import org.omg.dds.core.Entity;
 import org.omg.dds.core.EntityQos;
 
-public abstract class DomainEntityImpl<
-        OLD extends Entity,
-        PARENT extends EntityImpl<?, ?, ?, ?, ?>,
-        OLDPARENT extends Entity,
-        QOS extends EntityQos<?>,
-        LISTENER extends EventListener,
-        LISTENERIMPL extends Listener<LISTENER>>
-        extends EntityImpl<
-            OLD,
-            OLDPARENT,
-            QOS, LISTENER,
-            LISTENERIMPL>
-            implements org.omg.dds.core.DomainEntity<LISTENER, QOS> {
+
+public abstract class DomainEntityImpl
+	<
+		OLD extends Entity,
+		PARENT extends EntityImpl<?, ?, ?, ?, ?>, 
+		OLDPARENT extends Entity, 
+		QOS extends EntityQos<?>, 
+		LISTENER extends EventListener, 
+		LISTENERIMPL extends Listener<LISTENER>
+	>
+	extends EntityImpl<OLD, OLDPARENT, QOS, LISTENER, LISTENERIMPL> 
+	implements org.omg.dds.core.DomainEntity<LISTENER, QOS> 
+{
     protected PARENT parent;
 
-    public DomainEntityImpl(OsplServiceEnvironment environment, PARENT parent,
-            OLDPARENT oldParent) {
+    public DomainEntityImpl(CycloneServiceEnvironment environment, PARENT parent, OLDPARENT oldParent) 
+    {
         super(environment, oldParent);
         this.parent = parent;
     }
 }
+

@@ -46,7 +46,7 @@ import org.eclipse.cyclonedds.core.DDSExceptionImpl;
 import org.eclipse.cyclonedds.core.DomainEntityImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.StatusConditionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
@@ -61,7 +61,7 @@ public class SubscriberImpl
     private final HashMap<DataReader, AbstractDataReader<?>> readers;
     private final boolean isBuiltin;
 
-    public SubscriberImpl(OsplServiceEnvironment environment,
+    public SubscriberImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl parent, SubscriberQos qos,
             SubscriberListener listener,
             Collection<Class<? extends Status>> statuses) {
@@ -104,7 +104,7 @@ public class SubscriberImpl
         }
     }
 
-    public SubscriberImpl(OsplServiceEnvironment environment,
+    public SubscriberImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl parent, Subscriber oldSubscriber) {
         super(environment, parent, parent.getOld());
 

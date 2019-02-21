@@ -28,13 +28,13 @@ import java.util.List;
 import org.omg.dds.sub.Sample;
 import org.eclipse.cyclonedds.core.DDSExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 //TODO FRCYC import SampleInfo;
 //TODO FRCYC import SampleInfoSeqHolder;
 
 public class PreAllocatorImpl<TYPE> implements PreAllocator<TYPE> {
-    private final OsplServiceEnvironment environment;
+    private final CycloneServiceEnvironment environment;
     private final Class<?> dataSeqHolderClaz;
     private final Class<TYPE> dataClaz;
     private final Field dataSeqHolderValueField;
@@ -44,7 +44,7 @@ public class PreAllocatorImpl<TYPE> implements PreAllocator<TYPE> {
     private List<Sample<TYPE>> sampleList;
     private int lastLength;
 
-    public PreAllocatorImpl(OsplServiceEnvironment environment,
+    public PreAllocatorImpl(CycloneServiceEnvironment environment,
             Class<?> dataSeqHolderClaz, Field dataSeqHolderValueField,
             Class<TYPE> dataClaz, List<Sample<TYPE>> preAllocated) {
         this.environment = environment;

@@ -46,7 +46,7 @@ import org.eclipse.cyclonedds.core.DomainEntityImpl;
 import org.eclipse.cyclonedds.core.EntityImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.StatusConditionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
@@ -61,7 +61,7 @@ DomainEntityImpl<Publisher, DomainParticipantImpl, DomainParticipant, PublisherQ
 implements Publisher {
 	private final HashMap<DataWriter, DataWriter<?>> writers;
 
-	public PublisherImpl(OsplServiceEnvironment environment,
+	public PublisherImpl(CycloneServiceEnvironment environment,
 			DomainParticipantImpl parent, PublisherQos qos,
 			PublisherListener listener,
 			Collection<Class<? extends Status>> statuses) {

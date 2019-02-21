@@ -25,9 +25,9 @@ import org.omg.dds.core.ServiceEnvironment;
 
 public class IllegalOperationExceptionImpl extends IllegalOperationException {
     private static final long serialVersionUID = 8912436708117660265L;
-    private OsplServiceEnvironment environment;
+    private CycloneServiceEnvironment environment;
 
-    public IllegalOperationExceptionImpl(OsplServiceEnvironment environment,
+    public IllegalOperationExceptionImpl(CycloneServiceEnvironment environment,
             String message) {
         super(message);
         this.environment = environment;

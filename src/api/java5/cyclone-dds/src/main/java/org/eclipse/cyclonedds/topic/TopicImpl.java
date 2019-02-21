@@ -36,7 +36,7 @@ import org.omg.dds.type.TypeSupport;
 import org.eclipse.cyclonedds.core.DomainEntityImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
 import org.eclipse.cyclonedds.core.StatusConditionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
@@ -52,7 +52,7 @@ public class TopicImpl<TYPE>
         implements org.eclipse.cyclonedds.topic.AbstractTopic<TYPE> {
     private AbstractTypeSupport<TYPE> typeSupport;
 
-    public TopicImpl(OsplServiceEnvironment environment,
+    public TopicImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl participant, String topicName,
             AbstractTypeSupport<TYPE> typeSupport, TopicQos qos,
             TopicListener<TYPE> listener,
@@ -110,7 +110,7 @@ public class TopicImpl<TYPE>
     }
 
     @SuppressWarnings("unchecked")
-    public TopicImpl(OsplServiceEnvironment environment,
+    public TopicImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl participant, String topicName, Topic old) {
         super(environment, participant, participant.getOld());
         this.listener = null;

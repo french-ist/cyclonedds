@@ -24,13 +24,13 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.policy.DataRepresentation;
 import org.omg.dds.core.policy.TypeConsistencyEnforcement;
 import org.omg.dds.core.policy.TypeConsistencyEnforcement.Kind;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.policy.Scheduling.WatchdogScheduling;
 
 public class PolicyFactoryImpl extends PolicyFactory {
-    private final OsplServiceEnvironment environment;
+    private final CycloneServiceEnvironment environment;
 
-    public PolicyFactoryImpl(OsplServiceEnvironment environment) {
+    public PolicyFactoryImpl(CycloneServiceEnvironment environment) {
         this.environment = environment;
     }
 

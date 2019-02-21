@@ -33,7 +33,7 @@ import org.omg.dds.sub.DataReaderQos;
 import org.omg.dds.sub.Sample;
 import org.omg.dds.sub.Sample.Iterator;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
@@ -49,7 +49,7 @@ public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
     private final TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> typeSupport;
 
     @SuppressWarnings("unchecked")
-    public DataReaderProtobuf(OsplServiceEnvironment environment,
+    public DataReaderProtobuf(CycloneServiceEnvironment environment,
             SubscriberImpl parent,
             TopicDescriptionExt<PROTOBUF_TYPE> topicDescription,
             DataReaderQos qos, DataReaderListener<PROTOBUF_TYPE> listener,

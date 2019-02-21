@@ -24,14 +24,14 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.event.RequestedIncompatibleQosEvent;
 import org.omg.dds.core.status.RequestedIncompatibleQosStatus;
 import org.omg.dds.sub.DataReader;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class RequestedIncompatibleQosEventImpl<TYPE> extends RequestedIncompatibleQosEvent<TYPE> {
     private static final long serialVersionUID = 3194689213798347497L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
     private final RequestedIncompatibleQosStatus status;
 
-    public RequestedIncompatibleQosEventImpl(OsplServiceEnvironment environment,
+    public RequestedIncompatibleQosEventImpl(CycloneServiceEnvironment environment,
             DataReader<TYPE> source, RequestedIncompatibleQosStatus status) {
         super(source);
         this.environment = environment;

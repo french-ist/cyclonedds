@@ -25,10 +25,10 @@ import org.omg.dds.core.ServiceEnvironment;
 
 public class InstanceHandleImpl extends InstanceHandle {
     private static final long serialVersionUID = 8433681503549822293L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
     private final long value;
 
-    public InstanceHandleImpl(OsplServiceEnvironment environment, long value) {
+    public InstanceHandleImpl(CycloneServiceEnvironment environment, long value) {
         this.environment = environment;
         this.value = value;
     }

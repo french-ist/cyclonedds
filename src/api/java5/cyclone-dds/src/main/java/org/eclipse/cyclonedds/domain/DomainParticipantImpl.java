@@ -62,7 +62,7 @@ import org.eclipse.cyclonedds.core.EntityImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.InstanceHandleImpl;
 import org.eclipse.cyclonedds.core.ModifiableTimeImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
 import org.eclipse.cyclonedds.core.StatusConditionImpl;
 import org.eclipse.cyclonedds.core.TimeImpl;
@@ -96,7 +96,7 @@ public class DomainParticipantImpl
     private final HashMap<Publisher, PublisherImpl> publishers;
     private final HashMap<Subscriber, SubscriberImpl> subscribers;
 
-    public DomainParticipantImpl(OsplServiceEnvironment environment,
+    public DomainParticipantImpl(CycloneServiceEnvironment environment,
             DomainParticipantFactoryImpl factory, int domainId,
             DomainParticipantQos qos, DomainParticipantListener listener,
             Collection<Class<? extends Status>> statuses) {

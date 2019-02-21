@@ -33,7 +33,7 @@ import org.omg.dds.sub.DataReaderQos;
 import org.omg.dds.sub.Sample;
 import org.omg.dds.sub.Sample.Iterator;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
@@ -42,7 +42,7 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
     private final ReflectionDataReader<TYPE, TYPE> reflectionReader;
     private final ArrayList<PreAllocatorImpl<TYPE>> preallocteList;
 
-    public DataReaderImpl(OsplServiceEnvironment environment,
+    public DataReaderImpl(CycloneServiceEnvironment environment,
             SubscriberImpl parent, TopicDescriptionExt<TYPE> topicDescription,
             DataReader old) {
         super(environment, parent, topicDescription);
@@ -55,7 +55,7 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
         this.topicDescription.retain();
     }
 
-    public DataReaderImpl(OsplServiceEnvironment environment,
+    public DataReaderImpl(CycloneServiceEnvironment environment,
             SubscriberImpl parent, TopicDescriptionExt<TYPE> topicDescription,
             DataReaderQos qos, DataReaderListener<TYPE> listener,
             Collection<Class<? extends Status>> statuses) {

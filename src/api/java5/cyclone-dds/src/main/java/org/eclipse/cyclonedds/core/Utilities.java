@@ -31,7 +31,7 @@ import org.omg.dds.core.Time;
 public class Utilities {
 
     public static void checkReturnCode(int retCode,
-            OsplServiceEnvironment environment, String message) {
+            CycloneServiceEnvironment environment, String message) {
         try {
             checkReturnCode(retCode, environment, message, false);
         } catch (TimeOutExceptionImpl t) {
@@ -41,7 +41,7 @@ public class Utilities {
     }
 
     private static void checkReturnCode(int retCode,
-            OsplServiceEnvironment environment, String message,
+            CycloneServiceEnvironment environment, String message,
             boolean withTimeOut) throws TimeOutExceptionImpl {
         /* TODO FRCYC
         switch (retCode) {
@@ -181,14 +181,14 @@ public class Utilities {
     }
 
     public static void checkReturnCodeWithTimeout(int retCode,
-            OsplServiceEnvironment environment, String message)
+            CycloneServiceEnvironment environment, String message)
             throws TimeoutException {
         checkReturnCode(retCode, environment, message, true);
     }
 
     
     public static void throwLastErrorException(
-            OsplServiceEnvironment environment) {
+            CycloneServiceEnvironment environment) {
         /* TODO FRCYC
     	String message;
         int code;
@@ -260,7 +260,7 @@ public class Utilities {
     */
     
 
-    public static long convert(OsplServiceEnvironment environment,
+    public static long convert(CycloneServiceEnvironment environment,
             InstanceHandle h) {
         if (h == null) {
             throw new IllegalArgumentExceptionImpl(environment,
@@ -274,11 +274,11 @@ public class Utilities {
         }
     }
 
-    public static InstanceHandle convert(OsplServiceEnvironment env, long handle) {
+    public static InstanceHandle convert(CycloneServiceEnvironment env, long handle) {
         return new InstanceHandleImpl(env, handle);
     }
 
-	public static Object convert(OsplServiceEnvironment environment, Time sourceTimestamp) {
+	public static Object convert(CycloneServiceEnvironment environment, Time sourceTimestamp) {
 		// TODO FRCYC Auto-generated method stub
 		return null;
 	}

@@ -59,7 +59,7 @@ import org.omg.dds.topic.TopicDescription;
 import org.eclipse.cyclonedds.core.DomainEntityImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.StatusConditionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.policy.ResourceLimitsImpl;
@@ -77,7 +77,7 @@ public abstract class AbstractDataReader<TYPE>
     protected final Selector<TYPE> selector;
 
 
-    public AbstractDataReader(OsplServiceEnvironment environment,
+    public AbstractDataReader(CycloneServiceEnvironment environment,
             SubscriberImpl parent, TopicDescriptionExt<TYPE> topicDescription) {
         super(environment, parent, parent.getOld());
 

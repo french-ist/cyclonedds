@@ -24,14 +24,14 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.event.SampleLostEvent;
 import org.omg.dds.core.status.SampleLostStatus;
 import org.omg.dds.sub.DataReader;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class SampleLostEventImpl<TYPE> extends SampleLostEvent<TYPE> {
     private static final long serialVersionUID = 8778757179501057631L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
     private final SampleLostStatus status;
 
-    public SampleLostEventImpl(OsplServiceEnvironment environment,
+    public SampleLostEventImpl(CycloneServiceEnvironment environment,
             DataReader<TYPE> source, SampleLostStatus status) {
         super(source);
         this.environment = environment;

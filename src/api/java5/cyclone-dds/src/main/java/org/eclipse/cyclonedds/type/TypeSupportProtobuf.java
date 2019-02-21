@@ -33,7 +33,7 @@ import org.omg.dds.sub.DataReaderQos;
 import org.omg.dds.topic.TopicListener;
 import org.omg.dds.topic.TopicQos;
 import org.omg.dds.type.TypeSupport;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
 import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
 import org.eclipse.cyclonedds.pub.AbstractDataWriter;
@@ -51,13 +51,13 @@ import org.eclipse.cyclonedds.topic.TopicProtobuf;
 public abstract class TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         AbstractTypeSupport<PROTOBUF_TYPE> {
     protected final Class<PROTOBUF_TYPE> dataType;
-    protected final OsplServiceEnvironment environment;
+    protected final CycloneServiceEnvironment environment;
     protected final TypeSupportImpl<DDS_TYPE> ddsTypeSupport;
     private final byte[] metaData;
     private final byte[] typeHash;
     private final byte[] extentions = null;
 
-    protected TypeSupportProtobuf(OsplServiceEnvironment environment,
+    protected TypeSupportProtobuf(CycloneServiceEnvironment environment,
             Class<PROTOBUF_TYPE> dataType,
             TypeSupportImpl<DDS_TYPE> ddsTypeSupport,
             final byte[] metaData,
@@ -79,7 +79,7 @@ public abstract class TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
 
     @SuppressWarnings("unchecked")
     public static <SOME_TYPE> org.omg.dds.type.TypeSupport<SOME_TYPE> getInstance(
-            OsplServiceEnvironment environment, Class<SOME_TYPE> dataType,
+            CycloneServiceEnvironment environment, Class<SOME_TYPE> dataType,
             String registeredName) {
         String typeSupportName = dataType.getName().replaceAll("\\$", "")
                 + "TypeSupportProtobuf";
@@ -87,7 +87,7 @@ public abstract class TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         try {
             Class<?> typeSupportClass = Class.forName(typeSupportName);
             Constructor<?> c = typeSupportClass.getConstructor(
-                    OsplServiceEnvironment.class, String.class);
+                    CycloneServiceEnvironment.class, String.class);
 
             return (org.omg.dds.type.TypeSupport<SOME_TYPE>) c.newInstance(
                     environment, registeredName);

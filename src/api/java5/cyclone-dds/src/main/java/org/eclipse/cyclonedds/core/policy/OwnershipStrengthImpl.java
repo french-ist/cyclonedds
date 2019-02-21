@@ -22,19 +22,19 @@ package org.eclipse.cyclonedds.core.policy;
 
 import org.omg.dds.core.policy.OwnershipStrength;
 import org.omg.dds.core.policy.QosPolicy;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class OwnershipStrengthImpl extends QosPolicyImpl implements
         OwnershipStrength {
     private static final long serialVersionUID = -1785002609550828172L;
     private final int value;
 
-    public OwnershipStrengthImpl(OsplServiceEnvironment environment) {
+    public OwnershipStrengthImpl(CycloneServiceEnvironment environment) {
         super(environment);
         this.value = 0;
     }
 
-    public OwnershipStrengthImpl(OsplServiceEnvironment environment, int value) {
+    public OwnershipStrengthImpl(CycloneServiceEnvironment environment, int value) {
         super(environment);
         this.value = value;
     }

@@ -27,14 +27,14 @@ import org.omg.dds.core.ServiceEnvironment;
 
 public class DurationImpl extends Duration {
     private static final long serialVersionUID = -3177410803404504645L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
     private final long seconds;
     private final long nanoseconds;
     private final long totalNanos;
     public final static int INFINITE_SECONDS = Integer.MAX_VALUE;//TODO FRCYC DURATION_INFINITE_SEC.value;
     public final static int INFINITE_NANOSECONDS = Integer.MAX_VALUE;//TODO FRCYC DURATION_INFINITE_NSEC.value;
 
-    public DurationImpl(OsplServiceEnvironment environment, long duration,
+    public DurationImpl(CycloneServiceEnvironment environment, long duration,
             TimeUnit unit) {
         super();
         this.environment = environment;
@@ -56,7 +56,7 @@ public class DurationImpl extends Duration {
         }
     }
 
-    public DurationImpl(OsplServiceEnvironment environment, long seconds,
+    public DurationImpl(CycloneServiceEnvironment environment, long seconds,
             long nanoseconds) {
         super();
         this.environment = environment;

@@ -32,7 +32,7 @@ import org.omg.dds.core.event.SubscriptionMatchedEvent;
 import org.omg.dds.sub.DataReader;
 import org.omg.dds.sub.DataReaderListener;
 import org.eclipse.cyclonedds.core.Listener;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.event.DataAvailableEventImpl;
 import org.eclipse.cyclonedds.core.event.LivelinessChangedEventImpl;
 import org.eclipse.cyclonedds.core.event.RequestedDeadlineMissedEventImpl;
@@ -58,12 +58,12 @@ public class DataReaderListenerImpl<TYPE> extends
     private static final long serialVersionUID = 6892152554338498323L;
     private final transient DataReader<TYPE> reader;
 
-    public DataReaderListenerImpl(OsplServiceEnvironment environment,
+    public DataReaderListenerImpl(CycloneServiceEnvironment environment,
             DataReader<TYPE> reader, DataReaderListener<TYPE> listener) {
         this(environment, reader, listener, false);
     }
 
-    public DataReaderListenerImpl(OsplServiceEnvironment environment,
+    public DataReaderListenerImpl(CycloneServiceEnvironment environment,
             DataReader<TYPE> reader, DataReaderListener<TYPE> listener,
             boolean waitUntilInitialised) {
         super(environment, listener, waitUntilInitialised);
