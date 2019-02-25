@@ -1,4 +1,4 @@
-package org.eclipse.cyclonedds.roundtrip.optimizer;
+package org.eclipse.cyclonedds.examples.roundtrip.optimizer;
 
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;

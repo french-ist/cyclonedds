@@ -1,7 +1,7 @@
-package org.eclipse.cyclonedds.roundtrip.optimizer;
+package org.eclipse.cyclonedds.examples.roundtrip.optimizer;
 
 import org.eclipse.cyclonedds.ddsc.dds.dds_sample_info;
-import org.eclipse.cyclonedds.roundtrip.Dds;
+import org.eclipse.cyclonedds.examples.roundtrip.Dds;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.ptr.PointerByReference;

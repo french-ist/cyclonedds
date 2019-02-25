@@ -22,9 +22,19 @@ package org.eclipse.cyclonedds.core;
 
 import java.util.concurrent.TimeoutException;
 
+import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_listener_t;
+import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_qos_t;
+import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_topic_descriptor_t;
+import org.eclipse.cyclonedds.topic.TopicImpl;
 import org.omg.dds.core.Duration;
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.Time;
+import org.omg.dds.domain.DomainParticipantListener;
+import org.omg.dds.domain.DomainParticipantQos;
+import org.omg.dds.topic.TopicListener;
+import org.omg.dds.topic.TopicQos;
+
+import com.sun.jna.ptr.PointerByReference;
 
 //TODO FRCYC import ErrorInfo;
 
@@ -280,6 +290,35 @@ public class Utilities {
 
 	public static Object convert(CycloneServiceEnvironment environment, Time sourceTimestamp) {
 		// TODO FRCYC Auto-generated method stub
+		return null;
+	}
+
+	public static dds_qos_t convert(DomainParticipantQos qos) {
+		// TODO FRCYC
+		return null;
+	}
+
+	public static dds_listener_t convert(DomainParticipantListener listener) {
+		// TODO FRCYC
+		return null;
+	}
+
+	public static void checkReturnCode(PointerByReference rc, CycloneServiceEnvironment environment, String message) {
+		// TODO FRCYC
+	}
+
+	public static dds_qos_t convert(CycloneServiceEnvironment environment, TopicQos qos) {
+		// TODO FRCYC
+		return null;
+	}
+
+	public static dds_listener_t convert(CycloneServiceEnvironment environment, TopicListener<?> listener) {
+		// TODO FRCYC
+		return null;
+	}
+
+	public static dds_topic_descriptor_t convert(CycloneServiceEnvironment environment, TopicImpl<?> topicImpl) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

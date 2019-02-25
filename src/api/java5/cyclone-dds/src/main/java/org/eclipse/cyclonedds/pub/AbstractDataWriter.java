@@ -28,12 +28,12 @@ import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public abstract class AbstractDataWriter<TYPE>
         extends
-        DomainEntityImpl<DataWriter, PublisherImpl, Publisher, DataWriterQos, DataWriterListener<TYPE>, DataWriterListenerImpl<TYPE>>
+        DomainEntityImpl<DataWriterQos, DataWriterListener<TYPE>, DataWriterListenerImpl<TYPE>>
         implements org.eclipse.cyclonedds.pub.DataWriter<TYPE> {
 
     public AbstractDataWriter(CycloneServiceEnvironment environment,
             PublisherImpl parent) {
-        super(environment, parent, parent.getOld());
+        super(environment);
     }
 
     @Override
@@ -43,6 +43,6 @@ public abstract class AbstractDataWriter<TYPE>
 
     @Override
     public Publisher getParent() {
-        return this.parent;
+        return null; //TODO FRCYC
     }
 }

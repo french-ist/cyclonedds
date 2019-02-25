@@ -1,4 +1,4 @@
-package org.eclipse.cyclonedds.roundtrip;
+package org.eclipse.cyclonedds.examples;
 
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 

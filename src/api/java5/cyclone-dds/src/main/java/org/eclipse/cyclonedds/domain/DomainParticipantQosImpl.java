@@ -35,6 +35,8 @@ import org.eclipse.cyclonedds.core.policy.Scheduling.WatchdogScheduling;
 import org.eclipse.cyclonedds.domain.DomainParticipantQos;
 import org.omg.dds.core.policy.UserData;
 
+import com.sun.jna.ptr.PointerByReference;
+
 public class DomainParticipantQosImpl extends
 EntityQosImpl<ForDomainParticipant> implements DomainParticipantQos {
     private static final long serialVersionUID = -1811553017861487660L;
@@ -117,6 +119,10 @@ EntityQosImpl<ForDomainParticipant> implements DomainParticipantQos {
             return new DomainParticipantQosImpl(this, policy);
         }
     }
+
+	public static org.omg.dds.domain.DomainParticipantQos convert(CycloneServiceEnvironment environment, PointerByReference rc) {
+		return null;
+	}
 
     /* TODO FRCYC
     public static DomainParticipantQosImpl convert(OsplServiceEnvironment env,

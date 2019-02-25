@@ -1,10 +1,10 @@
-package org.eclipse.cyclonedds.roundtrip;
+package org.eclipse.cyclonedds.examples.roundtrip;
 
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 import org.eclipse.cyclonedds.ddsc.dds.dds_sample_info;
 import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_sequence;
+import org.eclipse.cyclonedds.examples.roundtrip.ping.Stats;
 import org.eclipse.cyclonedds.helper.NativeSize;
-import org.eclipse.cyclonedds.roundtrip.ping.Stats;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.StringArray;

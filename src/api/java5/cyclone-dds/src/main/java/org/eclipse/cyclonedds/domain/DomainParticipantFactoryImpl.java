@@ -32,6 +32,9 @@ import org.omg.dds.domain.DomainParticipantFactory;
 import org.omg.dds.domain.DomainParticipantFactoryQos;
 import org.omg.dds.domain.DomainParticipantListener;
 import org.omg.dds.domain.DomainParticipantQos;
+
+import com.sun.jna.ptr.PointerByReference;
+
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
@@ -80,9 +83,7 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
     public DomainParticipant createParticipant(int domainId, DomainParticipantQos qos,
             DomainParticipantListener listener, Collection<Class<? extends Status>> statuses) {
         DomainParticipantImpl participant;
-
         participant = new DomainParticipantImpl(this.environment, this, domainId, qos, listener, statuses);
-
         return participant;
     }
 
@@ -114,12 +115,6 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
 	public void setQos(DomainParticipantFactoryQos qos) {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public DomainParticipantQos getDefaultParticipantQos() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -170,23 +165,18 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
             throw new IllegalOperationExceptionImpl(this.environment,
                     "DomainParticipantFactoryQos not supplied by Cyclone Service provider.");
         }
-    }
+    }*/
 
     @Override
     public DomainParticipantQos getDefaultParticipantQos() {
         DomainParticipantQos qos;
-        DomainParticipantQosHolder holder;
-        int rc;
-
-        holder = new DomainParticipantQosHolder();
-        rc = this.factory.get_default_participant_qos(holder);
+        PointerByReference rc =  org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_create_qos();
         Utilities.checkReturnCode(rc, this.environment, "DomainParticipantFactory.getDefaultParticipantQos() failed.");
-
-        qos = DomainParticipantQosImpl.convert(this.environment, holder.value);
-
+        qos = DomainParticipantQosImpl.convert(this.environment, rc);
         return qos;
     }
-
+    
+    /*
     @Override
     public void setDefaultParticipantQos(DomainParticipantQos qos) {
         DomainParticipantQos oldQos;

@@ -1,4 +1,4 @@
-package org.eclipse.cyclonedds.roundtrip.overhead;
+package org.eclipse.cyclonedds.examples.overhead;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -12,9 +12,9 @@ import java.util.Comparator;
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 import org.eclipse.cyclonedds.ddsc.dds.dds_sample_info;
 import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_sequence;
+import org.eclipse.cyclonedds.examples.Dds;
+import org.eclipse.cyclonedds.examples.RoundTripModule_DataType;
 import org.eclipse.cyclonedds.helper.NativeSize;
-import org.eclipse.cyclonedds.roundtrip.Dds;
-import org.eclipse.cyclonedds.roundtrip.RoundTripModule_DataType;
 
 public class Overhead
 {

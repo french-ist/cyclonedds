@@ -50,7 +50,7 @@ import org.eclipse.cyclonedds.topic.TopicImpl;
 
 public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
     private final TopicImpl<TYPE> topic;
-    private final ReflectionDataWriter<TYPE> reflectionWriter;
+    private final ReflectionDataWriter<TYPE> reflectionWriter = null;
 
     public DataWriterImpl(CycloneServiceEnvironment environment,
             PublisherImpl parent, TopicImpl<TYPE> topic, DataWriterQos qos,
@@ -91,15 +91,15 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
             Utilities.throwLastErrorException(this.environment);
         }
         this.setOld(old);
-        */
-        this.reflectionWriter = new ReflectionDataWriter<TYPE>(
-                this.environment, this.getOld(), this.topic.getTypeSupport()
+        
+        this.reflectionWriter = new ReflectionDataWriter<TYPE>(this.environment, this.getOld(), this.topic.getTypeSupport()
                         .getType());
         this.topic.retain();
 
         if (this.listener != null) {
             this.listener.setInitialised();
         }
+        */
     }
 
     /* TODO FRCYC 
@@ -447,18 +447,6 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
 
 	@Override
 	public InstanceHandle getInstanceHandle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setProperty(String key, String value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getProperty(String key) {
 		// TODO Auto-generated method stub
 		return null;
 	}

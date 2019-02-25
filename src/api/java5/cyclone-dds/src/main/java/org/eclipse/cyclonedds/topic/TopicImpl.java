@@ -46,19 +46,26 @@ import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
 import org.eclipse.cyclonedds.type.AbstractTypeSupport;
 import org.eclipse.cyclonedds.type.TypeSupportImpl;
 
-public class TopicImpl<TYPE>
-        extends
-        DomainEntityImpl<Topic, DomainParticipantImpl, DomainParticipant, TopicQos, TopicListener<TYPE>, TopicListenerImpl<TYPE>>
-        implements org.eclipse.cyclonedds.topic.AbstractTopic<TYPE> {
+public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TYPE>, TopicListenerImpl<TYPE>> implements org.eclipse.cyclonedds.topic.AbstractTopic<TYPE> {
     private AbstractTypeSupport<TYPE> typeSupport;
+	private int jnaTopic = -1;
 
     public TopicImpl(CycloneServiceEnvironment environment,
-            DomainParticipantImpl participant, String topicName,
-            AbstractTypeSupport<TYPE> typeSupport, TopicQos qos,
+            DomainParticipantImpl participant, 
+            String topicName,
+            AbstractTypeSupport<TYPE> typeSupport, 
+            TopicQos qos,
             TopicListener<TYPE> listener,
             Collection<Class<? extends Status>> statuses) {
-        super(environment, participant, participant.getOld());
+        super(environment);
 
+        jnaTopic = org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_create_topic(participant.getJnaParticipant(),
+        		Utilities.convert(environment, this), 
+				topicName, 
+				Utilities.convert(environment, qos), 
+				Utilities.convert(environment, listener));
+        
+        /* TODO FRCYC
         if (qos == null) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Supplied DataReaderQos is null.");
@@ -68,7 +75,7 @@ public class TopicImpl<TYPE>
                     "Supplied TypeSupport is null.");
         }
         this.typeSupport = typeSupport;
-/* TODO FRCYC
+        
         int rc = this.typeSupport.getOldTypeSupport().register_type(
                 parent.getOld(), this.typeSupport.getTypeName());
         Utilities.checkReturnCode(
@@ -112,7 +119,7 @@ public class TopicImpl<TYPE>
     @SuppressWarnings("unchecked")
     public TopicImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl participant, String topicName, Topic old) {
-        super(environment, participant, participant.getOld());
+        super(environment);
         this.listener = null;
 
         if (topicName == null) {
@@ -123,9 +130,10 @@ public class TopicImpl<TYPE>
             throw new IllegalArgumentExceptionImpl(environment,
                     "Invalid <null> Topic provided.");
         }
+        /* TODO FRCYC
         this.setOld(old);
 
-        /* TODO FRCYC
+         
         try {
             AbstractTypeSupport<?> temp;
 
@@ -397,18 +405,6 @@ public class TopicImpl<TYPE>
 	}
 
 	@Override
-	public void setProperty(String key, String value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getProperty(String key) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public org.eclipse.cyclonedds.topic.Topic getOld() {
 		// TODO Auto-generated method stub
 		return null;
@@ -418,6 +414,10 @@ public class TopicImpl<TYPE>
 	protected void destroy() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public int getJnaTopic() {
+		return jnaTopic;
 	}
 
     /*

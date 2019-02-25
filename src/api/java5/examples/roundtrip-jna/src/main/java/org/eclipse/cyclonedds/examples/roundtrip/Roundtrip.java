@@ -1,7 +1,7 @@
-package org.eclipse.cyclonedds.roundtrip;
+package org.eclipse.cyclonedds.examples.roundtrip;
 
-import org.eclipse.cyclonedds.roundtrip.ping.*;
-import org.eclipse.cyclonedds.roundtrip.pong.*;
+import org.eclipse.cyclonedds.examples.roundtrip.ping.*;
+import org.eclipse.cyclonedds.examples.roundtrip.pong.*;
 
 public class Roundtrip
 {

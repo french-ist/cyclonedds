@@ -8,7 +8,7 @@
   <artifactId>roundtrip</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>ping</name>
+  <name>Roundtrip ping JNA</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -101,7 +101,7 @@
               <manifest>
                 <addClasspath>true</addClasspath>
                 <classpathPrefix>lib/</classpathPrefix>
-                <mainClass>org.eclipse.cyclonedds.roundtrip.Roundtrip</mainClass>
+                <mainClass>org.eclipse.cyclonedds.examples.roundtrip.Roundtrip</mainClass>
               </manifest>
               <manifestEntries>
                   <Class-Path>.</Class-Path>

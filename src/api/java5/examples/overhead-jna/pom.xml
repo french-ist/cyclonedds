@@ -5,11 +5,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.eclipse.cyclonedds.roundtrip</groupId>
-	<artifactId>overhead</artifactId>
+	<groupId>org.eclipse.cyclonedds.examples</groupId>
+	<artifactId>overhead-jna</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
-	<name>overhead</name>
+	<name>Overehead test JNA</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -97,7 +97,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>lib/</classpathPrefix>
-							<mainClass>org.eclipse.cyclonedds.roundtrip.overhead.Overhead</mainClass>
+							<mainClass>org.eclipse.cyclonedds.examples.overhead.Overhead</mainClass>
 						</manifest>
 						<manifestEntries>
 							<Class-Path>.</Class-Path>

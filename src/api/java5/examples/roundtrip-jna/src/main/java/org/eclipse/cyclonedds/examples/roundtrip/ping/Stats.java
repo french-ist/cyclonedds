@@ -1,10 +1,10 @@
-package org.eclipse.cyclonedds.roundtrip.ping;
+package org.eclipse.cyclonedds.examples.roundtrip.ping;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 
 import org.eclipse.cyclonedds.ddsc.dds.dds_sample_info;
-import org.eclipse.cyclonedds.roundtrip.Dds;
+import org.eclipse.cyclonedds.examples.roundtrip.Dds;
 
 
 public class Stats implements Runnable

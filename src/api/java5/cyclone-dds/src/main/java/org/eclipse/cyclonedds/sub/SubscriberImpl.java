@@ -28,12 +28,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.DomainEntityImpl;
+import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
+import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
+import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
+import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
+import org.eclipse.cyclonedds.type.AbstractTypeSupport;
 import org.omg.dds.core.AlreadyClosedException;
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.StatusCondition;
 import org.omg.dds.core.status.Status;
-import org.omg.dds.domain.DomainParticipant;
-import org.omg.dds.pub.DataWriter;
 import org.omg.dds.sub.DataReader;
 import org.omg.dds.sub.DataReaderListener;
 import org.omg.dds.sub.DataReaderQos;
@@ -42,30 +47,22 @@ import org.omg.dds.sub.SubscriberListener;
 import org.omg.dds.sub.SubscriberQos;
 import org.omg.dds.topic.TopicDescription;
 import org.omg.dds.topic.TopicQos;
-import org.eclipse.cyclonedds.core.DDSExceptionImpl;
-import org.eclipse.cyclonedds.core.DomainEntityImpl;
-import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
-import org.eclipse.cyclonedds.core.StatusConditionImpl;
-import org.eclipse.cyclonedds.core.Utilities;
-import org.eclipse.cyclonedds.core.status.StatusConverter;
-import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
-import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
-import org.eclipse.cyclonedds.type.AbstractTypeSupport;
 
 public class SubscriberImpl
         extends
-        DomainEntityImpl<Subscriber, DomainParticipantImpl, DomainParticipant, SubscriberQos, SubscriberListener, SubscriberListenerImpl>
+        DomainEntityImpl<SubscriberQos, SubscriberListener, SubscriberListenerImpl>
         implements Subscriber {
-    private final HashMap<DataReader, AbstractDataReader<?>> readers;
+    
+	private final HashMap<DataReader, AbstractDataReader<?>> readers;
     private final boolean isBuiltin;
 
     public SubscriberImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl parent, SubscriberQos qos,
             SubscriberListener listener,
             Collection<Class<? extends Status>> statuses) {
-        super(environment, parent, parent.getOld());
+        super(environment);
+        
+        /* TODO FRCYC
         SubscriberQos oldQos;
 
         if (qos == null) {
@@ -86,7 +83,7 @@ public class SubscriberImpl
         } else {
             this.listener = null;
         }
-        /* TODO FRCYC
+        
         Subscriber old = this.parent.getOld().create_subscriber(oldQos,
                 this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
@@ -106,14 +103,14 @@ public class SubscriberImpl
 
     public SubscriberImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl parent, Subscriber oldSubscriber) {
-        super(environment, parent, parent.getOld());
+        super(environment);
 
         if (oldSubscriber == null) {
             throw new IllegalArgumentExceptionImpl(environment,
                     "Supplied Subscriber is invalid (null).");
         }
         this.listener = null;
-        this.setOld(oldSubscriber);
+        //TODO FRCYC this.setOld(oldSubscriber);
         this.readers = new HashMap<DataReader, AbstractDataReader<?>>();
         this.isBuiltin = true;
     }
@@ -220,7 +217,7 @@ public class SubscriberImpl
                 reader = typeSupport.createDataReader(this,
                         (TopicDescriptionExt<TYPE>) topic, qos, listener,
                         statuses);
-                this.readers.put(reader.getOld(), reader);
+                //TODO FRCYC this.readers.put(reader.getOld(), reader);
             } catch (ClassCastException e) {
                 throw new IllegalArgumentExceptionImpl(this.environment,
                         "Cannot create DataReader with non-OpenSplice Topic");
@@ -537,7 +534,7 @@ public class SubscriberImpl
 
     @Override
     public org.omg.dds.domain.DomainParticipant getParent() {
-        return this.parent;
+        return null; //TODO FRCYC this.parent;
     }
 
     @Override
@@ -580,18 +577,6 @@ public class SubscriberImpl
 
 	@Override
 	public InstanceHandle getInstanceHandle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setProperty(String key, String value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getProperty(String key) {
 		// TODO Auto-generated method stub
 		return null;
 	}

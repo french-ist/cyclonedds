@@ -55,17 +55,14 @@ import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 import org.eclipse.cyclonedds.topic.TopicImpl;
 import org.eclipse.cyclonedds.type.AbstractTypeSupport;
 
-public class PublisherImpl
-extends
-DomainEntityImpl<Publisher, DomainParticipantImpl, DomainParticipant, PublisherQos, PublisherListener, PublisherListenerImpl>
-implements Publisher {
+public class PublisherImpl extends DomainEntityImpl<PublisherQos, PublisherListener, PublisherListenerImpl> implements Publisher {
 	private final HashMap<DataWriter, DataWriter<?>> writers;
 
 	public PublisherImpl(CycloneServiceEnvironment environment,
 			DomainParticipantImpl parent, PublisherQos qos,
 			PublisherListener listener,
 			Collection<Class<? extends Status>> statuses) {
-		super(environment, parent, parent.getOld());
+		super(environment);
 		PublisherQos oldQos;
 
 		if (qos == null) {
@@ -197,7 +194,7 @@ implements Publisher {
 				throw new IllegalArgumentExceptionImpl(this.environment,
 						"Cannot create DataWriter with non-OpenSplice Topic");
 			}
-			this.writers.put(writer.getOld(), writer);
+			//TODO FRCYC this.writers.put(writer.getOld(), writer);
 		}
 		return writer;
 	}
@@ -430,18 +427,6 @@ implements Publisher {
 
 	@Override
 	public InstanceHandle getInstanceHandle() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setProperty(String key, String value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getProperty(String key) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -87,26 +87,34 @@ import org.eclipse.cyclonedds.type.AbstractTypeSupport;
 import DomainParticipantQosHolder;
 import Time_tHolder;
 */
-public class DomainParticipantImpl
-        extends
-        EntityImpl<DomainParticipant, DomainParticipantFactory, DomainParticipantQos, DomainParticipantListener, DomainParticipantListenerImpl>
-        implements DomainParticipant, org.eclipse.cyclonedds.domain.DomainParticipant {
+public class DomainParticipantImpl extends EntityImpl<DomainParticipantQos, DomainParticipantListener, DomainParticipantListenerImpl> implements DomainParticipant, org.eclipse.cyclonedds.domain.DomainParticipant {
     private final DomainParticipantFactoryImpl factory;
     private final HashMap<TopicDescription, TopicDescriptionExt<?>> topics;
     private final HashMap<Publisher, PublisherImpl> publishers;
     private final HashMap<Subscriber, SubscriberImpl> subscribers;
 
+    private final int jnaParticipant;
+    
     public DomainParticipantImpl(CycloneServiceEnvironment environment,
-            DomainParticipantFactoryImpl factory, int domainId,
-            DomainParticipantQos qos, DomainParticipantListener listener,
+            DomainParticipantFactoryImpl factory, 
+            int domainId,
+            DomainParticipantQos qos, 
+            DomainParticipantListener listener,
             Collection<Class<? extends Status>> statuses) {
-        //TODO FRCYC super(environment, DomainParticipantFactory.get_instance());
-    	super(environment, null);
+        super(environment);
+        
+        jnaParticipant = org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_create_participant (domainId, 
+        		Utilities.convert(qos), 
+        		Utilities.convert(listener));
+        
         this.factory = factory;
         this.topics = new HashMap<TopicDescription, TopicDescriptionExt<?>>();
         this.publishers = new HashMap<Publisher, PublisherImpl>();
         this.subscribers = new HashMap<Subscriber, SubscriberImpl>();
 
+        qos = factory.getDefaultParticipantQos();
+        
+        /*
         if (qos == null) {
             throw new IllegalArgumentExceptionImpl(environment,
                     "Supplied DomainParticipantQos is null.");
@@ -114,7 +122,7 @@ public class DomainParticipantImpl
 
         DomainParticipantQos oldQos;
 
-        /*
+        
         try {
             oldQos = ((DomainParticipantQosImpl) qos).convert();
         } catch (ClassCastException e) {
@@ -146,7 +154,7 @@ public class DomainParticipantImpl
     }
 
     @SuppressWarnings("unchecked")
-    public <TYPE> Topic<TYPE> getTopic(Topic oldTopic) {
+    public <TYPE> Topic<TYPE> getTopic(Topic<?> oldTopic) {
         synchronized (this.topics) {
             return (Topic<TYPE>) this.topics.get(oldTopic);
         }
@@ -230,7 +238,7 @@ public class DomainParticipantImpl
         synchronized (this.publishers) {
             publisher = new PublisherImpl(this.environment, this, qos,
                     listener, statuses);
-            this.publishers.put(publisher.getOld(), publisher);
+            //TODO FRCYC this.publishers.put(publisher.getOld(), publisher);
         }
         return publisher;
     }
@@ -261,7 +269,7 @@ public class DomainParticipantImpl
         synchronized (this.subscribers) {
             subscriber = new SubscriberImpl(this.environment, this, qos,
                     listener, statuses);
-            this.subscribers.put(subscriber.getOld(), subscriber);
+            //TODO FRCYC this.subscribers.put(subscriber.getOld(), subscriber);
         }
         return subscriber;
     }
@@ -890,7 +898,7 @@ public class DomainParticipantImpl
     }
     */
 
-    public <TYPE> DataWriter<TYPE> lookupDataWriter(DataWriter old) {
+    public <TYPE> DataWriter<TYPE> lookupDataWriter(DataWriter<?> old) {
         DataWriter<TYPE> writer;
 
         synchronized (this.publishers) {
@@ -905,7 +913,7 @@ public class DomainParticipantImpl
         return null;
     }
 
-    public <TYPE> DataReader<TYPE> lookupDataReader(DataReader classic) {
+    public <TYPE> DataReader<TYPE> lookupDataReader(DataReader<?> classic) {
         DataReader<TYPE> reader;
         boolean seenBuiltin = false;
 
@@ -1126,6 +1134,10 @@ public class DomainParticipantImpl
 	protected void destroy() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public int getJnaParticipant() {
+		return jnaParticipant;
 	}
 
     /*TODO FRCYC

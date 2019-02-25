@@ -68,7 +68,7 @@ import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 
 public abstract class AbstractDataReader<TYPE>
         extends
-        DomainEntityImpl<DataReader, SubscriberImpl, Subscriber, DataReaderQos, DataReaderListener<TYPE>, DataReaderListenerImpl<TYPE>>
+        DomainEntityImpl<DataReaderQos, DataReaderListener<TYPE>, DataReaderListenerImpl<TYPE>>
         implements org.eclipse.cyclonedds.sub.DataReader<TYPE> {
 
     protected final TopicDescriptionExt<TYPE> topicDescription;
@@ -79,7 +79,7 @@ public abstract class AbstractDataReader<TYPE>
 
     public AbstractDataReader(CycloneServiceEnvironment environment,
             SubscriberImpl parent, TopicDescriptionExt<TYPE> topicDescription) {
-        super(environment, parent, parent.getOld());
+        super(environment);
 
         this.topicDescription = topicDescription;
         this.conditions = new HashMap<Condition, ReadConditionImpl<TYPE>>();
@@ -212,12 +212,12 @@ public abstract class AbstractDataReader<TYPE>
     @Override
     protected void destroy() {
         this.closeContainedEntities();
-        this.parent.destroyDataReader(this);
+        //TODO FRCYC this.parent.destroyDataReader(this);
     }
 
     @Override
     public SubscriberImpl getParent() {
-        return this.parent;
+        return null; //TODO FRCYC this.parent;
     }
 
     private void setListener(DataReaderListener<TYPE> listener, int mask) {
@@ -266,27 +266,27 @@ public abstract class AbstractDataReader<TYPE>
         return this.topicDescription;
     }
 
+    /*
     @Override
     public void setProperty(String key, String value) {
-        /* TODO FRCYC
+         TODO FRCYC
     	int rc = this.getOld().set_property(new Property(key, value));
         Utilities.checkReturnCode(rc, this.environment,
                 "DataReader.setProperty() failed.");
-                */
+                
     }
 
     @Override
     public String getProperty(String key) {
-    	/* TODO FRCYC
+    	 TODO FRCYC
         PropertyHolder holder = new PropertyHolder();
         int rc = this.getOld().get_property(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "DataReader.getProperty() failed.");
-
         return holder.value.value;
-        */
     	return null;
     }
+    */
 
     @SuppressWarnings("unchecked")
     @Override

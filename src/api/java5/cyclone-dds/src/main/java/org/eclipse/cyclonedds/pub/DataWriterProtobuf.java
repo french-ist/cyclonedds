@@ -508,18 +508,6 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
 	}
 
 	@Override
-	public void setProperty(String key, String value) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getProperty(String key) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void waitForAcknowledgments(Duration maxWait) throws TimeoutException {
 		// TODO Auto-generated method stub
 		

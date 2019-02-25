@@ -46,7 +46,7 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
             SubscriberImpl parent, TopicDescriptionExt<TYPE> topicDescription,
             DataReader old) {
         super(environment, parent, topicDescription);
-        this.setOld(old);
+        //TODO FRCYCthis.setOld(old);
         this.reflectionReader = new ReflectionDataReader<TYPE, TYPE>(
                 this.environment, this, topicDescription.getTypeSupport()
                         .getType());

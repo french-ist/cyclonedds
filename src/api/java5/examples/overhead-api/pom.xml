@@ -9,7 +9,7 @@
 	<artifactId>overhead-api</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
-	<name>overhead-api</name>
+	<name>Overehead test Java 5 API</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -21,30 +21,35 @@
 package org.eclipse.cyclonedds.core;
 
 import java.util.EventListener;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.eclipse.cyclonedds.core.AbstractDDSObject;
-import org.omg.dds.core.Entity;
 import org.omg.dds.core.EntityQos;
-import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.ServiceEnvironment;
-import org.omg.dds.core.status.Status;
-import org.eclipse.cyclonedds.core.status.StatusConverter;
 
-public abstract class EntityImpl<OLD extends Entity, OLDPARENT, QOS extends EntityQos<?>, LISTENER extends EventListener, LISTENERIMPL extends Listener<LISTENER>>
-        extends AbstractDDSObject implements org.omg.dds.core.Entity<LISTENER, QOS>, Properties {
-    protected final transient CycloneServiceEnvironment environment;
-    private final OLDPARENT oldParent;
-    private OLD old;
+public abstract class EntityImpl
+	<
+		QOS extends EntityQos<?>, 
+		LISTENER extends EventListener, 
+		LISTENERIMPL extends Listener<LISTENER>
+	> 
+	
+	implements org.omg.dds.core.Entity<LISTENER, QOS> {
+	
+	protected final transient CycloneServiceEnvironment environment;
     protected LISTENERIMPL listener;
     private AtomicInteger refCount;
     private static java.util.HashMap<String, Integer> references = new java.util.HashMap<String, Integer>();
 
+    public EntityImpl(CycloneServiceEnvironment environment) {
+        this.environment = environment;
+        this.listener = null;
+        this.refCount = new AtomicInteger(1);        
+        assert(addReference(this.getClass().getSimpleName()));
+    }
+    
     private static boolean addReference(String name) {
         synchronized (references) {
             Integer refs = references.get(name);
-
             if (refs == null) {
                 references.put(name, 1);
             } else {
@@ -57,14 +62,36 @@ public abstract class EntityImpl<OLD extends Entity, OLDPARENT, QOS extends Enti
     private static boolean removeReference(String name) {
         synchronized (references) {
             Integer refs = references.get(name);
-
             assert (refs != null);
             references.put(name, refs.intValue() - 1);
         }
         return true;
     }
 
-    public static boolean printReferences() {
+    /* TODO FRCYC
+	@Override
+	public final void enable() {
+	    int rc = this.old.enable();
+	    Utilities.checkReturnCode(rc, this.environment,
+	            "Entity.enable() failed.");
+	}
+	
+	@Override
+	public final Set<Class<? extends Status>> getStatusChanges() {
+	    return StatusConverter.convertMask(this.environment,
+	            this.old.get_status_changes());
+	}
+	
+	@Override
+	public final InstanceHandle getInstanceHandle() {
+	    return new InstanceHandleImpl(this.environment,
+	            old.get_instance_handle());
+	}
+	*/
+	
+	protected abstract void destroy();
+
+	public static boolean printReferences() {
         boolean noMoreRefs = true;
 
         synchronized (references) {
@@ -91,34 +118,38 @@ public abstract class EntityImpl<OLD extends Entity, OLDPARENT, QOS extends Enti
         return noMoreRefs;
     }
 
-    public EntityImpl(CycloneServiceEnvironment environment, OLDPARENT oldParent) {
-        this.environment = environment;
-        this.oldParent = oldParent;
-        this.listener = null;
-        this.refCount = new AtomicInteger(1);
 
-        assert (addReference(this.getClass().getSimpleName()));
-    }
 
-    public OLD getOld() {
-        final OLD old = this.old;
+    /* TODO FRCYC
+	@Override
+	public final void enable() {
+	    int rc = this.old.enable();
+	    Utilities.checkReturnCode(rc, this.environment,
+	            "Entity.enable() failed.");
+	}
+	
+	@Override
+	public final Set<Class<? extends Status>> getStatusChanges() {
+	    return StatusConverter.convertMask(this.environment,
+	            this.old.get_status_changes());
+	}
+	
+	@Override
+	public final InstanceHandle getInstanceHandle() {
+	    return new InstanceHandleImpl(this.environment,
+	            old.get_instance_handle());
+	}
+	*/
+	
+	@Override
+	public final LISTENER getListener(){
+	    if (this.listener != null) {
+	        return this.listener.getRealListener();
+	    }
+	    return null;
+	}
 
-        if (old == null) {
-            throw new AlreadyClosedExceptionImpl(this.environment,
-                    "Entity already closed.");
-        }
-        return old;
-    }
-
-    protected void setOld(OLD old) {
-        this.old = old;
-    }
-
-    public OLDPARENT getOldParent() {
-        return this.oldParent;
-    }
-
-    @Override
+	@Override
     public ServiceEnvironment getEnvironment() {
         return this.environment;
     }
@@ -142,7 +173,6 @@ public abstract class EntityImpl<OLD extends Entity, OLDPARENT, QOS extends Enti
 
         if (newValue == 0) {
             this.destroy();
-            this.old = null;
             assert (removeReference(this.getClass().getSimpleName()));
         } else if (newValue < 0) {
             throw new AlreadyClosedExceptionImpl(this.environment,
@@ -171,16 +201,6 @@ public abstract class EntityImpl<OLD extends Entity, OLDPARENT, QOS extends Enti
                 old.get_instance_handle());
     }
     */
-
-    protected abstract void destroy();
-
-    @Override
-    public final LISTENER getListener(){
-        if (this.listener != null) {
-            return this.listener.getRealListener();
-        }
-        return null;
-    }
 
     /* TODO FRCYC
     @Override

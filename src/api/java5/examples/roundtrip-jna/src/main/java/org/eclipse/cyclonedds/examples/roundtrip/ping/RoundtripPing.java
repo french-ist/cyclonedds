@@ -1,4 +1,4 @@
-package org.eclipse.cyclonedds.roundtrip.ping;
+package org.eclipse.cyclonedds.examples.roundtrip.ping;
 
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -12,11 +12,11 @@ import java.util.concurrent.Executors;
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 import org.eclipse.cyclonedds.ddsc.dds.dds_sample_info;
 import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_sequence;
+import org.eclipse.cyclonedds.examples.roundtrip.Dds;
+import org.eclipse.cyclonedds.examples.roundtrip.RoundTripModule_DataType;
+import org.eclipse.cyclonedds.examples.roundtrip.optimizer.Optimizer;
+import org.eclipse.cyclonedds.examples.roundtrip.optimizer.TakeAllocator;
 import org.eclipse.cyclonedds.helper.NativeSize;
-import org.eclipse.cyclonedds.roundtrip.Dds;
-import org.eclipse.cyclonedds.roundtrip.RoundTripModule_DataType;
-import org.eclipse.cyclonedds.roundtrip.optimizer.Optimizer;
-import org.eclipse.cyclonedds.roundtrip.optimizer.TakeAllocator;
 
 public class RoundtripPing
 {
