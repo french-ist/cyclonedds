@@ -8,7 +8,7 @@
   <artifactId>roundtrip</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>Roundtrip ping JNA</name>
+  <name>Roundtrip JNA</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
