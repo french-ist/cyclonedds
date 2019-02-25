@@ -25,6 +25,8 @@
 		
 		<!-- Cyclone DDS Java 5 examples -->
 		<module>overhead-api</module>		
+		<module>helloworld-api</module>
+		<module>throughput-api</module>
 	</modules>
 
 </project>
