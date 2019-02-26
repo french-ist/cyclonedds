@@ -9,7 +9,7 @@
 	<artifactId>roundtrip-jna</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
-	<name>Roundtrip JNA</name>
+	<name>Java 5 JNA example: Roundtrip</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

@@ -23,7 +23,7 @@
    <artifactId>helloworld-api</artifactId>
    <version>1.0-SNAPSHOT</version>
 
-   <name>HelloWorld Cyclone DDS Java example</name>
+   <name>Java 5 API example: HelloWorld</name>
 
    <dependencies>        
 		<dependency>
