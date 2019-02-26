@@ -1,12 +1,12 @@
-package org.eclipse.cyclonedds;
+package org.eclipse.cyclonedds.examples;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-import org.eclipse.cyclonedds.OverheadData.DataType;
 import org.eclipse.cyclonedds.domain.DomainParticipant;
+import org.eclipse.cyclonedds.examples.OverheadData.DataType;
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.domain.DomainParticipantFactory;
 import org.omg.dds.pub.DataWriter;

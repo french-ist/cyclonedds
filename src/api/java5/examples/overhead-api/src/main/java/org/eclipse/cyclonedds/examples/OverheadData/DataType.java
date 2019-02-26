@@ -1,4 +1,4 @@
-package org.eclipse.cyclonedds.OverheadData;
+package org.eclipse.cyclonedds.examples.OverheadData;
 
 public final class DataType {
 

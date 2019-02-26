@@ -1,4 +1,4 @@
-package org.eclipse.cyclonedds;
+package org.eclipse.cyclonedds.examples;
 
 import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_key_descriptor;
 import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_key_descriptor.ByReference;
