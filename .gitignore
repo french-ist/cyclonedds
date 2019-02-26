@@ -4,7 +4,7 @@ gen.*
 .project
 .settings/
 .vs/
-build/
-release/
+**/build/**
+**/release/**
 **/target/**
 **/**/*.o
