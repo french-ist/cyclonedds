@@ -22,16 +22,26 @@ package org.eclipse.cyclonedds.core;
 
 import java.util.concurrent.TimeoutException;
 
+import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_listener_t;
+import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_qos_t;
+import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_topic_descriptor_t;
+import org.eclipse.cyclonedds.topic.TopicImpl;
 import org.omg.dds.core.Duration;
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.Time;
+import org.omg.dds.domain.DomainParticipantListener;
+import org.omg.dds.domain.DomainParticipantQos;
+import org.omg.dds.topic.TopicListener;
+import org.omg.dds.topic.TopicQos;
 
-import DDS.ErrorInfo;
+import com.sun.jna.ptr.PointerByReference;
+
+//TODO FRCYC import ErrorInfo;
 
 public class Utilities {
 
     public static void checkReturnCode(int retCode,
-            OsplServiceEnvironment environment, String message) {
+            CycloneServiceEnvironment environment, String message) {
         try {
             checkReturnCode(retCode, environment, message, false);
         } catch (TimeOutExceptionImpl t) {
@@ -41,56 +51,59 @@ public class Utilities {
     }
 
     private static void checkReturnCode(int retCode,
-            OsplServiceEnvironment environment, String message,
+            CycloneServiceEnvironment environment, String message,
             boolean withTimeOut) throws TimeOutExceptionImpl {
+        /* TODO FRCYC
         switch (retCode) {
-        case DDS.RETCODE_PRECONDITION_NOT_MET.value:
+        case RETCODE_PRECONDITION_NOT_MET.value:
             throw new PreconditionNotMetExceptionImpl(environment,
                     getErrorMessage(retCode, message));
-        case DDS.RETCODE_OUT_OF_RESOURCES.value:
+        case RETCODE_OUT_OF_RESOURCES.value:
             throw new OutOfResourcesExceptionImpl(environment, getErrorMessage(
                     retCode, message));
-        case DDS.RETCODE_ALREADY_DELETED.value:
+        case RETCODE_ALREADY_DELETED.value:
             throw new AlreadyClosedExceptionImpl(environment, getErrorMessage(
                     retCode, message));
-        case DDS.RETCODE_BAD_PARAMETER.value:
+        case RETCODE_BAD_PARAMETER.value:
             throw new IllegalArgumentExceptionImpl(environment,
                     getErrorMessage(retCode, message));
-        case DDS.RETCODE_ERROR.value:
+        case RETCODE_ERROR.value:
             throw new DDSExceptionImpl(environment, getErrorMessage(retCode,
                     message));
-        case DDS.RETCODE_ILLEGAL_OPERATION.value:
+        case RETCODE_ILLEGAL_OPERATION.value:
             throw new IllegalOperationExceptionImpl(environment,
                     getErrorMessage(retCode, message));
-        case DDS.RETCODE_IMMUTABLE_POLICY.value:
+        case RETCODE_IMMUTABLE_POLICY.value:
             throw new ImmutablePolicyExceptionImpl(environment,
                     getErrorMessage(retCode, message));
-        case DDS.RETCODE_INCONSISTENT_POLICY.value:
+        case RETCODE_INCONSISTENT_POLICY.value:
             throw new InconsistentPolicyExceptionImpl(environment,
                     getErrorMessage(retCode, message));
-        case DDS.RETCODE_NOT_ENABLED.value:
+        case RETCODE_NOT_ENABLED.value:
             throw new NotEnabledExceptionImpl(environment, getErrorMessage(
                     retCode, message));
-        case DDS.RETCODE_UNSUPPORTED.value:
+        case RETCODE_UNSUPPORTED.value:
             throw new UnsupportedOperationExceptionImpl(environment,
                     getErrorMessage(retCode, message));
-        case DDS.RETCODE_TIMEOUT.value:
+        case RETCODE_TIMEOUT.value:
             if (withTimeOut) {
-                if (retCode == DDS.RETCODE_TIMEOUT.value) {
+                if (retCode == RETCODE_TIMEOUT.value) {
                     throw new TimeOutExceptionImpl(environment,
                             getErrorMessage(retCode, message));
                 }
             }
-        case DDS.RETCODE_OK.value:
-        case DDS.RETCODE_NO_DATA.value:
+        case RETCODE_OK.value:
+        case RETCODE_NO_DATA.value:
         default:
             break;
         }
+        */
     }
 
-    private static String getDetails(DDS.ErrorInfo errorInfo, String message) {
+    /* TODO FRCYC
+    private static String getDetails(ErrorInfo errorInfo, String message) {
         String result = "";
-        DDS.StringHolder messageHolder = new DDS.StringHolder();
+        StringHolder messageHolder = new StringHolder();
 
         errorInfo.get_message(messageHolder);
 
@@ -121,17 +134,20 @@ public class Utilities {
         }
         return result;
     }
+    */
 
+    /*
+     * TODO FRCYC
     private static String getErrorMessage(int retCode, String message) {
         String output;
-        DDS.ErrorInfo errorInfo = new ErrorInfo();
+        ErrorInfo errorInfo = new ErrorInfo();
         int result = errorInfo.update();
 
         switch (result) {
-        case DDS.RETCODE_NO_DATA.value:
+        case RETCODE_NO_DATA.value:
             output = message;
             break;
-        case DDS.RETCODE_OK.value:
+        case RETCODE_OK.value:
             output = getDetails(errorInfo, message);
             break;
         default:
@@ -145,6 +161,7 @@ public class Utilities {
         }
         return output;
     }
+    */
 
     public static String getOsplExceptionStack(Exception ex,
             StackTraceElement[] stack) {
@@ -174,62 +191,66 @@ public class Utilities {
     }
 
     public static void checkReturnCodeWithTimeout(int retCode,
-            OsplServiceEnvironment environment, String message)
+            CycloneServiceEnvironment environment, String message)
             throws TimeoutException {
         checkReturnCode(retCode, environment, message, true);
     }
 
+    
     public static void throwLastErrorException(
-            OsplServiceEnvironment environment) {
-        String message;
+            CycloneServiceEnvironment environment) {
+        /* TODO FRCYC
+    	String message;
         int code;
-        DDS.ErrorInfo errorInfo = new ErrorInfo();
+        ErrorInfo errorInfo = new ErrorInfo();
         int result = errorInfo.update();
 
         switch (result) {
-        case DDS.RETCODE_NO_DATA.value:
+        case RETCODE_NO_DATA.value:
             message = "";
-            code = DDS.RETCODE_ERROR.value;
+            code = RETCODE_ERROR.value;
             break;
-        case DDS.RETCODE_OK.value:
-            DDS.ReturnCodeHolder errorHolder = new DDS.ReturnCodeHolder();
+        case RETCODE_OK.value:
+            ReturnCodeHolder errorHolder = new ReturnCodeHolder();
             errorInfo.get_code(errorHolder);
             code = errorHolder.value;
             message = getDetails(errorInfo, null);
             break;
         default:
             message = "Unable to get extra error information due to internal error.";
-            code = DDS.RETCODE_ERROR.value;
+            code = RETCODE_ERROR.value;
         }
 
         switch (code) {
-        case DDS.RETCODE_PRECONDITION_NOT_MET.value:
+        case RETCODE_PRECONDITION_NOT_MET.value:
             throw new PreconditionNotMetExceptionImpl(environment, message);
-        case DDS.RETCODE_OUT_OF_RESOURCES.value:
+        case RETCODE_OUT_OF_RESOURCES.value:
             throw new OutOfResourcesExceptionImpl(environment, message);
-        case DDS.RETCODE_ALREADY_DELETED.value:
+        case RETCODE_ALREADY_DELETED.value:
             throw new AlreadyClosedExceptionImpl(environment, message);
-        case DDS.RETCODE_BAD_PARAMETER.value:
+        case RETCODE_BAD_PARAMETER.value:
             throw new IllegalArgumentExceptionImpl(environment, message);
-        case DDS.RETCODE_ILLEGAL_OPERATION.value:
+        case RETCODE_ILLEGAL_OPERATION.value:
             throw new IllegalOperationExceptionImpl(environment, message);
-        case DDS.RETCODE_IMMUTABLE_POLICY.value:
+        case RETCODE_IMMUTABLE_POLICY.value:
             throw new ImmutablePolicyExceptionImpl(environment, message);
-        case DDS.RETCODE_INCONSISTENT_POLICY.value:
+        case RETCODE_INCONSISTENT_POLICY.value:
             throw new InconsistentPolicyExceptionImpl(environment, message);
-        case DDS.RETCODE_NOT_ENABLED.value:
+        case RETCODE_NOT_ENABLED.value:
             throw new NotEnabledExceptionImpl(environment, message);
-        case DDS.RETCODE_UNSUPPORTED.value:
+        case RETCODE_UNSUPPORTED.value:
             throw new UnsupportedOperationExceptionImpl(environment, message);
-        case DDS.RETCODE_ERROR.value:
+        case RETCODE_ERROR.value:
         default:
             throw new DDSExceptionImpl(environment, message);
 
         }
+        */
 
     }
-
-    public static DDS.Duration_t convert(OsplServiceEnvironment environment,
+    
+    /* TODO FRCYC
+    public static Duration_t convert(OsplServiceEnvironment environment,
             Duration d) {
         if (d == null) {
             throw new IllegalArgumentExceptionImpl(environment,
@@ -243,11 +264,13 @@ public class Utilities {
         }
     }
 
-    public static Duration convert(OsplServiceEnvironment env, DDS.Duration_t d) {
+    public static Duration convert(OsplServiceEnvironment env, Duration_t d) {
         return new DurationImpl(env, d.sec, d.nanosec);
     }
+    */
+    
 
-    public static long convert(OsplServiceEnvironment environment,
+    public static long convert(CycloneServiceEnvironment environment,
             InstanceHandle h) {
         if (h == null) {
             throw new IllegalArgumentExceptionImpl(environment,
@@ -261,11 +284,47 @@ public class Utilities {
         }
     }
 
-    public static InstanceHandle convert(OsplServiceEnvironment env, long handle) {
+    public static InstanceHandle convert(CycloneServiceEnvironment env, long handle) {
         return new InstanceHandleImpl(env, handle);
     }
 
-    public static DDS.Time_t convert(OsplServiceEnvironment environment, Time t) {
+	public static Object convert(CycloneServiceEnvironment environment, Time sourceTimestamp) {
+		// TODO FRCYC Auto-generated method stub
+		return null;
+	}
+
+	public static dds_qos_t convert(DomainParticipantQos qos) {
+		// TODO FRCYC
+		return null;
+	}
+
+	public static dds_listener_t convert(DomainParticipantListener listener) {
+		// TODO FRCYC
+		return null;
+	}
+
+	public static void checkReturnCode(PointerByReference rc, CycloneServiceEnvironment environment, String message) {
+		// TODO FRCYC
+	}
+
+	public static dds_qos_t convert(CycloneServiceEnvironment environment, TopicQos qos) {
+		// TODO FRCYC
+		return null;
+	}
+
+	public static dds_listener_t convert(CycloneServiceEnvironment environment, TopicListener<?> listener) {
+		// TODO FRCYC
+		return null;
+	}
+
+	public static dds_topic_descriptor_t convert(CycloneServiceEnvironment environment, TopicImpl<?> topicImpl) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    /*
+     * TODO FRCYC
+    public static Time_t convert(OsplServiceEnvironment environment, Time t) {
         if (t == null) {
             throw new IllegalArgumentExceptionImpl(environment,
                     "Illegal Time provided (null).");
@@ -277,8 +336,11 @@ public class Utilities {
                     "Usage of non-OpenSplice Time implementation is not supported.");
         }
     }
+     
 
-    public static Time convert(OsplServiceEnvironment env, DDS.Time_t t) {
+    public static Time convert(OsplServiceEnvironment env, Time_t t) {
         return new TimeImpl(env, t.sec, t.nanosec);
     }
+    */
+    
 }

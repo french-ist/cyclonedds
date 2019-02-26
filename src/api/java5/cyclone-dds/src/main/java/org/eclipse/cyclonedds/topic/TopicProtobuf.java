@@ -25,13 +25,13 @@ import java.util.Collection;
 import org.omg.dds.core.status.Status;
 import org.omg.dds.topic.TopicListener;
 import org.omg.dds.topic.TopicQos;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
 import org.eclipse.cyclonedds.type.TypeSupportProtobuf;
 
 public class TopicProtobuf<PROTOBUF_TYPE> extends TopicImpl<PROTOBUF_TYPE> {
 
-    public TopicProtobuf(OsplServiceEnvironment environment,
+    public TopicProtobuf(CycloneServiceEnvironment environment,
             DomainParticipantImpl participant, String topicName,
             TypeSupportProtobuf<PROTOBUF_TYPE, ?> typeSupport, TopicQos qos,
             TopicListener<PROTOBUF_TYPE> listener,

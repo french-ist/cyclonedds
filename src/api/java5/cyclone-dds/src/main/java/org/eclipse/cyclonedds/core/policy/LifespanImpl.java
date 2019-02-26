@@ -26,18 +26,18 @@ import org.omg.dds.core.Duration;
 import org.omg.dds.core.policy.Lifespan;
 import org.omg.dds.core.policy.QosPolicy;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class LifespanImpl extends QosPolicyImpl implements Lifespan {
     private static final long serialVersionUID = 7903452866315787071L;
     private final Duration duration;
 
-    public LifespanImpl(OsplServiceEnvironment environment) {
+    public LifespanImpl(CycloneServiceEnvironment environment) {
         super(environment);
         this.duration = environment.getSPI().infiniteDuration();
     }
 
-    public LifespanImpl(OsplServiceEnvironment environment, Duration duration) {
+    public LifespanImpl(CycloneServiceEnvironment environment, Duration duration) {
         super(environment);
 
         if (duration == null) {

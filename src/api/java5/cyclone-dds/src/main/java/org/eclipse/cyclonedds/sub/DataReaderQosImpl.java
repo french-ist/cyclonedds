@@ -40,7 +40,7 @@ import org.omg.dds.sub.DataReaderQos;
 import org.omg.dds.topic.TopicQos;
 import org.eclipse.cyclonedds.core.EntityQosImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.policy.DataRepresentationImpl;
 import org.eclipse.cyclonedds.core.policy.DeadlineImpl;
 import org.eclipse.cyclonedds.core.policy.DestinationOrderImpl;
@@ -65,7 +65,7 @@ org.eclipse.cyclonedds.sub.DataReaderQos {
     private static final long serialVersionUID = 7226579387926252059L;
     private final TypeConsistencyEnforcement typeConsistencyEnforcement;
 
-    public DataReaderQosImpl(OsplServiceEnvironment environment,
+    public DataReaderQosImpl(CycloneServiceEnvironment environment,
             TypeConsistencyEnforcement typeConsistencyEnforcement,
             ForDataReader... policies) {
         super(environment, policies);
@@ -73,7 +73,7 @@ org.eclipse.cyclonedds.sub.DataReaderQos {
 
     }
 
-    public DataReaderQosImpl(OsplServiceEnvironment environment) {
+    public DataReaderQosImpl(CycloneServiceEnvironment environment) {
         super(environment);
         this.typeConsistencyEnforcement = new TypeConsistencyEnforcementImpl(
                 environment, Kind.EXACT_TYPE_TYPE_CONSISTENCY);
@@ -272,8 +272,9 @@ org.eclipse.cyclonedds.sub.DataReaderQos {
         }
     }
 
-    public DDS.DataReaderQos convert() {
-        DDS.DataReaderQos old = new DDS.DataReaderQos();
+    public DataReaderQos convert() {
+    	/* TODO FRCYC
+        DataReaderQos old = new DataReaderQos();
 
         synchronized (this.policies) {
             old.deadline = PolicyConverter.convert(this.environment,
@@ -313,15 +314,17 @@ org.eclipse.cyclonedds.sub.DataReaderQos {
                     ((UserData) this.policies.get(UserData.class)));
         }
         return old;
+        */
+    	return null;
     }
 
-    public static DataReaderQosImpl convert(OsplServiceEnvironment env,
-            DDS.DataReaderQos oldQos) {
+    public static DataReaderQosImpl convert(CycloneServiceEnvironment env,
+            DataReaderQos oldQos) {
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,
                     "oldQos parameter is null.");
         }
-
+        /* TODO FRCYC
         DataReaderQosImpl qos = new DataReaderQosImpl(env);
 
         qos.put(Deadline.class, PolicyConverter.convert(env, oldQos.deadline));
@@ -365,6 +368,8 @@ org.eclipse.cyclonedds.sub.DataReaderQos {
             qos.put(SubscriptionKeys.class, subscriptionKeys);
         }
         return qos;
+        */
+        return null;
     }
 
     public void mergeTopicQos(TopicQos topicQos) {

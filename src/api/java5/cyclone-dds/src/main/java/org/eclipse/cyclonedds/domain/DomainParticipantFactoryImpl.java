@@ -32,22 +32,28 @@ import org.omg.dds.domain.DomainParticipantFactory;
 import org.omg.dds.domain.DomainParticipantFactoryQos;
 import org.omg.dds.domain.DomainParticipantListener;
 import org.omg.dds.domain.DomainParticipantQos;
+
+import com.sun.jna.ptr.PointerByReference;
+
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.Utilities;
 
+/*
+ TODO FRCYC
 import org.eclipse.cyclonedds.ddsc.DdscLibrary;
 import org.eclipse.cyclonedds.ddsc.NativeSize;
 import org.eclipse.cyclonedds.ddsc.DdscLibrary.*;
+*/
 
 public class DomainParticipantFactoryImpl extends DomainParticipantFactory
         implements org.eclipse.cyclonedds.domain.DomainParticipantFactory {
-    private OsplServiceEnvironment environment;
+    private CycloneServiceEnvironment environment;
     private DomainParticipantFactoryQos qos;
     private DomainParticipantQos defaultDomainParticipantQoS;
 
-    public DomainParticipantFactoryImpl(OsplServiceEnvironment environment) {
+    public DomainParticipantFactoryImpl(CycloneServiceEnvironment environment) {
         this.environment = environment;
         this.defaultDomainParticipantQoS = new DomainParticipantQosImpl(environment);
         this.qos = new DomainParticipantFactoryQosImpl(environment);
@@ -63,7 +69,7 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
 
     @Override
     public DomainParticipant createParticipant() {
-        // return createParticipant(DDS.DOMAIN_ID_DEFAULT.value);
+        // return createParticipant(DOMAIN_ID_DEFAULT.value);
         return createParticipant(0);
     }
 
@@ -77,9 +83,7 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
     public DomainParticipant createParticipant(int domainId, DomainParticipantQos qos,
             DomainParticipantListener listener, Collection<Class<? extends Status>> statuses) {
         DomainParticipantImpl participant;
-
         participant = new DomainParticipantImpl(this.environment, this, domainId, qos, listener, statuses);
-
         return participant;
     }
 
@@ -89,6 +93,37 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
         return createParticipant(domainId, qos, listener, Arrays.asList(statuses));
     }
 
+	@Override
+	public void detachAllDomains(boolean blockOperations, boolean deleteEntities) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public DomainParticipant lookupParticipant(int domainId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DomainParticipantFactoryQos getQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setQos(DomainParticipantFactoryQos qos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setDefaultParticipantQos(DomainParticipantQos qos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+    /* TODO FRCYC
     @Override
     public DomainParticipant lookupParticipant(int domainId) {
         DomainParticipantImpl participant;
@@ -111,7 +146,7 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
     public DomainParticipantFactoryQos getQos() {
         public static native DdscLibrary.dds_return_t dds_get_qos(DdscLibrary.dds_entity_t entity, DdscLibrary.dds_qos_t qos);
  
-        DDS.DomainParticipantFactoryQosHolder holder = new DDS.DomainParticipantFactoryQosHolder();
+        DomainParticipantFactoryQosHolder holder = new DomainParticipantFactoryQosHolder();
         DdscLibrary.dds_return_t rc = dds_get_qos(DdscLibrary.dds_entity_t entity, qos);
 
         Utilities.checkReturnCode(rc.getPointer().getInt(0), this.environment, "DomainParticipantFactory.getQos() failed.");
@@ -130,26 +165,21 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
             throw new IllegalOperationExceptionImpl(this.environment,
                     "DomainParticipantFactoryQos not supplied by Cyclone Service provider.");
         }
-    }
+    }*/
 
     @Override
     public DomainParticipantQos getDefaultParticipantQos() {
         DomainParticipantQos qos;
-        DDS.DomainParticipantQosHolder holder;
-        int rc;
-
-        holder = new DDS.DomainParticipantQosHolder();
-        rc = this.factory.get_default_participant_qos(holder);
+        PointerByReference rc =  org.eclipse.cyclonedds.ddsc.dds_public_qos.DdscLibrary.dds_create_qos();
         Utilities.checkReturnCode(rc, this.environment, "DomainParticipantFactory.getDefaultParticipantQos() failed.");
-
-        qos = DomainParticipantQosImpl.convert(this.environment, holder.value);
-
+        qos = DomainParticipantQosImpl.convert(this.environment, rc);
         return qos;
     }
-
+    
+    /*
     @Override
     public void setDefaultParticipantQos(DomainParticipantQos qos) {
-        DDS.DomainParticipantQos oldQos;
+        DomainParticipantQos oldQos;
         int rc;
 
         if (qos == null) {
@@ -165,5 +195,6 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
     public void detachAllDomains(boolean blockOperations, boolean deleteEntities) {
         this.factory.detach_all_domains(blockOperations, deleteEntities);
     }
+    */
 
 }

@@ -22,7 +22,7 @@ package org.eclipse.cyclonedds.core.policy;
 
 import org.omg.dds.core.policy.QosPolicy;
 import org.omg.dds.core.policy.ResourceLimits;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class ResourceLimitsImpl extends QosPolicyImpl implements ResourceLimits {
     private static final long serialVersionUID = 918915709322634268L;
@@ -30,14 +30,14 @@ public class ResourceLimitsImpl extends QosPolicyImpl implements ResourceLimits 
     private final int maxInstances;
     private final int maxSamplesPerInstance;
 
-    public ResourceLimitsImpl(OsplServiceEnvironment environment) {
+    public ResourceLimitsImpl(CycloneServiceEnvironment environment) {
         super(environment);
         this.maxSamples = -1;
         this.maxInstances = -1;
         this.maxSamplesPerInstance = -1;
     }
 
-    public ResourceLimitsImpl(OsplServiceEnvironment environment,
+    public ResourceLimitsImpl(CycloneServiceEnvironment environment,
             int maxSamples, int maxInstances, int maxSamplesPerInstance) {
         super(environment);
         this.maxSamples = maxSamples;

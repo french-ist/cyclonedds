@@ -24,13 +24,16 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.omg.dds.core.AlreadyClosedException;
 import org.omg.dds.core.Duration;
+import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.StatusCondition;
 import org.omg.dds.core.status.Status;
+import org.omg.dds.domain.DomainParticipant;
 import org.omg.dds.pub.DataWriter;
 import org.omg.dds.pub.DataWriterListener;
 import org.omg.dds.pub.DataWriterQos;
@@ -43,7 +46,7 @@ import org.eclipse.cyclonedds.core.DomainEntityImpl;
 import org.eclipse.cyclonedds.core.EntityImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.StatusConditionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
@@ -52,52 +55,52 @@ import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 import org.eclipse.cyclonedds.topic.TopicImpl;
 import org.eclipse.cyclonedds.type.AbstractTypeSupport;
 
-public class PublisherImpl
-extends
-DomainEntityImpl<DDS.Publisher, DomainParticipantImpl, DDS.DomainParticipant, PublisherQos, PublisherListener, PublisherListenerImpl>
-implements Publisher {
-    private final HashMap<DDS.DataWriter, DataWriter<?>> writers;
+public class PublisherImpl extends DomainEntityImpl<PublisherQos, PublisherListener, PublisherListenerImpl> implements Publisher {
+	private final HashMap<DataWriter, DataWriter<?>> writers;
 
-    public PublisherImpl(OsplServiceEnvironment environment,
-            DomainParticipantImpl parent, PublisherQos qos,
-            PublisherListener listener,
-            Collection<Class<? extends Status>> statuses) {
-        super(environment, parent, parent.getOld());
-        DDS.PublisherQos oldQos;
+	public PublisherImpl(CycloneServiceEnvironment environment,
+			DomainParticipantImpl parent, PublisherQos qos,
+			PublisherListener listener,
+			Collection<Class<? extends Status>> statuses) {
+		super(environment);
+		PublisherQos oldQos;
 
-        if (qos == null) {
-            throw new IllegalArgumentExceptionImpl(this.environment,
-                    "Supplied PublisherQos is null.");
-        }
+		if (qos == null) {
+			throw new IllegalArgumentExceptionImpl(this.environment,
+					"Supplied PublisherQos is null.");
+		}
 
-        try {
-            oldQos = ((PublisherQosImpl) qos).convert();
-        } catch (ClassCastException e) {
-            throw new IllegalArgumentExceptionImpl(this.environment,
-                    "Cannot create Publisher with non-OpenSplice qos");
-        }
+		try {
+			//TODO FRCYC oldQos = ((PublisherQosImpl) qos).convert();
+		} catch (ClassCastException e) {
+			throw new IllegalArgumentExceptionImpl(this.environment,
+					"Cannot create Publisher with non-OpenSplice qos");
+		}
 
-        if (listener != null) {
-            this.listener = new PublisherListenerImpl(this.environment, this,
-                    listener, true);
-        } else {
-            this.listener = null;
-        }
-        DDS.Publisher old = this.parent.getOld().create_publisher(oldQos,
-                this.listener,
-                StatusConverter.convertMask(this.environment, statuses));
+		if (listener != null) {
+			this.listener = new PublisherListenerImpl(this.environment, this,
+					listener, true);
+		} else {
+			this.listener = null;
+		}
+		/* TODO FRCYC
+		Publisher old = this.parent.getOld().create_publisher(oldQos,
+				this.listener,
+				StatusConverter.convertMask(this.environment, statuses));
 
-        if (old == null) {
-            Utilities.throwLastErrorException(this.environment);
-        }
-        this.setOld(old);
-        this.writers = new HashMap<DDS.DataWriter, DataWriter<?>>();
+		if (old == null) {
+			Utilities.throwLastErrorException(this.environment);
+		}		
+		this.setOld(old);
+		*/
+		this.writers = new HashMap<DataWriter, DataWriter<?>>();
 
-        if (this.listener != null) {
-            this.listener.setInitialised();
-        }
-    }
+		if (this.listener != null) {
+			this.listener.setInitialised();
+		}
+	}
 
+	/* TODO FRCYC
     private void setListener(PublisherListener listener, int mask) {
         PublisherListenerImpl wrapperListener;
         int rc;
@@ -136,7 +139,7 @@ implements Publisher {
 
     @Override
     public PublisherQos getQos() {
-        DDS.PublisherQosHolder holder = new DDS.PublisherQosHolder();
+        PublisherQosHolder holder = new PublisherQosHolder();
         int rc = this.getOld().get_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Publisher.getQos() failed.");
@@ -163,124 +166,126 @@ implements Publisher {
                 "Publisher.setQos() failed.");
 
     }
+	 */
 
-    @Override
-    public <TYPE> DataWriter<TYPE> createDataWriter(Topic<TYPE> topic) {
-        return this.createDataWriter(topic, this.getDefaultDataWriterQos(),
-                null, new HashSet<Class<? extends Status>>());
-    }
+	@Override
+	public <TYPE> DataWriter<TYPE> createDataWriter(Topic<TYPE> topic) {
+		return this.createDataWriter(topic, this.getDefaultDataWriterQos(),
+				null, new HashSet<Class<? extends Status>>());
+	}
 
-    @Override
-    public <TYPE> DataWriter<TYPE> createDataWriter(Topic<TYPE> topic,
-            DataWriterQos qos, DataWriterListener<TYPE> listener,
-            Collection<Class<? extends Status>> statuses) {
-        AbstractDataWriter<TYPE> writer;
-        AbstractTypeSupport<TYPE> typeSupport;
+	@Override
+	public <TYPE> DataWriter<TYPE> createDataWriter(Topic<TYPE> topic,
+			DataWriterQos qos, DataWriterListener<TYPE> listener,
+			Collection<Class<? extends Status>> statuses) {
+		AbstractDataWriter<TYPE> writer;
+		AbstractTypeSupport<TYPE> typeSupport;
 
-        if (topic == null) {
-            throw new IllegalArgumentExceptionImpl(this.environment,
-                    "Supplied Topic is null.");
-        }
-        synchronized(this.writers){
-            try {
-                typeSupport = (AbstractTypeSupport<TYPE>) topic.getTypeSupport();
-                writer = typeSupport.createDataWriter(this,
-                        (TopicImpl<TYPE>) topic, qos, listener, statuses);
-            } catch (ClassCastException e) {
-                throw new IllegalArgumentExceptionImpl(this.environment,
-                        "Cannot create DataWriter with non-OpenSplice Topic");
-            }
-            this.writers.put(writer.getOld(), writer);
-        }
-        return writer;
-    }
+		if (topic == null) {
+			throw new IllegalArgumentExceptionImpl(this.environment,
+					"Supplied Topic is null.");
+		}
+		synchronized(this.writers){
+			try {
+				typeSupport = (AbstractTypeSupport<TYPE>) topic.getTypeSupport();
+				writer = typeSupport.createDataWriter(this,
+						(TopicImpl<TYPE>) topic, qos, listener, statuses);
+			} catch (ClassCastException e) {
+				throw new IllegalArgumentExceptionImpl(this.environment,
+						"Cannot create DataWriter with non-OpenSplice Topic");
+			}
+			//TODO FRCYC this.writers.put(writer.getOld(), writer);
+		}
+		return writer;
+	}
 
-    @Override
-    public <TYPE> DataWriter<TYPE> createDataWriter(Topic<TYPE> topic,
-            DataWriterQos qos, DataWriterListener<TYPE> listener,
-            Class<? extends Status>... statuses) {
-        return createDataWriter(topic, qos, listener, Arrays.asList(statuses));
-    }
+	@Override
+	public <TYPE> DataWriter<TYPE> createDataWriter(Topic<TYPE> topic,
+			DataWriterQos qos, DataWriterListener<TYPE> listener,
+			Class<? extends Status>... statuses) {
+		return createDataWriter(topic, qos, listener, Arrays.asList(statuses));
+	}
 
-    @Override
-    public <TYPE> DataWriter<TYPE> createDataWriter(Topic<TYPE> topic,
-            DataWriterQos qos) {
-        return this.createDataWriter(topic, qos, null,
-                new HashSet<Class<? extends Status>>());
-    }
+	@Override
+	public <TYPE> DataWriter<TYPE> createDataWriter(Topic<TYPE> topic,
+			DataWriterQos qos) {
+		return this.createDataWriter(topic, qos, null,
+				new HashSet<Class<? extends Status>>());
+	}
 
-    public <TYPE> DataWriter<TYPE> lookupDataWriter(DDS.DataWriter writer) {
-        DataWriter<?> dw;
+	public <TYPE> DataWriter<TYPE> lookupDataWriter(DataWriter writer) {
+		DataWriter<?> dw;
 
-        synchronized (this.writers) {
-            dw = this.writers.get(writer);
-        }
-        if (dw != null) {
-            return dw.cast();
-        }
-        return null;
-    }
+		synchronized (this.writers) {
+			dw = this.writers.get(writer);
+		}
+		if (dw != null) {
+			return dw.cast();
+		}
+		return null;
+	}
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public <TYPE> DataWriter<TYPE> lookupDataWriter(String topicName) {
-        if (topicName == null) {
-            throw new IllegalArgumentExceptionImpl(this.environment,
-                    "Supplied topicName is null.");
-        }
-        synchronized (this.writers) {
-            for (DataWriter<?> writer : this.writers.values()) {
-                if (topicName.equals(writer.getTopic().getName())) {
-                    try {
-                        return (DataWriter<TYPE>) writer;
-                    } catch (ClassCastException e) {
-                        throw new IllegalOperationExceptionImpl(
-                                this.environment,
-                                "Cannot cast DataWriter to desired type.");
-                    }
-                }
-            }
-        }
-        return null;
-    }
+	@SuppressWarnings("unchecked")
+	@Override
+	public <TYPE> DataWriter<TYPE> lookupDataWriter(String topicName) {
+		if (topicName == null) {
+			throw new IllegalArgumentExceptionImpl(this.environment,
+					"Supplied topicName is null.");
+		}
+		synchronized (this.writers) {
+			for (DataWriter<?> writer : this.writers.values()) {
+				if (topicName.equals(writer.getTopic().getName())) {
+					try {
+						return (DataWriter<TYPE>) writer;
+					} catch (ClassCastException e) {
+						throw new IllegalOperationExceptionImpl(
+								this.environment,
+								"Cannot cast DataWriter to desired type.");
+					}
+				}
+			}
+		}
+		return null;
+	}
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public <TYPE> DataWriter<TYPE> lookupDataWriter(Topic<TYPE> topic) {
-        if (topic == null) {
-            throw new IllegalArgumentExceptionImpl(this.environment,
-                    "Supplied Topic is null.");
-        }
-        synchronized (this.writers) {
-            for (DataWriter<?> writer : this.writers.values()) {
-                if (topic.equals(writer.getTopic())) {
-                    try {
-                        return (DataWriter<TYPE>) writer;
-                    } catch (ClassCastException e) {
-                        throw new IllegalOperationExceptionImpl(
-                                this.environment,
-                                "Cannot cast DataWriter to desired type.");
-                    }
-                }
-            }
-        }
-        return null;
-    }
+	@SuppressWarnings("unchecked")
+	@Override
+	public <TYPE> DataWriter<TYPE> lookupDataWriter(Topic<TYPE> topic) {
+		if (topic == null) {
+			throw new IllegalArgumentExceptionImpl(this.environment,
+					"Supplied Topic is null.");
+		}
+		synchronized (this.writers) {
+			for (DataWriter<?> writer : this.writers.values()) {
+				if (topic.equals(writer.getTopic())) {
+					try {
+						return (DataWriter<TYPE>) writer;
+					} catch (ClassCastException e) {
+						throw new IllegalOperationExceptionImpl(
+								this.environment,
+								"Cannot cast DataWriter to desired type.");
+					}
+				}
+			}
+		}
+		return null;
+	}
 
-    @Override
-    public void closeContainedEntities() {
-        synchronized(this.writers){
-            HashMap<DDS.DataWriter, DataWriter<?>> copyWriter = new HashMap<DDS.DataWriter, DataWriter<?>>(this.writers);
-            for (DataWriter<?> writer : copyWriter.values()) {
-                try {
-                    writer.close();
-                } catch (AlreadyClosedException a) {
-                    /* Entity may be closed concurrently by application */
-                }
-            }
-        }
-    }
+	@Override
+	public void closeContainedEntities() {
+		synchronized(this.writers){
+			HashMap<DataWriter, DataWriter<?>> copyWriter = new HashMap<DataWriter, DataWriter<?>>(this.writers);
+			for (DataWriter<?> writer : copyWriter.values()) {
+				try {
+					writer.close();
+				} catch (AlreadyClosedException a) {
+					/* Entity may be closed concurrently by application */
+				}
+			}
+		}
+	}
 
+	/* TODO FRCYC
     @Override
     public void suspendPublications() {
         int rc = this.getOld().suspend_publications();
@@ -329,7 +334,7 @@ implements Publisher {
 
     @Override
     public DataWriterQos getDefaultDataWriterQos() {
-        DDS.DataWriterQosHolder holder = new DDS.DataWriterQosHolder();
+        DataWriterQosHolder holder = new DataWriterQosHolder();
         int rc = this.getOld().get_default_datawriter_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Publisher.getDefaultDataWriterQos() failed.");
@@ -353,33 +358,149 @@ implements Publisher {
         }
 
     }
+	 */
 
-    @Override
-    public DataWriterQos copyFromTopicQos(DataWriterQos dwQos, TopicQos tQos) {
-        DataWriterQosImpl result;
+	@Override
+	public DataWriterQos copyFromTopicQos(DataWriterQos dwQos, TopicQos tQos) {
+		DataWriterQosImpl result;
 
-        if (tQos == null) {
-            throw new IllegalArgumentExceptionImpl(this.environment,
-                    "Supplied TopicQos is null.");
-        }
-        if (dwQos == null) {
-            throw new IllegalArgumentExceptionImpl(this.environment,
-                    "Supplied DataWriterQos is null.");
-        }
-        try {
-            result = (DataWriterQosImpl) dwQos;
-        } catch (ClassCastException e) {
-            throw new IllegalArgumentExceptionImpl(this.environment,
-                    "Non-OpenSplice DataWriterQos not supported.");
-        }
-        result.mergeTopicQos(tQos);
+		if (tQos == null) {
+			throw new IllegalArgumentExceptionImpl(this.environment,
+					"Supplied TopicQos is null.");
+		}
+		if (dwQos == null) {
+			throw new IllegalArgumentExceptionImpl(this.environment,
+					"Supplied DataWriterQos is null.");
+		}
+		try {
+			result = (DataWriterQosImpl) dwQos;
+		} catch (ClassCastException e) {
+			throw new IllegalArgumentExceptionImpl(this.environment,
+					"Non-OpenSplice DataWriterQos not supported.");
+		}
+		result.mergeTopicQos(tQos);
 
-        return result;
-    }
+		return result;
+	}
 
+	@Override
+	public void setListener(PublisherListener listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setListener(PublisherListener listener, Collection<Class<? extends Status>> statuses) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setListener(PublisherListener listener, Class<? extends Status>... statuses) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public PublisherQos getQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setQos(PublisherQos qos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enable() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<Class<? extends Status>> getStatusChanges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle getInstanceHandle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void suspendPublications() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void resumePublications() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void beginCoherentChanges() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void endCoherentChanges() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void waitForAcknowledgments(Duration maxWait) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void waitForAcknowledgments(long maxWait, TimeUnit unit) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public DataWriterQos getDefaultDataWriterQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setDefaultDataWriterQos(DataWriterQos qos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public StatusCondition<Publisher> getStatusCondition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DomainParticipant getParent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/* TODO FRCYC
     @Override
     public StatusCondition<Publisher> getStatusCondition() {
-        DDS.StatusCondition oldCondition = this.getOld().get_statuscondition();
+        StatusCondition oldCondition = this.getOld().get_statuscondition();
 
         if (oldCondition == null) {
             Utilities.throwLastErrorException(this.environment);
@@ -400,8 +521,8 @@ implements Publisher {
     }
 
     public void destroyDataWriter(
-            EntityImpl<DDS.DataWriter, ?, ?, ?, ?> dataWriter) {
-        DDS.DataWriter old = dataWriter.getOld();
+            EntityImpl<DataWriter, ?, ?, ?, ?> dataWriter) {
+        DataWriter old = dataWriter.getOld();
         int rc = this.getOld().delete_datawriter(old);
         synchronized(this.writers){
             this.writers.remove(old);
@@ -409,4 +530,5 @@ implements Publisher {
         Utilities.checkReturnCode(rc, this.environment,
                 "DataWriter.close() failed.");
     }
+	 */
 }

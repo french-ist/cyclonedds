@@ -28,7 +28,7 @@ import org.omg.dds.core.policy.QosPolicy.ForSubscriber;
 import org.omg.dds.sub.SubscriberQos;
 import org.eclipse.cyclonedds.core.EntityQosImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.policy.EntityFactoryImpl;
 import org.eclipse.cyclonedds.core.policy.GroupDataImpl;
 import org.eclipse.cyclonedds.core.policy.PartitionImpl;
@@ -40,12 +40,12 @@ public class SubscriberQosImpl extends EntityQosImpl<ForSubscriber> implements
         org.eclipse.cyclonedds.sub.SubscriberQos {
     private static final long serialVersionUID = 5350093533137522289L;
 
-    public SubscriberQosImpl(OsplServiceEnvironment environment,
+    public SubscriberQosImpl(CycloneServiceEnvironment environment,
             ForSubscriber... policies) {
         super(environment, policies);
     }
 
-    public SubscriberQosImpl(OsplServiceEnvironment environment) {
+    public SubscriberQosImpl(CycloneServiceEnvironment environment) {
         super(environment);
     }
 
@@ -123,8 +123,9 @@ public class SubscriberQosImpl extends EntityQosImpl<ForSubscriber> implements
         }
     }
 
-    public static SubscriberQosImpl convert(OsplServiceEnvironment env,
-            DDS.SubscriberQos oldQos) {
+    public static SubscriberQosImpl convert(CycloneServiceEnvironment env,
+            SubscriberQos oldQos) {
+    	/* TODO FRCYC
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,
                     "oldQos parameter is null.");
@@ -147,10 +148,13 @@ public class SubscriberQosImpl extends EntityQosImpl<ForSubscriber> implements
         }
 
         return qos;
+        */
+    	return null;
     }
 
-    public DDS.SubscriberQos convert() {
-        DDS.SubscriberQos old = new DDS.SubscriberQos();
+    public SubscriberQos convert() {
+    	/* TODO FRCYC
+        SubscriberQos old = new SubscriberQos();
 
         synchronized (this.policies) {
             old.entity_factory = PolicyConverter
@@ -173,6 +177,8 @@ public class SubscriberQosImpl extends EntityQosImpl<ForSubscriber> implements
                     .get(Share.class)));
         }
         return old;
+        */
+    	return null;
     }
 
 }

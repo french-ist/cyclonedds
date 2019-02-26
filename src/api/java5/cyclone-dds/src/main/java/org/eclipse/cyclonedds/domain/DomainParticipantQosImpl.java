@@ -25,7 +25,7 @@ import org.omg.dds.core.policy.QosPolicy;
 import org.omg.dds.core.policy.QosPolicy.ForDomainParticipant;
 import org.eclipse.cyclonedds.core.EntityQosImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.policy.EntityFactoryImpl;
 import org.eclipse.cyclonedds.core.policy.PolicyConverter;
 import org.eclipse.cyclonedds.core.policy.SchedulingImpl;
@@ -35,15 +35,17 @@ import org.eclipse.cyclonedds.core.policy.Scheduling.WatchdogScheduling;
 import org.eclipse.cyclonedds.domain.DomainParticipantQos;
 import org.omg.dds.core.policy.UserData;
 
+import com.sun.jna.ptr.PointerByReference;
+
 public class DomainParticipantQosImpl extends
 EntityQosImpl<ForDomainParticipant> implements DomainParticipantQos {
     private static final long serialVersionUID = -1811553017861487660L;
 
-    public DomainParticipantQosImpl(OsplServiceEnvironment environment) {
+    public DomainParticipantQosImpl(CycloneServiceEnvironment environment) {
         super(environment);
     }
 
-    public DomainParticipantQosImpl(OsplServiceEnvironment environment,
+    public DomainParticipantQosImpl(CycloneServiceEnvironment environment,
             ForDomainParticipant... domainParticipants) {
         super(environment, domainParticipants);
 
@@ -118,8 +120,13 @@ EntityQosImpl<ForDomainParticipant> implements DomainParticipantQos {
         }
     }
 
+	public static org.omg.dds.domain.DomainParticipantQos convert(CycloneServiceEnvironment environment, PointerByReference rc) {
+		return null;
+	}
+
+    /* TODO FRCYC
     public static DomainParticipantQosImpl convert(OsplServiceEnvironment env,
-            DDS.DomainParticipantQos oldQos) {
+            DomainParticipantQos oldQos) {
 
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,
@@ -139,8 +146,8 @@ EntityQosImpl<ForDomainParticipant> implements DomainParticipantQos {
         return qos;
     }
 
-    public DDS.DomainParticipantQos convert() {
-        DDS.DomainParticipantQos old = new DDS.DomainParticipantQos();
+    public DomainParticipantQos convert() {
+        DomainParticipantQos old = new DomainParticipantQos();
 
         synchronized (this.policies) {
             old.entity_factory = PolicyConverter.convert(this.environment,
@@ -155,5 +162,5 @@ EntityQosImpl<ForDomainParticipant> implements DomainParticipantQos {
                     .get(WatchdogScheduling.class));
         }
         return old;
-    }
+    }*/
 }

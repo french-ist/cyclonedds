@@ -31,13 +31,13 @@ import org.omg.dds.core.status.Status;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 
 public class StatusConditionImpl<T extends Entity<?, ?>> implements
-        StatusCondition<T>, Condition<DDS.StatusCondition> {
-    private final DDS.StatusCondition old;
+        StatusCondition<T>, Condition {
+    private final StatusCondition old;
     private final T parent;
-    private final OsplServiceEnvironment environment;
+    private final CycloneServiceEnvironment environment;
 
-    public StatusConditionImpl(OsplServiceEnvironment environment,
-            DDS.StatusCondition oldCondition, T parent) {
+    public StatusConditionImpl(CycloneServiceEnvironment environment,
+            StatusCondition oldCondition, T parent) {
         this.old = oldCondition;
         this.parent = parent;
         this.environment = environment;
@@ -45,7 +45,8 @@ public class StatusConditionImpl<T extends Entity<?, ?>> implements
 
     @Override
     public boolean getTriggerValue() {
-        return this.old.get_trigger_value();
+        //TODO FRCYC return this.old.get_trigger_value();
+    	return false;
     }
 
     @Override
@@ -58,6 +59,7 @@ public class StatusConditionImpl<T extends Entity<?, ?>> implements
         return this.parent;
     }
 
+    /* TODO FRCYC
     @Override
     public Set<Class<? extends Status>> getEnabledStatuses() {
         return StatusConverter.convertMask(this.environment,
@@ -71,7 +73,7 @@ public class StatusConditionImpl<T extends Entity<?, ?>> implements
 
         Utilities.checkReturnCode(rc, this.environment,
                 "StatusCondition.withEnabledStatuses() failed.");
-    }
+    }*/
 
     @Override
     public void setEnabledStatuses(Class<? extends Status>... statuses) {
@@ -79,13 +81,28 @@ public class StatusConditionImpl<T extends Entity<?, ?>> implements
 
     }
 
-    @Override
-    public DDS.StatusCondition getOldCondition() {
-        return this.old;
-    }
+
 
     @Override
     public String toString(){
         return "StatusCondition (" + Integer.toHexString(this.hashCode()) + ")";
     }
+
+	@Override
+	public Set<Class<? extends Status>> getEnabledStatuses() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setEnabledStatuses(Collection<Class<? extends Status>> statuses) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Condition getOldCondition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

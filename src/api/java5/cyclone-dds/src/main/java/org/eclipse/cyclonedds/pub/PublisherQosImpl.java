@@ -28,7 +28,7 @@ import org.omg.dds.core.policy.QosPolicy.ForPublisher;
 import org.omg.dds.pub.PublisherQos;
 import org.eclipse.cyclonedds.core.EntityQosImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.policy.EntityFactoryImpl;
 import org.eclipse.cyclonedds.core.policy.GroupDataImpl;
 import org.eclipse.cyclonedds.core.policy.PartitionImpl;
@@ -40,12 +40,12 @@ public class PublisherQosImpl extends EntityQosImpl<ForPublisher> implements
 
     private static final long serialVersionUID = 3160319098450969471L;
 
-    public PublisherQosImpl(OsplServiceEnvironment environment,
+    public PublisherQosImpl(CycloneServiceEnvironment environment,
             ForPublisher... policies) {
         super(environment, policies);
     }
 
-    public PublisherQosImpl(OsplServiceEnvironment environment) {
+    public PublisherQosImpl(CycloneServiceEnvironment environment) {
         super(environment);
     }
 
@@ -106,8 +106,9 @@ public class PublisherQosImpl extends EntityQosImpl<ForPublisher> implements
         }
     }
 
+    /* TODO FRCYC
     public static PublisherQosImpl convert(OsplServiceEnvironment env,
-            DDS.PublisherQos oldQos) {
+            PublisherQos oldQos) {
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,
                     "oldQos parameter is null.");
@@ -126,8 +127,8 @@ public class PublisherQosImpl extends EntityQosImpl<ForPublisher> implements
         return qos;
     }
 
-    public DDS.PublisherQos convert() {
-        DDS.PublisherQos old = new DDS.PublisherQos();
+    public PublisherQos convert() {
+        PublisherQos old = new PublisherQos();
 
         synchronized (this.policies) {
             old.entity_factory = PolicyConverter.convert(this.environment,
@@ -142,4 +143,5 @@ public class PublisherQosImpl extends EntityQosImpl<ForPublisher> implements
         }
         return old;
     }
+    */
 }

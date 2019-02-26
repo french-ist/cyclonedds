@@ -39,7 +39,7 @@ import org.eclipse.cyclonedds.topic.AbstractTopic;
 import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 
 public abstract class AbstractTypeSupport<TYPE> extends TypeSupport<TYPE> {
-    public abstract DDS.TypeSupport getOldTypeSupport();
+    public abstract TypeSupport getOldTypeSupport();
 
     public abstract AbstractDataWriter<TYPE> createDataWriter(
             PublisherImpl publisher, AbstractTopic<TYPE> topic,

@@ -26,11 +26,19 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.DomainEntityImpl;
+import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
+import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
+import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
+import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
+import org.eclipse.cyclonedds.type.AbstractTypeSupport;
 import org.omg.dds.core.AlreadyClosedException;
+import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.StatusCondition;
 import org.omg.dds.core.status.Status;
-import org.omg.dds.pub.DataWriter;
 import org.omg.dds.sub.DataReader;
 import org.omg.dds.sub.DataReaderListener;
 import org.omg.dds.sub.DataReaderQos;
@@ -39,31 +47,23 @@ import org.omg.dds.sub.SubscriberListener;
 import org.omg.dds.sub.SubscriberQos;
 import org.omg.dds.topic.TopicDescription;
 import org.omg.dds.topic.TopicQos;
-import org.eclipse.cyclonedds.core.DDSExceptionImpl;
-import org.eclipse.cyclonedds.core.DomainEntityImpl;
-import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
-import org.eclipse.cyclonedds.core.StatusConditionImpl;
-import org.eclipse.cyclonedds.core.Utilities;
-import org.eclipse.cyclonedds.core.status.StatusConverter;
-import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
-import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
-import org.eclipse.cyclonedds.type.AbstractTypeSupport;
 
 public class SubscriberImpl
         extends
-        DomainEntityImpl<DDS.Subscriber, DomainParticipantImpl, DDS.DomainParticipant, SubscriberQos, SubscriberListener, SubscriberListenerImpl>
+        DomainEntityImpl<SubscriberQos, SubscriberListener, SubscriberListenerImpl>
         implements Subscriber {
-    private final HashMap<DDS.DataReader, AbstractDataReader<?>> readers;
+    
+	private final HashMap<DataReader, AbstractDataReader<?>> readers;
     private final boolean isBuiltin;
 
-    public SubscriberImpl(OsplServiceEnvironment environment,
+    public SubscriberImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl parent, SubscriberQos qos,
             SubscriberListener listener,
             Collection<Class<? extends Status>> statuses) {
-        super(environment, parent, parent.getOld());
-        DDS.SubscriberQos oldQos;
+        super(environment);
+        
+        /* TODO FRCYC
+        SubscriberQos oldQos;
 
         if (qos == null) {
             throw new IllegalArgumentExceptionImpl(this.environment,
@@ -83,7 +83,8 @@ public class SubscriberImpl
         } else {
             this.listener = null;
         }
-        DDS.Subscriber old = this.parent.getOld().create_subscriber(oldQos,
+        
+        Subscriber old = this.parent.getOld().create_subscriber(oldQos,
                 this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
 
@@ -91,7 +92,8 @@ public class SubscriberImpl
             Utilities.throwLastErrorException(this.environment);
         }
         this.setOld(old);
-        this.readers = new HashMap<DDS.DataReader, AbstractDataReader<?>>();
+        */
+        this.readers = new HashMap<DataReader, AbstractDataReader<?>>();
         this.isBuiltin = false;
 
         if (this.listener != null) {
@@ -99,17 +101,17 @@ public class SubscriberImpl
         }
     }
 
-    public SubscriberImpl(OsplServiceEnvironment environment,
-            DomainParticipantImpl parent, DDS.Subscriber oldSubscriber) {
-        super(environment, parent, parent.getOld());
+    public SubscriberImpl(CycloneServiceEnvironment environment,
+            DomainParticipantImpl parent, Subscriber oldSubscriber) {
+        super(environment);
 
         if (oldSubscriber == null) {
             throw new IllegalArgumentExceptionImpl(environment,
                     "Supplied Subscriber is invalid (null).");
         }
         this.listener = null;
-        this.setOld(oldSubscriber);
-        this.readers = new HashMap<DDS.DataReader, AbstractDataReader<?>>();
+        //TODO FRCYC this.setOld(oldSubscriber);
+        this.readers = new HashMap<DataReader, AbstractDataReader<?>>();
         this.isBuiltin = true;
     }
 
@@ -127,40 +129,45 @@ public class SubscriberImpl
         } else {
             wrapperListener = null;
         }
+        /* FRCYC
         rc = this.getOld().set_listener(wrapperListener, mask);
         Utilities.checkReturnCode(rc, this.environment,
                 "Subscriber.setListener() failed.");
 
         this.listener = wrapperListener;
+        */
     }
 
     @Override
     public void setListener(SubscriberListener listener) {
-        this.setListener(listener, StatusConverter.getAnyMask());
+        //TODO FRCYC this.setListener(listener, StatusConverter.getAnyMask());
     }
 
     @Override
     public void setListener(SubscriberListener listener,
             Collection<Class<? extends Status>> statuses) {
-        this.setListener(listener,
-                StatusConverter.convertMask(this.environment, statuses));
+    	//TODO FRCYC this.setListener(listener,
+        //        StatusConverter.convertMask(this.environment, statuses));
     }
 
     @Override
     public void setListener(SubscriberListener listener,
             Class<? extends Status>... statuses) {
-        this.setListener(listener,
-                StatusConverter.convertMask(this.environment, statuses));
+    	//TODO FRCYC this.setListener(listener,
+                //StatusConverter.convertMask(this.environment, statuses));
     }
 
     @Override
     public SubscriberQos getQos() {
-        DDS.SubscriberQosHolder holder = new DDS.SubscriberQosHolder();
+        /* TODO FRCYC
+         * SubscriberQosHolder holder = new SubscriberQosHolder();
         int rc = this.getOld().get_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Subscriber.getQos() failed.");
 
         return SubscriberQosImpl.convert(this.environment, holder.value);
+        */
+    	return null;
     }
 
     @Override
@@ -177,9 +184,11 @@ public class SubscriberImpl
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Setting non-OpenSplice Qos not supported.");
         }
+        /* TODO FRCYC
         int rc = this.getOld().set_qos(q.convert());
         Utilities.checkReturnCode(rc, this.environment,
                 "Subscriber.setQos() failed.");
+                */
 
     }
 
@@ -208,7 +217,7 @@ public class SubscriberImpl
                 reader = typeSupport.createDataReader(this,
                         (TopicDescriptionExt<TYPE>) topic, qos, listener,
                         statuses);
-                this.readers.put(reader.getOld(), reader);
+                //TODO FRCYC this.readers.put(reader.getOld(), reader);
             } catch (ClassCastException e) {
                 throw new IllegalArgumentExceptionImpl(this.environment,
                         "Cannot create DataReader with non-OpenSplice Topic");
@@ -251,12 +260,12 @@ public class SubscriberImpl
                     }
                 }
             }
-            DDS.DataReader builtinReader = this.getOld()
-                    .lookup_datareader(topicName);
+            /*TODO FRCYC DataReader builtinReader = this.getOld().lookup_datareader(topicName);
 
             if (builtinReader != null) {
                 return this.initBuiltinReader(builtinReader);
             }
+            */
         }
         return null;
     }
@@ -280,23 +289,26 @@ public class SubscriberImpl
                     }
                 }
             }
-            DDS.DataReader builtinReader = this.getOld()
+            /* TODO FRCYC
+            DataReader builtinReader = this.getOld()
                     .lookup_datareader(topicDescription.getName());
 
             if (builtinReader != null) {
                 return this.initBuiltinReader(builtinReader, topicDescription);
             }
+            */
         }
         return null;
     }
 
     private <TYPE> DataReaderImpl<TYPE> initBuiltinReader(
-            DDS.DataReader oldBuiltin) {
+            DataReader oldBuiltin) {
         DataReaderImpl<TYPE> result = null;
 
         if (oldBuiltin != null) {
-            DDS.TopicDescription classicTopicDescription = oldBuiltin
+            /*TODO FRCYC TopicDescription classicTopicDescription = oldBuiltin
                     .get_topicdescription();
+                    
 
             if (classicTopicDescription != null) {
                 TopicDescription<TYPE> td = this.getParent()
@@ -310,14 +322,15 @@ public class SubscriberImpl
                 throw new DDSExceptionImpl(this.environment,
                         "Classic DataReader has no TopicDescription.");
             }
+            */
         }
         return result;
     }
 
     private <TYPE> DataReaderImpl<TYPE> initBuiltinReader(
-            DDS.DataReader oldBuiltin, TopicDescription<TYPE> td) {
+            DataReader oldBuiltin, TopicDescription<TYPE> td) {
         DataReaderImpl<TYPE> result = null;
-
+        /* TODO FRCYC
         if (oldBuiltin != null) {
             result = new DataReaderImpl<TYPE>(this.environment, this,
                     (TopicDescriptionExt<TYPE>) td, oldBuiltin);
@@ -326,9 +339,11 @@ public class SubscriberImpl
             }
         }
         return result;
+        */
+        return null;
     }
 
-    public <TYPE> DataReader<TYPE> lookupDataReader(DDS.DataReader old) {
+    public <TYPE> DataReader<TYPE> lookupDataReader(DataReader old) {
         DataReader<TYPE> result;
 
         synchronized (this.readers) {
@@ -348,7 +363,7 @@ public class SubscriberImpl
     @Override
     public void closeContainedEntities() {
         synchronized (this.readers) {
-            HashMap<DDS.DataReader, AbstractDataReader<?>> copyReaders = new HashMap<DDS.DataReader, AbstractDataReader<?>>(this.readers);
+            HashMap<DataReader, AbstractDataReader<?>> copyReaders = new HashMap<DataReader, AbstractDataReader<?>>(this.readers);
             for (AbstractDataReader<?> reader : copyReaders.values()) {
                 try {
                     reader.close();
@@ -361,38 +376,43 @@ public class SubscriberImpl
 
     public Collection<DataReader<?>> getDataReaders(
             Collection<DataReader<?>> readers) {
-        DDS.DataReaderSeqHolder oldReaders = new DDS.DataReaderSeqHolder();
+    	/* TODO FRCYC
+        DataReaderSeqHolder oldReaders = new DataReaderSeqHolder();
 
         synchronized (this.readers) {
             int rc = this.getOld().get_datareaders(oldReaders,
-                    DDS.ANY_SAMPLE_STATE.value, DDS.ANY_VIEW_STATE.value,
-                    DDS.ANY_INSTANCE_STATE.value);
+                    ANY_SAMPLE_STATE.value, ANY_VIEW_STATE.value,
+                    ANY_INSTANCE_STATE.value);
             Utilities.checkReturnCode(rc, this.environment,
                     "Subscriber.getDataReaders() failed.");
 
-            for (DDS.DataReader oldReader : oldReaders.value) {
+            for (DataReader oldReader : oldReaders.value) {
                 readers.add(this.readers.get(oldReader));
             }
         }
         return readers;
+        */ 
+    	return null;
     }
 
     @Override
     public Collection<DataReader<?>> getDataReaders() {
         List<DataReader<?>> readers = new ArrayList<DataReader<?>>();
-        DDS.DataReaderSeqHolder oldReaders = new DDS.DataReaderSeqHolder();
+        
+        /* TODO FRCYC
+        DataReaderSeqHolder oldReaders = new DataReaderSeqHolder();
 
         synchronized (this.readers) {
             int rc = this.getOld().get_datareaders(oldReaders,
-                    DDS.ANY_SAMPLE_STATE.value, DDS.ANY_VIEW_STATE.value,
-                    DDS.ANY_INSTANCE_STATE.value);
+                    ANY_SAMPLE_STATE.value, ANY_VIEW_STATE.value,
+                    ANY_INSTANCE_STATE.value);
             Utilities.checkReturnCode(rc, this.environment,
                     "Subscriber.getDataReaders() failed.");
 
-            for (DDS.DataReader oldReader : oldReaders.value) {
+            for (DataReader oldReader : oldReaders.value) {
                 readers.add(this.readers.get(oldReader));
             }
-        }
+        }*/
         return readers;
     }
     @Override
@@ -402,7 +422,8 @@ public class SubscriberImpl
                     "Supplied DataState is null.");
         }
         List<DataReader<?>> readers = new ArrayList<DataReader<?>>();
-        DDS.DataReaderSeqHolder oldReaders = new DDS.DataReaderSeqHolder();
+        /* TODO FRCYC
+        DataReaderSeqHolder oldReaders = new DataReaderSeqHolder();
 
         try {
             DataStateImpl state = (DataStateImpl) dataState;
@@ -414,7 +435,7 @@ public class SubscriberImpl
                 Utilities.checkReturnCode(rc, this.environment,
                         "Subscriber.getDataReaders() failed.");
 
-                for (DDS.DataReader oldReader : oldReaders.value) {
+                for (DataReader oldReader : oldReaders.value) {
                     readers.add(this.readers.get(oldReader));
                 }
             }
@@ -422,9 +443,11 @@ public class SubscriberImpl
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Non-OpenSplice DataState implementation not supported.");
         }
+        */
         return readers;
     }
 
+    /* TODO FRCYC
     @Override
     public void notifyDataReaders() {
         int rc = this.getOld().notify_datareaders();
@@ -449,7 +472,7 @@ public class SubscriberImpl
 
     @Override
     public DataReaderQos getDefaultDataReaderQos() {
-        DDS.DataReaderQosHolder holder = new DDS.DataReaderQosHolder();
+        DataReaderQosHolder holder = new DataReaderQosHolder();
         int rc = this.getOld().get_default_datareader_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Subscriber.getDefaultDataReaderQos() failed.");
@@ -471,6 +494,7 @@ public class SubscriberImpl
                     "Non-OpenSplice DataReaderQos not supported.");
         }
     }
+    */
 
     @Override
     public DataReaderQos copyFromTopicQos(DataReaderQos drQos, TopicQos tQos) {
@@ -497,18 +521,20 @@ public class SubscriberImpl
 
     @Override
     public StatusCondition<Subscriber> getStatusCondition() {
-        DDS.StatusCondition oldCondition = this.getOld().get_statuscondition();
+        /* TODO FRCYC StatusCondition oldCondition = this.getOld().get_statuscondition();
 
         if (oldCondition == null) {
             Utilities.throwLastErrorException(this.environment);
         }
         return new StatusConditionImpl<Subscriber>(this.environment,
                 oldCondition, this);
+                */
+    	return null;
     }
 
     @Override
     public org.omg.dds.domain.DomainParticipant getParent() {
-        return this.parent;
+        return null; //TODO FRCYC this.parent;
     }
 
     @Override
@@ -516,14 +542,16 @@ public class SubscriberImpl
         return new DataStateImpl(this.environment);
     }
 
+    /* TODO FRCYC
     @Override
     protected void destroy() {
         this.closeContainedEntities();
         this.parent.destroySubscriber(this);
     }
-
+     */
     public void destroyDataReader(AbstractDataReader<?> dataReader) {
-        DDS.DataReader old = dataReader.getOld();
+        /* TODO FRCYC
+    	DataReader old = dataReader.getOld();
         old.delete_contained_entities();
         int rc = this.getOld().delete_datareader(old);
         synchronized (this.readers) {
@@ -531,5 +559,63 @@ public class SubscriberImpl
         }
         Utilities.checkReturnCode(rc, this.environment,
                 "DataReader.close() failed.");
+                */
     }
+    
+
+	@Override
+	public void enable() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<Class<? extends Status>> getStatusChanges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle getInstanceHandle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void notifyDataReaders() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void beginAccess() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void endAccess() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public DataReaderQos getDefaultDataReaderQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setDefaultDataReaderQos(DataReaderQos qos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	protected void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	
 }

@@ -24,14 +24,14 @@ import java.lang.reflect.Field;
 
 import org.eclipse.cyclonedds.core.DDSExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
-import DDS.SampleInfoSeqHolder;
+//TODO FRCYC //TODO FRCYC import SampleInfoSeqHolder;
 
 public class IteratorImpl<TYPE> extends AbstractIterator<TYPE> {
     private TYPE[] data;
 
-    public IteratorImpl(OsplServiceEnvironment environment,
+    public IteratorImpl(CycloneServiceEnvironment environment,
             DataReaderImpl<TYPE> reader, Object sampleSeqHolder,
             Field dataSeqHolderValue, SampleInfoSeqHolder infoSeqHolder) {
         super(environment, reader, sampleSeqHolder, dataSeqHolderValue,

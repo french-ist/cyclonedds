@@ -21,15 +21,15 @@
 package org.eclipse.cyclonedds.core.status;
 
 import org.omg.dds.core.ServiceEnvironment;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class AllDataDisposedStatusImpl extends AllDataDisposedStatus {
     private static final long serialVersionUID = -2040865185303510353L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
     private final int totalCount;
     private final int totalCountChange;
 
-    public AllDataDisposedStatusImpl(OsplServiceEnvironment environment,
+    public AllDataDisposedStatusImpl(CycloneServiceEnvironment environment,
             int totalCount, int totalCountChange) {
         this.environment = environment;
         this.totalCount = totalCount;

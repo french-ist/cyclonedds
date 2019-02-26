@@ -23,7 +23,7 @@ package org.eclipse.cyclonedds.core.policy;
 import org.omg.dds.core.policy.Presentation;
 import org.omg.dds.core.policy.QosPolicy;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class PresentationImpl extends QosPolicyImpl implements Presentation {
     private static final long serialVersionUID = 2403290580864742451L;
@@ -31,14 +31,14 @@ public class PresentationImpl extends QosPolicyImpl implements Presentation {
     private final boolean orderedAccess;
     private final AccessScopeKind accessScope;
 
-    public PresentationImpl(OsplServiceEnvironment environment) {
+    public PresentationImpl(CycloneServiceEnvironment environment) {
         super(environment);
         this.coherentAccess = false;
         this.orderedAccess = false;
         this.accessScope = AccessScopeKind.INSTANCE;
     }
 
-    public PresentationImpl(OsplServiceEnvironment environment,
+    public PresentationImpl(CycloneServiceEnvironment environment,
             AccessScopeKind accessScope, boolean coherentAccess,
             boolean orderedAccess) {
         super(environment);

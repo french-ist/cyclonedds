@@ -23,14 +23,14 @@ package org.eclipse.cyclonedds.topic;
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.topic.BuiltinTopicKey;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class BuiltinTopicKeyImpl implements BuiltinTopicKey {
     private static final long serialVersionUID = 4755982116057745495L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
     private int[] value;
 
-    public BuiltinTopicKeyImpl(OsplServiceEnvironment environment, int[] value) {
+    public BuiltinTopicKeyImpl(CycloneServiceEnvironment environment, int[] value) {
         this.environment = environment;
 
         if (value == null) {

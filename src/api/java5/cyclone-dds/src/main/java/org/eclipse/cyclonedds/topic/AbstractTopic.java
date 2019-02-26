@@ -23,5 +23,5 @@ package org.eclipse.cyclonedds.topic;
 public interface AbstractTopic<TYPE> extends Topic<TYPE>,
         TopicDescriptionExt<TYPE> {
     @Override
-    public DDS.Topic getOld();
+    public Topic getOld();
 }

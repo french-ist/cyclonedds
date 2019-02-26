@@ -26,19 +26,19 @@ import org.omg.dds.core.Duration;
 import org.omg.dds.core.policy.QosPolicy;
 import org.omg.dds.core.policy.TimeBasedFilter;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class TimeBasedFilterImpl extends QosPolicyImpl implements
         TimeBasedFilter {
     private static final long serialVersionUID = -7710151999422912449L;
     private final Duration minimumSeparation;
 
-    public TimeBasedFilterImpl(OsplServiceEnvironment environment) {
+    public TimeBasedFilterImpl(CycloneServiceEnvironment environment) {
         super(environment);
         this.minimumSeparation = environment.getSPI().zeroDuration();
     }
 
-    public TimeBasedFilterImpl(OsplServiceEnvironment environment,
+    public TimeBasedFilterImpl(CycloneServiceEnvironment environment,
             Duration minimumSeparation) {
         super(environment);
 

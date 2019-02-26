@@ -26,14 +26,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.omg.dds.core.policy.QosPolicy;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class SubscriptionKeysImpl extends QosPolicyImpl implements
         SubscriptionKeys {
     private static final long serialVersionUID = -4815852698195218221L;
     private final HashSet<String> keyList;
 
-    public SubscriptionKeysImpl(OsplServiceEnvironment environment,
+    public SubscriptionKeysImpl(CycloneServiceEnvironment environment,
             String... keyValue) {
         super(environment);
         this.keyList = new HashSet<String>();
@@ -43,7 +43,7 @@ public class SubscriptionKeysImpl extends QosPolicyImpl implements
         }
     }
 
-    public SubscriptionKeysImpl(OsplServiceEnvironment environment,
+    public SubscriptionKeysImpl(CycloneServiceEnvironment environment,
             Collection<String> keyValue) {
         super(environment);
 

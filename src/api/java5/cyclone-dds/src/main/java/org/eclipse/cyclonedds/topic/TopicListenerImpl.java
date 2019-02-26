@@ -22,29 +22,30 @@ package org.eclipse.cyclonedds.topic;
 
 import java.io.Serializable;
 
+import org.omg.dds.core.event.InconsistentTopicEvent;
 import org.omg.dds.topic.TopicListener;
 import org.eclipse.cyclonedds.core.Listener;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.event.AllDataDisposedEventImpl;
 import org.eclipse.cyclonedds.core.event.InconsistentTopicEventImpl;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 
-import DDS.AllDataDisposedTopicStatusHolder;
-import DDS.InconsistentTopicStatus;
+//TODO FRCYC import AllDataDisposedTopicStatusHolder;
+//TODO FRCYC import InconsistentTopicStatus;
 
 public class TopicListenerImpl<TYPE> extends
  Listener<TopicListener<TYPE>>
-        implements DDS.ExtTopicListener, Serializable {
+        implements TopicListener, Serializable { //TODO FRCYC ExtTopicListener
     private static final long serialVersionUID = -3957061097858393241L;
     private final transient AbstractTopic<TYPE> topic;
     private final transient org.eclipse.cyclonedds.topic.TopicListener<TYPE> extListener;
 
-    public TopicListenerImpl(OsplServiceEnvironment environment,
+    public TopicListenerImpl(CycloneServiceEnvironment environment,
             AbstractTopic<TYPE> topic, TopicListener<TYPE> listener) {
         this(environment, topic, listener, false);
     }
 
-    public TopicListenerImpl(OsplServiceEnvironment environment,
+    public TopicListenerImpl(CycloneServiceEnvironment environment,
             AbstractTopic<TYPE> topic, TopicListener<TYPE> listener,
             boolean waitUntilInitialised) {
         super(environment, listener, waitUntilInitialised);
@@ -57,8 +58,15 @@ public class TopicListenerImpl<TYPE> extends
         }
     }
 
+	@Override
+	public void onInconsistentTopic(InconsistentTopicEvent status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+    /* TODO FRCYC
     @Override
-    public void on_inconsistent_topic(DDS.Topic arg0,
+    public void on_inconsistent_topic(Topic arg0,
             InconsistentTopicStatus arg1) {
         this.waitUntilInitialised();
         this.listener.onInconsistentTopic(new InconsistentTopicEventImpl<TYPE>(
@@ -68,11 +76,11 @@ public class TopicListenerImpl<TYPE> extends
     }
 
     @Override
-    public void on_all_data_disposed(DDS.Topic arg0) {
+    public void on_all_data_disposed(Topic arg0) {
         AllDataDisposedTopicStatusHolder holder = new AllDataDisposedTopicStatusHolder();
         int rc = arg0.get_all_data_disposed_topic_status(holder);
 
-        if(rc == DDS.RETCODE_OK.value){
+        if(rc == RETCODE_OK.value){
             if(extListener != null){
                 this.waitUntilInitialised();
                 if(holder.value != null){
@@ -87,5 +95,5 @@ public class TopicListenerImpl<TYPE> extends
                 }
             }
         }
-    }
+    }*/
 }

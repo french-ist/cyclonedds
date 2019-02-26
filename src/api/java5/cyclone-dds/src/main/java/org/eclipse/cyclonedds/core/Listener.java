@@ -30,10 +30,10 @@ import org.omg.dds.core.ServiceEnvironment;
 public abstract class Listener<T> extends AbstractDDSObject implements EventListener, Serializable {
     private static final long serialVersionUID = 5928369585907075474L;
     private final CountDownLatch initialised;
-    protected OsplServiceEnvironment environment;
+    protected CycloneServiceEnvironment environment;
     protected T listener;
 
-    public Listener(OsplServiceEnvironment environment, T listener,
+    public Listener(CycloneServiceEnvironment environment, T listener,
             boolean waitUntilInitialised) {
         this.environment = environment;
         this.listener = listener;

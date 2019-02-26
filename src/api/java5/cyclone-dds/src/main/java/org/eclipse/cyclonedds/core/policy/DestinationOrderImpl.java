@@ -23,19 +23,19 @@ package org.eclipse.cyclonedds.core.policy;
 import org.omg.dds.core.policy.DestinationOrder;
 import org.omg.dds.core.policy.QosPolicy;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class DestinationOrderImpl extends QosPolicyImpl implements
         DestinationOrder {
     private static final long serialVersionUID = 2722089115467848342L;
     private final Kind kind;
 
-    public DestinationOrderImpl(OsplServiceEnvironment environment) {
+    public DestinationOrderImpl(CycloneServiceEnvironment environment) {
         super(environment);
         this.kind = Kind.BY_RECEPTION_TIMESTAMP;
     }
 
-    public DestinationOrderImpl(OsplServiceEnvironment environment, Kind kind) {
+    public DestinationOrderImpl(CycloneServiceEnvironment environment, Kind kind) {
         super(environment);
 
         if (kind == null) {

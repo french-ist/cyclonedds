@@ -22,13 +22,13 @@ package org.eclipse.cyclonedds.core.status;
 
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.status.DataOnReadersStatus;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class DataOnReadersStatusImpl extends DataOnReadersStatus {
     private static final long serialVersionUID = -8997851801133645018L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
 
-    public DataOnReadersStatusImpl(OsplServiceEnvironment environment){
+    public DataOnReadersStatusImpl(CycloneServiceEnvironment environment){
         this.environment = environment;
     }
 

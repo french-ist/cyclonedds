@@ -27,18 +27,18 @@ import org.omg.dds.sub.InstanceState;
 import org.omg.dds.sub.SampleState;
 import org.omg.dds.sub.ViewState;
 import org.eclipse.cyclonedds.core.InstanceHandleImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 
 public class SampleImpl<TYPE> implements org.eclipse.cyclonedds.sub.Sample<TYPE> {
     private static final long serialVersionUID = 1010323161410625511L;
-    private transient OsplServiceEnvironment environment;
+    private transient CycloneServiceEnvironment environment;
     private TYPE data;
-    private DDS.SampleInfo info;
+    private SampleInfo info;
 
-    public SampleImpl(OsplServiceEnvironment environment, TYPE data,
-            DDS.SampleInfo info) {
+    public SampleImpl(CycloneServiceEnvironment environment, TYPE data,
+            SampleInfo info) {
         this.environment = environment;
         this.data = data;
         this.info = info;
@@ -66,15 +66,15 @@ public class SampleImpl<TYPE> implements org.eclipse.cyclonedds.sub.Sample<TYPE>
         this.data = data;
     }
 
-    public void setInfo(DDS.SampleInfo info){
+    public void setInfo(SampleInfo info){
         this.info = info;
     }
 
-    public DDS.SampleInfo getInfo(){
+    public SampleInfo getInfo(){
         return this.info;
     }
 
-    public void setContent(TYPE data, DDS.SampleInfo info){
+    public void setContent(TYPE data, SampleInfo info){
         this.data = data;
         this.info = info;
     }
@@ -98,8 +98,9 @@ public class SampleImpl<TYPE> implements org.eclipse.cyclonedds.sub.Sample<TYPE>
     }
 
     @Override
-    public Time getSourceTimestamp() {
-        return Utilities.convert(this.environment, this.info.source_timestamp);
+    public Time getSourceTimestamp() {    	
+        // TODO FRCYC return Utilities.convert(this.environment, this.info.source_timestamp);
+    	return null;
     }
 
     @Override
@@ -152,12 +153,13 @@ public class SampleImpl<TYPE> implements org.eclipse.cyclonedds.sub.Sample<TYPE>
             cloned.info.instance_handle = this.info.instance_handle;
             cloned.info.no_writers_generation_count = this.info.no_writers_generation_count;
             cloned.info.publication_handle = this.info.publication_handle;
+            /* TODO FRCYC
             cloned.info.reception_timestamp.sec = this.info.reception_timestamp.sec;
             cloned.info.reception_timestamp.nanosec = this.info.reception_timestamp.nanosec;
             cloned.info.sample_rank = this.info.sample_rank;
             cloned.info.sample_state = this.info.sample_state;
             cloned.info.source_timestamp.sec = this.info.source_timestamp.sec;
-            cloned.info.source_timestamp.nanosec = this.info.source_timestamp.nanosec;
+            cloned.info.source_timestamp.nanosec = this.info.source_timestamp.nanosec;*/
             cloned.info.valid_data = this.info.valid_data;
             cloned.info.view_state = this.info.view_state;
 

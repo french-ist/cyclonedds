@@ -42,7 +42,7 @@ import org.omg.dds.core.policy.Presentation.AccessScopeKind;
 import org.eclipse.cyclonedds.core.DDSExceptionImpl;
 import org.eclipse.cyclonedds.core.DurationImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.policy.Scheduling.SchedulingClass;
 import org.eclipse.cyclonedds.core.policy.Scheduling.SchedulingKind;
@@ -56,38 +56,40 @@ import org.omg.dds.core.policy.UserData;
 import org.omg.dds.core.policy.WriterDataLifecycle;
 
 public class PolicyConverter {
-    public static DDS.UserDataQosPolicy convert(OsplServiceEnvironment env,
+	
+	/* TODO FRCYC
+    public static UserDataQosPolicy convert(OsplServiceEnvironment env,
             UserData p) {
-        return new DDS.UserDataQosPolicy(p.getValue());
+        return new UserDataQosPolicy(p.getValue());
     }
 
     public static UserData convert(OsplServiceEnvironment env,
-            DDS.UserDataQosPolicy old) {
+            UserDataQosPolicy old) {
         return new UserDataImpl(env, old.value);
     }
 
     public static EntityFactory convert(OsplServiceEnvironment env,
-            DDS.EntityFactoryQosPolicy old) {
+            EntityFactoryQosPolicy old) {
         return new EntityFactoryImpl(env, old.autoenable_created_entities);
     }
 
-    public static DDS.EntityFactoryQosPolicy convert(
+    public static EntityFactoryQosPolicy convert(
             OsplServiceEnvironment env, EntityFactory p) {
-        return new DDS.EntityFactoryQosPolicy(p.isAutoEnableCreatedEntities());
+        return new EntityFactoryQosPolicy(p.isAutoEnableCreatedEntities());
     }
 
     public static Scheduling convert(OsplServiceEnvironment env,
-            DDS.SchedulingQosPolicy old) {
+            SchedulingQosPolicy old) {
         Scheduling ls = new SchedulingImpl(env);
 
         switch (old.scheduling_class.kind.value()) {
-        case DDS.SchedulingClassQosPolicyKind._SCHEDULE_DEFAULT:
+        case SchedulingClassQosPolicyKind._SCHEDULE_DEFAULT:
             ls = ls.withSchedulingClass(SchedulingClass.DEFAULT);
             break;
-        case DDS.SchedulingClassQosPolicyKind._SCHEDULE_REALTIME:
+        case SchedulingClassQosPolicyKind._SCHEDULE_REALTIME:
             ls = ls.withSchedulingClass(SchedulingClass.REALTIME);
             break;
-        case DDS.SchedulingClassQosPolicyKind._SCHEDULE_TIMESHARING:
+        case SchedulingClassQosPolicyKind._SCHEDULE_TIMESHARING:
             ls = ls.withSchedulingClass(SchedulingClass.TIMESHARING);
             break;
         default:
@@ -95,10 +97,10 @@ public class PolicyConverter {
                     "Failed to convert listenerSchedulingClass");
         }
         switch (old.scheduling_priority_kind.kind.value()) {
-        case DDS.SchedulingPriorityQosPolicyKind._PRIORITY_ABSOLUTE:
+        case SchedulingPriorityQosPolicyKind._PRIORITY_ABSOLUTE:
             ls = ls.withKind(SchedulingKind.ABSOLUTE);
             break;
-        case DDS.SchedulingPriorityQosPolicyKind._PRIORITY_RELATIVE:
+        case SchedulingPriorityQosPolicyKind._PRIORITY_RELATIVE:
             ls = ls.withKind(SchedulingKind.RELATIVE);
             break;
         default:
@@ -108,22 +110,22 @@ public class PolicyConverter {
         return ls;
     }
 
-    public static DDS.SchedulingQosPolicy convert(OsplServiceEnvironment env,
+    public static SchedulingQosPolicy convert(OsplServiceEnvironment env,
             Scheduling p) {
-        DDS.SchedulingQosPolicy old = new DDS.SchedulingQosPolicy();
+        SchedulingQosPolicy old = new SchedulingQosPolicy();
 
         switch (p.getSchedulingClass()) {
         case DEFAULT:
-            old.scheduling_class = new DDS.SchedulingClassQosPolicy(
-                    DDS.SchedulingClassQosPolicyKind.SCHEDULE_DEFAULT);
+            old.scheduling_class = new SchedulingClassQosPolicy(
+                    SchedulingClassQosPolicyKind.SCHEDULE_DEFAULT);
             break;
         case REALTIME:
-            old.scheduling_class = new DDS.SchedulingClassQosPolicy(
-                    DDS.SchedulingClassQosPolicyKind.SCHEDULE_REALTIME);
+            old.scheduling_class = new SchedulingClassQosPolicy(
+                    SchedulingClassQosPolicyKind.SCHEDULE_REALTIME);
             break;
         case TIMESHARING:
-            old.scheduling_class = new DDS.SchedulingClassQosPolicy(
-                    DDS.SchedulingClassQosPolicyKind.SCHEDULE_TIMESHARING);
+            old.scheduling_class = new SchedulingClassQosPolicy(
+                    SchedulingClassQosPolicyKind.SCHEDULE_TIMESHARING);
             break;
         default:
             throw new DDSExceptionImpl(env,
@@ -132,12 +134,12 @@ public class PolicyConverter {
 
         switch (p.getKind()) {
         case ABSOLUTE:
-            old.scheduling_priority_kind = new DDS.SchedulingPriorityQosPolicy(
-                    DDS.SchedulingPriorityQosPolicyKind.PRIORITY_ABSOLUTE);
+            old.scheduling_priority_kind = new SchedulingPriorityQosPolicy(
+                    SchedulingPriorityQosPolicyKind.PRIORITY_ABSOLUTE);
             break;
         case RELATIVE:
-            old.scheduling_priority_kind = new DDS.SchedulingPriorityQosPolicy(
-                    DDS.SchedulingPriorityQosPolicyKind.PRIORITY_RELATIVE);
+            old.scheduling_priority_kind = new SchedulingPriorityQosPolicy(
+                    SchedulingPriorityQosPolicyKind.PRIORITY_RELATIVE);
             break;
         default:
             throw new DDSExceptionImpl(env,
@@ -149,30 +151,30 @@ public class PolicyConverter {
     }
 
     public static Duration convert(OsplServiceEnvironment env,
-            DDS.Duration_t old) {
+            Duration_t old) {
         return new DurationImpl(env, old.sec, old.nanosec);
     }
 
-    public static DDS.Duration_t convert(OsplServiceEnvironment env, Duration p) {
+    public static Duration_t convert(OsplServiceEnvironment env, Duration p) {
         return Utilities.convert(env, p);
     }
 
     public static Deadline convert(OsplServiceEnvironment env,
-            DDS.DeadlineQosPolicy old) {
+            DeadlineQosPolicy old) {
         return new DeadlineImpl(env, convert(env, old.period));
     }
 
-    public static DDS.DeadlineQosPolicy convert(OsplServiceEnvironment env,
+    public static DeadlineQosPolicy convert(OsplServiceEnvironment env,
             Deadline p) {
-        return new DDS.DeadlineQosPolicy(convert(env, p.getPeriod()));
+        return new DeadlineQosPolicy(convert(env, p.getPeriod()));
     }
 
     public static DestinationOrder convert(OsplServiceEnvironment env,
-            DDS.DestinationOrderQosPolicy old) {
+            DestinationOrderQosPolicy old) {
         switch (old.kind.value()) {
-        case DDS.DestinationOrderQosPolicyKind._BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS:
+        case DestinationOrderQosPolicyKind._BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS:
             return new DestinationOrderImpl(env, Kind.BY_RECEPTION_TIMESTAMP);
-        case DDS.DestinationOrderQosPolicyKind._BY_SOURCE_TIMESTAMP_DESTINATIONORDER_QOS:
+        case DestinationOrderQosPolicyKind._BY_SOURCE_TIMESTAMP_DESTINATIONORDER_QOS:
             return new DestinationOrderImpl(env, Kind.BY_SOURCE_TIMESTAMP);
         default:
             throw new IllegalArgumentExceptionImpl(env,
@@ -180,15 +182,15 @@ public class PolicyConverter {
         }
     }
 
-    public static DDS.DestinationOrderQosPolicy convert(
+    public static DestinationOrderQosPolicy convert(
             OsplServiceEnvironment env, DestinationOrder p) {
         switch (p.getKind()) {
         case BY_RECEPTION_TIMESTAMP:
-            return new DDS.DestinationOrderQosPolicy(
-                    DDS.DestinationOrderQosPolicyKind.BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS);
+            return new DestinationOrderQosPolicy(
+                    DestinationOrderQosPolicyKind.BY_RECEPTION_TIMESTAMP_DESTINATIONORDER_QOS);
         case BY_SOURCE_TIMESTAMP:
-            return new DDS.DestinationOrderQosPolicy(
-                    DDS.DestinationOrderQosPolicyKind.BY_SOURCE_TIMESTAMP_DESTINATIONORDER_QOS);
+            return new DestinationOrderQosPolicy(
+                    DestinationOrderQosPolicyKind.BY_SOURCE_TIMESTAMP_DESTINATIONORDER_QOS);
         default:
             throw new IllegalArgumentExceptionImpl(env,
                     "Unknown DestinationOrder kind.");
@@ -196,15 +198,15 @@ public class PolicyConverter {
     }
 
     public static Durability convert(OsplServiceEnvironment env,
-            DDS.DurabilityQosPolicy old) {
+            DurabilityQosPolicy old) {
         switch (old.kind.value()) {
-        case DDS.DurabilityQosPolicyKind._VOLATILE_DURABILITY_QOS:
+        case DurabilityQosPolicyKind._VOLATILE_DURABILITY_QOS:
             return new DurabilityImpl(env, Durability.Kind.VOLATILE);
-        case DDS.DurabilityQosPolicyKind._TRANSIENT_LOCAL_DURABILITY_QOS:
+        case DurabilityQosPolicyKind._TRANSIENT_LOCAL_DURABILITY_QOS:
             return new DurabilityImpl(env, Durability.Kind.TRANSIENT_LOCAL);
-        case DDS.DurabilityQosPolicyKind._TRANSIENT_DURABILITY_QOS:
+        case DurabilityQosPolicyKind._TRANSIENT_DURABILITY_QOS:
             return new DurabilityImpl(env, Durability.Kind.TRANSIENT);
-        case DDS.DurabilityQosPolicyKind._PERSISTENT_DURABILITY_QOS:
+        case DurabilityQosPolicyKind._PERSISTENT_DURABILITY_QOS:
             return new DurabilityImpl(env, Durability.Kind.PERSISTENT);
         default:
             throw new IllegalArgumentExceptionImpl(env,
@@ -212,21 +214,21 @@ public class PolicyConverter {
         }
     }
 
-    public static DDS.DurabilityQosPolicy convert(OsplServiceEnvironment env,
+    public static DurabilityQosPolicy convert(OsplServiceEnvironment env,
             Durability p) {
         switch (p.getKind()) {
         case VOLATILE:
-            return new DDS.DurabilityQosPolicy(
-                    DDS.DurabilityQosPolicyKind.VOLATILE_DURABILITY_QOS);
+            return new DurabilityQosPolicy(
+                    DurabilityQosPolicyKind.VOLATILE_DURABILITY_QOS);
         case TRANSIENT_LOCAL:
-            return new DDS.DurabilityQosPolicy(
-                    DDS.DurabilityQosPolicyKind.TRANSIENT_LOCAL_DURABILITY_QOS);
+            return new DurabilityQosPolicy(
+                    DurabilityQosPolicyKind.TRANSIENT_LOCAL_DURABILITY_QOS);
         case TRANSIENT:
-            return new DDS.DurabilityQosPolicy(
-                    DDS.DurabilityQosPolicyKind.TRANSIENT_DURABILITY_QOS);
+            return new DurabilityQosPolicy(
+                    DurabilityQosPolicyKind.TRANSIENT_DURABILITY_QOS);
         case PERSISTENT:
-            return new DDS.DurabilityQosPolicy(
-                    DDS.DurabilityQosPolicyKind.PERSISTENT_DURABILITY_QOS);
+            return new DurabilityQosPolicy(
+                    DurabilityQosPolicyKind.PERSISTENT_DURABILITY_QOS);
         default:
             throw new IllegalArgumentExceptionImpl(env,
                     "Unknown Durability kind.");
@@ -234,14 +236,14 @@ public class PolicyConverter {
     }
 
     public static DurabilityService convert(OsplServiceEnvironment env,
-            DDS.DurabilityServiceQosPolicy old) {
+            DurabilityServiceQosPolicy old) {
         History.Kind kind;
 
         switch (old.history_kind.value()) {
-        case DDS.HistoryQosPolicyKind._KEEP_ALL_HISTORY_QOS:
+        case HistoryQosPolicyKind._KEEP_ALL_HISTORY_QOS:
             kind = History.Kind.KEEP_ALL;
             break;
-        case DDS.HistoryQosPolicyKind._KEEP_LAST_HISTORY_QOS:
+        case HistoryQosPolicyKind._KEEP_LAST_HISTORY_QOS:
             kind = History.Kind.KEEP_LAST;
             break;
         default:
@@ -254,37 +256,37 @@ public class PolicyConverter {
                 old.max_samples_per_instance);
     }
 
-    public static DDS.DurabilityServiceQosPolicy convert(
+    public static DurabilityServiceQosPolicy convert(
             OsplServiceEnvironment env, DurabilityService p) {
-        DDS.HistoryQosPolicyKind kind;
+        HistoryQosPolicyKind kind;
 
         switch (p.getHistoryKind()) {
         case KEEP_ALL:
-            kind = DDS.HistoryQosPolicyKind.KEEP_ALL_HISTORY_QOS;
+            kind = HistoryQosPolicyKind.KEEP_ALL_HISTORY_QOS;
             break;
         case KEEP_LAST:
-            kind = DDS.HistoryQosPolicyKind.KEEP_LAST_HISTORY_QOS;
+            kind = HistoryQosPolicyKind.KEEP_LAST_HISTORY_QOS;
             break;
         default:
             throw new IllegalArgumentExceptionImpl(
                     (OsplServiceEnvironment) p.getEnvironment(),
                     "Unknown History kind.");
         }
-        return new DDS.DurabilityServiceQosPolicy(convert(env,
+        return new DurabilityServiceQosPolicy(convert(env,
                 p.getServiceCleanupDelay()), kind, p.getHistoryDepth(),
                 p.getMaxSamples(), p.getMaxInstances(),
                 p.getMaxSamplesPerInstance());
     }
 
     public static History convert(OsplServiceEnvironment env,
-            DDS.HistoryQosPolicy old) {
+            HistoryQosPolicy old) {
         History.Kind kind;
 
         switch (old.kind.value()) {
-        case DDS.HistoryQosPolicyKind._KEEP_ALL_HISTORY_QOS:
+        case HistoryQosPolicyKind._KEEP_ALL_HISTORY_QOS:
             kind = History.Kind.KEEP_ALL;
             break;
-        case DDS.HistoryQosPolicyKind._KEEP_LAST_HISTORY_QOS:
+        case HistoryQosPolicyKind._KEEP_LAST_HISTORY_QOS:
             kind = History.Kind.KEEP_LAST;
             break;
         default:
@@ -293,117 +295,117 @@ public class PolicyConverter {
         return new HistoryImpl(env, kind, old.depth);
     }
 
-    public static DDS.HistoryQosPolicy convert(OsplServiceEnvironment env,
+    public static HistoryQosPolicy convert(OsplServiceEnvironment env,
             History p) {
-        DDS.HistoryQosPolicyKind kind;
+        HistoryQosPolicyKind kind;
 
         switch (p.getKind()) {
         case KEEP_ALL:
-            kind = DDS.HistoryQosPolicyKind.KEEP_ALL_HISTORY_QOS;
+            kind = HistoryQosPolicyKind.KEEP_ALL_HISTORY_QOS;
             break;
         case KEEP_LAST:
-            kind = DDS.HistoryQosPolicyKind.KEEP_LAST_HISTORY_QOS;
+            kind = HistoryQosPolicyKind.KEEP_LAST_HISTORY_QOS;
             break;
         default:
             throw new IllegalArgumentExceptionImpl(env, "Unknown History kind.");
         }
-        return new DDS.HistoryQosPolicy(kind, p.getDepth());
+        return new HistoryQosPolicy(kind, p.getDepth());
     }
 
     public static LatencyBudget convert(OsplServiceEnvironment env,
-            DDS.LatencyBudgetQosPolicy old) {
+            LatencyBudgetQosPolicy old) {
         return new LatencyBudgetImpl(env, convert(env, old.duration));
     }
 
-    public static DDS.LatencyBudgetQosPolicy convert(
+    public static LatencyBudgetQosPolicy convert(
             OsplServiceEnvironment env, LatencyBudget p) {
-        return new DDS.LatencyBudgetQosPolicy(convert(env, p.getDuration()));
+        return new LatencyBudgetQosPolicy(convert(env, p.getDuration()));
     }
 
     public static Lifespan convert(OsplServiceEnvironment env,
-            DDS.LifespanQosPolicy old) {
+            LifespanQosPolicy old) {
         return new LifespanImpl(env, convert(env, old.duration));
     }
 
-    public static DDS.LifespanQosPolicy convert(OsplServiceEnvironment env,
+    public static LifespanQosPolicy convert(OsplServiceEnvironment env,
             Lifespan p) {
-        return new DDS.LifespanQosPolicy(convert(env, p.getDuration()));
+        return new LifespanQosPolicy(convert(env, p.getDuration()));
     }
 
     public static ReaderLifespan convert(OsplServiceEnvironment env,
-            DDS.ReaderLifespanQosPolicy old) {
+            ReaderLifespanQosPolicy old) {
         if (old.use_lifespan == false) {
             return null;
         }
         return new ReaderLifespanImpl(env, convert(env, old.duration));
     }
 
-    public static DDS.ReaderLifespanQosPolicy convert(
+    public static ReaderLifespanQosPolicy convert(
             OsplServiceEnvironment env, ReaderLifespan p) {
         if (p == null) {
-            return new DDS.ReaderLifespanQosPolicy(false,
-                    DDS.DURATION_ZERO.value);
+            return new ReaderLifespanQosPolicy(false,
+                    DURATION_ZERO.value);
         }
-        return new DDS.ReaderLifespanQosPolicy(true, convert(env,
+        return new ReaderLifespanQosPolicy(true, convert(env,
                 p.getDuration()));
     }
 
     public static Share convert(OsplServiceEnvironment env,
-            DDS.ShareQosPolicy old) {
+            ShareQosPolicy old) {
         if (old.enable == false) {
             return null;
         }
         return new ShareImpl(env, old.name);
     }
 
-    public static DDS.ShareQosPolicy convert(OsplServiceEnvironment env, Share p) {
+    public static ShareQosPolicy convert(OsplServiceEnvironment env, Share p) {
         if (p == null) {
-            return new DDS.ShareQosPolicy("", false);
+            return new ShareQosPolicy("", false);
         }
-        return new DDS.ShareQosPolicy(p.getName(), true);
+        return new ShareQosPolicy(p.getName(), true);
     }
 
     public static SubscriptionKeys convert(OsplServiceEnvironment env,
-            DDS.SubscriptionKeyQosPolicy old) {
+            SubscriptionKeyQosPolicy old) {
         if (old.use_key_list == false) {
             return null;
         }
         return new SubscriptionKeysImpl(env, old.key_list);
     }
 
-    public static DDS.SubscriptionKeyQosPolicy convert(
+    public static SubscriptionKeyQosPolicy convert(
             OsplServiceEnvironment env, SubscriptionKeys p) {
         if (p == null) {
-            return new DDS.SubscriptionKeyQosPolicy(false, new String[0]);
+            return new SubscriptionKeyQosPolicy(false, new String[0]);
         }
-        return new DDS.SubscriptionKeyQosPolicy(true, p.getKey().toArray(
+        return new SubscriptionKeyQosPolicy(true, p.getKey().toArray(
                 new String[p.getKey().size()]));
     }
 
     public static TimeBasedFilter convert(OsplServiceEnvironment env,
-            DDS.TimeBasedFilterQosPolicy old) {
+            TimeBasedFilterQosPolicy old) {
         return new TimeBasedFilterImpl(env, Utilities.convert(env,
                 old.minimum_separation));
     }
 
-    public static DDS.TimeBasedFilterQosPolicy convert(
+    public static TimeBasedFilterQosPolicy convert(
             OsplServiceEnvironment env, TimeBasedFilter p) {
-        return new DDS.TimeBasedFilterQosPolicy(Utilities.convert(env,
+        return new TimeBasedFilterQosPolicy(Utilities.convert(env,
                 p.getMinimumSeparation()));
     }
 
     public static Liveliness convert(OsplServiceEnvironment env,
-            DDS.LivelinessQosPolicy old) {
+            LivelinessQosPolicy old) {
         Liveliness.Kind kind;
 
         switch (old.kind.value()) {
-        case DDS.LivelinessQosPolicyKind._AUTOMATIC_LIVELINESS_QOS:
+        case LivelinessQosPolicyKind._AUTOMATIC_LIVELINESS_QOS:
             kind = Liveliness.Kind.AUTOMATIC;
             break;
-        case DDS.LivelinessQosPolicyKind._MANUAL_BY_PARTICIPANT_LIVELINESS_QOS:
+        case LivelinessQosPolicyKind._MANUAL_BY_PARTICIPANT_LIVELINESS_QOS:
             kind = Liveliness.Kind.MANUAL_BY_PARTICIPANT;
             break;
-        case DDS.LivelinessQosPolicyKind._MANUAL_BY_TOPIC_LIVELINESS_QOS:
+        case LivelinessQosPolicyKind._MANUAL_BY_TOPIC_LIVELINESS_QOS:
             kind = Liveliness.Kind.MANUAL_BY_TOPIC;
             break;
         default:
@@ -413,37 +415,37 @@ public class PolicyConverter {
         return new LivelinessImpl(env, kind, convert(env, old.lease_duration));
     }
 
-    public static DDS.LivelinessQosPolicy convert(OsplServiceEnvironment env,
+    public static LivelinessQosPolicy convert(OsplServiceEnvironment env,
             Liveliness p) {
-        DDS.LivelinessQosPolicyKind kind;
+        LivelinessQosPolicyKind kind;
 
         switch (p.getKind()) {
         case AUTOMATIC:
-            kind = DDS.LivelinessQosPolicyKind.AUTOMATIC_LIVELINESS_QOS;
+            kind = LivelinessQosPolicyKind.AUTOMATIC_LIVELINESS_QOS;
             break;
         case MANUAL_BY_PARTICIPANT:
-            kind = DDS.LivelinessQosPolicyKind.MANUAL_BY_PARTICIPANT_LIVELINESS_QOS;
+            kind = LivelinessQosPolicyKind.MANUAL_BY_PARTICIPANT_LIVELINESS_QOS;
             break;
         case MANUAL_BY_TOPIC:
-            kind = DDS.LivelinessQosPolicyKind.MANUAL_BY_TOPIC_LIVELINESS_QOS;
+            kind = LivelinessQosPolicyKind.MANUAL_BY_TOPIC_LIVELINESS_QOS;
             break;
         default:
             throw new IllegalArgumentExceptionImpl(env,
                     "Unknown Liveliness kind.");
         }
-        return new DDS.LivelinessQosPolicy(kind, convert(env,
+        return new LivelinessQosPolicy(kind, convert(env,
                 p.getLeaseDuration()));
     }
 
     public static Ownership convert(OsplServiceEnvironment env,
-            DDS.OwnershipQosPolicy old) {
+            OwnershipQosPolicy old) {
         Ownership.Kind kind;
 
         switch (old.kind.value()) {
-        case DDS.OwnershipQosPolicyKind._SHARED_OWNERSHIP_QOS:
+        case OwnershipQosPolicyKind._SHARED_OWNERSHIP_QOS:
             kind = Ownership.Kind.SHARED;
             break;
-        case DDS.OwnershipQosPolicyKind._EXCLUSIVE_OWNERSHIP_QOS:
+        case OwnershipQosPolicyKind._EXCLUSIVE_OWNERSHIP_QOS:
             kind = Ownership.Kind.EXCLUSIVE;
             break;
         default:
@@ -453,33 +455,33 @@ public class PolicyConverter {
         return new OwnershipImpl(env, kind);
     }
 
-    public static DDS.OwnershipQosPolicy convert(OsplServiceEnvironment env,
+    public static OwnershipQosPolicy convert(OsplServiceEnvironment env,
             Ownership p) {
-        DDS.OwnershipQosPolicyKind kind;
+        OwnershipQosPolicyKind kind;
 
         switch (p.getKind()) {
         case SHARED:
-            kind = DDS.OwnershipQosPolicyKind.SHARED_OWNERSHIP_QOS;
+            kind = OwnershipQosPolicyKind.SHARED_OWNERSHIP_QOS;
             break;
         case EXCLUSIVE:
-            kind = DDS.OwnershipQosPolicyKind.EXCLUSIVE_OWNERSHIP_QOS;
+            kind = OwnershipQosPolicyKind.EXCLUSIVE_OWNERSHIP_QOS;
             break;
         default:
             throw new IllegalArgumentExceptionImpl(env,
                     "Unknown Ownership kind.");
         }
-        return new DDS.OwnershipQosPolicy(kind);
+        return new OwnershipQosPolicy(kind);
     }
 
     public static Reliability convert(OsplServiceEnvironment env,
-            DDS.ReliabilityQosPolicy old) {
+            ReliabilityQosPolicy old) {
         Reliability.Kind kind;
 
         switch (old.kind.value()) {
-        case DDS.ReliabilityQosPolicyKind._BEST_EFFORT_RELIABILITY_QOS:
+        case ReliabilityQosPolicyKind._BEST_EFFORT_RELIABILITY_QOS:
             kind = Reliability.Kind.BEST_EFFORT;
             break;
-        case DDS.ReliabilityQosPolicyKind._RELIABLE_RELIABILITY_QOS:
+        case ReliabilityQosPolicyKind._RELIABLE_RELIABILITY_QOS:
             kind = Reliability.Kind.RELIABLE;
             break;
         default:
@@ -490,11 +492,11 @@ public class PolicyConverter {
                 old.max_blocking_time), old.synchronous);
     }
 
-    public static DDS.ReliabilityQosPolicy convert(OsplServiceEnvironment env,
+    public static ReliabilityQosPolicy convert(OsplServiceEnvironment env,
             Reliability p) {
         org.eclipse.cyclonedds.core.policy.Reliability r;
         boolean synchronous;
-        DDS.ReliabilityQosPolicyKind kind;
+        ReliabilityQosPolicyKind kind;
 
         try {
             r = (org.eclipse.cyclonedds.core.policy.Reliability) p;
@@ -504,86 +506,86 @@ public class PolicyConverter {
         }
         switch (p.getKind()) {
         case RELIABLE:
-            kind = DDS.ReliabilityQosPolicyKind.RELIABLE_RELIABILITY_QOS;
+            kind = ReliabilityQosPolicyKind.RELIABLE_RELIABILITY_QOS;
             break;
         case BEST_EFFORT:
-            kind = DDS.ReliabilityQosPolicyKind.BEST_EFFORT_RELIABILITY_QOS;
+            kind = ReliabilityQosPolicyKind.BEST_EFFORT_RELIABILITY_QOS;
             break;
         default:
             throw new IllegalArgumentExceptionImpl(env,
                     "Unknown Reliability kind.");
         }
-        return new DDS.ReliabilityQosPolicy(kind, convert(env,
+        return new ReliabilityQosPolicy(kind, convert(env,
                 p.getMaxBlockingTime()), synchronous);
     }
 
     public static ResourceLimits convert(OsplServiceEnvironment env,
-            DDS.ResourceLimitsQosPolicy old) {
+            ResourceLimitsQosPolicy old) {
         return new ResourceLimitsImpl(env, old.max_samples, old.max_instances,
                 old.max_samples_per_instance);
     }
 
-    public static DDS.ResourceLimitsQosPolicy convert(
+    public static ResourceLimitsQosPolicy convert(
             OsplServiceEnvironment env, ResourceLimits p) {
-        return new DDS.ResourceLimitsQosPolicy(p.getMaxSamples(),
+        return new ResourceLimitsQosPolicy(p.getMaxSamples(),
                 p.getMaxInstances(), p.getMaxSamplesPerInstance());
     }
 
     public static TopicData convert(OsplServiceEnvironment env,
-            DDS.TopicDataQosPolicy old) {
+            TopicDataQosPolicy old) {
         return new TopicDataImpl(env, old.value);
     }
 
-    public static DDS.TopicDataQosPolicy convert(OsplServiceEnvironment env,
+    public static TopicDataQosPolicy convert(OsplServiceEnvironment env,
             TopicData p) {
-        return new DDS.TopicDataQosPolicy(p.getValue());
+        return new TopicDataQosPolicy(p.getValue());
     }
 
     public static TransportPriority convert(OsplServiceEnvironment env,
-            DDS.TransportPriorityQosPolicy old) {
+            TransportPriorityQosPolicy old) {
         return new TransportPriorityImpl(env, old.value);
     }
 
-    public static DDS.TransportPriorityQosPolicy convert(
+    public static TransportPriorityQosPolicy convert(
             OsplServiceEnvironment env, TransportPriority p) {
-        return new DDS.TransportPriorityQosPolicy(p.getValue());
+        return new TransportPriorityQosPolicy(p.getValue());
     }
 
     public static GroupData convert(OsplServiceEnvironment env,
-            DDS.GroupDataQosPolicy old) {
+            GroupDataQosPolicy old) {
         return new GroupDataImpl(env, old.value);
     }
 
-    public static DDS.GroupDataQosPolicy convert(OsplServiceEnvironment env,
+    public static GroupDataQosPolicy convert(OsplServiceEnvironment env,
             GroupData p) {
-        return new DDS.GroupDataQosPolicy(p.getValue());
+        return new GroupDataQosPolicy(p.getValue());
     }
 
     public static Partition convert(OsplServiceEnvironment env,
-            DDS.PartitionQosPolicy old) {
+            PartitionQosPolicy old) {
         return new PartitionImpl(env, old.name);
     }
 
-    public static DDS.PartitionQosPolicy convert(OsplServiceEnvironment env,
+    public static PartitionQosPolicy convert(OsplServiceEnvironment env,
             Partition p) {
         Set<String> partitions = p.getName();
         String[] pArray = p.getName().toArray(new String[partitions.size()]);
 
-        return new DDS.PartitionQosPolicy(pArray);
+        return new PartitionQosPolicy(pArray);
     }
 
     public static Presentation convert(OsplServiceEnvironment env,
-            DDS.PresentationQosPolicy old) {
+            PresentationQosPolicy old) {
         AccessScopeKind kind;
 
         switch (old.access_scope.value()) {
-        case DDS.PresentationQosPolicyAccessScopeKind._INSTANCE_PRESENTATION_QOS:
+        case PresentationQosPolicyAccessScopeKind._INSTANCE_PRESENTATION_QOS:
             kind = AccessScopeKind.INSTANCE;
             break;
-        case DDS.PresentationQosPolicyAccessScopeKind._TOPIC_PRESENTATION_QOS:
+        case PresentationQosPolicyAccessScopeKind._TOPIC_PRESENTATION_QOS:
             kind = AccessScopeKind.TOPIC;
             break;
-        case DDS.PresentationQosPolicyAccessScopeKind._GROUP_PRESENTATION_QOS:
+        case PresentationQosPolicyAccessScopeKind._GROUP_PRESENTATION_QOS:
             kind = AccessScopeKind.GROUP;
             break;
         default:
@@ -594,47 +596,47 @@ public class PolicyConverter {
                 old.ordered_access);
     }
 
-    public static DDS.PresentationQosPolicy convert(OsplServiceEnvironment env,
+    public static PresentationQosPolicy convert(OsplServiceEnvironment env,
             Presentation p) {
-        DDS.PresentationQosPolicyAccessScopeKind kind;
+        PresentationQosPolicyAccessScopeKind kind;
 
         switch (p.getAccessScope()) {
         case INSTANCE:
-            kind = DDS.PresentationQosPolicyAccessScopeKind.INSTANCE_PRESENTATION_QOS;
+            kind = PresentationQosPolicyAccessScopeKind.INSTANCE_PRESENTATION_QOS;
             break;
         case TOPIC:
-            kind = DDS.PresentationQosPolicyAccessScopeKind.TOPIC_PRESENTATION_QOS;
+            kind = PresentationQosPolicyAccessScopeKind.TOPIC_PRESENTATION_QOS;
             break;
         case GROUP:
-            kind = DDS.PresentationQosPolicyAccessScopeKind.GROUP_PRESENTATION_QOS;
+            kind = PresentationQosPolicyAccessScopeKind.GROUP_PRESENTATION_QOS;
             break;
         default:
             throw new IllegalArgumentExceptionImpl(env,
                     "Unknown Presentation AccessScope kind.");
         }
-        return new DDS.PresentationQosPolicy(kind, p.isCoherentAccess(),
+        return new PresentationQosPolicy(kind, p.isCoherentAccess(),
                 p.isOrderedAccess());
     }
 
     public static OwnershipStrength convert(OsplServiceEnvironment env,
-            DDS.OwnershipStrengthQosPolicy old) {
+            OwnershipStrengthQosPolicy old) {
         return new OwnershipStrengthImpl(env, old.value);
     }
 
-    public static DDS.OwnershipStrengthQosPolicy convert(
+    public static OwnershipStrengthQosPolicy convert(
             OsplServiceEnvironment env, OwnershipStrength p) {
-        return new DDS.OwnershipStrengthQosPolicy(p.getValue());
+        return new OwnershipStrengthQosPolicy(p.getValue());
     }
 
     public static WriterDataLifecycle convert(OsplServiceEnvironment env,
-            DDS.WriterDataLifecycleQosPolicy old) {
+            WriterDataLifecycleQosPolicy old) {
         return new WriterDataLifecycleImpl(env,
                 old.autodispose_unregistered_instances, convert(env,
                         old.autopurge_suspended_samples_delay), convert(env,
                         old.autounregister_instance_delay));
     }
 
-    public static DDS.WriterDataLifecycleQosPolicy convert(
+    public static WriterDataLifecycleQosPolicy convert(
             OsplServiceEnvironment env, WriterDataLifecycle p) {
         Duration autoPurgeSuspendedSamplesDelay, autoUnregisterInstanceDelay;
         org.eclipse.cyclonedds.core.policy.WriterDataLifecycle w;
@@ -651,24 +653,24 @@ public class PolicyConverter {
                     .infiniteDuration();
         }
 
-        return new DDS.WriterDataLifecycleQosPolicy(
+        return new WriterDataLifecycleQosPolicy(
                 p.isAutDisposeUnregisteredInstances(), convert(env,
                         autoPurgeSuspendedSamplesDelay), convert(env,
                         autoUnregisterInstanceDelay));
     }
 
     public static ReaderDataLifecycle convert(OsplServiceEnvironment env,
-            DDS.ReaderDataLifecycleQosPolicy old) {
+            ReaderDataLifecycleQosPolicy old) {
         org.eclipse.cyclonedds.core.policy.ReaderDataLifecycle.Kind kind;
 
         switch (old.invalid_sample_visibility.kind.value()) {
-        case DDS.InvalidSampleVisibilityQosPolicyKind._ALL_INVALID_SAMPLES:
+        case InvalidSampleVisibilityQosPolicyKind._ALL_INVALID_SAMPLES:
             kind = org.eclipse.cyclonedds.core.policy.ReaderDataLifecycle.Kind.ALL;
             break;
-        case DDS.InvalidSampleVisibilityQosPolicyKind._MINIMUM_INVALID_SAMPLES:
+        case InvalidSampleVisibilityQosPolicyKind._MINIMUM_INVALID_SAMPLES:
             kind = org.eclipse.cyclonedds.core.policy.ReaderDataLifecycle.Kind.MINIMUM;
             break;
-        case DDS.InvalidSampleVisibilityQosPolicyKind._NO_INVALID_SAMPLES:
+        case InvalidSampleVisibilityQosPolicyKind._NO_INVALID_SAMPLES:
             kind = org.eclipse.cyclonedds.core.policy.ReaderDataLifecycle.Kind.NONE;
             break;
         default:
@@ -681,28 +683,28 @@ public class PolicyConverter {
                 old.autopurge_dispose_all, kind);
     }
 
-    public static DDS.ReaderDataLifecycleQosPolicy convert(
+    public static ReaderDataLifecycleQosPolicy convert(
             OsplServiceEnvironment env,
             org.omg.dds.core.policy.ReaderDataLifecycle p) {
         org.eclipse.cyclonedds.core.policy.ReaderDataLifecycle r;
         boolean autoPurgeDisposeAll;
-        DDS.InvalidSampleVisibilityQosPolicy invalidSampleVisibility;
+        InvalidSampleVisibilityQosPolicy invalidSampleVisibility;
 
         try {
             r = (org.eclipse.cyclonedds.core.policy.ReaderDataLifecycle) p;
             autoPurgeDisposeAll = r.getAutoPurgeDisposeAll();
             switch (r.getInvalidSampleInvisibility()) {
             case ALL:
-                invalidSampleVisibility = new DDS.InvalidSampleVisibilityQosPolicy(
-                        DDS.InvalidSampleVisibilityQosPolicyKind.ALL_INVALID_SAMPLES);
+                invalidSampleVisibility = new InvalidSampleVisibilityQosPolicy(
+                        InvalidSampleVisibilityQosPolicyKind.ALL_INVALID_SAMPLES);
                 break;
             case MINIMUM:
-                invalidSampleVisibility = new DDS.InvalidSampleVisibilityQosPolicy(
-                        DDS.InvalidSampleVisibilityQosPolicyKind.MINIMUM_INVALID_SAMPLES);
+                invalidSampleVisibility = new InvalidSampleVisibilityQosPolicy(
+                        InvalidSampleVisibilityQosPolicyKind.MINIMUM_INVALID_SAMPLES);
                 break;
             case NONE:
-                invalidSampleVisibility = new DDS.InvalidSampleVisibilityQosPolicy(
-                        DDS.InvalidSampleVisibilityQosPolicyKind.NO_INVALID_SAMPLES);
+                invalidSampleVisibility = new InvalidSampleVisibilityQosPolicy(
+                        InvalidSampleVisibilityQosPolicyKind.NO_INVALID_SAMPLES);
                 break;
             default:
                 throw new IllegalArgumentExceptionImpl(env,
@@ -711,11 +713,11 @@ public class PolicyConverter {
 
         } catch (ClassCastException e) {
             autoPurgeDisposeAll = false;
-            invalidSampleVisibility = new DDS.InvalidSampleVisibilityQosPolicy(
-                    DDS.InvalidSampleVisibilityQosPolicyKind.MINIMUM_INVALID_SAMPLES);
+            invalidSampleVisibility = new InvalidSampleVisibilityQosPolicy(
+                    InvalidSampleVisibilityQosPolicyKind.MINIMUM_INVALID_SAMPLES);
         }
 
-        return new DDS.ReaderDataLifecycleQosPolicy(convert(env,
+        return new ReaderDataLifecycleQosPolicy(convert(env,
                 p.getAutoPurgeNoWriterSamplesDelay()), convert(env,
                 p.getAutoPurgeDisposedSamplesDelay()), autoPurgeDisposeAll,
                 true, invalidSampleVisibility);
@@ -726,88 +728,88 @@ public class PolicyConverter {
         Class<? extends QosPolicy> policy;
 
         switch (policyId) {
-        case DDS.DEADLINE_QOS_POLICY_ID.value:
+        case DEADLINE_QOS_POLICY_ID.value:
             policy = Deadline.class;
             break;
-        case DDS.DESTINATIONORDER_QOS_POLICY_ID.value:
+        case DESTINATIONORDER_QOS_POLICY_ID.value:
             policy = DestinationOrder.class;
             break;
-        case DDS.DURABILITY_QOS_POLICY_ID.value:
+        case DURABILITY_QOS_POLICY_ID.value:
             policy = Durability.class;
             break;
-        case DDS.DURABILITYSERVICE_QOS_POLICY_ID.value:
+        case DURABILITYSERVICE_QOS_POLICY_ID.value:
             policy = DurabilityService.class;
             break;
-        case DDS.ENTITYFACTORY_QOS_POLICY_ID.value:
+        case ENTITYFACTORY_QOS_POLICY_ID.value:
             policy = EntityFactory.class;
             break;
-        case DDS.GROUPDATA_QOS_POLICY_ID.value:
+        case GROUPDATA_QOS_POLICY_ID.value:
             policy = GroupData.class;
             break;
-        case DDS.HISTORY_QOS_POLICY_ID.value:
+        case HISTORY_QOS_POLICY_ID.value:
             policy = History.class;
             break;
-        case DDS.LATENCYBUDGET_QOS_POLICY_ID.value:
+        case LATENCYBUDGET_QOS_POLICY_ID.value:
             policy = LatencyBudget.class;
             break;
-        case DDS.LIFESPAN_QOS_POLICY_ID.value:
+        case LIFESPAN_QOS_POLICY_ID.value:
             policy = Lifespan.class;
             break;
-        case DDS.LIVELINESS_QOS_POLICY_ID.value:
+        case LIVELINESS_QOS_POLICY_ID.value:
             policy = Liveliness.class;
             break;
-        case DDS.OWNERSHIP_QOS_POLICY_ID.value:
+        case OWNERSHIP_QOS_POLICY_ID.value:
             policy = Ownership.class;
             break;
-        case DDS.OWNERSHIPSTRENGTH_QOS_POLICY_ID.value:
+        case OWNERSHIPSTRENGTH_QOS_POLICY_ID.value:
             policy = OwnershipStrength.class;
             break;
-        case DDS.PARTITION_QOS_POLICY_ID.value:
+        case PARTITION_QOS_POLICY_ID.value:
             policy = Partition.class;
             break;
-        case DDS.PRESENTATION_QOS_POLICY_ID.value:
+        case PRESENTATION_QOS_POLICY_ID.value:
             policy = Presentation.class;
             break;
-        case DDS.READERDATALIFECYCLE_QOS_POLICY_ID.value:
+        case READERDATALIFECYCLE_QOS_POLICY_ID.value:
             policy = ReaderDataLifecycle.class;
             break;
-        case DDS.RELIABILITY_QOS_POLICY_ID.value:
+        case RELIABILITY_QOS_POLICY_ID.value:
             policy = Reliability.class;
             break;
-        case DDS.RESOURCELIMITS_QOS_POLICY_ID.value:
+        case RESOURCELIMITS_QOS_POLICY_ID.value:
             policy = ResourceLimits.class;
             break;
-        case DDS.SCHEDULING_QOS_POLICY_ID.value:
+        case SCHEDULING_QOS_POLICY_ID.value:
             policy = Scheduling.class;
             break;
-        case DDS.TIMEBASEDFILTER_QOS_POLICY_ID.value:
+        case TIMEBASEDFILTER_QOS_POLICY_ID.value:
             policy = TimeBasedFilter.class;
             break;
-        case DDS.TOPICDATA_QOS_POLICY_ID.value:
+        case TOPICDATA_QOS_POLICY_ID.value:
             policy = TopicData.class;
             break;
-        case DDS.TRANSPORTPRIORITY_QOS_POLICY_ID.value:
+        case TRANSPORTPRIORITY_QOS_POLICY_ID.value:
             policy = TransportPriority.class;
             break;
-        case DDS.USERDATA_QOS_POLICY_ID.value:
+        case USERDATA_QOS_POLICY_ID.value:
             policy = UserData.class;
             break;
-        case DDS.WRITERDATALIFECYCLE_QOS_POLICY_ID.value:
+        case WRITERDATALIFECYCLE_QOS_POLICY_ID.value:
             policy = WriterDataLifecycle.class;
             break;
-        case 23: /* TODO: Add SUBSCRIPTIONKEY_QOS_POLICY_ID to classic Java PSM */
+        case 23: /* TODO: Add SUBSCRIPTIONKEY_QOS_POLICY_ID to classic Java PSM 
             policy = SubscriptionKeys.class;
             break;
-        case 24: /* TODO: Add VIEWKEY_QOS_POLICY_ID to classic Java PSM */
+        case 24: /* TODO: Add VIEWKEY_QOS_POLICY_ID to classic Java PSM 
             policy = ViewKeys.class;
             break;
-        case 25:/* TODO: Add READERLIFESPAN_QOS_POLICY_ID to classic Java PSM */
+        case 25:/* TODO: Add READERLIFESPAN_QOS_POLICY_ID to classic Java PSM 
             policy = ReaderLifespan.class;
             break;
-        case 26:/* TODO: Add SHARE_QOS_POLICY_ID to classic Java PSM */
+        case 26:/* TODO: Add SHARE_QOS_POLICY_ID to classic Java PSM 
             policy = Share.class;
             break;
-        case DDS.INVALID_QOS_POLICY_ID.value:
+        case INVALID_QOS_POLICY_ID.value:
             policy = null;
             break;
         default:
@@ -816,4 +818,5 @@ public class PolicyConverter {
         }
         return policy;
     }
+    */
 }
