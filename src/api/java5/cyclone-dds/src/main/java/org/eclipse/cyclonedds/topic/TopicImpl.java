@@ -21,7 +21,9 @@
 package org.eclipse.cyclonedds.topic;
 
 import java.util.Collection;
+import java.util.Set;
 
+import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.StatusCondition;
 import org.omg.dds.core.status.InconsistentTopicStatus;
 import org.omg.dds.core.status.Status;
@@ -34,7 +36,7 @@ import org.omg.dds.type.TypeSupport;
 import org.eclipse.cyclonedds.core.DomainEntityImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
 import org.eclipse.cyclonedds.core.StatusConditionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
@@ -44,19 +46,26 @@ import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
 import org.eclipse.cyclonedds.type.AbstractTypeSupport;
 import org.eclipse.cyclonedds.type.TypeSupportImpl;
 
-public class TopicImpl<TYPE>
-        extends
-        DomainEntityImpl<DDS.Topic, DomainParticipantImpl, DDS.DomainParticipant, TopicQos, TopicListener<TYPE>, TopicListenerImpl<TYPE>>
-        implements org.eclipse.cyclonedds.topic.AbstractTopic<TYPE> {
+public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TYPE>, TopicListenerImpl<TYPE>> implements org.eclipse.cyclonedds.topic.AbstractTopic<TYPE> {
     private AbstractTypeSupport<TYPE> typeSupport;
+	private int jnaTopic = -1;
 
-    public TopicImpl(OsplServiceEnvironment environment,
-            DomainParticipantImpl participant, String topicName,
-            AbstractTypeSupport<TYPE> typeSupport, TopicQos qos,
+    public TopicImpl(CycloneServiceEnvironment environment,
+            DomainParticipantImpl participant, 
+            String topicName,
+            AbstractTypeSupport<TYPE> typeSupport, 
+            TopicQos qos,
             TopicListener<TYPE> listener,
             Collection<Class<? extends Status>> statuses) {
-        super(environment, participant, participant.getOld());
+        super(environment);
 
+        jnaTopic = org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_create_topic(participant.getJnaParticipant(),
+        		Utilities.convert(environment, this), 
+				topicName, 
+				Utilities.convert(environment, qos), 
+				Utilities.convert(environment, listener));
+        
+        /* TODO FRCYC
         if (qos == null) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Supplied DataReaderQos is null.");
@@ -66,7 +75,7 @@ public class TopicImpl<TYPE>
                     "Supplied TypeSupport is null.");
         }
         this.typeSupport = typeSupport;
-
+        
         int rc = this.typeSupport.getOldTypeSupport().register_type(
                 parent.getOld(), this.typeSupport.getTypeName());
         Utilities.checkReturnCode(
@@ -74,7 +83,8 @@ public class TopicImpl<TYPE>
                 this.environment,
                 "Registration of Type with name '"
                         + this.typeSupport.getTypeName() + "' failed.");
-        DDS.TopicQos oldQos;
+        TopicQos oldQos;
+
 
         try {
             oldQos = ((TopicQosImpl) qos).convert();
@@ -82,6 +92,7 @@ public class TopicImpl<TYPE>
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Cannot create Topic with non-OpenSplice qos");
         }
+*/
 
         if (listener != null) {
             this.listener = new TopicListenerImpl<TYPE>(this.environment, this,
@@ -89,7 +100,9 @@ public class TopicImpl<TYPE>
         } else {
             this.listener = null;
         }
-        DDS.Topic old = this.parent.getOld().create_topic(topicName,
+        
+        /* TODO FRCYC
+        Topic old = this.parent.getOld().create_topic(topicName,
                 this.typeSupport.getTypeName(), oldQos, this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
 
@@ -97,16 +110,16 @@ public class TopicImpl<TYPE>
             Utilities.throwLastErrorException(this.environment);
         }
         this.setOld(old);
-
+*/
         if (this.listener != null) {
             this.listener.setInitialised();
         }
     }
 
     @SuppressWarnings("unchecked")
-    public TopicImpl(OsplServiceEnvironment environment,
-            DomainParticipantImpl participant, String topicName, DDS.Topic old) {
-        super(environment, participant, participant.getOld());
+    public TopicImpl(CycloneServiceEnvironment environment,
+            DomainParticipantImpl participant, String topicName, Topic old) {
+        super(environment);
         this.listener = null;
 
         if (topicName == null) {
@@ -117,50 +130,52 @@ public class TopicImpl<TYPE>
             throw new IllegalArgumentExceptionImpl(environment,
                     "Invalid <null> Topic provided.");
         }
+        /* TODO FRCYC
         this.setOld(old);
 
+         
         try {
             AbstractTypeSupport<?> temp;
 
             if ("DCPSParticipant".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.ParticipantBuiltinTopicData>(
+                temp = new TypeSupportImpl<ParticipantBuiltinTopicData>(
                         this.environment,
-                        DDS.ParticipantBuiltinTopicData.class, null);
+                        ParticipantBuiltinTopicData.class, null);
             } else if ("DCPSTopic".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.TopicBuiltinTopicData>(
-                        this.environment, DDS.TopicBuiltinTopicData.class, null);
+                temp = new TypeSupportImpl<TopicBuiltinTopicData>(
+                        this.environment, TopicBuiltinTopicData.class, null);
             } else if ("CMSubscriber".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.CMSubscriberBuiltinTopicData>(
+                temp = new TypeSupportImpl<CMSubscriberBuiltinTopicData>(
                         this.environment,
-                        DDS.CMSubscriberBuiltinTopicData.class, null);
+                        CMSubscriberBuiltinTopicData.class, null);
             } else if ("CMPublisher".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.CMPublisherBuiltinTopicData>(
+                temp = new TypeSupportImpl<CMPublisherBuiltinTopicData>(
                         this.environment,
-                        DDS.CMPublisherBuiltinTopicData.class, null);
+                        CMPublisherBuiltinTopicData.class, null);
             } else if ("CMParticipant".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.CMParticipantBuiltinTopicData>(
+                temp = new TypeSupportImpl<CMParticipantBuiltinTopicData>(
                         this.environment,
-                        DDS.CMParticipantBuiltinTopicData.class, null);
+                        CMParticipantBuiltinTopicData.class, null);
             } else if ("DCPSSubscription".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.SubscriptionBuiltinTopicData>(
+                temp = new TypeSupportImpl<SubscriptionBuiltinTopicData>(
                         this.environment,
-                        DDS.SubscriptionBuiltinTopicData.class, null);
+                        SubscriptionBuiltinTopicData.class, null);
             } else if ("CMDataReader".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.CMDataReaderBuiltinTopicData>(
+                temp = new TypeSupportImpl<CMDataReaderBuiltinTopicData>(
                         this.environment,
-                        DDS.CMDataReaderBuiltinTopicData.class, null);
+                        CMDataReaderBuiltinTopicData.class, null);
             } else if ("DCPSPublication".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.PublicationBuiltinTopicData>(
+                temp = new TypeSupportImpl<PublicationBuiltinTopicData>(
                         this.environment,
-                        DDS.PublicationBuiltinTopicData.class, null);
+                        PublicationBuiltinTopicData.class, null);
             } else if ("CMDataWriter".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.CMDataWriterBuiltinTopicData>(
+                temp = new TypeSupportImpl<CMDataWriterBuiltinTopicData>(
                         this.environment,
-                        DDS.CMDataWriterBuiltinTopicData.class, null);
+                        CMDataWriterBuiltinTopicData.class, null);
             } else if ("DCPSType".equals(topicName)) {
-                temp = new TypeSupportImpl<DDS.TypeBuiltinTopicData>(
+                temp = new TypeSupportImpl<TypeBuiltinTopicData>(
                         this.environment,
-                        DDS.TypeBuiltinTopicData.class, null);
+                        TypeBuiltinTopicData.class, null);
             } else {
                 temp = null;
             }
@@ -168,6 +183,7 @@ public class TopicImpl<TYPE>
         } catch (ClassCastException cce) {
             this.typeSupport = null;
         }
+        */
     }
 
     private void setListener(TopicListener<TYPE> listener, int mask) {
@@ -180,13 +196,16 @@ public class TopicImpl<TYPE>
         } else {
             wrapperListener = null;
         }
+        /* TODO FRCYC
         rc = this.getOld().set_listener(wrapperListener, mask);
         Utilities.checkReturnCode(rc, this.environment,
                 "Topic.setListener() failed.");
-
+*/
         this.listener = wrapperListener;
     }
 
+    
+    /* TODO FRCYC
     @Override
     public void setListener(TopicListener<TYPE> listener) {
         this.setListener(listener, StatusConverter.getAnyMask());
@@ -208,7 +227,7 @@ public class TopicImpl<TYPE>
 
     @Override
     public TopicQos getQos() {
-        DDS.TopicQosHolder holder = new DDS.TopicQosHolder();
+        TopicQosHolder holder = new TopicQosHolder();
         int rc = this.getOld().get_qos(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Topic.getQos() failed.");
@@ -238,7 +257,7 @@ public class TopicImpl<TYPE>
 
     @Override
     public InconsistentTopicStatus getInconsistentTopicStatus() {
-        DDS.InconsistentTopicStatusHolder holder = new DDS.InconsistentTopicStatusHolder();
+        InconsistentTopicStatusHolder holder = new InconsistentTopicStatusHolder();
         int rc = this.getOld().get_inconsistent_topic_status(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Topic.getInconsistentTopicStatus()");
@@ -248,7 +267,7 @@ public class TopicImpl<TYPE>
 
     @Override
     public StatusCondition<Topic<TYPE>> getStatusCondition() {
-        DDS.StatusCondition oldCondition = this.getOld().get_statuscondition();
+        StatusCondition oldCondition = this.getOld().get_statuscondition();
 
         if (oldCondition == null) {
             Utilities.throwLastErrorException(this.environment);
@@ -262,6 +281,7 @@ public class TopicImpl<TYPE>
         this.parent.destroyTopic(this);
 
     }
+    */
 
     @Override
     public TypeSupport<TYPE> getTypeSupport() {
@@ -300,6 +320,107 @@ public class TopicImpl<TYPE>
         return null;
     }
 
+	@Override
+	public void disposeAllData() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public AllDataDisposedStatus getAllDataDisposedTopicStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InconsistentTopicStatus getInconsistentTopicStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusCondition<Topic<TYPE>> getStatusCondition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DomainParticipant getParent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setListener(TopicListener<TYPE> listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setListener(TopicListener<TYPE> listener, Collection<Class<? extends Status>> statuses) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setListener(TopicListener<TYPE> listener, Class<? extends Status>... statuses) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public TopicQos getQos() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setQos(TopicQos qos) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enable() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<Class<? extends Status>> getStatusChanges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle getInstanceHandle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public org.eclipse.cyclonedds.topic.Topic getOld() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	protected void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public int getJnaTopic() {
+		return jnaTopic;
+	}
+
+    /*
     @Override
     public String getName() {
         return this.getOld().get_name();
@@ -310,6 +431,7 @@ public class TopicImpl<TYPE>
         return this.parent;
     }
 
+     TODO FRCYC
     @Override
     public void disposeAllData() {
         int rc = this.getOld().dispose_all_data();
@@ -319,12 +441,13 @@ public class TopicImpl<TYPE>
 
     @Override
     public AllDataDisposedStatus getAllDataDisposedTopicStatus() {
-        DDS.AllDataDisposedTopicStatusHolder holder = new DDS.AllDataDisposedTopicStatusHolder();
+        AllDataDisposedTopicStatusHolder holder = new AllDataDisposedTopicStatusHolder();
         int rc = this.getOld().get_all_data_disposed_topic_status(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "Topic.getAllDataDisposedTopicStatus()");
 
         return StatusConverter.convert(this.environment, holder.value);
     }
+    */
 
 }

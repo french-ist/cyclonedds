@@ -24,14 +24,14 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.event.SampleRejectedEvent;
 import org.omg.dds.core.status.SampleRejectedStatus;
 import org.omg.dds.sub.DataReader;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class SampleRejectedEventImpl<TYPE> extends SampleRejectedEvent<TYPE>{
     private static final long serialVersionUID = -5370093562127232024L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
     private final SampleRejectedStatus status;
 
-    public SampleRejectedEventImpl(OsplServiceEnvironment environment,
+    public SampleRejectedEventImpl(CycloneServiceEnvironment environment,
             DataReader<TYPE> source, SampleRejectedStatus status) {
         super(source);
         this.environment = environment;

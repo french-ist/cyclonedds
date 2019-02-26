@@ -1,1 +1,0 @@
-/usr/bin/cc -O2 -g -DNDEBUG   CMakeFiles/rhc_torture.dir/rhc_torture.c.o CMakeFiles/rhc_torture.dir/mt19937ar.c.o CMakeFiles/rhc_torture.dir/RhcTypes.c.o  -o ../../bin/rhc_torture -Wl,-rpath,/home/ndrianja/IST/cyclonedds/src/lib ../../lib/libddsc.so.0.1.0 ../../lib/libutil.a ../../lib/libOSAPI.a -lpthread 

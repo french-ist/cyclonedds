@@ -48,7 +48,7 @@ import org.omg.dds.core.policy.TypeConsistencyEnforcement.Kind;
 import org.omg.dds.topic.TopicQos;
 import org.eclipse.cyclonedds.core.EntityQosImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.policy.DataRepresentationImpl;
 import org.eclipse.cyclonedds.core.policy.DeadlineImpl;
 import org.eclipse.cyclonedds.core.policy.DestinationOrderImpl;
@@ -77,14 +77,14 @@ public class TopicQosImpl extends EntityQosImpl<ForTopic> implements TopicQos {
     private static final long serialVersionUID = -1401988185243587729L;
     private final TypeConsistencyEnforcement typeConsistencyEnforcement;
 
-    public TopicQosImpl(OsplServiceEnvironment environment,
+    public TopicQosImpl(CycloneServiceEnvironment environment,
             TypeConsistencyEnforcement typeConsistencyEnforcement,
             ForTopic... policies) {
         super(environment, policies);
         this.typeConsistencyEnforcement = typeConsistencyEnforcement;
     }
 
-    public TopicQosImpl(OsplServiceEnvironment environment) {
+    public TopicQosImpl(CycloneServiceEnvironment environment) {
         super(environment);
         this.typeConsistencyEnforcement = new TypeConsistencyEnforcementImpl(
                 environment, Kind.EXACT_TYPE_TYPE_CONSISTENCY);
@@ -272,8 +272,8 @@ public class TopicQosImpl extends EntityQosImpl<ForTopic> implements TopicQos {
         }
     }
 
-    public static TopicQosImpl convert(OsplServiceEnvironment env,
-            DDS.TopicQos oldQos) {
+    public static TopicQosImpl convert(CycloneServiceEnvironment env,
+            TopicQos oldQos) {
 
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,
@@ -281,7 +281,7 @@ public class TopicQosImpl extends EntityQosImpl<ForTopic> implements TopicQos {
         }
 
         TopicQosImpl qos = new TopicQosImpl(env);
-
+/* TODO FRCYC
         qos.put(Deadline.class, PolicyConverter.convert(env, oldQos.deadline));
         qos.put(DestinationOrder.class,
                 PolicyConverter.convert(env, oldQos.destination_order));
@@ -304,12 +304,12 @@ public class TopicQosImpl extends EntityQosImpl<ForTopic> implements TopicQos {
                 PolicyConverter.convert(env, oldQos.topic_data));
         qos.put(TransportPriority.class,
                 PolicyConverter.convert(env, oldQos.transport_priority));
-
+*/
         return qos;
     }
 
-    public DDS.TopicQos convert() {
-        DDS.TopicQos old = new DDS.TopicQos();
+    public TopicQos convert() { /* TODO FRCYC
+        TopicQos old = new TopicQos();
 
         synchronized (this.policies) {
             old.deadline = PolicyConverter.convert(this.environment,
@@ -360,6 +360,8 @@ public class TopicQosImpl extends EntityQosImpl<ForTopic> implements TopicQos {
         }
 
         return old;
+    */
+    	return null;
     }
 
 }

@@ -32,7 +32,8 @@ import org.omg.dds.sub.DataReaderListener;
 import org.omg.dds.sub.DataReaderQos;
 import org.omg.dds.topic.TopicListener;
 import org.omg.dds.topic.TopicQos;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.omg.dds.type.TypeSupport;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
 import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
 import org.eclipse.cyclonedds.pub.AbstractDataWriter;
@@ -45,18 +46,18 @@ import org.eclipse.cyclonedds.topic.AbstractTopic;
 import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 import org.eclipse.cyclonedds.topic.TopicProtobuf;
 
-import DDS.TypeSupport;
+//TODO FRCYC import TypeSupport;
 
 public abstract class TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         AbstractTypeSupport<PROTOBUF_TYPE> {
     protected final Class<PROTOBUF_TYPE> dataType;
-    protected final OsplServiceEnvironment environment;
+    protected final CycloneServiceEnvironment environment;
     protected final TypeSupportImpl<DDS_TYPE> ddsTypeSupport;
     private final byte[] metaData;
     private final byte[] typeHash;
     private final byte[] extentions = null;
 
-    protected TypeSupportProtobuf(OsplServiceEnvironment environment,
+    protected TypeSupportProtobuf(CycloneServiceEnvironment environment,
             Class<PROTOBUF_TYPE> dataType,
             TypeSupportImpl<DDS_TYPE> ddsTypeSupport,
             final byte[] metaData,
@@ -67,15 +68,18 @@ public abstract class TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         this.typeHash = metaHash;
         this.ddsTypeSupport = ddsTypeSupport;
 
+        /* TODO FRCYC
         org.eclipse.cyclonedds.dcps.TypeSupportImpl oldTypeSupport = (org.eclipse.cyclonedds.dcps.TypeSupportImpl)ddsTypeSupport.getOldTypeSupport();
-        oldTypeSupport.set_data_representation_id(DDS.GPB_REPRESENTATION.value);
+        oldTypeSupport.set_data_representation_id(GPB_REPRESENTATION.value);
+        
         oldTypeSupport.set_meta_data(this.metaData);
         oldTypeSupport.set_type_hash(this.typeHash);
+        */
     }
 
     @SuppressWarnings("unchecked")
     public static <SOME_TYPE> org.omg.dds.type.TypeSupport<SOME_TYPE> getInstance(
-            OsplServiceEnvironment environment, Class<SOME_TYPE> dataType,
+            CycloneServiceEnvironment environment, Class<SOME_TYPE> dataType,
             String registeredName) {
         String typeSupportName = dataType.getName().replaceAll("\\$", "")
                 + "TypeSupportProtobuf";
@@ -83,7 +87,7 @@ public abstract class TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         try {
             Class<?> typeSupportClass = Class.forName(typeSupportName);
             Constructor<?> c = typeSupportClass.getConstructor(
-                    OsplServiceEnvironment.class, String.class);
+                    CycloneServiceEnvironment.class, String.class);
 
             return (org.omg.dds.type.TypeSupport<SOME_TYPE>) c.newInstance(
                     environment, registeredName);
@@ -118,9 +122,11 @@ public abstract class TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         return this.environment;
     }
 
+    
     @Override
     public TypeSupport getOldTypeSupport() {
-        return this.ddsTypeSupport.getOldTypeSupport();
+        //TODO FRCYC return this.ddsTypeSupport.getOldTypeSupport();
+    	return null;
     }
 
     @Override

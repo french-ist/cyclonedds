@@ -24,24 +24,20 @@ import java.util.EventListener;
 
 import org.omg.dds.core.EntityQos;
 
-public abstract class DomainEntityImpl<
-        OLD extends DDS.Entity,
-        PARENT extends EntityImpl<?, ?, ?, ?, ?>,
-        OLDPARENT extends DDS.Entity,
-        QOS extends EntityQos<?>,
-        LISTENER extends EventListener,
-        LISTENERIMPL extends Listener<LISTENER>>
-        extends EntityImpl<
-            OLD,
-            OLDPARENT,
-            QOS, LISTENER,
-            LISTENERIMPL>
-            implements org.omg.dds.core.DomainEntity<LISTENER, QOS> {
-    protected PARENT parent;
 
-    public DomainEntityImpl(OsplServiceEnvironment environment, PARENT parent,
-            OLDPARENT oldParent) {
-        super(environment, oldParent);
-        this.parent = parent;
+public abstract class DomainEntityImpl
+	<
+		QOS extends EntityQos<?>, 
+		LISTENER extends EventListener, 
+		LISTENERIMPL extends Listener<LISTENER>
+	>
+	extends EntityImpl<QOS, LISTENER, LISTENERIMPL> 
+	implements org.omg.dds.core.DomainEntity<LISTENER, QOS> 
+{
+
+    public DomainEntityImpl(CycloneServiceEnvironment environment) 
+    {
+        super(environment);
     }
 }
+

@@ -23,17 +23,17 @@ package org.eclipse.cyclonedds.core.status;
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.status.OfferedDeadlineMissedStatus;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class OfferedDeadlineMissedStatusImpl extends
         OfferedDeadlineMissedStatus {
     private static final long serialVersionUID = -3228413512117529180L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
     private final int totalCount;
     private final int totalCountChange;
     private final InstanceHandle lastInstanceHandle;
 
-    public OfferedDeadlineMissedStatusImpl(OsplServiceEnvironment environment,
+    public OfferedDeadlineMissedStatusImpl(CycloneServiceEnvironment environment,
             int totalCount, int totalCountChange,
             InstanceHandle lastInstanceHandle) {
         this.environment = environment;

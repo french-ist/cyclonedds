@@ -24,25 +24,25 @@ import org.omg.dds.pub.DataWriterListener;
 import org.omg.dds.pub.DataWriterQos;
 import org.omg.dds.pub.Publisher;
 import org.eclipse.cyclonedds.core.DomainEntityImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public abstract class AbstractDataWriter<TYPE>
         extends
-        DomainEntityImpl<DDS.DataWriter, PublisherImpl, DDS.Publisher, DataWriterQos, DataWriterListener<TYPE>, DataWriterListenerImpl<TYPE>>
+        DomainEntityImpl<DataWriterQos, DataWriterListener<TYPE>, DataWriterListenerImpl<TYPE>>
         implements org.eclipse.cyclonedds.pub.DataWriter<TYPE> {
 
-    public AbstractDataWriter(OsplServiceEnvironment environment,
+    public AbstractDataWriter(CycloneServiceEnvironment environment,
             PublisherImpl parent) {
-        super(environment, parent, parent.getOld());
+        super(environment);
     }
 
     @Override
     protected void destroy() {
-        this.parent.destroyDataWriter(this);
+        // TODO FRCYC this.parent.destroyDataWriter(this);
     }
 
     @Override
     public Publisher getParent() {
-        return this.parent;
+        return null; //TODO FRCYC
     }
 }

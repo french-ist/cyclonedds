@@ -26,17 +26,17 @@ import java.util.ArrayList;
 import org.omg.dds.sub.Sample;
 import org.eclipse.cyclonedds.core.DDSExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.type.TypeSupportProtobuf;
 
-import DDS.SampleInfoSeqHolder;
+//TODO FRCYC import SampleInfoSeqHolder;
 
 public class IteratorProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         AbstractIterator<PROTOBUF_TYPE> implements
         Sample.Iterator<PROTOBUF_TYPE> {
     private ArrayList<PROTOBUF_TYPE> data;
 
-    public IteratorProtobuf(OsplServiceEnvironment environment,
+    public IteratorProtobuf(CycloneServiceEnvironment environment,
             DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> reader,
             Object sampleSeqHolder, Field dataSeqHolderValue,
             SampleInfoSeqHolder infoSeqHolder) {
@@ -58,11 +58,13 @@ public class IteratorProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
             this.data = new ArrayList<PROTOBUF_TYPE>(ddsData.length);
 
             for (int i = 0; i < ddsData.length; i++) {
-                if (this.infoSeqHolder.value[i].valid_data) {
+                /* TODO FRCYC
+            	if (this.infoSeqHolder.value[i].valid_data) {
                     this.data.add(typeSupport.ddsToProtobuf(ddsData[i]));
                 } else {
                     this.data.add(typeSupport.ddsKeyToProtobuf(ddsData[i]));
                 }
+                */
             }
         } catch (SecurityException e) {
             throw new IllegalArgumentExceptionImpl(environment,

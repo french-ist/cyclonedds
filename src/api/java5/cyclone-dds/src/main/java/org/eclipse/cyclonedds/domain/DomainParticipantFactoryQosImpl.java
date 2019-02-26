@@ -25,7 +25,7 @@ import org.omg.dds.core.policy.QosPolicy.ForDomainParticipantFactory;
 import org.omg.dds.domain.DomainParticipantFactoryQos;
 import org.eclipse.cyclonedds.core.EntityQosImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.policy.EntityFactoryImpl;
 
 public class DomainParticipantFactoryQosImpl extends
@@ -33,11 +33,11 @@ public class DomainParticipantFactoryQosImpl extends
         DomainParticipantFactoryQos {
     private static final long serialVersionUID = -2614760295894669447L;
 
-    public DomainParticipantFactoryQosImpl(OsplServiceEnvironment environment) {
+    public DomainParticipantFactoryQosImpl(CycloneServiceEnvironment environment) {
         super(environment);
     }
 
-    public DomainParticipantFactoryQosImpl(OsplServiceEnvironment environment,
+    public DomainParticipantFactoryQosImpl(CycloneServiceEnvironment environment,
             ForDomainParticipantFactory... domainParticipantFactories) {
         super(environment, domainParticipantFactories);
     }
@@ -60,7 +60,7 @@ public class DomainParticipantFactoryQosImpl extends
     }
 
     public static DomainParticipantFactoryQosImpl convert(
-            OsplServiceEnvironment env, DDS.DomainParticipantFactoryQos oldQos) {
+            CycloneServiceEnvironment env, DomainParticipantFactoryQos oldQos) {
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,
                     "oldQos parameter is null.");
@@ -69,15 +69,18 @@ public class DomainParticipantFactoryQosImpl extends
         DomainParticipantFactoryQosImpl qos = new DomainParticipantFactoryQosImpl(
                 env);
 
+        /*TODO FRCYC
         qos.put(EntityFactory.class, new EntityFactoryImpl(env,
                 oldQos.entity_factory.autoenable_created_entities));
+           */
 
         return qos;
     }
 
-    public DDS.DomainParticipantFactoryQos convert() {
-        DDS.DomainParticipantFactoryQos old = new DDS.DomainParticipantFactoryQos(
-                new DDS.EntityFactoryQosPolicy());
+    /* TODO FRCYC
+    public DomainParticipantFactoryQos convert() {
+        DomainParticipantFactoryQos old = new DomainParticipantFactoryQos(
+                new EntityFactoryQosPolicy());
 
         synchronized (this.policies) {
             old.entity_factory.autoenable_created_entities = ((EntityFactory) this.policies
@@ -85,6 +88,7 @@ public class DomainParticipantFactoryQosImpl extends
         }
         return old;
     }
+    */
 
     @Override
     public DomainParticipantFactoryQos withPolicy(

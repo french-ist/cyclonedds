@@ -22,9 +22,22 @@ package org.eclipse.cyclonedds.domain;
 
 import java.io.Serializable;
 
+import org.omg.dds.core.event.DataAvailableEvent;
+import org.omg.dds.core.event.DataOnReadersEvent;
+import org.omg.dds.core.event.InconsistentTopicEvent;
+import org.omg.dds.core.event.LivelinessChangedEvent;
+import org.omg.dds.core.event.LivelinessLostEvent;
+import org.omg.dds.core.event.OfferedDeadlineMissedEvent;
+import org.omg.dds.core.event.OfferedIncompatibleQosEvent;
+import org.omg.dds.core.event.PublicationMatchedEvent;
+import org.omg.dds.core.event.RequestedDeadlineMissedEvent;
+import org.omg.dds.core.event.RequestedIncompatibleQosEvent;
+import org.omg.dds.core.event.SampleLostEvent;
+import org.omg.dds.core.event.SampleRejectedEvent;
+import org.omg.dds.core.event.SubscriptionMatchedEvent;
 import org.omg.dds.domain.DomainParticipantListener;
 import org.eclipse.cyclonedds.core.Listener;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.event.AllDataDisposedEventImpl;
 import org.eclipse.cyclonedds.core.event.DataAvailableEventImpl;
 import org.eclipse.cyclonedds.core.event.DataOnReadersEventImpl;
@@ -43,37 +56,39 @@ import org.eclipse.cyclonedds.core.status.DataAvailableStatusImpl;
 import org.eclipse.cyclonedds.core.status.DataOnReadersStatusImpl;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 
-import DDS.AllDataDisposedTopicStatusHolder;
-import DDS.DataReader;
-import DDS.DataWriter;
-import DDS.InconsistentTopicStatus;
-import DDS.LivelinessChangedStatus;
-import DDS.LivelinessLostStatus;
-import DDS.OfferedDeadlineMissedStatus;
-import DDS.OfferedIncompatibleQosStatus;
-import DDS.PublicationMatchedStatus;
-import DDS.RequestedDeadlineMissedStatus;
-import DDS.RequestedIncompatibleQosStatus;
-import DDS.SampleLostStatus;
-import DDS.SampleRejectedStatus;
-import DDS.Subscriber;
-import DDS.SubscriptionMatchedStatus;
-import DDS.Topic;
+/* TODO FRCYC
+//TODO FRCYC import AllDataDisposedTopicStatusHolder;
+import DataReader;
+import DataWriter;
+//TODO FRCYC import InconsistentTopicStatus;
+import LivelinessChangedStatus;
+import LivelinessLostStatus;
+import OfferedDeadlineMissedStatus;
+import OfferedIncompatibleQosStatus;
+import PublicationMatchedStatus;
+import RequestedDeadlineMissedStatus;
+import RequestedIncompatibleQosStatus;
+import SampleLostStatus;
+import SampleRejectedStatus;
+import Subscriber;
+import SubscriptionMatchedStatus;
+import Topic;
+*/
 
 public class DomainParticipantListenerImpl extends
         Listener<DomainParticipantListener> implements
-        DDS.ExtDomainParticipantListener, Serializable {
+        DomainParticipantListener, Serializable { //TODO FRCYC ExtDomainParticipantListener
     private static final long serialVersionUID = -3531755144455417494L;
     private final transient DomainParticipantImpl participant;
     private final transient org.eclipse.cyclonedds.domain.DomainParticipantListener extListener;
 
-    public DomainParticipantListenerImpl(OsplServiceEnvironment environment,
+    public DomainParticipantListenerImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl participant,
             DomainParticipantListener listener) {
         this(environment, participant, listener, false);
     }
 
-    public DomainParticipantListenerImpl(OsplServiceEnvironment environment,
+    public DomainParticipantListenerImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl participant,
             DomainParticipantListener listener, boolean waitUntilInitialised) {
         super(environment, listener, waitUntilInitialised);
@@ -87,6 +102,85 @@ public class DomainParticipantListenerImpl extends
 
     }
 
+	@Override
+	public void onOfferedDeadlineMissed(OfferedDeadlineMissedEvent<?> status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onOfferedIncompatibleQos(OfferedIncompatibleQosEvent<?> status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onLivelinessLost(LivelinessLostEvent<?> status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPublicationMatched(PublicationMatchedEvent<?> status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRequestedDeadlineMissed(RequestedDeadlineMissedEvent<?> status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRequestedIncompatibleQos(RequestedIncompatibleQosEvent<?> status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSampleRejected(SampleRejectedEvent<?> status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onLivelinessChanged(LivelinessChangedEvent<?> status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDataAvailable(DataAvailableEvent<?> status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSubscriptionMatched(SubscriptionMatchedEvent<?> status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onSampleLost(SampleLostEvent<?> status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDataOnReaders(DataOnReadersEvent status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onInconsistentTopic(InconsistentTopicEvent<?> status) {
+		// TODO Auto-generated method stub
+		
+	}
+
+    /* TODO FRCYC
     @Override
     public void on_inconsistent_topic(Topic the_topic,
             InconsistentTopicStatus status) {
@@ -285,7 +379,7 @@ public class DomainParticipantListenerImpl extends
         AllDataDisposedTopicStatusHolder holder = new AllDataDisposedTopicStatusHolder();
         int rc = arg0.get_all_data_disposed_topic_status(holder);
 
-        if (rc != DDS.RETCODE_OK.value) {
+        if (rc != RETCODE_OK.value) {
             return;
         }
 
@@ -310,4 +404,5 @@ public class DomainParticipantListenerImpl extends
         } catch (ClassCastException e) {
         }
     }
+    */
 }

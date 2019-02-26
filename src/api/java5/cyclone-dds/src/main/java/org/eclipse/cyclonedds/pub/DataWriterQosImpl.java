@@ -43,7 +43,7 @@ import org.omg.dds.pub.DataWriterQos;
 import org.omg.dds.topic.TopicQos;
 import org.eclipse.cyclonedds.core.EntityQosImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.policy.DataRepresentationImpl;
 import org.eclipse.cyclonedds.core.policy.DeadlineImpl;
@@ -68,7 +68,7 @@ public class DataWriterQosImpl extends EntityQosImpl<ForDataWriter> implements
     private static final long serialVersionUID = -3612002704263154280L;
     private final TypeConsistencyEnforcement typeConsistencyEnforcement;
 
-    public DataWriterQosImpl(OsplServiceEnvironment environment,
+    public DataWriterQosImpl(CycloneServiceEnvironment environment,
             TypeConsistencyEnforcement typeConsistencyEnforcement,
             ForDataWriter... policies) {
         super(environment, policies);
@@ -76,7 +76,7 @@ public class DataWriterQosImpl extends EntityQosImpl<ForDataWriter> implements
 
     }
 
-    public DataWriterQosImpl(OsplServiceEnvironment environment) {
+    public DataWriterQosImpl(CycloneServiceEnvironment environment) {
         super(environment);
         this.typeConsistencyEnforcement = new TypeConsistencyEnforcementImpl(
                 environment, Kind.EXACT_TYPE_TYPE_CONSISTENCY);
@@ -304,8 +304,9 @@ public class DataWriterQosImpl extends EntityQosImpl<ForDataWriter> implements
         }
     }
 
+    /* TODO FRCYC
     public static DataWriterQosImpl convert(OsplServiceEnvironment env,
-            DDS.DataWriterQos oldQos) {
+            DataWriterQos oldQos) {
 
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,
@@ -341,8 +342,8 @@ public class DataWriterQosImpl extends EntityQosImpl<ForDataWriter> implements
         return qos;
     }
 
-    public DDS.DataWriterQos convert() {
-        DDS.DataWriterQos old = new DDS.DataWriterQos();
+    public DataWriterQos convert() {
+        DataWriterQos old = new DataWriterQos();
         synchronized (this.policies) {
             old.deadline = PolicyConverter.convert(this.environment,
                     ((Deadline) this.policies.get(Deadline.class)));
@@ -377,10 +378,11 @@ public class DataWriterQosImpl extends EntityQosImpl<ForDataWriter> implements
             old.writer_data_lifecycle = PolicyConverter.convert(
                     this.environment, ((WriterDataLifecycle) this.policies
                             .get(WriterDataLifecycle.class)));
-        }
+        }        
 
 
         return old;
     }
+    */
 
 }

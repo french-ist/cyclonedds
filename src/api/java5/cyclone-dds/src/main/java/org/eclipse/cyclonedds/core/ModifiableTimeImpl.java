@@ -29,14 +29,14 @@ import org.omg.dds.core.Time;
 
 public class ModifiableTimeImpl extends ModifiableTime {
     private static final long serialVersionUID = -5170318400663698911L;
-    protected final transient OsplServiceEnvironment environment;
+    protected final transient CycloneServiceEnvironment environment;
     private long seconds;
     private long nanoseconds;
     private long totalNanos;
     private final static int INFINITE_SECONDS = DurationImpl.INFINITE_SECONDS;
     private final static int INFINITE_NANOSECONDS = DurationImpl.INFINITE_NANOSECONDS;
 
-    public ModifiableTimeImpl(OsplServiceEnvironment environment,
+    public ModifiableTimeImpl(CycloneServiceEnvironment environment,
             long duration, TimeUnit unit) {
         super();
 
@@ -57,7 +57,7 @@ public class ModifiableTimeImpl extends ModifiableTime {
         }
     }
 
-    public ModifiableTimeImpl(OsplServiceEnvironment environment, long seconds,
+    public ModifiableTimeImpl(CycloneServiceEnvironment environment, long seconds,
             long nanoseconds) {
         super();
         this.environment = environment;
@@ -385,14 +385,17 @@ public class ModifiableTimeImpl extends ModifiableTime {
 
     @Override
     public boolean isValid() {
-        if (this.seconds == DDS.TIMESTAMP_INVALID_SEC.value
-                && this.nanoseconds == DDS.TIMESTAMP_INVALID_NSEC.value) {
+        /*
+         * TODO FRCYC
+    	if (this.seconds == TIMESTAMP_INVALID_SEC.value
+                && this.nanoseconds == TIMESTAMP_INVALID_NSEC.value) {
             return false;
         }
         if ((this.nanoseconds >= 1000000000)
                 && ((this.nanoseconds != INFINITE_NANOSECONDS) || (this.seconds != INFINITE_SECONDS))) {
             return false;
         }
+        */
         return true;
     }
 
@@ -402,9 +405,11 @@ public class ModifiableTimeImpl extends ModifiableTime {
                 this.nanoseconds);
     }
 
-    public DDS.Time_t convert() {
-        return new DDS.Time_t((int) this.seconds, (int) this.nanoseconds);
+    /* TODO FRCYC
+    public Time_t convert() {
+        return new Time_t((int) this.seconds, (int) this.nanoseconds);
     }
+    */
 
     @Override
     public String toString() {

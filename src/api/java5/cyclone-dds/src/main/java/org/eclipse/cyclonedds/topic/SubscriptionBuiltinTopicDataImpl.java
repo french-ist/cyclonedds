@@ -43,7 +43,7 @@ import org.omg.dds.topic.BuiltinTopicKey;
 import org.omg.dds.topic.SubscriptionBuiltinTopicData;
 import org.omg.dds.type.typeobject.TypeObject;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.policy.DataRepresentationImpl;
 import org.eclipse.cyclonedds.core.policy.PolicyConverter;
@@ -52,20 +52,19 @@ import org.eclipse.cyclonedds.core.policy.TypeConsistencyEnforcementImpl;
 public class SubscriptionBuiltinTopicDataImpl implements
         SubscriptionBuiltinTopicData {
     private static final long serialVersionUID = -6604763092552114237L;
-    private final transient OsplServiceEnvironment environment;
-    private DDS.SubscriptionBuiltinTopicData old;
+    private final transient CycloneServiceEnvironment environment;
+    private SubscriptionBuiltinTopicData old;
     private BuiltinTopicKey key;
     private BuiltinTopicKey participantKey;
     private final TypeConsistencyEnforcement typeConsistency;
     private final DataRepresentation dataRepresentation;
 
-    public SubscriptionBuiltinTopicDataImpl(OsplServiceEnvironment environment,
-            DDS.SubscriptionBuiltinTopicData old) {
+    public SubscriptionBuiltinTopicDataImpl(CycloneServiceEnvironment environment,
+            SubscriptionBuiltinTopicData old) {
         this.environment = environment;
         this.old = old;
-        this.key = new BuiltinTopicKeyImpl(this.environment, old.key);
-        this.participantKey = new BuiltinTopicKeyImpl(this.environment,
-                old.participant_key);
+        //TODO FRCYC this.key = new BuiltinTopicKeyImpl(this.environment, old.key);
+        //TODO FRCYC this.participantKey = new BuiltinTopicKeyImpl(this.environment,old.participant_key);
         this.dataRepresentation = new DataRepresentationImpl(this.environment,
                 DataRepresentation.Id.XCDR_DATA_REPRESENTATION);
         this.typeConsistency = new TypeConsistencyEnforcementImpl(
@@ -87,6 +86,7 @@ public class SubscriptionBuiltinTopicDataImpl implements
         return this.participantKey;
     }
 
+    /* TODO FRCYC
     @Override
     public String getTopicName() {
         return this.old.topic_name;
@@ -96,6 +96,7 @@ public class SubscriptionBuiltinTopicDataImpl implements
     public String getTypeName() {
         return this.old.type_name;
     }
+    */
 
     @Override
     public List<String> getEquivalentTypeName() {
@@ -109,6 +110,7 @@ public class SubscriptionBuiltinTopicDataImpl implements
                 "SubscriptionBuiltinTopicData.getBaseTypeName() not supported.");
     }
 
+    /* TODO FRCYC
     @Override
     public TypeObject getType() {
         throw new UnsupportedOperationExceptionImpl(this.environment,
@@ -179,6 +181,7 @@ public class SubscriptionBuiltinTopicDataImpl implements
     public GroupData getGroupData() {
         return PolicyConverter.convert(this.environment, old.group_data);
     }
+    */
 
     @Override
     public DataRepresentation getRepresentation() {
@@ -199,9 +202,8 @@ public class SubscriptionBuiltinTopicDataImpl implements
         try {
             SubscriptionBuiltinTopicDataImpl impl = (SubscriptionBuiltinTopicDataImpl) src;
             this.old = impl.old;
-            this.key = new BuiltinTopicKeyImpl(this.environment, this.old.key);
-            this.participantKey = new BuiltinTopicKeyImpl(this.environment,
-                    this.old.participant_key);
+            //TODO FRCYC this.key = new BuiltinTopicKeyImpl(this.environment, this.old.key);
+            //TODO FRCYC this.participantKey = new BuiltinTopicKeyImpl(this.environment,this.old.participant_key);
         } catch (ClassCastException e) {
             throw new IllegalArgumentExceptionImpl(
                     this.environment,
@@ -213,4 +215,100 @@ public class SubscriptionBuiltinTopicDataImpl implements
     public SubscriptionBuiltinTopicData clone() {
         return new SubscriptionBuiltinTopicDataImpl(this.environment, this.old);
     }
+
+	@Override
+	public String getTopicName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getTypeName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TypeObject getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Durability getDurability() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Deadline getDeadline() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LatencyBudget getLatencyBudget() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Liveliness getLiveliness() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Reliability getReliability() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Ownership getOwnership() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DestinationOrder getDestinationOrder() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UserData getUserData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TimeBasedFilter getTimeBasedFilter() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Presentation getPresentation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Partition getPartition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TopicData getTopicData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public GroupData getGroupData() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

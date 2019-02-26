@@ -1,1 +1,0 @@
-/usr/bin/cc -O2 -g -DNDEBUG   CMakeFiles/pubsub.dir/pubsub.c.o CMakeFiles/pubsub.dir/common.c.o CMakeFiles/pubsub.dir/testtype.c.o CMakeFiles/pubsub.dir/porting.c.o  -o ../../bin/pubsub -Wl,-rpath,/home/ndrianja/IST/cyclonedds/src/lib: ../../lib/libddsc.so.0.1.0 ../../lib/libOSAPI.a -lpthread 

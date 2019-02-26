@@ -24,14 +24,14 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.event.DataOnReadersEvent;
 import org.omg.dds.core.status.DataOnReadersStatus;
 import org.omg.dds.sub.Subscriber;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class DataOnReadersEventImpl extends DataOnReadersEvent {
     private static final long serialVersionUID = 1343357191707849872L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
     private final DataOnReadersStatus status;
 
-    public DataOnReadersEventImpl(OsplServiceEnvironment environment,
+    public DataOnReadersEventImpl(CycloneServiceEnvironment environment,
             Subscriber source, DataOnReadersStatus status) {
         super(source);
         this.environment = environment;

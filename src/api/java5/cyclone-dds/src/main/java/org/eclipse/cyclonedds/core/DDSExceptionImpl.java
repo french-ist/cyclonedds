@@ -25,9 +25,9 @@ import org.omg.dds.core.ServiceEnvironment;
 
 public class DDSExceptionImpl extends DDSException {
     private static final long serialVersionUID = 5010127358127160989L;
-    private OsplServiceEnvironment environment;
+    private CycloneServiceEnvironment environment;
 
-    public DDSExceptionImpl(OsplServiceEnvironment environment, String message) {
+    public DDSExceptionImpl(CycloneServiceEnvironment environment, String message) {
         super(message);
         this.environment = environment;
     }

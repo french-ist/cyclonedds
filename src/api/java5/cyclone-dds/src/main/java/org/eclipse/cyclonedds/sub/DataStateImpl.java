@@ -31,17 +31,17 @@ import org.omg.dds.sub.SampleState;
 import org.omg.dds.sub.Subscriber;
 import org.omg.dds.sub.Subscriber.DataState;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 import org.omg.dds.sub.ViewState;
 
 public class DataStateImpl implements Subscriber.DataState {
-    private OsplServiceEnvironment environment;
+    private CycloneServiceEnvironment environment;
     private HashSet<SampleState> sampleState;
     private HashSet<ViewState> viewState;
     private HashSet<InstanceState> instanceState;
 
-    public DataStateImpl(OsplServiceEnvironment environment,
+    public DataStateImpl(CycloneServiceEnvironment environment,
             Collection<SampleState> sampleState,
             Collection<ViewState> viewState,
             Collection<InstanceState> instanceState) {
@@ -51,54 +51,62 @@ public class DataStateImpl implements Subscriber.DataState {
         this.instanceState = new HashSet<InstanceState>(instanceState);
     }
 
-    public DataStateImpl(OsplServiceEnvironment environment) {
+    public DataStateImpl(CycloneServiceEnvironment environment) {
         this.environment = environment;
         this.sampleState = new HashSet<SampleState>();
         this.viewState = new HashSet<ViewState>();
         this.instanceState = new HashSet<InstanceState>();
     }
 
-    public static DataStateImpl getAnyStateDataState(OsplServiceEnvironment env) {
+    public static DataStateImpl getAnyStateDataState(CycloneServiceEnvironment env) {
         return (DataStateImpl) new DataStateImpl(env).withAnySampleState()
                 .withAnyViewState().withAnyInstanceState();
     }
 
-    public static SampleState getSampleStateFromOld(OsplServiceEnvironment env,
+    public static SampleState getSampleStateFromOld(CycloneServiceEnvironment env,
             int state) {
-        switch (state) {
-        case DDS.READ_SAMPLE_STATE.value:
+        /* TODO FRCYC
+    	switch (state) {
+        case READ_SAMPLE_STATE.value:
             return SampleState.READ;
-        case DDS.NOT_READ_SAMPLE_STATE.value:
+        case NOT_READ_SAMPLE_STATE.value:
             return SampleState.NOT_READ;
         default:
             throw new IllegalArgumentExceptionImpl(env, "Invalid SampleState");
         }
+        */
+    	return null;
     }
 
-    public static ViewState getViewStateFromOld(OsplServiceEnvironment env,
+    public static ViewState getViewStateFromOld(CycloneServiceEnvironment env,
             int state) {
+    	/* TODO FRCYC
         switch (state) {
-        case DDS.NEW_VIEW_STATE.value:
+        case NEW_VIEW_STATE.value:
             return ViewState.NEW;
-        case DDS.NOT_NEW_VIEW_STATE.value:
+        case NOT_NEW_VIEW_STATE.value:
             return ViewState.NOT_NEW;
         default:
             throw new IllegalArgumentExceptionImpl(env, "Invalid ViewState");
-        }
+        }*/
+    	return null;
     }
 
     public static InstanceState getInstanceStateFromOld(
-            OsplServiceEnvironment env, int state) {
+            CycloneServiceEnvironment env, int state) {
+    	/* TODO FRCYC
         switch (state) {
-        case DDS.ALIVE_INSTANCE_STATE.value:
+        case ALIVE_INSTANCE_STATE.value:
             return InstanceState.ALIVE;
-        case DDS.NOT_ALIVE_DISPOSED_INSTANCE_STATE.value:
+        case NOT_ALIVE_DISPOSED_INSTANCE_STATE.value:
             return InstanceState.NOT_ALIVE_DISPOSED;
-        case DDS.NOT_ALIVE_NO_WRITERS_INSTANCE_STATE.value:
+        case NOT_ALIVE_NO_WRITERS_INSTANCE_STATE.value:
             return InstanceState.NOT_ALIVE_NO_WRITERS;
         default:
             throw new IllegalArgumentExceptionImpl(env, "Invalid InstanceState");
         }
+        */
+    	return null;
     }
 
     @Override
@@ -198,82 +206,93 @@ public class DataStateImpl implements Subscriber.DataState {
     }
 
     public int getOldSampleState() {
+    	/* TODO FRCYC
         int result;
 
         boolean read = this.sampleState.contains(SampleState.READ);
         boolean notRead = this.sampleState.contains(SampleState.NOT_READ);
 
         if (read && notRead) {
-            result = DDS.ANY_SAMPLE_STATE.value;
+            result = ANY_SAMPLE_STATE.value;
         } else if (read) {
-            result = DDS.READ_SAMPLE_STATE.value;
+            result = READ_SAMPLE_STATE.value;
         } else if (notRead) {
-            result = DDS.NOT_READ_SAMPLE_STATE.value;
+            result = NOT_READ_SAMPLE_STATE.value;
         } else {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Incomplete DataState: no SampleState set.");
         }
         return result;
+        */
+        return 0;
     }
 
     public void withOldSampleState(int state) {
+    	/* TODO FRCYC
         switch (state) {
-        case DDS.ANY_INSTANCE_STATE.value:
+        case ANY_INSTANCE_STATE.value:
             this.sampleState.add(SampleState.READ);
             this.sampleState.add(SampleState.NOT_READ);
             break;
-        case DDS.READ_SAMPLE_STATE.value:
+        case READ_SAMPLE_STATE.value:
             this.sampleState.add(SampleState.READ);
             break;
-        case DDS.NOT_READ_SAMPLE_STATE.value:
+        case NOT_READ_SAMPLE_STATE.value:
             this.sampleState.add(SampleState.NOT_READ);
             break;
         default:
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Invalid SampleState");
         }
+        */
     }
 
     public int getOldViewState() {
+    	/* TODO FRCYC
         int result;
 
         boolean _new = this.viewState.contains(ViewState.NEW);
         boolean notNew = this.viewState.contains(ViewState.NOT_NEW);
 
         if (_new && notNew) {
-            result = DDS.ANY_VIEW_STATE.value;
+            result = ANY_VIEW_STATE.value;
         } else if (_new) {
-            result = DDS.NEW_VIEW_STATE.value;
+            result = NEW_VIEW_STATE.value;
         } else if (notNew) {
-            result = DDS.NOT_NEW_VIEW_STATE.value;
+            result = NOT_NEW_VIEW_STATE.value;
         } else {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Incomplete DataState: no ViewState set.");
         }
         return result;
+        */
+    	return 0;
     }
 
     public void withOldViewState(int state) {
+    	/* TODO FRCYC
         switch (state) {
-        case DDS.ANY_VIEW_STATE.value:
+        case ANY_VIEW_STATE.value:
             this.viewState.add(ViewState.NEW);
             this.viewState.add(ViewState.NOT_NEW);
             break;
-        case DDS.NEW_VIEW_STATE.value:
+        case NEW_VIEW_STATE.value:
             this.viewState.add(ViewState.NEW);
             break;
-        case DDS.NOT_NEW_VIEW_STATE.value:
+        case NOT_NEW_VIEW_STATE.value:
             this.viewState.add(ViewState.NOT_NEW);
             break;
         default:
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Invalid ViewState");
         }
+        */
     }
 
     public int getOldInstanceState() {
         int result = 0;
 
+        /* TODO FRCYC
         boolean alive = this.instanceState.contains(InstanceState.ALIVE);
         boolean disposed = this.instanceState
                 .contains(InstanceState.NOT_ALIVE_DISPOSED);
@@ -281,53 +300,56 @@ public class DataStateImpl implements Subscriber.DataState {
                 .contains(InstanceState.NOT_ALIVE_NO_WRITERS);
 
         if (alive) {
-            result |= DDS.ALIVE_INSTANCE_STATE.value;
+            result |= ALIVE_INSTANCE_STATE.value;
         }
         if (disposed) {
-            result |= DDS.NOT_ALIVE_DISPOSED_INSTANCE_STATE.value;
+            result |= NOT_ALIVE_DISPOSED_INSTANCE_STATE.value;
         }
         if (noWriters) {
-            result |= DDS.NOT_ALIVE_NO_WRITERS_INSTANCE_STATE.value;
+            result |= NOT_ALIVE_NO_WRITERS_INSTANCE_STATE.value;
         }
         
         if (alive && disposed && noWriters) {
-            result = DDS.ANY_INSTANCE_STATE.value;
+            result = ANY_INSTANCE_STATE.value;
         }
         if (result == 0) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Incomplete DataState: no InstanceState set.");
-        }
+        }*/
         return result;
+        
     }
 
     public void withOldInstanceState(int state) {
+    	/* TODO FRCYC
         switch (state) {
-        case DDS.ANY_INSTANCE_STATE.value:
+        case ANY_INSTANCE_STATE.value:
             this.instanceState.add(InstanceState.ALIVE);
             this.instanceState.add(InstanceState.NOT_ALIVE_DISPOSED);
             this.instanceState.add(InstanceState.NOT_ALIVE_NO_WRITERS);
             break;
-        case DDS.NOT_ALIVE_INSTANCE_STATE.value:
+        case NOT_ALIVE_INSTANCE_STATE.value:
             this.instanceState.remove(InstanceState.ALIVE);
             this.instanceState.add(InstanceState.NOT_ALIVE_DISPOSED);
             this.instanceState.add(InstanceState.NOT_ALIVE_NO_WRITERS);
             break;
-        case DDS.ALIVE_INSTANCE_STATE.value:
+        case ALIVE_INSTANCE_STATE.value:
             this.instanceState.add(InstanceState.ALIVE);
             break;
-        case DDS.NOT_ALIVE_DISPOSED_INSTANCE_STATE.value:
+        case NOT_ALIVE_DISPOSED_INSTANCE_STATE.value:
             this.instanceState.add(InstanceState.NOT_ALIVE_DISPOSED);
             break;
-        case DDS.NOT_ALIVE_NO_WRITERS_INSTANCE_STATE.value:
+        case NOT_ALIVE_NO_WRITERS_INSTANCE_STATE.value:
             this.instanceState.add(InstanceState.NOT_ALIVE_NO_WRITERS);
             break;
         default:
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Invalid InstanceState");
         }
+        */
     }
 
-    public static DataStateImpl any(OsplServiceEnvironment environment) {
+    public static DataStateImpl any(CycloneServiceEnvironment environment) {
         return (DataStateImpl) new DataStateImpl(environment)
                 .withAnySampleState().withAnyViewState().withAnyInstanceState();
     }

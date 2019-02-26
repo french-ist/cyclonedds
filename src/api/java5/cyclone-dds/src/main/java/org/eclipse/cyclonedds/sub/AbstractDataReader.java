@@ -32,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.omg.dds.core.AlreadyClosedException;
+import org.omg.dds.core.Condition;
 import org.omg.dds.core.Duration;
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.StatusCondition;
@@ -51,13 +52,14 @@ import org.omg.dds.sub.QueryCondition;
 import org.omg.dds.sub.ReadCondition;
 import org.omg.dds.sub.Sample;
 import org.omg.dds.sub.Sample.Iterator;
+import org.omg.dds.sub.Subscriber;
 import org.omg.dds.sub.Subscriber.DataState;
 import org.omg.dds.topic.PublicationBuiltinTopicData;
 import org.omg.dds.topic.TopicDescription;
 import org.eclipse.cyclonedds.core.DomainEntityImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.StatusConditionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.policy.ResourceLimitsImpl;
@@ -66,21 +68,21 @@ import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 
 public abstract class AbstractDataReader<TYPE>
         extends
-        DomainEntityImpl<DDS.DataReader, SubscriberImpl, DDS.Subscriber, DataReaderQos, DataReaderListener<TYPE>, DataReaderListenerImpl<TYPE>>
+        DomainEntityImpl<DataReaderQos, DataReaderListener<TYPE>, DataReaderListenerImpl<TYPE>>
         implements org.eclipse.cyclonedds.sub.DataReader<TYPE> {
 
     protected final TopicDescriptionExt<TYPE> topicDescription;
-    protected final HashMap<DDS.Condition, ReadConditionImpl<TYPE>> conditions;
+    protected final HashMap<Condition, ReadConditionImpl<TYPE>> conditions;
     protected final HashSet<AbstractIterator<TYPE>> iterators;
     protected final Selector<TYPE> selector;
 
 
-    public AbstractDataReader(OsplServiceEnvironment environment,
+    public AbstractDataReader(CycloneServiceEnvironment environment,
             SubscriberImpl parent, TopicDescriptionExt<TYPE> topicDescription) {
-        super(environment, parent, parent.getOld());
+        super(environment);
 
         this.topicDescription = topicDescription;
-        this.conditions = new HashMap<DDS.Condition, ReadConditionImpl<TYPE>>();
+        this.conditions = new HashMap<Condition, ReadConditionImpl<TYPE>>();
         this.iterators = new HashSet<AbstractIterator<TYPE>>();
         this.selector = new SelectorImpl<TYPE>(environment, this);
     }
@@ -169,11 +171,13 @@ public abstract class AbstractDataReader<TYPE>
 
     public void destroyReadCondition(ReadConditionImpl<TYPE> condition) {
         synchronized (this.conditions) {
-            DDS.ReadCondition old = condition.getOld();
+            ReadCondition old = condition.getOld();
+            /* TODO FRCYC
             int rc = this.getOld().delete_readcondition(old);
             this.conditions.remove(old);
             Utilities.checkReturnCode(rc, this.environment,
                     "Condition already closed.");
+                    */
         }
 
     }
@@ -182,13 +186,13 @@ public abstract class AbstractDataReader<TYPE>
     @Override
     public void closeContainedEntities() {
         synchronized (this.conditions) {
-            HashMap<DDS.Condition, ReadConditionImpl<TYPE>> copyConditions = new HashMap<DDS.Condition, ReadConditionImpl<TYPE>>(this.conditions);
+            HashMap<Condition, ReadConditionImpl<TYPE>> copyConditions = new HashMap<Condition, ReadConditionImpl<TYPE>>(this.conditions);
             for (ReadConditionImpl<TYPE> condition : copyConditions.values()) {
                 /*
                  * Intentionally ignoring potential errors during deletion as
                  * application may concurrently close conditions.
                  */
-                this.getOld().delete_readcondition(condition.getOld());
+                // TODO FRCYC this.getOld().delete_readcondition(condition.getOld());
             }
         }
         HashSet<AbstractIterator<TYPE>> clones;
@@ -208,12 +212,12 @@ public abstract class AbstractDataReader<TYPE>
     @Override
     protected void destroy() {
         this.closeContainedEntities();
-        this.parent.destroyDataReader(this);
+        //TODO FRCYC this.parent.destroyDataReader(this);
     }
 
     @Override
     public SubscriberImpl getParent() {
-        return this.parent;
+        return null; //TODO FRCYC this.parent;
     }
 
     private void setListener(DataReaderListener<TYPE> listener, int mask) {
@@ -226,30 +230,35 @@ public abstract class AbstractDataReader<TYPE>
         } else {
             wrapperListener = null;
         }
+        /* TODO FRCYC
         rc = this.getOld().set_listener(wrapperListener, mask);
         Utilities.checkReturnCode(rc, this.environment,
                 "DataReader.setListener() failed.");
 
         this.listener = wrapperListener;
+        */
     }
 
     @Override
     public void setListener(DataReaderListener<TYPE> listener) {
-        this.setListener(listener, StatusConverter.getAnyMask());
+        //TODO FRCYC this.setListener(listener, StatusConverter.getAnyMask());
     }
 
     @Override
     public void setListener(DataReaderListener<TYPE> listener,
             Collection<Class<? extends Status>> statuses) {
-        this.setListener(listener,
+        /* TODO FRCYC
+    	this.setListener(listener,
                 StatusConverter.convertMask(this.environment, statuses));
+                */
     }
 
     @Override
     public void setListener(DataReaderListener<TYPE> listener,
             Class<? extends Status>... statuses) {
-        this.setListener(listener,
-                StatusConverter.convertMask(this.environment, statuses));
+        /* TODO FRCYC
+    	this.setListener(listener,
+                StatusConverter.convertMask(this.environment, statuses)); */
     }
 
     @Override
@@ -257,22 +266,27 @@ public abstract class AbstractDataReader<TYPE>
         return this.topicDescription;
     }
 
+    /*
     @Override
     public void setProperty(String key, String value) {
-        int rc = this.getOld().set_property(new DDS.Property(key, value));
+         TODO FRCYC
+    	int rc = this.getOld().set_property(new Property(key, value));
         Utilities.checkReturnCode(rc, this.environment,
                 "DataReader.setProperty() failed.");
+                
     }
 
     @Override
     public String getProperty(String key) {
-        DDS.PropertyHolder holder = new DDS.PropertyHolder();
+    	 TODO FRCYC
+        PropertyHolder holder = new PropertyHolder();
         int rc = this.getOld().get_property(holder);
         Utilities.checkReturnCode(rc, this.environment,
                 "DataReader.getProperty() failed.");
-
         return holder.value.value;
+    	return null;
     }
+    */
 
     @SuppressWarnings("unchecked")
     @Override
@@ -488,10 +502,12 @@ public abstract class AbstractDataReader<TYPE>
         return this.selector;
     }
 
+    /* TODO FRCYC
     public void returnLoan(Object sampleSeqHolder,
-            DDS.SampleInfoSeqHolder infoSeqHolder) {
+            SampleInfoSeqHolder infoSeqHolder) {
         this.getReflectionReader().returnLoan(sampleSeqHolder, infoSeqHolder);
     }
+    */
 
     @Override
     public Iterator<TYPE> read() {
@@ -547,20 +563,25 @@ public abstract class AbstractDataReader<TYPE>
 
     @Override
     public StatusCondition<DataReader<TYPE>> getStatusCondition() {
-        DDS.StatusCondition oldCondition = this.getOld().get_statuscondition();
+        /* TODO FRCYC
+         StatusCondition oldCondition = this.getOld().get_statuscondition();
+         
 
         if (oldCondition == null) {
             Utilities.throwLastErrorException(this.environment);
         }
         return new StatusConditionImpl<DataReader<TYPE>>(this.environment,
                 oldCondition, this);
+                */
+    	return null;
     }
 
     public abstract PreAllocator<TYPE> getPreAllocator(
             List<Sample<TYPE>> samples, Class<?> sampleSeqHolderClz,
             Field sampleSeqHolderValueField);
-
+    /* TODO FRCYC
     public abstract Sample.Iterator<?> createIterator(
             Object sampleSeqHolder,
-            Field sampleSeqHolderValueField, DDS.SampleInfoSeqHolder info);
+            Field sampleSeqHolderValueField, SampleInfoSeqHolder info);
+            */
 }

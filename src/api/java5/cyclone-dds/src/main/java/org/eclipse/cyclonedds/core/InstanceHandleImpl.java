@@ -25,10 +25,10 @@ import org.omg.dds.core.ServiceEnvironment;
 
 public class InstanceHandleImpl extends InstanceHandle {
     private static final long serialVersionUID = 8433681503549822293L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
     private final long value;
 
-    public InstanceHandleImpl(OsplServiceEnvironment environment, long value) {
+    public InstanceHandleImpl(CycloneServiceEnvironment environment, long value) {
         this.environment = environment;
         this.value = value;
     }
@@ -64,7 +64,8 @@ public class InstanceHandleImpl extends InstanceHandle {
 
     @Override
     public boolean isNil() {
-        return (this.value == DDS.HANDLE_NIL.value);
+        //TODO FRCYC return (this.value == HANDLE_NIL.value);
+    	return false;
     }
 
     public long getValue(){

@@ -24,15 +24,15 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.event.LivelinessChangedEvent;
 import org.omg.dds.core.status.LivelinessChangedStatus;
 import org.omg.dds.sub.DataReader;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class LivelinessChangedEventImpl<TYPE> extends
         LivelinessChangedEvent<TYPE> {
     private static final long serialVersionUID = -1490340935871907362L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
     private final LivelinessChangedStatus status;
 
-    public LivelinessChangedEventImpl(OsplServiceEnvironment environment,
+    public LivelinessChangedEventImpl(CycloneServiceEnvironment environment,
             DataReader<TYPE> source, LivelinessChangedStatus status) {
         super(source);
         this.environment = environment;

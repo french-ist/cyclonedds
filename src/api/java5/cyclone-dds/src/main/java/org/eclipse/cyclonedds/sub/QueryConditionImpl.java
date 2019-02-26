@@ -25,14 +25,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.omg.dds.sub.QueryCondition;
+import org.omg.dds.sub.ReadCondition;
 import org.eclipse.cyclonedds.core.Condition;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.Utilities;
 
 public class QueryConditionImpl<TYPE> extends ReadConditionImpl<TYPE> implements
-        QueryCondition<TYPE>, Condition<DDS.ReadCondition> {
-    public QueryConditionImpl(OsplServiceEnvironment environment,
+        QueryCondition<TYPE>, Condition<Condition> {
+    public QueryConditionImpl(CycloneServiceEnvironment environment,
             AbstractDataReader<TYPE> parent, DataStateImpl state,
             String queryExpression, List<String> queryParameters) {
         super(environment, parent, state, false);
@@ -40,7 +41,7 @@ public class QueryConditionImpl<TYPE> extends ReadConditionImpl<TYPE> implements
         this.initCondition(queryExpression, queryParameters);
     }
 
-    public QueryConditionImpl(OsplServiceEnvironment environment,
+    public QueryConditionImpl(CycloneServiceEnvironment environment,
             AbstractDataReader<TYPE> parent,
             String queryExpression, List<String> queryParameters) {
         super(environment, parent, false);
@@ -56,6 +57,7 @@ public class QueryConditionImpl<TYPE> extends ReadConditionImpl<TYPE> implements
                             "Invalid query parameter (null) provided.");
                 }
             }
+            /* TODO FRCYC
             this.old = parent.getOld()
                     .create_querycondition(
                             this.state.getOldSampleState(),
@@ -64,6 +66,7 @@ public class QueryConditionImpl<TYPE> extends ReadConditionImpl<TYPE> implements
                             queryExpression,
                             queryParameters.toArray(new String[queryParameters
                                     .size()]));
+                                    */
         } else {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Illegal List of query parameters (null) provided.");
@@ -75,13 +78,15 @@ public class QueryConditionImpl<TYPE> extends ReadConditionImpl<TYPE> implements
 
     @Override
     public String getQueryExpression() {
-        return ((DDS.QueryCondition) this.old).get_query_expression();
+        //TODO FRCYC return ((QueryCondition) this.old).get_query_expression();
+    	return null;
     }
 
     @Override
     public List<String> getQueryParameters() {
-        DDS.StringSeqHolder holder = new DDS.StringSeqHolder();
-        int rc = ((DDS.QueryCondition) this.old).get_query_parameters(holder);
+    	/* TODO FRCYC
+        StringSeqHolder holder = new StringSeqHolder();
+        int rc = ((QueryCondition) this.old).get_query_parameters(holder);
 
         Utilities.checkReturnCode(rc, this.environment,
                 "QueryCondition.getQueryParameters() failed");
@@ -91,6 +96,8 @@ public class QueryConditionImpl<TYPE> extends ReadConditionImpl<TYPE> implements
             queryParams.add(param);
         }
         return queryParams;
+        */
+    	return null;
     }
 
     @Override
@@ -105,8 +112,10 @@ public class QueryConditionImpl<TYPE> extends ReadConditionImpl<TYPE> implements
                         "Invalid query parameter (null) provided.");
             }
         }
-        ((DDS.QueryCondition) this.old).set_query_parameters(queryParameters
+        /* TODO FRCYC
+        ((QueryCondition) this.old).set_query_parameters(queryParameters
                 .toArray(new String[queryParameters.size()]));
+                */
     }
 
     @Override
@@ -125,8 +134,8 @@ public class QueryConditionImpl<TYPE> extends ReadConditionImpl<TYPE> implements
     }
 
     @Override
-    public DDS.ReadCondition getOldCondition() {
-        return this.old;
+    public Condition getOldCondition() {
+        return null;//TODO FRCYC this.old;
     }
 
 }

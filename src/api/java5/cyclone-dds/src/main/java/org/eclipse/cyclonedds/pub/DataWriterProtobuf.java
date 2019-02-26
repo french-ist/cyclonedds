@@ -42,7 +42,7 @@ import org.omg.dds.topic.SubscriptionBuiltinTopicData;
 import org.omg.dds.topic.Topic;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.StatusConditionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
@@ -53,11 +53,11 @@ import org.eclipse.cyclonedds.type.TypeSupportProtobuf;
 public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         AbstractDataWriter<PROTOBUF_TYPE> {
     private final TopicProtobuf<PROTOBUF_TYPE> topic;
-    private final ReflectionDataWriter<DDS_TYPE> reflectionWriter;
+    private final ReflectionDataWriter<DDS_TYPE> reflectionWriter = null; //TODO FRCYC 
     protected final TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> typeSupport;
 
     @SuppressWarnings("unchecked")
-    public DataWriterProtobuf(OsplServiceEnvironment environment,
+    public DataWriterProtobuf(CycloneServiceEnvironment environment,
             PublisherImpl parent, TopicProtobuf<PROTOBUF_TYPE> topic,
             DataWriterQos qos, DataWriterListener<PROTOBUF_TYPE> listener,
             Collection<Class<? extends Status>> statuses) {
@@ -71,14 +71,14 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Supplied Topic is null.");
         }
-        DDS.DataWriterQos oldQos;
+        DataWriterQos oldQos;
 
         this.topic = topic;
         this.typeSupport = (TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE>) topic
                 .getTypeSupport();
 
         try {
-            oldQos = ((DataWriterQosImpl) qos).convert();
+            //oldQos = ((DataWriterQosImpl) qos).convert();
         } catch (ClassCastException e) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Cannot create DataWriter with non-OpenSplice qos");
@@ -90,7 +90,8 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         } else {
             this.listener = null;
         }
-        DDS.DataWriter old = this.parent.getOld().create_datawriter(
+        /* TODO FRCYC
+        DataWriter old = this.parent.getOld().create_datawriter(
                 topic.getOld(), oldQos, this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
 
@@ -102,7 +103,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
                 this.environment, this.getOld(), this.typeSupport
                         .getTypeSupportStandard().getType());
         this.topic.retain();
-
+         */
         if (this.listener != null) {
             this.listener.setInitialised();
         }
@@ -139,6 +140,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
                 this.typeSupport.protobufToDds(instanceData));
     }
 
+    /* TODO FRCYC
     @Override
     public void dispose(InstanceHandle instanceHandle,
             PROTOBUF_TYPE instanceData, Time sourceTimestamp)
@@ -147,6 +149,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
                 this.typeSupport.protobufToDds(instanceData), sourceTimestamp);
 
     }
+    
 
     @Override
     public void dispose(InstanceHandle instanceHandle,
@@ -156,6 +159,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
                 this.typeSupport.protobufToDds(instanceData), sourceTimeStamp,
                 unit);
     }
+    */
 
     @Override
     public PROTOBUF_TYPE getKeyValue(InstanceHandle instanceHandle) {
@@ -179,11 +183,12 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         return null;
     }
 
+    /* TODO FRCYC
     @Override
     public LivelinessLostStatus getLivelinessLostStatus() {
         return this.reflectionWriter.getLivelinessLostStatus();
     }
-
+     */
     @Override
     public SubscriptionBuiltinTopicData getMatchedSubscriptionData(
             InstanceHandle instanceHandle) {
@@ -195,6 +200,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         return this.reflectionWriter.getMatchedSubscriptions();
     }
 
+    /* TODO FRCYC
     @Override
     public OfferedDeadlineMissedStatus getOfferedDeadlineMissedStatus() {
         return this.reflectionWriter.getOfferedDeadlineMissedStatus();
@@ -210,9 +216,10 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         return this.reflectionWriter.getPublicationMatchedStatus();
     }
 
+    
     @Override
     public StatusCondition<org.omg.dds.pub.DataWriter<PROTOBUF_TYPE>> getStatusCondition() {
-        DDS.StatusCondition oldCondition = this.getOld().get_statuscondition();
+        StatusCondition oldCondition = this.getOld().get_statuscondition();
 
         if (oldCondition == null) {
             Utilities.throwLastErrorException(this.environment);
@@ -220,6 +227,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         return new StatusConditionImpl<DataWriter<PROTOBUF_TYPE>>(
                 this.environment, oldCondition, this);
     }
+    */
 
     @Override
     public Topic<PROTOBUF_TYPE> getTopic() {
@@ -239,6 +247,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
                 .protobufToDds(instanceData));
     }
 
+    /* TODO FRCYC
     @Override
     public InstanceHandle registerInstance(PROTOBUF_TYPE instanceData,
             Time sourceTimestamp) throws TimeoutException {
@@ -253,6 +262,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
                 this.typeSupport.protobufToDds(instanceData), sourceTimestamp,
                 unit);
     }
+    */
 
     @Override
     public void unregisterInstance(InstanceHandle handle)
@@ -268,6 +278,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
                 this.typeSupport.protobufToDds(instanceData));
     }
 
+    /* TODO FRCYC
     @Override
     public void unregisterInstance(InstanceHandle handle,
             PROTOBUF_TYPE instanceData, Time sourceTimestamp)
@@ -298,6 +309,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
             throws TimeoutException {
         this.reflectionWriter.waitForAcknowledgments(maxWait, unit);
     }
+    */
 
     @Override
     public void write(PROTOBUF_TYPE instanceData) throws TimeoutException {
@@ -328,6 +340,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
                 unit);
     }
 
+    /* TODO FRCYC
     @Override
     public void write(PROTOBUF_TYPE instanceData, InstanceHandle handle,
             Time sourceTimestamp) throws TimeoutException {
@@ -335,6 +348,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
                 this.typeSupport.protobufToDds(instanceData), handle,
                 sourceTimestamp);
     }
+    */
 
     @Override
     public void write(PROTOBUF_TYPE instanceData, InstanceHandle handle,
@@ -349,6 +363,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         return this.reflectionWriter.getQos();
     }
 
+    /* TODO FRCYC    
     private void setListener(DataWriterListener<PROTOBUF_TYPE> listener,
             int mask) {
         DataWriterListenerImpl<PROTOBUF_TYPE> wrapperListener;
@@ -366,7 +381,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
 
         this.listener = wrapperListener;
     }
-
+    
     @Override
     public void setListener(DataWriterListener<PROTOBUF_TYPE> listener) {
         this.setListener(listener, StatusConverter.getAnyMask());
@@ -390,6 +405,7 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
     public void setQos(DataWriterQos qos) {
         this.reflectionWriter.setQos(qos);
     }
+    */
 
     @Override
     public ServiceEnvironment getEnvironment() {
@@ -448,4 +464,135 @@ public class DataWriterProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         super.destroy();
         this.topic.close();
     }
+
+	@Override
+	public StatusCondition<DataWriter<PROTOBUF_TYPE>> getStatusCondition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setListener(DataWriterListener<PROTOBUF_TYPE> listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setListener(DataWriterListener<PROTOBUF_TYPE> listener, Collection<Class<? extends Status>> statuses) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setListener(DataWriterListener<PROTOBUF_TYPE> listener, Class<? extends Status>... statuses) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void enable() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<Class<? extends Status>> getStatusChanges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle getInstanceHandle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void waitForAcknowledgments(Duration maxWait) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void waitForAcknowledgments(long maxWait, TimeUnit unit) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public LivelinessLostStatus getLivelinessLostStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OfferedDeadlineMissedStatus getOfferedDeadlineMissedStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OfferedIncompatibleQosStatus getOfferedIncompatibleQosStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PublicationMatchedStatus getPublicationMatchedStatus() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle registerInstance(PROTOBUF_TYPE instanceData, Time sourceTimestamp) throws TimeoutException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle registerInstance(PROTOBUF_TYPE instanceData, long sourceTimestamp, TimeUnit unit)
+			throws TimeoutException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void unregisterInstance(InstanceHandle handle, PROTOBUF_TYPE instanceData, Time sourceTimestamp)
+			throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void unregisterInstance(InstanceHandle handle, PROTOBUF_TYPE instanceData, long sourceTimestamp,
+			TimeUnit unit) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void write(PROTOBUF_TYPE instanceData, InstanceHandle handle, Time sourceTimestamp) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dispose(InstanceHandle instanceHandle, PROTOBUF_TYPE instanceData, Time sourceTimestamp)
+			throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dispose(InstanceHandle instanceHandle, PROTOBUF_TYPE instanceData, long sourceTimestamp, TimeUnit unit)
+			throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setQos(DataWriterQos qos) {
+		// TODO Auto-generated method stub
+		
+	}
 }

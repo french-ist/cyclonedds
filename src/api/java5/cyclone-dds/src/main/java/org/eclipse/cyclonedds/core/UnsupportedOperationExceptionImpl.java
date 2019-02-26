@@ -25,10 +25,10 @@ import org.omg.dds.core.ServiceEnvironment;
 public class UnsupportedOperationExceptionImpl extends
         UnsupportedOperationException {
     private static final long serialVersionUID = 8949143064254709920L;
-    private final OsplServiceEnvironment environment;
+    private final CycloneServiceEnvironment environment;
 
     public UnsupportedOperationExceptionImpl(
-            OsplServiceEnvironment environment, String message) {
+            CycloneServiceEnvironment environment, String message) {
         super(message);
         this.environment = environment;
     }

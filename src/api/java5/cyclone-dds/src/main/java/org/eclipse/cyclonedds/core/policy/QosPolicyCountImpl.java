@@ -23,15 +23,15 @@ package org.eclipse.cyclonedds.core.policy;
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.policy.QosPolicy;
 import org.omg.dds.core.policy.QosPolicyCount;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
 public class QosPolicyCountImpl implements QosPolicyCount {
     private static final long serialVersionUID = -5717335162269137308L;
-    private final transient OsplServiceEnvironment environment;
+    private final transient CycloneServiceEnvironment environment;
     private final Class<? extends QosPolicy> policy;
     private final int count;
 
-    public QosPolicyCountImpl(OsplServiceEnvironment environment, Class<? extends QosPolicy> policy, int count){
+    public QosPolicyCountImpl(CycloneServiceEnvironment environment, Class<? extends QosPolicy> policy, int count){
         this.environment = environment;
         this.policy = policy;
         this.count = count;

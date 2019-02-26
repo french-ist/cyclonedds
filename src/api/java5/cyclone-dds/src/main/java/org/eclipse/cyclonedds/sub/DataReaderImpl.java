@@ -24,6 +24,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.status.Status;
@@ -32,7 +33,7 @@ import org.omg.dds.sub.DataReaderQos;
 import org.omg.dds.sub.Sample;
 import org.omg.dds.sub.Sample.Iterator;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.OsplServiceEnvironment;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
@@ -41,11 +42,11 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
     private final ReflectionDataReader<TYPE, TYPE> reflectionReader;
     private final ArrayList<PreAllocatorImpl<TYPE>> preallocteList;
 
-    public DataReaderImpl(OsplServiceEnvironment environment,
+    public DataReaderImpl(CycloneServiceEnvironment environment,
             SubscriberImpl parent, TopicDescriptionExt<TYPE> topicDescription,
-            DDS.DataReader old) {
+            DataReader old) {
         super(environment, parent, topicDescription);
-        this.setOld(old);
+        //TODO FRCYCthis.setOld(old);
         this.reflectionReader = new ReflectionDataReader<TYPE, TYPE>(
                 this.environment, this, topicDescription.getTypeSupport()
                         .getType());
@@ -54,7 +55,7 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
         this.topicDescription.retain();
     }
 
-    public DataReaderImpl(OsplServiceEnvironment environment,
+    public DataReaderImpl(CycloneServiceEnvironment environment,
             SubscriberImpl parent, TopicDescriptionExt<TYPE> topicDescription,
             DataReaderQos qos, DataReaderListener<TYPE> listener,
             Collection<Class<? extends Status>> statuses) {
@@ -69,7 +70,7 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
                     "Supplied TopicDescription is null.");
         }
 
-        DDS.DataReaderQos oldQos;
+        DataReaderQos oldQos;
 
         try {
             oldQos = ((DataReaderQosImpl) qos).convert();
@@ -84,14 +85,17 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
         } else {
             this.listener = null;
         }
-        DDS.DataReader old = this.parent.getOld().create_datareader(
+        /* TODO FRCYC
+        DataReader old = this.parent.getOld().create_datareader(
                 topicDescription.getOld(), oldQos, this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
 
         if (old == null) {
             Utilities.throwLastErrorException(this.environment);
         }
+        
         this.setOld(old);
+        */
         this.reflectionReader = new ReflectionDataReader<TYPE, TYPE>(
                 this.environment, this, topicDescription.getTypeSupport()
                         .getType());
@@ -166,10 +170,29 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
         return this.reflectionReader.takeNextSample((SampleImpl<TYPE>) sample);
     }
 
+    /*
     @Override
     public Iterator<TYPE> createIterator(Object sampleSeqHolder,
-            Field sampleSeqHolderValueField, DDS.SampleInfoSeqHolder info) {
+            Field sampleSeqHolderValueField, SampleInfoSeqHolder info) {
         return new IteratorImpl<TYPE>(this.environment, this, sampleSeqHolder,
                 sampleSeqHolderValueField, info);
-    }
+    }*/
+
+	@Override
+	public void enable() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<Class<? extends Status>> getStatusChanges() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle getInstanceHandle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

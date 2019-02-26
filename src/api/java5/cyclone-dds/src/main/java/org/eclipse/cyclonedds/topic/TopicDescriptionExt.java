@@ -23,7 +23,7 @@ package org.eclipse.cyclonedds.topic;
 import org.omg.dds.topic.TopicDescription;
 
 public interface TopicDescriptionExt<TYPE> extends TopicDescription<TYPE> {
-    public DDS.TopicDescription getOld();
+    public TopicDescription getOld();
 
     public void retain();
 
