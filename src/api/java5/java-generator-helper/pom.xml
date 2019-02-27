@@ -1,32 +1,36 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <modelVersion>4.0.0</modelVersion>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>java-generator-helper</artifactId>
+	<packaging>jar</packaging>
+	<name>Java generator helper</name>
 
-  <groupId>org.eclipse.cyclonedds</groupId>
-  <artifactId>java-generator-helper</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
+	<parent>
+		<groupId>org.eclipse.cyclonedds</groupId>
+		<artifactId>parent-pom</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../parent-pom</relativePath>
+	</parent>
 
-  <name>java-generator-helper</name>
-  <url>http://maven.apache.org</url>
 	<properties>
 		<antlr.version>4.7.1</antlr.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>		
 	</properties>
 
-  <dependencies>
-    <dependency>
+	<dependencies>
+		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr4-runtime</artifactId>
 			<version>${antlr.version}</version>
 		</dependency>
-  </dependencies>
+	</dependencies>
 
-  <build>    
-    <plugins>
+	<build>
+		<plugins>
 			<!-- antlr file -->
-      <plugin>
+			<plugin>
 				<groupId>org.antlr</groupId>
 				<artifactId>antlr4-maven-plugin</artifactId>
 				<version>${antlr.version}</version>
@@ -34,8 +38,8 @@
 					<grammars>Ddsc.g4</grammars>
 					<visitor>true</visitor>
 					<listener>true</listener>
-          <libDirectory>${basedir}/src/main/antlr4/org/eclipse/cyclonedds</libDirectory>
-        </configuration>        
+					<libDirectory>${basedir}/src/main/antlr4/org/eclipse/cyclonedds</libDirectory>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
@@ -45,72 +49,72 @@
 				</executions>
 			</plugin>
 
-			<!-- Add antlr4 extra source folder-->
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.7</version>
-          <executions>
-            <execution>
-              <id>add-source</id>
-              <phase>generate-sources</phase>
-              <goals>
-              <goal>add-source</goal>
-              </goals>
-              <configuration>
-                <sources>
-                  <source>target/generated-sources/antlr4/</source>
-                </sources>
-              </configuration>
-            </execution>
-        </executions>
-      </plugin>
+			<!-- Add antlr4 extra source folder -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>target/generated-sources/antlr4/</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
-      <!-- Embbed every depdencies -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-shade-plugin</artifactId>
-        <version>3.1.0</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <goals>
-              <goal>shade</goal>
-            </goals>
-            <configuration>
-              <minimizeJar>true</minimizeJar>
-              <artifactSet>
-                <includes>
-                  <include>junit:junit</include>
-                  <include>org.antlr:antlr4-runtime</include>
-                  <include>net.java.dev.jna:jna</include>
-                  <include>net.java.dev.jna:jna-platform</include>
-                </includes>
-              </artifactSet>            
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
+			<!-- Embbed every depdencies -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<minimizeJar>true</minimizeJar>
+							<artifactSet>
+								<includes>
+									<include>junit:junit</include>
+									<include>org.antlr:antlr4-runtime</include>
+									<include>net.java.dev.jna:jna</include>
+									<include>net.java.dev.jna:jna-platform</include>
+								</includes>
+							</artifactSet>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 
-      <!-- main classes -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.0.2</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <classpathPrefix>lib/</classpathPrefix>
-              <mainClass>org.eclipse.cyclonedds.JavaGeneratorHelper</mainClass>
-            </manifest>
-            <manifestEntries>
-                <Class-Path>.</Class-Path>
-            </manifestEntries>
-          </archive>
-        </configuration>
-      </plugin>
+			<!-- main classes -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.2</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>org.eclipse.cyclonedds.JavaGeneratorHelper</mainClass>
+						</manifest>
+						<manifestEntries>
+							<Class-Path>.</Class-Path>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
 
-    </plugins>
-  </build>
+		</plugins>
+	</build>
 </project>

@@ -3,30 +3,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.cyclonedds</groupId>
 	<artifactId>examples</artifactId>
+	<name>Java 5 example: JNA and API examples</name>
 	<version>1.0-SNAPSHOT</version>
-	<name>JNA and Cyclone DDS Java 5 examples</name>
 	<packaging>pom</packaging>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.5</maven.compiler.source>
-		<maven.compiler.target>1.5</maven.compiler.target>
-	</properties>
 
 	<modules>
 		<!-- JNA examples -->
 		<module>overhead-jna</module>
 		<module>roundtrip-jna</module>
 		<module>helloworld-jna</module>
-		
+
 		<!-- Cyclone DDS Java 5 examples -->
-		<module>overhead-api</module>		
+		<module>overhead-api</module>
 		<module>helloworld-api</module>
 		<module>throughput-api</module>
+		<module>roundtrip-api</module>
 	</modules>
 
 </project>

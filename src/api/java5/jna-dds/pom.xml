@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.eclipse.cyclonedds</groupId>
 	<artifactId>jna-dds</artifactId>
-	<name>jna-dds</name>
-	<version>1.0-SNAPSHOT</version>
+	<name>Cyclone Java 5 JNA interfaces</name>
 	<packaging>jar</packaging>
-	
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.5</maven.compiler.source>
-		<maven.compiler.target>1.5</maven.compiler.target>
-		<jna.dds.dir>${basedir}/</jna.dds.dir>
-	</properties>
-	
+
+	<parent>
+		<groupId>org.eclipse.cyclonedds</groupId>
+		<artifactId>parent-pom</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../parent-pom</relativePath>
+	</parent>
+
 	<dependencies>
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
 			<artifactId>jna</artifactId>
-			<version>4.1.0</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -32,18 +30,17 @@
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>1.4</version>
-				
+
 				<configuration>
 					<shadedArtifactAttached>true</shadedArtifactAttached>
-					<!--shadedClassifierName>shaded</shadedClassifierName-->
+					<!--shadedClassifierName>shaded</shadedClassifierName -->
 					<artifactSet>
 						<excludes>
 							<exclude>org.scala-lang:scala-library</exclude>
@@ -69,30 +66,30 @@
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>3.1.1</version>
 				<executions>
-				<execution>
-					<id>unpack</id>
-					<phase>initialize</phase>
-					<goals>
-					<goal>unpack</goal>
-					</goals>
-					<configuration>
-					<artifactItems>
-						<artifactItem>
-							<groupId>org.eclipse.cyclonedds</groupId>
-							<artifactId>java-generator-helper</artifactId>
-							<version>1.0-SNAPSHOT</version>
-							<type>jar</type>
-							<overWrite>true</overWrite>
-							<outputDirectory>/tmp</outputDirectory>
-							<destFileName>Helper.java.txt</destFileName>
+					<execution>
+						<id>unpack</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.eclipse.cyclonedds</groupId>
+									<artifactId>java-generator-helper</artifactId>
+									<version>1.0-SNAPSHOT</version>
+									<type>jar</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>/tmp</outputDirectory>
+									<destFileName>Helper.java.txt</destFileName>
+									<includes>**/Helper.java.txt</includes>
+								</artifactItem>
+							</artifactItems>
 							<includes>**/Helper.java.txt</includes>
-						</artifactItem>
-					</artifactItems>
-					<includes>**/Helper.java.txt</includes>
-					<overWriteReleases>true</overWriteReleases>
-					<overWriteSnapshots>true</overWriteSnapshots>
-					</configuration>
-				</execution>
+							<overWriteReleases>true</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 
@@ -100,7 +97,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.1.1</version>
 				<executions>
 					<execution>
 						<phase>generate-sources</phase>
@@ -125,7 +121,6 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>3.0.0</version>
 				<executions>
 					<execution>
 						<id>add-source</id>
@@ -156,10 +151,9 @@
 				</executions>
 			</plugin>
 
-			<!-- Copy to right directory-->
+			<!-- Copy to right directory -->
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.1.0</version>
 				<executions>
 					<execution>
 						<id>copy-resources</id>
@@ -168,7 +162,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-						<!--<outputDirectory>${basedir}/target/linux-x86-64</outputDirectory>-->
+							<!--<outputDirectory>${basedir}/target/linux-x86-64</outputDirectory> -->
 							<outputDirectory>${basedir}/src/main/resources</outputDirectory>
 							<resources>
 								<resource>
@@ -189,7 +183,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-						<outputDirectory>${basedir}/target/generated-sources</outputDirectory>
+							<outputDirectory>${basedir}/target/generated-sources</outputDirectory>
 							<resources>
 								<resource>
 									<directory>src/test/helloworld-files/generated-java/</directory>

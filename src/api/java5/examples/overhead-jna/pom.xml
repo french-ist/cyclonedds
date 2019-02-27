@@ -9,7 +9,7 @@
 	<artifactId>overhead-jna</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
-	<name>Overehead test JNA</name>
+	<name>Java 5 JNA example: Overhead</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

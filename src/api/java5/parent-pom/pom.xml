@@ -1,14 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>org.eclipse.cyclonedds</groupId>
     <artifactId>parent-pom</artifactId>
     <packaging>pom</packaging>
-
     <version>1.0-SNAPSHOT</version>
 
-    <name>Cyclone parent POM</name>
+    <name>Cyclone Java 5 API parent POM</name>
     <description>This is a parent POM with recommended dependencies for projects using Vortex Cyclone.</description>
     <url>http://vortex.adlinktech.com/</url>
 
@@ -37,17 +35,17 @@
         <maven-compiler-plugin-version>3.5.1</maven-compiler-plugin-version>
         <maven-install-plugin-version>2.5.2</maven-install-plugin-version>
         <maven-jar-plugin-version>3.0.2</maven-jar-plugin-version>
-        <maven-resources-plugin-version>3.0.1</maven-resources-plugin-version>
+        <maven-resources-plugin-version>3.1.0</maven-resources-plugin-version>
         <maven-enforcer-plugin-version>3.0.0-M2</maven-enforcer-plugin-version>
         <!-- for Cyclone projects themselves -->
         <slf4j-version>1.7.21</slf4j-version>
-        <maven-shade-plugin-version>2.4.3</maven-shade-plugin-version>
+        <maven-shade-plugin-version>3.1.0</maven-shade-plugin-version>
 
         <!-- for Cyclone internal tests -->
         <junit-version>4.12</junit-version>
         <xmlunit-version>1.6</xmlunit-version>
         <logback-version>1.1.7</logback-version>
-        <build-helper-maven-plugin-version>1.12</build-helper-maven-plugin-version>
+        <build-helper-maven-plugin-version>3.0.0</build-helper-maven-plugin-version>
         <ftpserver-version>1.0.6</ftpserver-version>
         <jansi-version>1.13</jansi-version>
         <commons-cli-version>1.3.1</commons-cli-version>
@@ -86,6 +84,10 @@
         <os-maven-plugin-version>1.5.0.Final</os-maven-plugin-version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <maven.compiler.source>1.5</maven.compiler.source>
+		<maven.compiler.target>1.5</maven.compiler.target>
+        
         <gen-idl-dir>${project.build.directory}/generated-sources/idl/</gen-idl-dir>
         <dds_builtinTopics>-l java -S -I${env.CYCLONE_HOME_NORMALIZED}/etc ${env.CYCLONE_HOME_NORMALIZED}/etc/idl/dds_builtinTopics.idl</dds_builtinTopics>
         <idlpp_exec>${env.CYCLONE_HOME_NORMALIZED}/idlpp.sh</idlpp_exec>
@@ -95,9 +97,8 @@
 
         <jna.dds.dir>${basedir}/</jna.dds.dir>
     </properties>
-
+	
     <repositories>
-        <!-- For build of Android examples with Gradle -->
         <repository>
             <id>gradle</id>
             <url>http://repo.gradle.org/gradle/libs-releases-local/</url>
