@@ -11,8 +11,8 @@
         <relativePath>../parent-pom</relativePath>
     </parent>
 
-    <artifactId>sample</artifactId>
-    <name>JNA sample</name>
+    <artifactId>samples</artifactId>
+    <name>JNA samples</name>
     <packaging>jar</packaging>
 
     <dependencies>
