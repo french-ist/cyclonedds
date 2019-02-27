@@ -20,11 +20,8 @@ public class Overhead
 {
 
 	Comparator<Double> comparator = new Comparator<Double>() {
-		public int compare(Double a, Double b) {
-			if(a==null || b==null) {
-				return 0;
-			}
-			return a==b ? 0 : a<b ? -1:1;
+		public int compare(Double a, Double b) {			
+			return Double.compare(a, b);
 		}		
 	};
 
