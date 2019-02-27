@@ -4,4 +4,4 @@ _**/**
 **/dependency-reduced-pom.xml
 **/.vscode
 **/.classpath
-**/cyclonedds-error.log
+**/cyclonedds-*.log

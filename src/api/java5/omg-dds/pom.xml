@@ -33,8 +33,11 @@
                             <sources>
                                 <source>
                                     <includes>
+                                        <include>dds_builtInTypes.idl</include>
                                         <include>dds_builtinTopics.idl</include>
                                         <include>dds_dcps_builtintopics.idl</include>
+                                        <include>dds_predefTypes.idl</include>
+                                        <include>dds_dcps_interfaces.idl</include>
                                     </includes>
                                     <emitStubs>false</emitStubs>
                                     <emitSkeletons>false</emitSkeletons>
