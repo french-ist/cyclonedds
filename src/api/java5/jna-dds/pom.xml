@@ -14,13 +14,6 @@
 		<relativePath>../parent-pom</relativePath>
 	</parent>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>1.5</maven.compiler.source>
-		<maven.compiler.target>1.5</maven.compiler.target>
-		<jna.dds.dir>${basedir}/</jna.dds.dir>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>net.java.dev.jna</groupId>
