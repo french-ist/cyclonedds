@@ -85,8 +85,8 @@
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
-        <maven.compiler.source>1.5</maven.compiler.source>
-		<maven.compiler.target>1.5</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
         
         <gen-idl-dir>${project.build.directory}/generated-sources/idl/</gen-idl-dir>
         <dds_builtinTopics>-l java -S -I${env.CYCLONE_HOME_NORMALIZED}/etc ${env.CYCLONE_HOME_NORMALIZED}/etc/idl/dds_builtinTopics.idl</dds_builtinTopics>
