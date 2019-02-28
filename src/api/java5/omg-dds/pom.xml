@@ -16,48 +16,4 @@
     <name>OMG DDS API</name>
     <description>The standard Java 5 Language PSM for DDS</description>
     <url>http://www.OMG.org/spec/DDS-Java/</url>
-    <build>
-        <plugins>
-            <!-- IDL code generation -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>idlj-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>compile main idl</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <compiler>idlj</compiler>
-                            <sources>
-                                <source>
-                                    <includes>
-                                        <include>dds_builtInTypes.idl</include>
-                                        <include>dds_builtinTopics.idl</include>
-                                        <include>dds_dcps_builtintopics.idl</include>
-                                        <include>dds_predefTypes.idl</include>
-                                        <include>dds_dcps_interfaces.idl</include>
-                                    </includes>
-                                    <emitStubs>false</emitStubs>
-                                    <emitSkeletons>false</emitSkeletons>
-                                </source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>compile test idl</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirectory>src/test/idl</sourceDirectory>
-                            <outputDirectory>${project.build.directory}/generated-test-sources/java</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 </project>
