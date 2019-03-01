@@ -1,0 +1,94 @@
+<!-- Vortex Cafe This software and documentation are Copyright 2010 to 2019 
+	ADLINK Technology Limited, its affiliated companies and licensors. All rights 
+	reserved. Licensed under the ADLINK Software License Agreement Rev 2.7 2nd 
+	October 2014 (the "License"); you may not use this file except in compliance 
+	with the License. You may obtain a copy of the License at: docs/LICENSE.html 
+	See the License for the specific language governing permissions and limitations 
+	under the License. -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.eclipse.cyclonedds.examples</groupId>
+	<artifactId>helloworld-api</artifactId>
+	<version>1.0-SNAPSHOT</version>
+
+	<name>Java API example: HelloWorld</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.cyclonedds</groupId>
+			<artifactId>cyclone-dds</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- Embbed every depdencies -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<artifactSet>
+								<includes>
+									<include>org.eclipse.cyclonedds:cyclone-dds</include>
+								</includes>
+							</artifactSet>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+	</build>
+
+	<profiles>
+		<!-- "pub" profile to execute HelloWorld publisher -->
+		<profile>
+			<id>pub</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<configuration>
+							<mainClass>helloworld.HelloWorldPublisher</mainClass>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<!-- "sub" profile to execute HelloWorld subscriber -->
+		<profile>
+			<id>sub</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<configuration>
+							<mainClass>helloworld.HelloWorldSubscriber</mainClass>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>
