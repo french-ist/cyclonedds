@@ -230,7 +230,8 @@ public class CompilerMojo
       String JAVA_HOME_VAR = env.get("JAVA_HOME");
       if (null == JAVA_HOME_VAR)
       {
-         throw new MojoExecutionException("JAVA_HOME not set");
+         //TODO manage windows case throw new MojoExecutionException("JAVA_HOME not set");
+         return "idlj";
       }
       return JAVA_HOME_VAR + File.separatorChar + "bin" + File.separatorChar + "idlj";
    }
