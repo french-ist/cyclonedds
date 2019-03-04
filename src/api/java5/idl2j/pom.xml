@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+                                Vortex Cafe
+
+       This software and documentation are Copyright 2010 to 2019 ADLINK
+       Technology Limited, its affiliated companies and licensors. All rights
+       reserved.
+
+       Licensed under the ADLINK Software License Agreement Rev 2.7 2nd October
+       2014 (the "License"); you may not use this file except in compliance with
+       the License.
+       You may obtain a copy of the License at:
+                           docs/LICENSE.html
+
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+      <groupId>org.eclipse.cyclonedds</groupId>
+      <artifactId>parent-pom</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <relativePath>../parent-pom</relativePath>
+   </parent>
+
+   <artifactId>idl2j</artifactId>
+   <name>Vortex Cafe IDL to Java compiler</name>
+   <packaging>maven-plugin</packaging>
+
+   <dependencies>
+      <dependency>
+         <groupId>org.apache.maven</groupId>
+         <artifactId>maven-plugin-api</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.maven</groupId>
+         <artifactId>maven-compat</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.maven</groupId>
+         <artifactId>maven-project</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>commons-io</groupId>
+         <artifactId>commons-io</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.maven.plugin-testing</groupId>
+         <artifactId>maven-plugin-testing-harness</artifactId>
+         <scope>test</scope>
+      </dependency>
+      <!-- Scala library -->
+      <dependency>
+         <groupId>org.scala-lang</groupId>
+         <artifactId>scala-library</artifactId>
+      </dependency>
+     <dependency>
+        <groupId>org.scala-lang.modules</groupId>
+        <artifactId>scala-parser-combinators_${scala-major-version}</artifactId>
+     </dependency>
+      <!-- Unit tests framework -->
+      <dependency>
+         <groupId>junit</groupId>
+         <artifactId>junit</artifactId>
+         <scope>test</scope>
+      </dependency>
+   </dependencies>
+
+   <build>
+      <resources>
+         <resource>
+            <directory>src/main/resources</directory>
+            <targetPath>${project.build.directory}/classes</targetPath>
+         </resource>
+      </resources>
+         
+      <plugins>
+          
+        <!-- Check that RLM is activated  
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-enforcer-plugin</artifactId>
+            <version>3.0.0-M2</version>
+            <executions>
+            <execution>
+                <id>enforce-files-exist</id>
+                <goals>
+                <goal>enforce</goal>
+                </goals>
+                <configuration>
+                <rules>
+                    <requireFilesExist>
+                    <files>
+                    <file>${project.rootdir}/rlm/java/rlm/target/rlm-${rlm-version}.jar</file>
+                    <file>${project.rootdir}/rlm/java/rlm-standalone/target/rlm-standalone-${rlm-version}.jar</file>
+                    </files>
+                    <message>${project.rootdir}/rlm/java/rlm/target/rlm-${rlm-version}.jar and ${project.rootdir}/rlm/java/rlm-standalone/target/rlm-standalone-${rlm-version}.jar not found - probably RLM is not activated</message>
+                    </requireFilesExist>
+                </rules>
+                <fail>true</fail>
+                </configuration>
+            </execution>
+            </executions>
+        </plugin>
+        --> 
+        
+         <!-- Copy the ANY.lic file in ~/etc 
+         <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+               <execution>
+                  <id>copy-resources</id>
+                  <phase>validate</phase>
+                  <goals>
+                     <goal>copy-resources</goal>
+                  </goals>
+                  <configuration>
+                     <outputDirectory>${user.home}/etc</outputDirectory>
+                     <resources>
+                        <resource>
+                           <directory>../rlm/java/rlm-standalone/src/test/resources/</directory>
+                           <includes>
+                               <include>ANY.lic</include>
+                           </includes>
+                           <filtering>false</filtering>
+                        </resource>
+                     </resources>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+         -->
+
+         <!-- Java Code Formatter 
+         <plugin>
+            <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+            <artifactId>maven-java-formatter-plugin</artifactId>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>format</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+         -->
+
+            <!-- add ${project.build.directory}/generated-sources/java as sources -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-templates-generated-sources</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+         <!-- the Maven Scala plugin will compile Scala source files -->
+         <plugin>
+            <groupId>org.scala-tools</groupId>
+            <artifactId>maven-scala-plugin</artifactId>
+            <executions>
+               <execution>
+                  <id>compile</id>
+                  <goals>
+                     <goal>compile</goal>
+                  </goals>
+                  <phase>compile</phase>
+               </execution>
+               <execution>
+                  <id>test-compile</id>
+                  <goals>
+                     <goal>testCompile</goal>
+                  </goals>
+                  <phase>test-compile</phase>
+               </execution>
+               <execution>
+                  <phase>process-resources</phase>
+                  <goals>
+                     <goal>compile</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-shade-plugin</artifactId>
+            <executions>
+               <execution>
+                  <phase>package</phase>
+                  <goals>
+                     <goal>shade</goal>
+                  </goals>
+                  <configuration>
+                     <minimizeJar>true</minimizeJar>
+                     <dependencyReducedPomLocation>${basedir}/target/dependency-reduced-pom.xml</dependencyReducedPomLocation>
+                     <filters>
+                        <filter>
+                           <artifact>com.prismtech:rlm-standalone</artifact>
+                           <!-- force inclusion of all RLM classes -->
+                           <includes>
+                              <include>**</include>
+                           </includes>
+                        </filter>
+                     </filters>
+                     <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                           <mainClass>org.eclipse.cyclonedds.idl2j.Compiler</mainClass>
+                        </transformer>
+                     </transformers>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+
+         <!-- transform the pom.xml for public release -->
+         <!-- (removing dependencies, plugins...)      -->
+         <plugin>
+             <groupId>org.codehaus.mojo</groupId>
+             <artifactId>xml-maven-plugin</artifactId>
+             <executions>
+                 <execution>
+                     <id>Transform pom.xml for release</id>
+                     <goals>
+                         <goal>transform</goal>
+                     </goals>
+                     <phase>package</phase>
+                     <configuration>
+                         <transformationSets>
+                             <transformationSet>
+                                 <includes><include>pom.xml</include></includes>
+                                 <dir>${project.basedir}</dir>
+                                 <outputDir>${project.build.directory}</outputDir>
+                                 <stylesheet>${project.basedir}/src/main/xsl/pom.xsl</stylesheet>
+                             </transformationSet>
+                         </transformationSets>
+                     </configuration>
+                 </execution>
+             </executions>
+         </plugin>
+
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+                    <!-- Run tests in alphabetical to have CompilerMojoTest
+                         run before GeneratedCodeTest.
+                    -->
+               <runOrder>alphabetical</runOrder>
+            </configuration>
+         </plugin>
+
+         <!-- Install the non-shaded jar with a different name and -->
+         <!-- with original pom.xml to keep track of dependencies  -->
+         <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-install-plugin</artifactId>
+            <executions>
+               <execution>
+                  <id>install non-shaded artifact</id>
+                  <phase>install</phase>
+                  <goals>
+                     <goal>install-file</goal>
+                  </goals>
+                  <configuration>
+                     <file>${project.build.directory}/original-${project.artifactId}-${project.version}.jar</file>
+                     <groupId>${project.groupId}</groupId>
+                     <artifactId>${project.artifactId}-non-shaded</artifactId>
+                     <version>${project.version}</version>
+                     <packaging>jar</packaging>
+                     <pomFile>${basedir}/pom.xml</pomFile>
+                  </configuration>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+
+      <pluginManagement>
+         <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+            <plugin>
+               <groupId>org.eclipse.m2e</groupId>
+               <artifactId>lifecycle-mapping</artifactId>
+               <version>1.0.0</version>
+               <configuration>
+                  <lifecycleMappingMetadata>
+                     <pluginExecutions>
+                        <pluginExecution>
+                           <pluginExecutionFilter>
+                              <groupId>org.scala-tools</groupId>
+                              <artifactId>maven-scala-plugin</artifactId>
+                              <versionRange>${maven-scala-plugin-version}</versionRange>
+                              <goals>
+                                 <goal>compile</goal>
+                                 <goal>testCompile</goal>
+                              </goals>
+                           </pluginExecutionFilter>
+                           <action>
+                              <ignore />
+                           </action>
+                        </pluginExecution>
+                        <pluginExecution>
+                           <pluginExecutionFilter>
+                              <groupId>org.apache.maven.plugins</groupId>
+                              <artifactId>maven-plugin-plugin</artifactId>
+                              <versionRange>[3.2,)</versionRange>
+                              <goals>
+                                 <goal>descriptor</goal>
+                              </goals>
+                           </pluginExecutionFilter>
+                           <action>
+                              <ignore />
+                           </action>
+                        </pluginExecution>
+                        <pluginExecution>
+                           <pluginExecutionFilter>
+                              <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+                              <artifactId>maven-java-formatter-plugin</artifactId>
+                              <versionRange>
+                                 [${maven-java-formatter-plugin-version},)
+                              </versionRange>
+                              <goals>
+                                 <goal>format</goal>
+                              </goals>
+                           </pluginExecutionFilter>
+                           <action>
+                              <ignore />
+                           </action>
+                        </pluginExecution>
+                     </pluginExecutions>
+                  </lifecycleMappingMetadata>
+               </configuration>
+            </plugin>
+         </plugins>
+      </pluginManagement>
+
+   </build>
+
+   <profiles>
+        <!-- "licensed" profile (id -Dunlicensed is used):              -->
+        <!-- add src/main/java_templates/licensed as filtered resources -->
+      <!-- 
+      <profile>
+         <id>licensed</id>
+         <activation>
+            <property>
+               <name>licensed</name>
+            </property>
+         </activation>
+         <build>
+            <resources>
+               <resource>
+                  <directory>src/main/java_templates/licensed</directory>
+                  <targetPath>${project.build.directory}/generated-sources/java</targetPath>
+                  <filtering>true</filtering>
+               </resource>
+            </resources>
+         </build>
+         <dependencies>
+            RLM library (licensing)
+            <dependency>
+               <groupId>com.prismtech</groupId>
+               <artifactId>rlm-standalone</artifactId>
+            </dependency>
+         </dependencies>
+      </profile>
+       -->
+
+        <!-- "unlicensed" profile (always active, unless -Dlicensed is used): -->
+        <!-- add src/main/java_templates/unlicensed as filtered resources     -->
+      <profile>
+         <id>unlicensed</id>
+         <activation>
+            <property>
+               <name>!licensed</name>
+            </property>
+         </activation>
+         <build>
+            <resources>
+               <resource>
+                  <directory>src/main/java_templates/unlicensed</directory>
+                  <targetPath>${project.build.directory}/generated-sources/java</targetPath>
+                  <filtering>true</filtering>
+               </resource>
+            </resources>
+         </build>
+      </profile>
+
+      <!-- "codeAnalysis" profile: for code analysis (code coverage). -->
+      <!-- WARNING: this is not compatible with "obfuscated" profile. -->
+      <profile>
+         <id>codeAnalysis</id>
+         <activation>
+            <property>
+               <name>codeAnalysis</name>
+            </property>
+         </activation>
+         <!-- JaCoCo plugin for code coverage -->
+         <build>
+            <plugins>
+               <plugin>
+                  <groupId>org.jacoco</groupId>
+                  <artifactId>jacoco-maven-plugin</artifactId>
+                  <executions>
+                     <execution>
+                        <id>agent-for-ut</id>
+                        <goals>
+                           <goal>prepare-agent</goal>
+                        </goals>
+                     </execution>
+                  </executions>
+               </plugin>
+            </plugins>
+         </build>
+      </profile>
+
+   </profiles>
+   
+   
+</project>

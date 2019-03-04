@@ -1,366 +1,423 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.eclipse.cyclonedds</groupId>
-    <artifactId>parent-pom</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.eclipse.cyclonedds</groupId>
+	<artifactId>parent-pom</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0-SNAPSHOT</version>
 
-    <name>Cyclone Java 5 API parent POM</name>
-    <description>This is a parent POM with recommended dependencies for projects using Vortex Cyclone.</description>
-    <url>http://vortex.adlinktech.com/</url>
+	<name>Cyclone Java 5 API parent POM</name>
+	<description>This is a parent POM with recommended dependencies for projects using Vortex Cyclone.</description>
+	<url>http://vortex.adlinktech.com/</url>
 
-    <organization>
-        <name>ADLINK Technology Limited</name>
-        <url>http://ist.adlinktech.com/</url>
-    </organization>
+	<organization>
+		<name>ADLINK Technology Limited</name>
+		<url>http://ist.adlinktech.com/</url>
+	</organization>
 
-    <licenses>
-        <license>
-            <name>ADLINK licensed</name>
-            <url>docs/LICENSE.html</url>
-        </license>
-    </licenses>
+	<licenses>
+		<license>
+			<name>ADLINK licensed</name>
+			<url>docs/LICENSE.html</url>
+		</license>
+	</licenses>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- root directory of Café project. To be used as such in 1st level modules, -->
-        <!-- or to be overwritten in 2nd/3d.. level modules.                           -->
-        <project.rootdir>${basedir}/..</project.rootdir>
+		<!-- root directory of Café project. To be used as such in 1st level modules, -->
+		<!-- or to be overwritten in 2nd/3d.. level modules. -->
+		<project.rootdir>${basedir}/..</project.rootdir>
 
-        <!-- for Maven usual plugins -->
-        <maven-core-version>3.3.9</maven-core-version>
-        <maven-project-version>2.2.1</maven-project-version>
-        <maven-compiler-plugin-version>3.5.1</maven-compiler-plugin-version>
-        <maven-install-plugin-version>2.5.2</maven-install-plugin-version>
-        <maven-jar-plugin-version>3.0.2</maven-jar-plugin-version>
-        <maven-resources-plugin-version>3.1.0</maven-resources-plugin-version>
-        <maven-enforcer-plugin-version>3.0.0-M2</maven-enforcer-plugin-version>
-        <!-- for Cyclone projects themselves -->
-        <slf4j-version>1.7.21</slf4j-version>
-        <maven-shade-plugin-version>3.1.0</maven-shade-plugin-version>
+		<!-- for Maven usual plugins -->
+		<maven-core-version>3.3.9</maven-core-version>
+		<maven-project-version>2.2.1</maven-project-version>
+		<maven-compiler-plugin-version>3.5.1</maven-compiler-plugin-version>
+		<maven-install-plugin-version>2.5.2</maven-install-plugin-version>
+		<maven-jar-plugin-version>3.0.2</maven-jar-plugin-version>
+		<maven-resources-plugin-version>3.1.0</maven-resources-plugin-version>
+		<maven-enforcer-plugin-version>3.0.0-M2</maven-enforcer-plugin-version>
+		<!-- for Cyclone projects themselves -->
+		<slf4j-version>1.7.21</slf4j-version>
+		<maven-shade-plugin-version>3.1.0</maven-shade-plugin-version>
 
-        <!-- for Cyclone internal tests -->
-        <junit-version>4.12</junit-version>
-        <xmlunit-version>1.6</xmlunit-version>
-        <logback-version>1.1.7</logback-version>
-        <build-helper-maven-plugin-version>3.0.0</build-helper-maven-plugin-version>
-        <ftpserver-version>1.0.6</ftpserver-version>
-        <jansi-version>1.13</jansi-version>
-        <commons-cli-version>1.3.1</commons-cli-version>
-        <commons-math3-version>3.6.1</commons-math3-version>
+		<!-- for Cyclone internal tests -->
+		<junit-version>4.12</junit-version>
+		<xmlunit-version>1.6</xmlunit-version>
+		<logback-version>1.1.7</logback-version>
+		<build-helper-maven-plugin-version>3.0.0</build-helper-maven-plugin-version>
+		<ftpserver-version>1.0.6</ftpserver-version>
+		<jansi-version>1.13</jansi-version>
+		<commons-cli-version>1.3.1</commons-cli-version>
+		<commons-math3-version>3.6.1</commons-math3-version>
 
-        <!-- for Cyclone examples -->
-        <maven-exec-plugin-version>1.5.0</maven-exec-plugin-version>
-        <maven-scala-plugin-version>2.15.2</maven-scala-plugin-version>
-        <idlj-maven-plugin-version>1.1.1</idlj-maven-plugin-version>
-        <javafx-maven-plugin-version>8.6.0</javafx-maven-plugin-version>
-        <groovy-version>1.8.9</groovy-version>
-        <gmaven-plugin-version>1.5</gmaven-plugin-version>
-        <gmaven-provider-version>1.8</gmaven-provider-version>
-        <maven-antrun-plugin-version>1.8</maven-antrun-plugin-version>
+		<!-- for Cyclone examples -->
+		<maven-exec-plugin-version>1.5.0</maven-exec-plugin-version>
+		<maven-scala-plugin-version>2.15.2</maven-scala-plugin-version>
+		<idlj-maven-plugin-version>1.1.1</idlj-maven-plugin-version>
+		<javafx-maven-plugin-version>8.6.0</javafx-maven-plugin-version>
+		<groovy-version>1.8.9</groovy-version>
+		<gmaven-plugin-version>1.5</gmaven-plugin-version>
+		<gmaven-provider-version>1.8</gmaven-provider-version>
+		<maven-antrun-plugin-version>1.8</maven-antrun-plugin-version>
 
-        <!-- for Android Cyclone examples -->
-        <android-maven-plugin-version>4.4.3</android-maven-plugin-version>
-        <slf4j-android-version>1.7.21</slf4j-android-version>
-        <android-minimum-platform-version>4.1.1.4</android-minimum-platform-version>
-        <gradle-version>3.3</gradle-version>
-        <gradle-maven-plugin-version>1.0.8</gradle-maven-plugin-version>
+		<!-- for Android Cyclone examples -->
+		<android-maven-plugin-version>4.4.3</android-maven-plugin-version>
+		<slf4j-android-version>1.7.21</slf4j-android-version>
+		<android-minimum-platform-version>4.1.1.4</android-minimum-platform-version>
+		<gradle-version>3.3</gradle-version>
+		<gradle-maven-plugin-version>1.0.8</gradle-maven-plugin-version>
 
-        <!-- for internal purpose (plugins for Cyclone products construction) -->
-        <maven-surefire-plugin-version>2.20</maven-surefire-plugin-version>
-        <maven-failsafe-plugin-version>2.20</maven-failsafe-plugin-version>
-        <jacoco-version>0.7.9</jacoco-version>
-        <proguard-maven-plugin-version>2.0.13</proguard-maven-plugin-version>
-        <proguard-version>5.1</proguard-version>
-        <maven-plugin-testing-version>3.3.0</maven-plugin-testing-version>
-        <maven-javadoc-plugin-version>2.10.4</maven-javadoc-plugin-version>
-        <maven-install-plugin-version>2.5.2</maven-install-plugin-version>
-        <maven-clean-plugin-version>3.0.0</maven-clean-plugin-version>
-        <maven-java-formatter-plugin-version>0.4</maven-java-formatter-plugin-version>
-        <maven-bundle-plugin-version>3.2.0</maven-bundle-plugin-version>
-        <xml-maven-plugin-version>1.0.1</xml-maven-plugin-version>
-        <os-maven-plugin-version>1.5.0.Final</os-maven-plugin-version>
+		<!-- for internal purpose (plugins for Cyclone products construction) -->
+		<maven-surefire-plugin-version>2.20</maven-surefire-plugin-version>
+		<maven-failsafe-plugin-version>2.20</maven-failsafe-plugin-version>
+		<jacoco-version>0.7.9</jacoco-version>
+		<proguard-maven-plugin-version>2.0.13</proguard-maven-plugin-version>
+		<proguard-version>5.1</proguard-version>
+		<maven-plugin-testing-version>3.3.0</maven-plugin-testing-version>
+		<maven-javadoc-plugin-version>2.10.4</maven-javadoc-plugin-version>
+		<maven-install-plugin-version>2.5.2</maven-install-plugin-version>
+		<maven-clean-plugin-version>3.0.0</maven-clean-plugin-version>
+		<maven-java-formatter-plugin-version>0.4</maven-java-formatter-plugin-version>
+		<maven-bundle-plugin-version>3.2.0</maven-bundle-plugin-version>
+		<xml-maven-plugin-version>1.0.1</xml-maven-plugin-version>
+		<os-maven-plugin-version>1.5.0.Final</os-maven-plugin-version>
 
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        
-        <maven.compiler.source>1.6</maven.compiler.source>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
-        
-        <gen-idl-dir>${project.build.directory}/generated-sources/idl/</gen-idl-dir>
-        <dds_builtinTopics>-l java -S -I${env.CYCLONE_HOME_NORMALIZED}/etc ${env.CYCLONE_HOME_NORMALIZED}/etc/idl/dds_builtinTopics.idl</dds_builtinTopics>
-        <idlpp_exec>${env.CYCLONE_HOME_NORMALIZED}/idlpp.sh</idlpp_exec>
 
-        <jna-version>5.0.0</jna-version>
-        <gen-test-java-dir>${project.build.directory}/generated-test-sources/java</gen-test-java-dir>
+		<gen-idl-dir>${project.build.directory}/generated-sources/idl/</gen-idl-dir>
+		<dds_builtinTopics>-l java -S -I${env.CYCLONE_HOME_NORMALIZED}/etc
+			${env.CYCLONE_HOME_NORMALIZED}/etc/idl/dds_builtinTopics.idl</dds_builtinTopics>
+		<idlpp_exec>${env.CYCLONE_HOME_NORMALIZED}/idlpp.sh</idlpp_exec>
 
-        <jna.dds.dir>${basedir}/</jna.dds.dir>
-    </properties>
-	
-    <repositories>
-        <repository>
-            <id>gradle</id>
-            <url>http://repo.gradle.org/gradle/libs-releases-local/</url>
-        </repository>
-    </repositories>
+		<jna-version>5.0.0</jna-version>
+		<gen-test-java-dir>${project.build.directory}/generated-test-sources/java</gen-test-java-dir>
 
-    <dependencyManagement>
-        <dependencies>
+		<jna.dds.dir>${basedir}/</jna.dds.dir>
 
-            <!-- slf4j logging -->
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-api</artifactId>
-                <version>${slf4j-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-simple</artifactId>
-                <version>${slf4j-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-android</artifactId>
-                <version>${slf4j-android-version}</version>
-            </dependency>
-
-            <!-- - - - - - - - - - - - - -->
-            <!-- For internal tests -->
-            <!-- - - - - - - - - - - - - -->
-
-            <!-- JUnit -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit-version}</version>
-                <scope>test</scope>
-            </dependency>
+		<!-- for idl2j -->
+		<xml-maven-plugin-version>1.0.1</xml-maven-plugin-version>
+		<commons-io-version>2.5</commons-io-version>
+		<scala-major-version>2.11</scala-major-version>
+		<scala-version>2.11.8</scala-version>
+		<scala-parser-version>1.0.4</scala-parser-version>
 
 
-            <!-- logback (slf4j compatible backend) -->
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-core</artifactId>
-                <version>${logback-version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>ch.qos.logback</groupId>
-                <artifactId>logback-classic</artifactId>
-                <version>${logback-version}</version>
-                <scope>test</scope>
-            </dependency>
+	</properties>
 
-            <!-- windows colored console output -->
-            <dependency>
-                <groupId>org.fusesource.jansi</groupId>
-                <artifactId>jansi</artifactId>
-                <version>${jansi-version}</version>
-                <scope>test</scope>
-            </dependency>
+	<repositories>
+		<repository>
+			<id>gradle</id>
+			<url>http://repo.gradle.org/gradle/libs-releases-local/</url>
+		</repository>
+	</repositories>
 
-            <!-- For our own Maven plugins and artifacts -->
-            <dependency>
-                <groupId>org.apache.maven</groupId>
-                <artifactId>maven-plugin-api</artifactId>
-                <version>${maven-core-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.maven</groupId>
-                <artifactId>maven-project</artifactId>
-                <version>${maven-project-version}</version>
-            </dependency>
+	<dependencyManagement>
+		<dependencies>
 
-            <!-- Maven plugin tests -->
-            <dependency>
-                <groupId>org.apache.maven.plugin-testing</groupId>
-                <artifactId>maven-plugin-testing-harness</artifactId>
-                <version>${maven-plugin-testing-version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.maven</groupId>
-                <artifactId>maven-compat</artifactId>
-                <version>${maven-core-version}</version>
-                <scope>test</scope>
-            </dependency>
+			<!-- slf4j logging -->
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>${slf4j-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-simple</artifactId>
+				<version>${slf4j-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-android</artifactId>
+				<version>${slf4j-android-version}</version>
+			</dependency>
 
-            <!-- JNA dependency -->
-            <dependency>
-                <groupId>net.java.dev.jna</groupId>
-                <artifactId>jna</artifactId>
-                <version>${jna-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>net.java.dev.jna</groupId>
-                <artifactId>jna-platform</artifactId>
-                <version>${jna-version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+			<!-- - - - - - - - - - - - - -->
+			<!-- For internal tests -->
+			<!-- - - - - - - - - - - - - -->
 
-    <build>
-        <pluginManagement>
-            <plugins>
-
-                <!-- Configure Maven to target Java 1.7 -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>${maven-compiler-plugin-version}</version>
-                    <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
-                    </configuration>
-                </plugin>
-
-                <!-- For unit tests -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>${maven-surefire-plugin-version}</version>
-                </plugin>
-
-                <!-- Maven resources plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>${maven-resources-plugin-version}</version>
-                </plugin>
-
-                <!-- Maven install plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-install-plugin</artifactId>
-                    <version>${maven-install-plugin-version}</version>
-                </plugin>
-
-                <!-- Maven clean plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>${maven-clean-plugin-version}</version>
-                </plugin>
+			<!-- JUnit -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>${junit-version}</version>
+				<scope>test</scope>
+			</dependency>
 
 
-                <!-- Maven OSGi bundle plugin -->
-                <plugin>
-                    <groupId>org.apache.felix</groupId>
-                    <artifactId>maven-bundle-plugin</artifactId>
-                    <version>${maven-bundle-plugin-version}</version>
-                </plugin>
+			<!-- logback (slf4j compatible backend) -->
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-core</artifactId>
+				<version>${logback-version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>ch.qos.logback</groupId>
+				<artifactId>logback-classic</artifactId>
+				<version>${logback-version}</version>
+				<scope>test</scope>
+			</dependency>
 
-                <!-- Maven exec plugin (for examples execution) -->
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <version>${maven-exec-plugin-version}</version>
-                </plugin>
+			<!-- windows colored console output -->
+			<dependency>
+				<groupId>org.fusesource.jansi</groupId>
+				<artifactId>jansi</artifactId>
+				<version>${jansi-version}</version>
+				<scope>test</scope>
+			</dependency>
 
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>idlj-maven-plugin</artifactId>
-                    <version>${idlj-maven-plugin-version}</version>
-                </plugin>
-                <!-- Maven Shade plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId>
-                    <version>${maven-shade-plugin-version}</version>
-                </plugin>
+			<!-- For our own Maven plugins and artifacts -->
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-plugin-api</artifactId>
+				<version>${maven-core-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-project</artifactId>
+				<version>${maven-project-version}</version>
+			</dependency>
 
-                <!-- Maven Build Helper plugin -->
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>${build-helper-maven-plugin-version}</version>
-                </plugin>
+			<!-- Maven plugin tests -->
+			<dependency>
+				<groupId>org.apache.maven.plugin-testing</groupId>
+				<artifactId>maven-plugin-testing-harness</artifactId>
+				<version>${maven-plugin-testing-version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.maven</groupId>
+				<artifactId>maven-compat</artifactId>
+				<version>${maven-core-version}</version>
+				<scope>test</scope>
+			</dependency>
 
-                <!-- Maven enforcer plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-enforcer-plugin</artifactId>
-                    <version>${maven-enforcer-plugin-version}</version>
-                    <configuration>
-                        <rules>
-                            <requireEnvironmentVariable>
-                                <variableName>CYCLONE_HOME_NORMALIZED</variableName>
-                                <message>CYCLONE_HOME_NORMALIZED system variable must be set!</message>
-                            </requireEnvironmentVariable>
-                            <requireEnvironmentVariable>
-                                <variableName>CYCLONE_TARGET</variableName>
-                                <message>CYCLONE_TARGET system variable must be set!</message>
-                            </requireEnvironmentVariable>
-                        </rules>
-                        <fail>true</fail>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>enforce-property</id>
-                            <goals>
-                                <goal>enforce</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
+			<!-- JNA dependency -->
+			<dependency>
+				<groupId>net.java.dev.jna</groupId>
+				<artifactId>jna</artifactId>
+				<version>${jna-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>net.java.dev.jna</groupId>
+				<artifactId>jna-platform</artifactId>
+				<version>${jna-version}</version>
+			</dependency>
 
-                <!-- Maven antrun plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-antrun-plugin</artifactId>
-                    <version>${maven-antrun-plugin-version}</version>
-                </plugin>
+			<!-- Commons-IO -->
+			<dependency>
+				<groupId>commons-io</groupId>
+				<artifactId>commons-io</artifactId>
+				<version>${commons-io-version}</version>
+			</dependency>
 
-                <!-- Maven Groovy plugin -->
-                <plugin>
-                    <groupId>org.codehaus.gmaven</groupId>
-                    <artifactId>gmaven-plugin</artifactId>
-                    <version>${gmaven-plugin-version}</version>
-                    <configuration>
-                        <!-- force GMaven plugin to use the Groovy version we want -->
-                        <providerSelection>${gmaven-provider-version}</providerSelection>
-                    </configuration>
-                    <dependencies>
-                        <dependency>
-                            <groupId>org.codehaus.gmaven.runtime</groupId>
-                            <artifactId>gmaven-runtime-${gmaven-provider-version}</artifactId>
-                            <version>${gmaven-plugin-version}</version>
-                            <exclusions>
-                                <exclusion>
-                                    <groupId>org.codehaus.groovy</groupId>
-                                    <artifactId>groovy-all</artifactId>
-                                </exclusion>
-                            </exclusions>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.codehaus.groovy</groupId>
-                            <artifactId>groovy-all</artifactId>
-                            <version>${groovy-version}</version>
-                        </dependency>
-                    </dependencies>
-                </plugin>
+			<!-- Scala libraries -->
+			<dependency>
+				<groupId>org.scala-lang</groupId>
+				<artifactId>scala-library</artifactId>
+				<version>${scala-version}</version>
+			</dependency>
 
-                <!-- Java Code Formatter -->
-                <plugin>
-                    <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
-                    <artifactId>maven-java-formatter-plugin</artifactId>
-                    <version>${maven-java-formatter-plugin-version}</version>
-                    <configuration>
-                        <configFile>${basedir}/../src/etc/PrismtechVortexJavaFormatter.xml</configFile>
-                        <lineEnding>LF</lineEnding>
-                    </configuration>
-                </plugin>
+			<dependency>
+				<groupId>org.scala-lang</groupId>
+				<artifactId>scala-swing</artifactId>
+				<version>${scala-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.scala-lang</groupId>
+				<artifactId>scala-actors</artifactId>
+				<version>${scala-version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.scala-lang.modules</groupId>
+				<artifactId>scala-parser-combinators_${scala-major-version}</artifactId>
+				<version>${scala-parser-version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
-                <!-- For Javadoc generation -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>${maven-javadoc-plugin-version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
-    </build>
+	<build>
+		<pluginManagement>
+			<plugins>
+
+				<!-- Configure Maven to target Java 1.7 -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven-compiler-plugin-version}</version>
+					<configuration>
+						<source>1.7</source>
+						<target>1.7</target>
+					</configuration>
+				</plugin>
+
+				<!-- For unit tests -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven-surefire-plugin-version}</version>
+				</plugin>
+
+				<!-- Maven resources plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>${maven-resources-plugin-version}</version>
+				</plugin>
+
+				<!-- Maven install plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>${maven-install-plugin-version}</version>
+				</plugin>
+
+				<!-- Maven clean plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>${maven-clean-plugin-version}</version>
+				</plugin>
+
+
+				<!-- Maven OSGi bundle plugin -->
+				<plugin>
+					<groupId>org.apache.felix</groupId>
+					<artifactId>maven-bundle-plugin</artifactId>
+					<version>${maven-bundle-plugin-version}</version>
+				</plugin>
+
+				<!-- Maven exec plugin (for examples execution) -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>exec-maven-plugin</artifactId>
+					<version>${maven-exec-plugin-version}</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>idlj-maven-plugin</artifactId>
+					<version>${idlj-maven-plugin-version}</version>
+				</plugin>
+				<!-- Maven Shade plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-shade-plugin</artifactId>
+					<version>${maven-shade-plugin-version}</version>
+				</plugin>
+
+				<!-- Maven Build Helper plugin -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>${build-helper-maven-plugin-version}</version>
+				</plugin>
+
+				<!-- Maven enforcer plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-enforcer-plugin</artifactId>
+					<version>${maven-enforcer-plugin-version}</version>
+					<configuration>
+						<rules>
+							<requireEnvironmentVariable>
+								<variableName>CYCLONE_HOME_NORMALIZED</variableName>
+								<message>CYCLONE_HOME_NORMALIZED system variable must be set!</message>
+							</requireEnvironmentVariable>
+							<requireEnvironmentVariable>
+								<variableName>CYCLONE_TARGET</variableName>
+								<message>CYCLONE_TARGET system variable must be set!</message>
+							</requireEnvironmentVariable>
+						</rules>
+						<fail>true</fail>
+					</configuration>
+					<executions>
+						<execution>
+							<id>enforce-property</id>
+							<goals>
+								<goal>enforce</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- Maven antrun plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>${maven-antrun-plugin-version}</version>
+				</plugin>
+
+				<!-- Maven Groovy plugin -->
+				<plugin>
+					<groupId>org.codehaus.gmaven</groupId>
+					<artifactId>gmaven-plugin</artifactId>
+					<version>${gmaven-plugin-version}</version>
+					<configuration>
+						<!-- force GMaven plugin to use the Groovy version we want -->
+						<providerSelection>${gmaven-provider-version}</providerSelection>
+					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.codehaus.gmaven.runtime</groupId>
+							<artifactId>gmaven-runtime-${gmaven-provider-version}</artifactId>
+							<version>${gmaven-plugin-version}</version>
+							<exclusions>
+								<exclusion>
+									<groupId>org.codehaus.groovy</groupId>
+									<artifactId>groovy-all</artifactId>
+								</exclusion>
+							</exclusions>
+						</dependency>
+						<dependency>
+							<groupId>org.codehaus.groovy</groupId>
+							<artifactId>groovy-all</artifactId>
+							<version>${groovy-version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+
+				<!-- Java Code Formatter -->
+				<plugin>
+					<groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+					<artifactId>maven-java-formatter-plugin</artifactId>
+					<version>${maven-java-formatter-plugin-version}</version>
+					<configuration>
+						<configFile>${basedir}/../src/etc/PrismtechVortexJavaFormatter.xml</configFile>
+						<lineEnding>LF</lineEnding>
+					</configuration>
+				</plugin>
+
+				<!-- For Javadoc generation -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<version>${maven-javadoc-plugin-version}</version>
+				</plugin>
+
+				<!-- Maven Scala plugin -->
+				<plugin>
+					<groupId>org.scala-tools</groupId>
+					<artifactId>maven-scala-plugin</artifactId>
+					<version>${maven-scala-plugin-version}</version>
+				</plugin>
+
+
+				<!-- For XML transformations -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>xml-maven-plugin</artifactId>
+					<version>${xml-maven-plugin-version}</version>
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+	</build>
 
 
 </project>

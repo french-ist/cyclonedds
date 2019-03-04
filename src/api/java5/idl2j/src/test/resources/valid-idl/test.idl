@@ -1,0 +1,222 @@
+/*
+ *                             Vortex Cafe
+ *
+ *    This software and documentation are Copyright 2010 to 2019 ADLINK
+ *    Technology Limited, its affiliated companies and licensors. All rights
+ *    reserved.
+ *
+ *    Licensed under the ADLINK Software License Agreement Rev 2.7 2nd October
+ *    2014 (the "License"); you may not use this file except in compliance with
+ *    the License.
+ *    You may obtain a copy of the License at:
+ *                        docs/LICENSE.html
+ *
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+#include "typedefs.idl"
+#include "services.idl"
+#include "agent.idl"
+
+//import "const.idl"; not supported by idlj
+
+module one {
+  module two {
+    module three {
+
+      enum Shapes { CIRCLE, TRIANGLE, SQUARE };
+
+      struct ShapeType {
+        string color;
+        long x;
+        long y;
+        long shapetype;
+      };
+      // key string
+      #pragma keylist ShapeType color
+
+    };
+
+    enum TempScale { CELSIUS, FARENHEIGHT, KELVIN };
+
+    struct TempSensorType {
+      long id;
+      TempScale scale;
+      float temp;
+      float hum;
+    };
+    // key long enum
+    #pragma keylist TempSensorType id scale
+    
+    struct SpatialPressureEstimate {
+      long x;
+      long y;
+      long z;
+      float pressure;
+    };
+    #pragma keylist SpatialPressureEstimate x y z
+    
+    struct MeteoData{
+      long id;
+      TempSensorType temp;
+      SpatialPressureEstimate pressure;
+    };
+    
+    struct FlightPlan{
+      long id;
+      MeteoData meteo;      
+    };
+    #pragma keylist FlightPlan id meteo.id meteo.temp.id meteo.temp.scale 
+
+   struct Dummy {
+       //wchar m_wchar;
+       //wstring m_wstring;
+       unsigned short m_ushort;
+       unsigned long m_ulong;
+       unsigned long long m_ulonglong;
+       long long longlong_m;
+       long long_1;
+       //fixed m_fixed;
+       string name;
+    };
+    #pragma keylist Dummy m_ushort m_ulong longlong_m m_ulonglong long_1
+        
+    struct BinaryFile {
+       NameType name;
+       BinaryContentsType contents;
+    };
+    #pragma keylist BinaryFile name
+
+    // Test 
+   struct TestStruct {
+      string struct_member1;
+      char struct_member2;
+      long struct_member3;
+   };
+   #pragma keylist TestStruct struct_member1 
+   
+   typedef sequence<TestStruct> TestStruct_seq;
+
+   // TODO JMOB-22
+  /* interface myServer : ::Service::Services {
+     void set_temperature(in float temp);
+     
+     void set_humidity(in float hum);
+     
+     void set_fan_level(in short level);
+
+     void get_details (inout string infos) ;
+
+     void test_sequence_string(in string_seq test);
+
+     void test_sequence_string_inout(inout string_seq test);
+
+     void test_sequence_string_out(out string_seq test);
+
+     void test_sequence_long(in long_seq test);
+
+     // Uncomment when Bug Parser(1) above fixed void test_sequence_TestStruct(in TestStruct_seq test);
+
+     boolean raise_temp_to (in float temp, inout long hum, out short level);
+     short start();
+     short stop();
+   };
+*/
+    typedef long MyLong;
+    typedef sequence < long > longseq;
+
+  };
+
+  struct MyKeylessTopic {
+    string data;
+  };
+  #pragma keylist MyKeylessTopic
+
+  struct MyStructWithoutPragma {
+    string data;
+  };
+
+  module M {
+     typedef string ID;
+  };
+
+    typedef short      short_32;
+    typedef string<40> string_40;
+    typedef ::Service::method_list  a_method_list;
+
+  struct TestScopedTypes {
+     ::Service::ServerClass key1;
+     M::ID key2;
+     a_method_list methods;
+        short_32     a_short;
+        string_40           a_bstring;
+  };
+  #pragma keylist TestScopedTypes key1 key2
+
+  union TestUnionWithScopedTypes switch (long) {
+     case 1: ::Service::ServerClass key1;
+     case 2: M::ID key2;
+     case 3: a_method_list methods;
+     case 4: short_32     a_short;
+  };
+  
+
+};
+
+
+module dude {
+    typedef string scoped_10;
+};
+
+module org { module opensplice { module agent { module metric {
+
+    typedef long long_1[1];
+    typedef short minchio;
+    typedef string<40> string_40;
+
+    struct MetricValue {
+      long lng;
+      long_1           a;
+      string_40 b;
+
+      long long dude;
+
+      ::dude::scoped_10 stup_aa;
+      minchio  whatever;
+
+      unsigned short bar;
+      string alpha;
+      string<10> beta;
+      ::org::opensplice::agent::Time_t timestamp;
+      org::opensplice::agent::Time_t timestamp_2;
+      char xl [200];
+      char xxl [200][200];
+      unsigned long long ull;
+      char ch;
+
+    };
+    #pragma keylist MetricValue timestamp.a timestamp2.b
+}; }; }; };
+
+
+module const_tests {
+
+
+   const short S = 1;
+   const char C = 'c';
+   const string STR = "HelloWorld";
+   const boolean B = TRUE;
+
+   typedef long tValue;
+   const tValue value = 1;
+
+   module in1 {
+      module in2 {
+         typedef long lValue;
+      };
+   };
+   const in1::in2::lValue value2 = 2;
+
+
+
+};

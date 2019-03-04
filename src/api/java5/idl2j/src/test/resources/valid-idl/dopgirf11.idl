@@ -1,0 +1,875 @@
+/*
+ *                             Vortex Cafe
+ *
+ *    This software and documentation are Copyright 2010 to 2019 ADLINK
+ *    Technology Limited, its affiliated companies and licensors. All rights
+ *    reserved.
+ *
+ *    Licensed under the ADLINK Software License Agreement Rev 2.7 2nd October
+ *    2014 (the "License"); you may not use this file except in compliance with
+ *    the License.
+ *    You may obtain a copy of the License at:
+ *                        docs/LICENSE.html
+ *
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+/*------------------*/
+/* data definitions */
+/*------------------*/
+
+// Prism Changes - changes made from the standard form of the IDL
+
+#ifdef ORB_HAS_ORB_DOT_IDL
+#include <orb.idl>
+#endif  /* ORB_HAS_ORB_DOT_IDL */
+
+
+// End Prism Changes
+
+// B
+
+enum B { b1, b2, b3 };
+
+// C
+
+struct C_struct {
+    short    e_short;
+    unsigned short  e_ushort;
+    long    e_long;
+    unsigned long  e_ulong;
+    long long   e_longlong;
+    unsigned long long  e_ulonglong;
+    float    e_float;
+    double    e_double;
+    char    e_char;
+    boolean    e_boolean;
+    octet    e_octet;
+    //any      e_any;
+    string    e_string;
+    //Object    e_Object;
+// JMOB-23 #ifdef ORB_HAS_TYPECODES
+//   CORBA::TypeCode e_TypeCode;
+// JMOB-23 #endif
+// JMOB-23 #ifdef ORB_HAS_WIDE_CHARACTERS
+    //wchar    e_wchar;
+    //wstring    e_wstring;
+// JMOB-23 #endif  /* ORB_HAS_WIDE_CHARACTERS */
+};
+#pragma keylist C_struct e_short e_ushort e_octet
+
+struct C_struct_b {
+    short    e_short;
+    unsigned short  e_ushort;
+    long    e_long;
+    unsigned long  e_ulong;
+    long long   e_longlong;
+    unsigned long long  e_ulonglong;
+    float    e_float;
+    double    e_double;
+    char    e_char;
+    boolean    e_boolean;
+    octet    e_octet;
+    any      e_any;
+    string    e_string;
+    Object    e_Object;
+};
+
+
+union C_union_ switch(long) {
+ case 1:  short    e_short;
+ case 2:  unsigned short  e_ushort;
+ case 3:  long    e_long;
+ case 4:  unsigned long  e_ulong;
+ case 5:  long long   e_longlong;
+ case 6:  unsigned long long e_ulonglong;
+ case 7:  float    e_float;
+ case 8:  double    e_double;
+ case 9:  char    e_char;
+ case 10:  boolean    e_boolean;
+ case 11:  octet    e_octet;
+ case 12:  any    e_any;
+ case 13:  string    e_string;
+ case 14:  Object    e_Object;
+// JMOB-23 #ifdef ORB_HAS_TYPECODES
+//   case 15:  CORBA::TypeCode  e_TypeCode;
+// JMOB-23 #endif
+// JMOB-23 #ifdef ORB_HAS_WIDE_CHARACTERS
+ case 16:  wchar    e_wchar;
+ case 17:  wstring    e_wstring;
+// JMOB-23 #endif  // ORB_HAS_WIDE_CHARACTERS 
+};
+
+typedef sequence<short>    C_sequence_e_short;
+typedef sequence<unsigned short> C_sequence_e_ushort;
+typedef sequence<long>    C_sequence_e_long;
+typedef sequence<unsigned long>  C_sequence_e_ulong;
+typedef sequence<float>    C_sequence_e_float;
+typedef sequence<double>  C_sequence_e_double;
+typedef sequence<char>    C_sequence_e_char;
+// JMOB-23 #ifdef ORB_HAS_WIDE_CHARACTERS
+typedef sequence<wchar>    C_sequence_e_wchar;
+// JMOB-23 #endif  /* ORB_HAS_WIDE_CHARACTERS */
+typedef sequence<boolean>  C_sequence_e_boolean;
+typedef sequence<octet>    C_sequence_e_octet;
+typedef sequence<any>    C_sequence_e_any;
+typedef sequence<string>  C_sequence_e_string;
+// JMOB-23 #ifdef ORB_HAS_WIDE_CHARACTERS
+typedef sequence<wstring>  C_sequence_e_wstring;
+// JMOB-23 #endif  /* ORB_HAS_WIDE_CHARACTERS */
+typedef sequence<Object>  C_sequence_e_Object;
+// JMOB-23 #ifdef ORB_HAS_TYPECODES
+//typedef sequence<CORBA::TypeCode>  C_sequence_e_TypeCode;
+// JMOB-23 #endif
+typedef sequence<long long> C_sequence_e_longlong;
+typedef sequence<unsigned long long>  C_sequence_e_ulonglong;
+typedef short    C_array_e_short[2];
+typedef unsigned short  C_array_e_ushort[2];
+typedef long    C_array_e_long[2];
+typedef unsigned long  C_array_e_ulong[2];
+typedef float    C_array_e_float[2];
+typedef double    C_array_e_double[2];
+typedef char    C_array_e_char[2];
+typedef long long   C_array_e_longlong[2];
+typedef unsigned long long  C_array_e_ulonglong[2];
+
+// JMOB-23 #ifdef ORB_HAS_FIXED
+//typedef fixed<5, 2> Fixed52;
+// JMOB-23 #endif /* ORB_HAS_FIXED */
+
+// JMOB-23 #ifdef ORB_HAS_WIDE_CHARACTERS
+// we need to use a 3 element array for wchar to avoid compiler complaints
+// about redefined Arg_Traits classes
+typedef wchar    C_array_e_wchar[3];
+// JMOB-23 #endif  /* ORB_HAS_WIDE_CHARACTERS */
+
+typedef boolean    C_array_e_boolean[2];
+typedef octet    C_array_e_octet[2];
+typedef any    C_array_e_any[2];
+typedef string    C_array_e_string[2];
+// JMOB-23 #ifdef ORB_HAS_WIDE_CHARACTERS
+typedef wstring    C_array_e_wstring[2];
+// JMOB-23 #endif  /* ORB_HAS_WIDE_CHARACTERS */
+typedef Object    C_array_e_Object[2];
+// JMOB-23 #ifdef ORB_HAS_TYPECODES
+//   typedef CORBA::TypeCode  C_array_e_TypeCode[2];
+// JMOB-23 #endif
+// D
+
+// JMOB-23 #ifdef ORB_HAS_VALUE_TYPES
+/*valuetype Thing
+{
+   public short s;
+   public long l;
+};
+
+valuetype DoubleThing
+{
+   public double d;
+};
+
+valuetype LongBox long;
+
+valuetype StringBox string;
+
+valuetype Node
+{
+   public long id;
+   public Node next;
+};
+*/
+// JMOB-23 #endif
+
+// JMOB-23 #ifdef ORB_HAS_CUSTOM_VALUE_TYPES
+/*custom valuetype CustomValueType
+{
+   public short s;
+};*/
+// JMOB-23 #endif
+
+union D_d_short switch (short) {
+ case 1: long l1;
+ case 2: long l2;
+};
+
+union D_d_ushort switch (unsigned short) {
+ case 1: long l1;
+ case 2: long l2;
+};
+
+union D_d_long switch (long) {
+ case 1: long l1;
+ case 2: long l2;
+};
+
+union D_d_ulong switch (unsigned long) {
+ case 1: long l1;
+ case 2: long l2;
+};
+
+
+union D_d_char switch (char) {
+ case 'a': long l1;
+ case 'b': long l2;
+};
+
+union D_d_boolean switch (boolean) {
+ case TRUE: long l1;
+ case FALSE: long l2;
+};
+
+union D_d_B switch (B) {
+ case b1: long l1;
+ case b2: long l2;
+ case b3: long l3;
+};
+
+
+// E
+
+struct E_struct {
+    B  e_b1;
+    B  e_b2;
+};
+
+union E_union switch (long) {
+ case 1:  B  e_b1;
+ case 2:  B  e_b2;
+};
+
+typedef sequence<B> E_sequence;
+
+typedef B E_array[2];
+
+
+// F
+
+struct F_struct
+{
+   C_struct      e_c_struct;
+   C_union_      e_c_union;
+   C_sequence_e_short    e_c_sequence_e_short;
+   C_sequence_e_ushort    e_c_sequence_e_ushort;
+   C_sequence_e_long    e_c_sequence_e_long;
+   C_sequence_e_ulong    e_c_sequence_e_ulong;
+   C_sequence_e_longlong    e_c_sequence_e_longlong;
+   C_sequence_e_ulonglong    e_c_sequence_e_ulonglong;
+   C_sequence_e_float    e_c_sequence_e_float;
+   C_sequence_e_double    e_c_sequence_e_double;
+   C_sequence_e_char    e_c_sequence_e_char;
+   C_sequence_e_boolean  e_c_sequence_e_boolean;
+   C_sequence_e_octet    e_c_sequence_e_octet;
+   C_sequence_e_any    e_c_sequence_e_any;
+   C_sequence_e_string    e_c_sequence_e_string;
+   C_sequence_e_Object    e_c_sequence_e_Object;
+// JMOB-23 #ifdef ORB_HAS_TYPECODES
+//   C_sequence_e_TypeCode  e_c_sequence_e_TypeCode;
+// JMOB-23 #endif
+   C_array_e_short    e_c_array_e_short;
+   C_array_e_ushort    e_c_array_e_ushort;
+   C_array_e_long    e_c_array_e_long;
+   C_array_e_ulong    e_c_array_e_ulong;
+   C_array_e_longlong    e_c_array_e_longlong;
+   C_array_e_ulonglong    e_c_array_e_ulonglong;
+   C_array_e_float    e_c_array_e_float;
+   C_array_e_double    e_c_array_e_double;
+   C_array_e_char    e_c_array_e_char;
+   C_array_e_boolean  e_c_array_e_boolean;
+   C_array_e_octet    e_c_array_e_octet;
+   C_array_e_any    e_c_array_e_any;
+   C_array_e_string    e_c_array_e_string;
+   C_array_e_Object    e_c_array_e_Object;
+// JMOB-23 #ifdef ORB_HAS_TYPECODES
+//   C_array_e_TypeCode    e_c_array_e_TypeCode;
+// JMOB-23 #endif
+};
+
+struct F_struct_b
+{
+   C_struct_b      e_c_struct_b;
+   C_union_      e_c_union;
+   C_sequence_e_short    e_c_sequence_e_short;
+   C_sequence_e_ushort    e_c_sequence_e_ushort;
+   C_sequence_e_long    e_c_sequence_e_long;
+   C_sequence_e_ulong    e_c_sequence_e_ulong;
+   C_sequence_e_longlong    e_c_sequence_e_longlong;
+   C_sequence_e_ulonglong    e_c_sequence_e_ulonglong;
+   C_sequence_e_float    e_c_sequence_e_float;
+   C_sequence_e_double    e_c_sequence_e_double;
+   C_sequence_e_char    e_c_sequence_e_char;
+   C_sequence_e_boolean  e_c_sequence_e_boolean;
+   C_sequence_e_octet    e_c_sequence_e_octet;
+   C_sequence_e_any    e_c_sequence_e_any;
+   C_sequence_e_string    e_c_sequence_e_string;
+   C_sequence_e_Object    e_c_sequence_e_Object;
+   C_array_e_short    e_c_array_e_short;
+   C_array_e_ushort    e_c_array_e_ushort;
+   C_array_e_long    e_c_array_e_long;
+   C_array_e_ulong    e_c_array_e_ulong;
+   C_array_e_longlong    e_c_array_e_longlong;
+   C_array_e_ulonglong    e_c_array_e_ulonglong;
+   C_array_e_float    e_c_array_e_float;
+   C_array_e_double    e_c_array_e_double;
+   C_array_e_char    e_c_array_e_char;
+   C_array_e_boolean  e_c_array_e_boolean;
+   C_array_e_octet    e_c_array_e_octet;
+   C_array_e_any    e_c_array_e_any;
+   C_array_e_string    e_c_array_e_string;
+   C_array_e_Object    e_c_array_e_Object;
+};
+
+union F_union switch (long)
+{
+   case 1:     C_struct      e_c_struct;
+   case 2:     C_union_      e_c_union;
+   case 3:     C_sequence_e_short    e_c_sequence_e_short;
+   case 4:     C_sequence_e_ushort    e_c_sequence_e_ushort;
+   case 5:     C_sequence_e_long    e_c_sequence_e_long;
+   case 6:     C_sequence_e_ulong    e_c_sequence_e_ulong;
+   case 7:     C_sequence_e_longlong    e_c_sequence_e_longlong;
+   case 8:     C_sequence_e_ulonglong    e_c_sequence_e_ulonglong;
+   case 9:     C_sequence_e_float    e_c_sequence_e_float;
+   case 10:    C_sequence_e_double    e_c_sequence_e_double;
+   case 11:    C_sequence_e_char    e_c_sequence_e_char;
+   case 12:    C_sequence_e_boolean  e_c_sequence_e_boolean;
+   case 13:    C_sequence_e_octet    e_c_sequence_e_octet;
+   case 14:    C_sequence_e_any    e_c_sequence_e_any;
+   case 15:    C_sequence_e_string    e_c_sequence_e_string;
+   case 16:    C_sequence_e_Object    e_c_sequence_e_Object;
+// JMOB-23 #ifdef ORB_HAS_TYPECODES
+//   case 17:    C_sequence_e_TypeCode  e_c_sequence_e_TypeCode;
+// JMOB-23 #endif
+   case 18:    C_array_e_short    e_c_array_e_short;
+   case 19:    C_array_e_ushort    e_c_array_e_ushort;
+   case 20:    C_array_e_long    e_c_array_e_long;
+   case 21:    C_array_e_ulong    e_c_array_e_ulong;
+   case 22:    C_array_e_longlong    e_c_array_e_longlong;
+   case 23:    C_array_e_ulonglong    e_c_array_e_ulonglong;
+   case 24:    C_array_e_float    e_c_array_e_float;
+   case 25:    C_array_e_double    e_c_array_e_double;
+   case 26:    C_array_e_char    e_c_array_e_char;
+   case 27:    C_array_e_boolean    e_c_array_e_boolean;
+   case 28:    C_array_e_octet    e_c_array_e_octet;
+   case 29:    C_array_e_any    e_c_array_e_any;
+   case 30:    C_array_e_string    e_c_array_e_string;
+   case 31:    C_array_e_Object    e_c_array_e_Object;
+// JMOB-23 #ifdef ORB_HAS_TYPECODES
+//   case 32:    C_array_e_TypeCode    e_c_array_e_TypeCode;
+// JMOB-23 #endif
+};
+
+union F_union_b switch (long)
+{
+   case 1:     C_struct_b      e_c_struct_b;
+   case 2:     C_union_      e_c_union;
+   case 3:     C_sequence_e_short    e_c_sequence_e_short;
+   case 4:     C_sequence_e_ushort    e_c_sequence_e_ushort;
+   case 5:     C_sequence_e_long    e_c_sequence_e_long;
+   case 6:     C_sequence_e_ulong    e_c_sequence_e_ulong;
+   case 7:     C_sequence_e_longlong    e_c_sequence_e_longlong;
+   case 8:     C_sequence_e_ulonglong    e_c_sequence_e_ulonglong;
+   case 9:     C_sequence_e_float    e_c_sequence_e_float;
+   case 10:     C_sequence_e_double    e_c_sequence_e_double;
+   case 11:     C_sequence_e_char    e_c_sequence_e_char;
+   case 12:    C_sequence_e_boolean  e_c_sequence_e_boolean;
+   case 13:    C_sequence_e_octet    e_c_sequence_e_octet;
+   case 14:    C_sequence_e_any    e_c_sequence_e_any;
+   case 15:    C_sequence_e_string    e_c_sequence_e_string;
+   case 16:    C_sequence_e_Object    e_c_sequence_e_Object;
+   case 18:    C_array_e_short    e_c_array_e_short;
+   case 19:    C_array_e_ushort    e_c_array_e_ushort;
+   case 20:    C_array_e_long    e_c_array_e_long;
+   case 21:    C_array_e_ulong    e_c_array_e_ulong;
+   case 22:    C_array_e_longlong    e_c_array_e_longlong;
+   case 23:    C_array_e_ulonglong    e_c_array_e_ulonglong;
+   case 24:    C_array_e_float    e_c_array_e_float;
+   case 25:    C_array_e_double    e_c_array_e_double;
+   case 26:    C_array_e_char    e_c_array_e_char;
+   case 27:    C_array_e_boolean    e_c_array_e_boolean;
+   case 28:    C_array_e_octet    e_c_array_e_octet;
+   case 29:    C_array_e_any    e_c_array_e_any;
+   case 30:    C_array_e_string    e_c_array_e_string;
+   case 31:    C_array_e_Object    e_c_array_e_Object;
+};
+
+
+typedef sequence<C_struct>    F_sequence_e_c_struct;
+typedef sequence<C_union_>    F_sequence_e_c_union;
+
+typedef sequence<C_struct_b>    F_sequence_e_c_struct_b;
+
+typedef C_struct      F_array_e_c_struct[2];
+typedef C_union_        F_array_e_c_union[2];
+
+typedef C_struct_b      F_array_e_c_struct_b[2];
+
+// G
+
+struct G_struct {
+    E_struct  e_e_struct;
+    E_union  e_e_union;
+    E_sequence  e_e_sequence;
+    E_array  e_e_array;
+};
+
+ union G_union switch (long) {
+ case 1: E_struct  e_e_struct;
+ case 2: E_union  e_e_union;
+ case 3: E_sequence  e_e_sequence;
+ case 4: E_array  e_e_array;
+};
+
+
+typedef sequence<E_struct> G_sequence_e_e_struct;
+typedef sequence<E_union> G_sequence_e_e_union;
+
+typedef E_struct G_array_e_e_struct[2];
+typedef E_union G_array_e_e_union[2];
+
+
+/*------------------------------*/
+/* exceptional data definitions */
+/*------------------------------*/
+/*************************************** EXCEPTIONS NOT SUPPORTED in DDS 
+// A
+exception A_except1 {
+    short v1;
+    unsigned short v2;
+    long v3;
+    unsigned long v4;
+    float v5;
+    double v6;
+    char v7;
+    boolean v8;
+    octet v9;
+    long long v10;
+    unsigned long long v11;
+};
+
+exception A_except2 {
+    any v10;
+    string v11;
+    Object v12;
+// JMOB-23 #ifdef ORB_HAS_TYPECODES
+//   CORBA::TypeCode v14;
+// JMOB-23 #endif
+};
+
+exception A_except2_b {
+    any v10;
+    string v11;
+    Object v12;
+};
+
+// B
+exception B_except { B v; };
+
+// C
+exception C_except {
+    C_struct v1;
+    C_union_ v2; // short
+    C_union_ v3; // ushort
+    C_union_ v4; // long
+    C_union_ v5; // ulong
+    C_union_ v6; // longlong
+    C_union_ v7; // ulonglong
+    C_union_ v8; // float
+    C_union_ v9; // double
+    C_union_ v10; // char
+    C_union_ v11; // boolean
+    C_union_ v12; // octet
+    C_union_ v13; // any
+    C_union_ v14; // string
+    C_union_ v15; // Object
+    C_union_ v16; // TypeCode
+    C_sequence_e_short v17;
+    C_sequence_e_ushort v18;
+    C_sequence_e_long v19;
+    C_sequence_e_ulong v20;
+    C_sequence_e_longlong v21;
+    C_sequence_e_ulonglong v22;
+    C_sequence_e_float v23;
+    C_sequence_e_double v24;
+    C_sequence_e_char v25;
+    C_sequence_e_boolean v26;
+    C_sequence_e_octet v27;
+    C_sequence_e_any v28;
+    C_sequence_e_string v29;
+    C_sequence_e_Object v30;
+// JMOB-23 #ifdef ORB_HAS_TYPECODES
+//   C_sequence_e_TypeCode v31;
+// JMOB-23 #endif
+    C_array_e_short v32;
+    C_array_e_ushort v33;
+    C_array_e_long v34;
+    C_array_e_ulong v35;
+    C_array_e_longlong v36;
+    C_array_e_ulonglong v37;
+    C_array_e_float v38;
+    C_array_e_double v39;
+    C_array_e_char v40;
+    C_array_e_boolean v41;
+    C_array_e_octet v42;
+    C_array_e_any v43;
+    C_array_e_string v44;
+    C_array_e_Object v45;
+// JMOB-23 #ifdef ORB_HAS_TYPECODES
+//    C_array_e_TypeCode v46;
+// JMOB-23 #endif
+};
+
+exception C_except_b {
+    C_struct_b v1;
+    C_union_ v2; // short
+    C_union_ v3; // ushort
+    C_union_ v4; // long
+    C_union_ v5; // ulong
+    C_union_ v6; // longlong
+    C_union_ v7; // ulonglong
+    C_union_ v8; // float
+    C_union_ v9; // double
+    C_union_ v10; // char
+    C_union_ v11; // boolean
+    C_union_ v12; // octet
+    C_union_ v13; // any
+    C_union_ v14; // string
+    C_union_ v15; // Object
+    C_sequence_e_short v17;
+    C_sequence_e_ushort v18;
+    C_sequence_e_long v19;
+    C_sequence_e_ulong v20;
+    C_sequence_e_longlong v21;
+    C_sequence_e_ulonglong v22;
+    C_sequence_e_float v23;
+    C_sequence_e_double v24;
+    C_sequence_e_char v25;
+    C_sequence_e_boolean v26;
+    C_sequence_e_octet v27;
+    C_sequence_e_any v28;
+    C_sequence_e_string v29;
+    C_sequence_e_Object v30;
+    C_array_e_short v32;
+    C_array_e_ushort v33;
+    C_array_e_long v34;
+    C_array_e_ulong v35;
+    C_array_e_longlong v36;
+    C_array_e_ulonglong v37;
+    C_array_e_float v38;
+    C_array_e_double v39;
+    C_array_e_char v40;
+    C_array_e_boolean v41;
+    C_array_e_octet v42;
+    C_array_e_any v43;
+    C_array_e_string v44;
+    C_array_e_Object v45;
+};
+
+// D
+exception D_except {
+    D_d_short v1;
+    D_d_ushort v2;
+    D_d_long v3;
+    D_d_ulong v4;
+    D_d_char v5;
+    D_d_boolean v6;
+    D_d_B v7;
+};
+
+// E
+exception E_except {
+    E_struct v1;
+//JMOB-22     E_union v2;
+    E_sequence v3;
+    E_array v4;
+};
+
+// F
+exception F_except1 {
+    F_struct v1;
+    F_union v2; // C_struct
+    F_union v3; // C_union_
+    F_union v4; // C_sequence_e_short
+    F_union v5; // C_sequence_e_ushort
+    F_union v6; // C_sequence_e_long
+    F_union v7; // C_sequence_e_ulong
+    F_union v8; // C_sequence_e_longlong
+    F_union v9; // C_sequence_e_ulonglong
+    F_union v10; // C_sequence e_float
+    F_union v11; // C_sequence_e_double
+    F_union v12; // C_sequence_e_char
+    F_union v13; // C_sequence_e_boolean
+    F_union v14; // C_sequence_e_octet
+    F_union v15; // C_sequence_e_any
+    F_union v16; // C_sequence_e_string
+    F_union v17; // C_sequence_e_Object
+    F_union v18; // C_sequence_e_TypeCode
+    F_union v19; // C_array_e_short
+    F_union v20; // C_array_e_ushort
+    F_union v21; // C_array_e_long
+    F_union v22; // C_array_e_ulong
+    F_union v23; // C_array_e_longlong
+    F_union v24; // C_array_e_ulonglong
+    F_union v25; // C_array e_float
+    F_union v26; // C_array_e_double
+    F_union v27; // C_array_e_char
+    F_union v28; // C_array_e_boolean
+    F_union v29; // C_array_e_octet
+    F_union v30; // C_array_e_any
+    F_union v31; // C_array_e_string
+    F_union v32; // C_array_e_Object
+    F_union v33; // C_array_e_TypeCode
+};
+
+exception F_except2 {
+    F_sequence_e_c_struct v32;
+//JMOB-22     F_sequence_e_c_union v33;
+};
+exception F_except3 {
+    F_array_e_c_struct v62;
+//JMOB-22     F_array_e_c_union v63;
+};
+
+// F
+exception F_except1_b {
+    F_struct_b v1;
+    F_union_b v2; // C_struct
+    F_union_b v3; // C_union_
+    F_union_b v4; // C_sequence_e_short
+    F_union_b v5; // C_sequence_e_ushort
+    F_union_b v6; // C_sequence_e_long
+    F_union_b v7; // C_sequence_e_ulong
+    F_union_b v8; // C_sequence_e_longlong
+    F_union_b v9; // C_sequence_e_ulonglong
+    F_union_b v10; // C_sequence e_float
+    F_union_b v11; // C_sequence_e_double
+    F_union_b v12; // C_sequence_e_char
+    F_union_b v13; // C_sequence_e_boolean
+    F_union_b v14; // C_sequence_e_octet
+    F_union_b v15; // C_sequence_e_any
+    F_union_b v16; // C_sequence_e_string
+    F_union_b v17; // C_sequence_e_Object
+    F_union_b v19; // C_array_e_short
+    F_union_b v20; // C_array_e_ushort
+    F_union_b v21; // C_array_e_long
+    F_union_b v22; // C_array_e_ulong
+    F_union_b v23; // C_array_e_longlong
+    F_union_b v24; // C_array_e_ulonglong
+    F_union_b v25; // C_array e_float
+    F_union_b v26; // C_array_e_double
+    F_union_b v27; // C_array_e_char
+    F_union_b v28; // C_array_e_boolean
+    F_union_b v29; // C_array_e_octet
+    F_union_b v30; // C_array_e_any
+    F_union_b v31; // C_array_e_string
+    F_union_b v32; // C_array_e_Object
+};
+
+
+
+exception F_except2_b {
+    F_sequence_e_c_struct_b v32;
+//JMOB-22     F_sequence_e_c_union v33;
+};
+
+exception F_except3_b {
+    F_array_e_c_struct_b v62;
+ //JMOB-22    F_array_e_c_union v63;
+};
+
+
+// G
+exception G_except {
+    G_struct v1;
+    G_union v2; // E_struct
+    G_union v3; // E_union
+    G_union v4; // E_sequence
+    G_union v5; // E_array
+    G_sequence_e_e_struct v6;
+//JMOB-22     G_sequence_e_e_union v7;
+    G_array_e_e_struct v10;
+//JMOB-22     G_array_e_e_union v11;
+};
+**************************************************** EXCEPTIONS NOT SUPPORTED in DDS */
+/*-----------------------*/
+/* interface definitions */
+/*-----------------------*/
+//***************************  TODO JMOB-22 (Interface)
+/*
+interface rf11 {
+   void shutdown ();
+  void set_target_for_object_equivalence (in Object obj);
+  C_sequence_e_string get_supported_operations();
+// A
+    short op1(in short argin, out short argout, inout short arginout);
+    unsigned short op2(in unsigned short argin, out unsigned short argout, inout unsigned short arginout);
+    long op3(in long argin, out long argout, inout long arginout);
+    unsigned long op4(in unsigned long argin, out unsigned long argout, inout unsigned long arginout);
+    float op5(in float argin, out float argout, inout float arginout);
+    double op6(in double argin, out double argout, inout double arginout);
+    char op7(in char argin, out char argout, inout char arginout);
+    boolean op8(in boolean argin, out boolean argout, inout boolean arginout);
+    octet op9(in octet argin, out octet argout, inout octet arginout);
+    any op10(in any argin, out any argout, inout any arginout);
+    string op11(in string argin, out string argout, inout string arginout);
+    Object op12(in Object argin, out Object argout, inout Object arginout);
+// JMOB-23 #ifdef ORB_HAS_TYPECODES
+//   CORBA::TypeCode op13(in CORBA::TypeCode argin, out CORBA::TypeCode argout, inout CORBA::TypeCode arginout);
+// JMOB-23 #endif
+   long long op14 (in long long argin, out long long argout, inout long long arginout);
+
+// B
+    B op15(in B argin, out B argout, inout B arginout);
+
+// C
+    C_struct op16(in C_struct argin, out C_struct argout, inout C_struct arginout);
+    C_struct_b op16b(in C_struct_b argin, out C_struct_b argout, inout C_struct_b arginout);
+//JMOB-22     C_union_ op17(in C_union_ argin, out C_union_ argout, inout C_union_ arginout);
+    C_sequence_e_short op18(in C_sequence_e_short argin, out C_sequence_e_short argout, inout C_sequence_e_short arginout);
+    C_sequence_e_ushort op19(in C_sequence_e_ushort argin, out C_sequence_e_ushort argout, inout C_sequence_e_ushort arginout);
+    C_sequence_e_long op20(in C_sequence_e_long argin, out C_sequence_e_long argout, inout C_sequence_e_long arginout);
+    C_sequence_e_ulong op21(in C_sequence_e_ulong argin, out C_sequence_e_ulong argout, inout C_sequence_e_ulong arginout);
+    C_sequence_e_float op22(in C_sequence_e_float argin, out C_sequence_e_float argout, inout C_sequence_e_float arginout);
+    C_sequence_e_double op23(in C_sequence_e_double argin, out C_sequence_e_double argout, inout C_sequence_e_double arginout);
+    C_sequence_e_char op24(in C_sequence_e_char argin, out C_sequence_e_char argout, inout C_sequence_e_char arginout);
+    C_sequence_e_boolean op25(in C_sequence_e_boolean argin, out C_sequence_e_boolean argout, inout C_sequence_e_boolean arginout);
+    C_sequence_e_octet op26(in C_sequence_e_octet argin, out C_sequence_e_octet argout, inout C_sequence_e_octet arginout);
+    C_sequence_e_any op27(in C_sequence_e_any argin, out C_sequence_e_any argout, inout C_sequence_e_any arginout);
+    C_sequence_e_string op28(in C_sequence_e_string argin, out C_sequence_e_string argout, inout C_sequence_e_string arginout);
+    C_sequence_e_Object op29(in C_sequence_e_Object argin, out C_sequence_e_Object argout, inout C_sequence_e_Object arginout);
+// JMOB-23 #ifdef ORB_HAS_TYPECODES
+    C_sequence_e_TypeCode op31(in C_sequence_e_TypeCode argin, out C_sequence_e_TypeCode argout, inout C_sequence_e_TypeCode arginout);
+// JMOB-23 #endif
+    C_array_e_short op32(in C_array_e_short argin, out C_array_e_short argout, inout C_array_e_short arginout);
+    C_array_e_ushort op33(in C_array_e_ushort argin, out C_array_e_ushort argout, inout C_array_e_ushort arginout);
+    C_array_e_long op34(in C_array_e_long argin, out C_array_e_long argout, inout C_array_e_long arginout);
+    C_array_e_ulong op35(in C_array_e_ulong argin, out C_array_e_ulong argout, inout C_array_e_ulong arginout);
+    C_array_e_float op36(in C_array_e_float argin, out C_array_e_float argout, inout C_array_e_float arginout);
+    C_array_e_double op37(in C_array_e_double argin, out C_array_e_double argout, inout C_array_e_double arginout);
+    C_array_e_char op38(in C_array_e_char argin, out C_array_e_char argout, inout C_array_e_char arginout);
+    C_array_e_boolean op39(in C_array_e_boolean argin, out C_array_e_boolean argout, inout C_array_e_boolean arginout);
+    C_array_e_octet op40(in C_array_e_octet argin, out C_array_e_octet argout, inout C_array_e_octet arginout);
+    C_array_e_any op41(in C_array_e_any argin, out C_array_e_any argout, inout C_array_e_any arginout);
+    C_array_e_string op42(in C_array_e_string argin, out C_array_e_string argout, inout C_array_e_string arginout);
+    C_array_e_Object op43(in C_array_e_Object argin, out C_array_e_Object argout, inout C_array_e_Object arginout);
+// JMOB-23 #ifdef ORB_HAS_TYPECODES
+   C_array_e_TypeCode op45(in C_array_e_TypeCode argin, out C_array_e_TypeCode argout, inout C_array_e_TypeCode arginout);
+// JMOB-23 #endif
+
+// D
+    D_d_short op46(in D_d_short argin, out D_d_short argout, inout D_d_short arginout);
+    D_d_ushort op47(in D_d_ushort argin, out D_d_ushort argout, inout D_d_ushort arginout);
+    D_d_long op48(in D_d_long argin, out D_d_long argout, inout D_d_long arginout);
+    D_d_ulong op49(in D_d_ulong argin, out D_d_ulong argout, inout D_d_ulong arginout);
+    D_d_char op50(in D_d_char argin, out D_d_char argout, inout D_d_char arginout);
+    D_d_boolean op51(in D_d_boolean argin, out D_d_boolean argout, inout D_d_boolean arginout);
+    D_d_B op52(in D_d_B argin, out D_d_B argout, inout D_d_B arginout);
+
+// E
+    E_struct op53(in E_struct argin, out E_struct argout, inout E_struct arginout);
+//JMOB-22     E_union op54(in E_union argin, out E_union argout, inout E_union arginout);
+    E_sequence op55(in E_sequence argin, out E_sequence argout, inout E_sequence arginout);
+    E_array op56(in E_array argin, out E_array argout, inout E_array arginout);
+
+// F
+    F_struct op57(in F_struct argin, out F_struct argout, inout F_struct arginout);
+    F_struct_b op57b(in F_struct_b argin, out F_struct_b argout, inout F_struct_b arginout);
+//JMOB-22     F_union op58(in F_union argin, out F_union argout, inout F_union arginout);
+//JMOB-22     F_union_b op58b(in F_union_b argin, out F_union_b argout, inout F_union_b arginout);
+    F_sequence_e_c_struct op59(in F_sequence_e_c_struct argin, out F_sequence_e_c_struct argout, inout F_sequence_e_c_struct arginout);
+    F_sequence_e_c_struct_b op59b(in F_sequence_e_c_struct_b argin, out F_sequence_e_c_struct_b argout, inout F_sequence_e_c_struct_b arginout);
+ //JMOB-22    F_sequence_e_c_union op60(in F_sequence_e_c_union argin, out F_sequence_e_c_union argout, inout F_sequence_e_c_union arginout);
+    F_array_e_c_struct op89(in F_array_e_c_struct argin, out F_array_e_c_struct argout, inout F_array_e_c_struct arginout);
+    F_array_e_c_struct_b op89b(in F_array_e_c_struct_b argin, out F_array_e_c_struct_b argout, inout F_array_e_c_struct_b arginout);
+//JMOB-22     F_array_e_c_union op90(in F_array_e_c_union argin, out F_array_e_c_union argout, inout F_array_e_c_union arginout);
+
+// G
+    G_struct op119(in G_struct argin, out G_struct argout, inout G_struct arginout);
+//JMOB-22     G_union op120(in G_union argin, out G_union argout, inout G_union arginout);
+    G_sequence_e_e_struct op121(in G_sequence_e_e_struct argin, out G_sequence_e_e_struct argout, inout G_sequence_e_e_struct arginout);
+//JMOB-22     G_sequence_e_e_union op122(in G_sequence_e_e_union argin, out G_sequence_e_e_union argout, inout G_sequence_e_e_union arginout);
+    G_array_e_e_struct op125(in G_array_e_e_struct argin, out G_array_e_e_struct argout, inout G_array_e_e_struct arginout);
+//JMOB-22     G_array_e_e_union op126(in G_array_e_e_union argin, out G_array_e_e_union argout, inout G_array_e_e_union arginout);
+
+// JMOB-23 #ifdef ORB_HAS_WIDE_CHARACTERS
+// wide character tests
+    wstring op141(in wstring argin,
+                  out wstring argout,
+                  inout wstring arginout);
+    C_sequence_e_wstring op142(in C_sequence_e_wstring argin,
+                               out C_sequence_e_wstring argout,
+                               inout C_sequence_e_wstring arginout);
+    C_array_e_wstring op143(in C_array_e_wstring argin,
+                            out C_array_e_wstring argout,
+                            inout C_array_e_wstring arginout);
+    wchar op144(in wchar argin, out wchar argout, inout wchar arginout);
+    C_sequence_e_wchar op145(in C_sequence_e_wchar argin,
+                             out C_sequence_e_wchar argout,
+                             inout C_sequence_e_wchar arginout);
+    C_array_e_wchar op146(in C_array_e_wchar argin,
+                          out C_array_e_wchar argout,
+                          inout C_array_e_wchar arginout);
+// JMOB-23 #endif  //ORB_HAS_WIDE_CHARACTERS 
+
+// Missing types that didn't fit in at the correct point
+   unsigned long long op150 (in unsigned long long argin, out unsigned long long argout, inout unsigned long long arginout);
+   C_sequence_e_longlong op151 (in C_sequence_e_longlong argin, out C_sequence_e_longlong argout, inout C_sequence_e_longlong arginout);
+   C_sequence_e_ulonglong op152 (in C_sequence_e_ulonglong argin, out C_sequence_e_ulonglong argout, inout C_sequence_e_ulonglong arginout);
+   C_array_e_longlong op153 (in C_array_e_longlong argin, out C_array_e_longlong argout, inout C_array_e_longlong arginout);
+   C_array_e_ulonglong op154 (in C_array_e_ulonglong argin, out C_array_e_ulonglong argout, inout C_array_e_ulonglong arginout);
+
+// JMOB-23 #ifdef ORB_HAS_VALUE_TYPES
+   Thing op155 (in Thing argin, out Thing argout, inout Thing arginout);
+   LongBox op157 (in LongBox argin, out LongBox argout, inout LongBox arginout);
+   StringBox op158 (in StringBox argin, out StringBox argout, inout StringBox arginout);
+   Node op160 (in Node argin, out Node argout, inout Node arginout);
+   DoubleThing op161 (in DoubleThing argin, out DoubleThing argout, inout DoubleThing arginout);
+    any op162(in any argin, out any argout, inout any arginout);
+// JMOB-23 #endif
+
+// JMOB-23 #ifdef ORB_HAS_CUSTOM_VALUE_TYPES
+   CustomValueType op159 (in CustomValueType argin, out CustomValueType argout, inout CustomValueType arginout);
+// JMOB-23 #endif
+
+// JMOB-23 #ifdef ORB_HAS_FIXED
+   Fixed52 op156 (in Fixed52 argin, out Fixed52 argout, inout Fixed52 arginout);
+// JMOB-23 #endif
+
+// Always run this last as it is not possible to reset the compact typecodes
+// on the Server side.
+// JMOB-23 #ifdef ORB_HAS_TYPECODES
+   CORBA::TypeCode op999(in boolean compact, in CORBA::TypeCode argin, out CORBA::TypeCode argout, inout CORBA::TypeCode arginout);
+// JMOB-23 #endif
+// exception
+    // pragma: exception=A_except1
+    void excop1() raises(A_except1);
+    // pragma: exception=A_except2
+    void excop2() raises(A_except2);
+    // pragma: exception=A_except2_b
+    void excop2b() raises(A_except2_b);
+    // pragma: exception=B_except
+    void excop3() raises(B_except);
+    // pragma: exception=C_except
+    void excop4() raises(C_except);
+    // pragma: exception=C_except_b
+    void excop4b() raises(C_except_b);
+    // pragma: exception=D_except
+    void excop5() raises(D_except);
+    // pragma: exception=E_except
+    void excop6() raises(E_except);
+    // pragma: exception=F_except1
+    void excop7() raises(F_except1);
+    // pragma: exception=F_except1_b
+    void excop7b() raises(F_except1_b);
+    // pragma: exception=F_except2
+    void excop8() raises(F_except2);
+    // pragma: exception=F_except2_b
+    void excop8b() raises(F_except2_b);
+    // pragma: exception=F_except3
+    void excop9() raises(F_except3);
+    // pragma: exception=F_except3_b
+    void excop9b() raises(F_except3_b);
+    // pragma: exception=G_except
+    void excop10() raises(G_except);
+
+};
+***************************** TODO JMOB-22 (interface)*/
