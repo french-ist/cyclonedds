@@ -39,9 +39,7 @@
 							<goal>idl-compile</goal>
 						</goals>
 						<configuration>
-							<includeDirs>
-								<includeDir>../../etc/idl</includeDir>
-							</includeDirs>
+							<idlDir>../../etc/idl</idlDir>
 						</configuration>
 					</execution>
 				</executions>
