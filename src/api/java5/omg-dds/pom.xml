@@ -1,30 +1,74 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    
-    <groupId>org.eclipse.cyclonedds</groupId>
-    <artifactId>omg-dds</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    
-    <packaging>jar</packaging>
-    
-    <name>OMG DDS API</name>
-    <description>The standard Java 5 Language PSM for DDS</description>
-    <url>http://www.OMG.org/spec/DDS-Java/</url>
+	<modelVersion>4.0.0</modelVersion>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+	<groupId>org.eclipse.cyclonedds</groupId>
+	<artifactId>omg-dds</artifactId>
+	<version>1.0-SNAPSHOT</version>
+
+	<packaging>jar</packaging>
+
+	<name>OMG DDS API</name>
+	<description>The standard Java 5 Language PSM for DDS</description>
+	<url>http://www.OMG.org/spec/DDS-Java/</url>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+
+			<!-- IDL code generation -->
+			<plugin>
+				<groupId>org.eclipse.cyclonedds</groupId>
+				<artifactId>idl2j</artifactId>
+				<version>${project.version}</version>
+				<executions>
+					<execution>
+						<id>idl-compile</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>idl-compile</goal>
+						</goals>
+						<configuration>
+							<includeDirs>
+								<includeDir>../../etc/idl</includeDir>
+							</includeDirs>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- 
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>target/generated-sources/idl/DDS</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			 -->
+		</plugins>
+	</build>
 
 </project>

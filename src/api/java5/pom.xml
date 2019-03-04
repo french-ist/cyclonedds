@@ -14,6 +14,7 @@
 
 	<modules>
 		<module>parent-pom</module>
+		<module>idl2j</module>
 		<module>omg-dds</module>
 		<module>cyclone-dds</module>
 		<module>jna-dds</module>
