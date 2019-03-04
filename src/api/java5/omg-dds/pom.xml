@@ -6,7 +6,7 @@
 
 	<groupId>org.eclipse.cyclonedds</groupId>
 	<artifactId>omg-dds</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 
 	<packaging>jar</packaging>
 

@@ -5,7 +5,7 @@
     <artifactId>examples.Throughput.java5</artifactId>
     <packaging>pom</packaging>
     <name>Java 5 PSM example: Throughput</name>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

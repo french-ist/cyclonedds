@@ -4,13 +4,13 @@
     <groupId>org.eclipse.cyclonedds.examples.HelloWorld.java5.sub</groupId>
     <artifactId>java5-HelloWorld_sub</artifactId>
     <name>Java 5 PSM example: HelloWorld Sub</name>
- 	<version>1.0-SNAPSHOT</version>
+ 	<version>0.1-SNAPSHOT</version>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.eclipse.cyclonedds</groupId>
 			<artifactId>cyclone-dds</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

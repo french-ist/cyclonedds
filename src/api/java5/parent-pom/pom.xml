@@ -5,7 +5,7 @@
 	<groupId>org.eclipse.cyclonedds</groupId>
 	<artifactId>parent-pom</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 
 	<name>Cyclone Java 5 API parent POM</name>
 	<description>This is a parent POM with recommended dependencies for projects using Vortex Cyclone.</description>

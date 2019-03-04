@@ -5,13 +5,13 @@
 	<groupId>org.eclipse.cyclonedds.examples.RoundTrip.java5.pong</groupId>
 	<artifactId>java5-ping</artifactId>
 	<name>Java 5 PSM example: Roundtrip Pong</name>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.eclipse.cyclonedds</groupId>
 			<artifactId>cyclone-dds</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

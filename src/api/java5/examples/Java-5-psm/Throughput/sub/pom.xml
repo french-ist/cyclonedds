@@ -5,13 +5,13 @@
 	<groupId>org.eclipse.cyclonedds.examples.Throughput.java5.sub</groupId>
 	<artifactId>java5-Throughput_sub</artifactId>
 	<name>Java 5 PSM example: Throughput Sub</name>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.eclipse.cyclonedds</groupId>
 			<artifactId>cyclone-dds</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

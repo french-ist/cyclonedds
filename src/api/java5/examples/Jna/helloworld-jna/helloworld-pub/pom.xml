@@ -6,7 +6,7 @@
 
   <groupId>org.eclipse.cyclonedds.helloworld</groupId>
   <artifactId>helloworld-pub</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.1-SNAPSHOT</version>
 
   <name>Java JNA example: Helloworld Pub</name>
 
@@ -25,12 +25,12 @@
     <dependency>
 			<groupId>org.eclipse.cyclonedds</groupId>
 			<artifactId>jna-dds</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 		</dependency>
     <dependency>
     	<groupId>org.eclipse.cyclonedds</groupId>
       <artifactId>jna-dds</artifactId>
-      <version>1.0-SNAPSHOT</version>    
+      <version>0.1-SNAPSHOT</version>    
     </dependency>
   </dependencies>
 

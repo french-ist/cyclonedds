@@ -13,7 +13,7 @@
 
 	<groupId>org.eclipse.cyclonedds.examples</groupId>
 	<artifactId>throughput-api</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 
 	<name>Java API example: Throughput</name>
 
@@ -27,7 +27,7 @@
 		<dependency>
 			<groupId>org.eclipse.cyclonedds</groupId>
 			<artifactId>cyclone-dds</artifactId>
-			<version>1.0-SNAPSHOT</version>
+			<version>0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
