@@ -26,24 +26,47 @@
 				</configuration>
 			</plugin>
 
-			<!-- IDL code generation -->
-			<plugin>
-				<groupId>org.eclipse.cyclonedds</groupId>
-				<artifactId>idl2j</artifactId>
-				<version>${project.version}</version>
-				<executions>
-					<execution>
-						<id>idl-compile</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>idl-compile</goal>
-						</goals>
-						<configuration>
-							<idlDir>../../etc/idl</idlDir>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+			<!--IDL code generation -->
+           <plugin>
+               <groupId>org.codehaus.mojo</groupId>
+               <artifactId>idlj-maven-plugin</artifactId>
+               <executions>
+                   <execution>
+                       <id>compile main idl</id>
+                       <goals>
+                           <goal>generate</goal>
+                       </goals>
+                       <configuration>
+                           <compiler>idlj</compiler>
+                           <sources>
+                               <source>
+                                   <includes>
+                                       <include>dds_builtInTypes.idl</include>
+                                       <include>dds_builtinTopics.idl</include>
+                                       <include>dds_dcps_builtintopics.idl</include>
+                                       <include>dds_predefTypes.idl</include>
+                                       <include>dds_dcps_interfaces.idl</include>
+                                   </includes>
+                                   <emitStubs>false</emitStubs>
+                                   <emitSkeletons>false</emitSkeletons>
+                               </source>
+                           </sources>
+                           <sourceDirectory>../../etc/idl</sourceDirectory>
+                       </configuration>
+                   </execution>
+                   <execution>
+                       <id>compile test idl</id>
+                       <phase>generate-test-sources</phase>
+                       <goals>
+                           <goal>generate</goal>
+                       </goals>
+                       <configuration>
+                           <sourceDirectory>src/test/idl</sourceDirectory>
+                           <outputDirectory>${project.build.directory}/generated-test-sources/java</outputDirectory>
+                       </configuration>
+                   </execution>
+               </executions>
+           </plugin>
 
 			<!-- 
 			<plugin>
