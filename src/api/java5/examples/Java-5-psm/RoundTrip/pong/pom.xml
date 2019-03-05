@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.cyclonedds.examples.RoundTrip.java5.pong</groupId>
-	<artifactId>java5-ping</artifactId>
+	<artifactId>java5-pong</artifactId>
 	<name>Java 5 PSM example: Roundtrip Pong</name>
 	<version>0.1-SNAPSHOT</version>
 
@@ -28,6 +28,26 @@
 					<source>1.6</source>
 					<target>1.6</target>
 					<verbose>false</verbose>
+				</configuration>
+			</plugin>
+
+			<!-- classes generation from idl -->
+			<plugin>
+				<groupId>org.eclipse.cyclonedds</groupId>
+				<artifactId>idl2j</artifactId>
+				<version>${project.version}</version>
+				<executions>
+					<execution>
+						<id>idl-compile</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>idl-compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<idlDir>${project.basedir}/../idl</idlDir>
+					<outDir>${project.basedir}/target/generated-sources/</outDir>
 				</configuration>
 			</plugin>
 

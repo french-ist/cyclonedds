@@ -31,6 +31,26 @@
 				</configuration>
 			</plugin>
 
+			<!-- classes generation from idl -->
+			<plugin>
+				<groupId>org.eclipse.cyclonedds</groupId>
+				<artifactId>idl2j</artifactId>
+				<version>${project.version}</version>
+				<executions>
+					<execution>
+						<id>idl-compile</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>idl-compile</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<idlDir>${project.basedir}/../idl</idlDir>
+					<outDir>${project.basedir}/target/generated-sources/</outDir>
+				</configuration>
+			</plugin>
+
 			<!-- Embbed every depedencies -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
