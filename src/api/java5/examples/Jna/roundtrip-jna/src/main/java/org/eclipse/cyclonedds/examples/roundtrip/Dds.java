@@ -61,7 +61,7 @@ public class Dds {
 		long status;
 		dds_sample_info.ByReference infosPtr = new  dds_sample_info.ByReference();	    
 		PointerByReference samplePtr = new PointerByReference(Dds.pingAllocWarmUp);
-		Stats.startTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time ();
+		Stats.startTime = System.nanoTime();//org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time ();
 		while (DdscLibrary.dds_triggered(Dds.waitSet) != 1 && difference < Dds.ddsSeconds(5))
 		{
 			status = DdscLibrary.dds_waitset_wait (Dds.waitSet, Dds.blobList, Dds.blobListSize, Dds.waitTimeout);			
@@ -71,7 +71,7 @@ public class Dds {
 				infosPtr.read();
 			}
 
-			long time = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
+			long time = System.nanoTime();//org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
 			difference = time - Stats.startTime;
 		}
 
@@ -87,7 +87,7 @@ public class Dds {
 		roundTrip.exampleResetTimeStats ();
 		writeAccess.exampleResetTimeStats ();
 		readAccess.exampleResetTimeStats ();
-		Stats.startTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
+		Stats.startTime = System.nanoTime(); //org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
 	}
 	
 	public static void checkParameters(String _payloadSize, String _numSamples, String _timeOut) {

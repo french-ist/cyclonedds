@@ -32,9 +32,9 @@ public class RoundtripPing
 		dds_sample_info[] infosArr = tObj.infosArr; //(dds_sample_info[]) infosPtr.toArray(Dds.MAX_SAMPLES); 
 
 		/* Take sample and check that it is valid */	    
-		long preTakeTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
+		long preTakeTime = System.nanoTime();//org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
 		DdscLibrary.dds_take(reader, samplePtr, infosPtr, new NativeSize(Dds.MAX_SAMPLES*Byte.SIZE), Dds.MAX_SAMPLES);  
-		long postTakeTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();	       
+		long postTakeTime = System.nanoTime();//org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();	       
 
 		/* read sub_data  NO NEED TO READ PONG DATA 
 		RoundTripModule_DataType sub_data = new RoundTripModule_DataType(samplePtr.getValue());
@@ -47,9 +47,9 @@ public class RoundtripPing
 		
 		Stats.statsStuf(infosArr, preTakeTime, postTakeTime);
 
-		Stats.preWriteTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
+		Stats.preWriteTime =  System.nanoTime(); //org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
 		DdscLibrary.dds_write_ts (Dds.pingWriter, pointer, Stats.preWriteTime);
-		Stats.postWriteTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
+		Stats.postWriteTime =  System.nanoTime(); //org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
 	}
 
 	
@@ -134,8 +134,8 @@ public class RoundtripPing
 
 	public void ping(RoundTripModule_DataType.ByReference pub_data) {
 		pub_data.write();
-		Stats.preWriteTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
+		Stats.preWriteTime =  System.nanoTime();//org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
 		DdscLibrary.dds_write_ts (Dds.pingWriter, pub_data.getPointer(), Stats.preWriteTime);
-		Stats.postWriteTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
+		Stats.postWriteTime =  System.nanoTime();//org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
 	}
 }

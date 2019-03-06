@@ -44,7 +44,7 @@ public class Stats implements Runnable
 
 		if (!Dds.shouldWarmUp) {
 			/* Print stats each second */
-			difference = (postTakeTime - Stats.startTime)/Dds.DDS_NSECS_IN_USEC;
+			difference = Math.abs(postTakeTime - Stats.startTime)/Dds.DDS_NSECS_IN_USEC;
 			if (difference > Dds.US_IN_ONE_SEC)
 			{
 				System.out.printf("%9s %9d %8.0f %8s %9s %8s %10d %8.0f %8s %10d %8.0f %8s\n",
@@ -64,7 +64,7 @@ public class Stats implements Runnable
 				Dds.roundTrip.exampleResetTimeStats();
 				Dds.writeAccess.exampleResetTimeStats();
 				Dds.readAccess.exampleResetTimeStats();
-				Stats.startTime = org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
+				Stats.startTime = System.nanoTime();//org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
 				Stats.elapsed ++;
 			}
 		}
@@ -99,10 +99,7 @@ public class Stats implements Runnable
 		
 		values.sort(new Comparator<Long>() {
 			public int compare(Long a, Long b) {
-				if(a==null || b==null) {
-					return 0;
-				}
-				return (a == b) ? 0 : (a < b) ? -1 : 1;
+				return Long.compare(a, b);
 			}
 		});        
 
@@ -124,10 +121,7 @@ public class Stats implements Runnable
 	{
 		values.sort(new Comparator<Long>() {
 			public int compare(Long a, Long b) {
-				if(a==null || b==null) {
-					return 0;
-				}
-				return (a == b) ? 0 : (a < b) ? -1 : 1;
+				return Long.compare(a, b);
 			}
 		});
 
