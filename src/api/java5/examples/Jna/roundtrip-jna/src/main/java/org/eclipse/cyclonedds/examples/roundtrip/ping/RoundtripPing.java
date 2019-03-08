@@ -25,14 +25,14 @@ public class RoundtripPing
 	
 	public void dataAvailable(int reader, Pointer pointer)
 	{		
+		long preTakeTime = System.nanoTime();//org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
 		TakeAllocator tObj = (TakeAllocator)opt.next();
 
 		PointerByReference samplePtr = tObj.samplePtr ;//new PointerByReference(Dds.allocTake);
 		dds_sample_info.ByReference infosPtr = tObj.infosPtr; //new  dds_sample_info.ByReference();	
 		dds_sample_info[] infosArr = tObj.infosArr; //(dds_sample_info[]) infosPtr.toArray(Dds.MAX_SAMPLES); 
 
-		/* Take sample and check that it is valid */	    
-		long preTakeTime = System.nanoTime();//org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();
+		/* Take sample and check that it is valid */
 		DdscLibrary.dds_take(reader, samplePtr, infosPtr, new NativeSize(Dds.MAX_SAMPLES*Byte.SIZE), Dds.MAX_SAMPLES);  
 		long postTakeTime = System.nanoTime();//org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_time();	       
 

@@ -53,13 +53,10 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
     private DomainParticipantFactoryQos qos;
     private DomainParticipantQos defaultDomainParticipantQoS;
 
-    public DomainParticipantFactoryImpl(CycloneServiceEnvironment environment) {
+    public DomainParticipantFactoryImpl(CycloneServiceEnvironment environment) {        
+        defaultDomainParticipantQoS = new DomainParticipantQosImpl(environment);
+        qos = new DomainParticipantFactoryQosImpl(environment);
         this.environment = environment;
-        this.defaultDomainParticipantQoS = new DomainParticipantQosImpl(environment);
-        this.qos = new DomainParticipantFactoryQosImpl(environment);
-    }
-
-    public void destroyParticipant(DomainParticipantImpl participant) {
     }
 
     @Override
@@ -69,7 +66,6 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
 
     @Override
     public DomainParticipant createParticipant() {
-        // return createParticipant(DOMAIN_ID_DEFAULT.value);
         return createParticipant(0);
     }
 

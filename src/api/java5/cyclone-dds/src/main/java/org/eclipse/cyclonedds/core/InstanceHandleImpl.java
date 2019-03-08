@@ -45,7 +45,7 @@ public class InstanceHandleImpl extends InstanceHandle {
             other = (InstanceHandleImpl)o;
         } catch(ClassCastException cce){
             throw new IllegalOperationExceptionImpl(this.environment,
-                    "Cannot compare OpenSplice InstanceHandle to non-OpenSplice InstanceHandle");
+                    "Cannot compare Cyclone InstanceHandle to non-Cyclone InstanceHandle");
         }
         if (this.value == other.getValue()) {
             return 0;

@@ -26,7 +26,6 @@ import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_listener_t;
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_qos_t;
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_topic_descriptor_t;
 import org.eclipse.cyclonedds.topic.TopicImpl;
-import org.omg.dds.core.Duration;
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.Time;
 import org.omg.dds.domain.DomainParticipantListener;
@@ -50,6 +49,8 @@ public class Utilities {
         }
     }
 
+    int DDS_CHECK_REPORT = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_REPORT;
+    int DDS_CHECK_EXIT = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_EXIT;
     private static void checkReturnCode(int retCode,
             CycloneServiceEnvironment environment, String message,
             boolean withTimeOut) throws TimeOutExceptionImpl {
@@ -98,6 +99,18 @@ public class Utilities {
             break;
         }
         */
+    	
+    	
+    	byte ret = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.dds_err_check(retCode,
+    			org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_REPORT | org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_EXIT,
+    			"NIY");
+    	if(ret != 1){
+    		try {
+    			throw new Exception("dds_error_check" + message);
+    		} catch (Exception e) {
+    			e.printStackTrace();
+    		}
+    	}
     }
 
     /* TODO FRCYC
