@@ -20,9 +20,22 @@
  */
 package org.eclipse.cyclonedds.topic;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.DomainEntityImpl;
+import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
+import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
+import org.eclipse.cyclonedds.core.Utilities;
+import org.eclipse.cyclonedds.core.status.AllDataDisposedStatus;
+import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_topic_descriptor_t;
+import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
+import org.eclipse.cyclonedds.sub.DataReader;
+import org.eclipse.cyclonedds.type.AbstractTypeSupport;
+import org.omg.CORBA.portable.IDLEntity;
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.StatusCondition;
 import org.omg.dds.core.status.InconsistentTopicStatus;
@@ -33,24 +46,21 @@ import org.omg.dds.topic.TopicDescription;
 import org.omg.dds.topic.TopicListener;
 import org.omg.dds.topic.TopicQos;
 import org.omg.dds.type.TypeSupport;
-import org.eclipse.cyclonedds.core.DomainEntityImpl;
-import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
-import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
-import org.eclipse.cyclonedds.core.StatusConditionImpl;
-import org.eclipse.cyclonedds.core.Utilities;
-import org.eclipse.cyclonedds.core.status.AllDataDisposedStatus;
-import org.eclipse.cyclonedds.core.status.StatusConverter;
-import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
-import org.eclipse.cyclonedds.type.AbstractTypeSupport;
-import org.eclipse.cyclonedds.type.TypeSupportImpl;
 
-public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TYPE>, TopicListenerImpl<TYPE>> implements org.eclipse.cyclonedds.topic.AbstractTopic<TYPE> {
-    private AbstractTypeSupport<TYPE> typeSupport;
-	private int jnaTopic = -1;
+public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TYPE>, TopicListenerImpl<TYPE>> 
+	implements org.eclipse.cyclonedds.topic.AbstractTopic<TYPE> {
+	
+	private int jnaTopic;
+	private List<DataReader<TYPE>> associatedReaders;
+	
+	protected  String topicName;
+	protected AbstractTypeSupport<TYPE> typeSupport;
+	protected TopicQos qos;
+	protected Collection<Class<? extends Status>> statuses;
+	
 
-    public TopicImpl(CycloneServiceEnvironment environment,
+    
+	public TopicImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl participant, 
             String topicName,
             AbstractTypeSupport<TYPE> typeSupport, 
@@ -58,12 +68,27 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
             TopicListener<TYPE> listener,
             Collection<Class<? extends Status>> statuses) {
         super(environment);
-
+        this.topicName = topicName;
+        this.typeSupport = typeSupport;
+        this.qos = qos;        
+        this.listener = (TopicListenerImpl<TYPE>) listener;
+        this.statuses = statuses;
+        
+        associatedReaders = new ArrayList<DataReader<TYPE>>();
+        
+        DdsTopicDescriptor typeDescription = DdsTopicDescriptorFactory.getDdsTopicDescriptor(environment, this);
+        
         jnaTopic = org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_create_topic(participant.getJnaParticipant(),
-        		Utilities.convert(environment, this), 
+        		typeDescription.getDdsTopicDescriptor(), 
 				topicName, 
 				Utilities.convert(environment, qos), 
 				Utilities.convert(environment, listener));
+        
+        Utilities.checkReturnCode(
+        		jnaTopic,
+                environment,
+                "Registration of Type with name '"
+                        + this.typeSupport.getTypeName() + "' failed.");
         
         /* TODO FRCYC
         if (qos == null) {
@@ -78,11 +103,7 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
         
         int rc = this.typeSupport.getOldTypeSupport().register_type(
                 parent.getOld(), this.typeSupport.getTypeName());
-        Utilities.checkReturnCode(
-                rc,
-                this.environment,
-                "Registration of Type with name '"
-                        + this.typeSupport.getTypeName() + "' failed.");
+        
         TopicQos oldQos;
 
 
@@ -185,115 +206,9 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
         }
         */
     }
-
-    private void setListener(TopicListener<TYPE> listener, int mask) {
-        TopicListenerImpl<TYPE> wrapperListener;
-        int rc;
-
-        if (listener != null) {
-            wrapperListener = new TopicListenerImpl<TYPE>(this.environment,
-                    this, listener);
-        } else {
-            wrapperListener = null;
-        }
-        /* TODO FRCYC
-        rc = this.getOld().set_listener(wrapperListener, mask);
-        Utilities.checkReturnCode(rc, this.environment,
-                "Topic.setListener() failed.");
-*/
-        this.listener = wrapperListener;
-    }
+  
 
     
-    /* TODO FRCYC
-    @Override
-    public void setListener(TopicListener<TYPE> listener) {
-        this.setListener(listener, StatusConverter.getAnyMask());
-    }
-
-    @Override
-    public void setListener(TopicListener<TYPE> listener,
-            Collection<Class<? extends Status>> statuses) {
-        this.setListener(listener,
-                StatusConverter.convertMask(this.environment, statuses));
-    }
-
-    @Override
-    public void setListener(TopicListener<TYPE> listener,
-            Class<? extends Status>... statuses) {
-        this.setListener(listener,
-                StatusConverter.convertMask(this.environment, statuses));
-    }
-
-    @Override
-    public TopicQos getQos() {
-        TopicQosHolder holder = new TopicQosHolder();
-        int rc = this.getOld().get_qos(holder);
-        Utilities.checkReturnCode(rc, this.environment,
-                "Topic.getQos() failed.");
-
-        return TopicQosImpl.convert(this.environment, holder.value);
-    }
-
-    @Override
-    public void setQos(TopicQos qos) {
-        TopicQosImpl q;
-
-        if (qos == null) {
-            throw new IllegalArgumentExceptionImpl(this.environment,
-                    "Supplied TopicQos is null.");
-        }
-        try {
-            q = (TopicQosImpl) qos;
-        } catch (ClassCastException e) {
-            throw new IllegalArgumentExceptionImpl(this.environment,
-                    "Setting non-OpenSplice Qos not supported.");
-        }
-        int rc = this.getOld().set_qos(q.convert());
-        Utilities.checkReturnCode(rc, this.environment,
-                "Topic.setQos() failed.");
-
-    }
-
-    @Override
-    public InconsistentTopicStatus getInconsistentTopicStatus() {
-        InconsistentTopicStatusHolder holder = new InconsistentTopicStatusHolder();
-        int rc = this.getOld().get_inconsistent_topic_status(holder);
-        Utilities.checkReturnCode(rc, this.environment,
-                "Topic.getInconsistentTopicStatus()");
-
-        return StatusConverter.convert(this.environment, holder.value);
-    }
-
-    @Override
-    public StatusCondition<Topic<TYPE>> getStatusCondition() {
-        StatusCondition oldCondition = this.getOld().get_statuscondition();
-
-        if (oldCondition == null) {
-            Utilities.throwLastErrorException(this.environment);
-        }
-        return new StatusConditionImpl<Topic<TYPE>>(this.environment,
-                oldCondition, this);
-    }
-
-    @Override
-    protected void destroy() {
-        this.parent.destroyTopic(this);
-
-    }
-    */
-
-    @Override
-    public TypeSupport<TYPE> getTypeSupport() {
-        if (this.typeSupport == null) {
-            throw new PreconditionNotMetExceptionImpl(this.environment,
-                    "TypeSupport is unknown for this Topic. Has Topic been "
-                            + "obtained using DomainParticipant.findTopic() "
-                            + "maybe?");
-        }
-        return this.typeSupport;
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public <OTHER> TopicDescription<OTHER> cast() {
@@ -306,18 +221,6 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
                     "Unable to perform requested cast.");
         }
         return other;
-    }
-
-    @Override
-    public String getTypeName() {
-        /*
-         * Can be null in case Topic has been obtained using the findTopic
-         * method
-         */
-        if (this.typeSupport != null) {
-            return this.typeSupport.getTypeName();
-        }
-        return null;
     }
 
 	@Override
@@ -348,6 +251,17 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
 	public DomainParticipant getParent() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public TypeSupport<TYPE> getTypeSupport() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getTypeName() {
+		return typeSupport.getTypeName();
 	}
 
 	@Override
@@ -416,38 +330,127 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
 		
 	}
 
-	public int getJnaTopic() {
-		return jnaTopic;
-	}
+   
 
-    /*
-    @Override
-    public String getName() {
-        return this.getOld().get_name();
-    }
-
-    @Override
-    public DomainParticipant getParent() {
-        return this.parent;
-    }
-
-     TODO FRCYC
-    @Override
-    public void disposeAllData() {
-        int rc = this.getOld().dispose_all_data();
-        Utilities.checkReturnCode(rc, this.environment,
-                "Topic.disposeAllData() failed.");
-    }
-
-    @Override
-    public AllDataDisposedStatus getAllDataDisposedTopicStatus() {
-        AllDataDisposedTopicStatusHolder holder = new AllDataDisposedTopicStatusHolder();
-        int rc = this.getOld().get_all_data_disposed_topic_status(holder);
-        Utilities.checkReturnCode(rc, this.environment,
-                "Topic.getAllDataDisposedTopicStatus()");
-
-        return StatusConverter.convert(this.environment, holder.value);
-    }
-    */
+    
+    
+    
+    
+    
+    
+    
+    
 
 }
+
+
+
+/* TODO FRCYC
+@Override
+public void setListener(TopicListener<TYPE> listener) {
+    this.setListener(listener, StatusConverter.getAnyMask());
+}
+
+@Override
+public void setListener(TopicListener<TYPE> listener,
+        Collection<Class<? extends Status>> statuses) {
+    this.setListener(listener,
+            StatusConverter.convertMask(this.environment, statuses));
+}
+
+@Override
+public void setListener(TopicListener<TYPE> listener,
+        Class<? extends Status>... statuses) {
+    this.setListener(listener,
+            StatusConverter.convertMask(this.environment, statuses));
+}
+
+@Override
+public TopicQos getQos() {
+    TopicQosHolder holder = new TopicQosHolder();
+    int rc = this.getOld().get_qos(holder);
+    Utilities.checkReturnCode(rc, this.environment,
+            "Topic.getQos() failed.");
+
+    return TopicQosImpl.convert(this.environment, holder.value);
+}
+
+@Override
+public void setQos(TopicQos qos) {
+    TopicQosImpl q;
+
+    if (qos == null) {
+        throw new IllegalArgumentExceptionImpl(this.environment,
+                "Supplied TopicQos is null.");
+    }
+    try {
+        q = (TopicQosImpl) qos;
+    } catch (ClassCastException e) {
+        throw new IllegalArgumentExceptionImpl(this.environment,
+                "Setting non-OpenSplice Qos not supported.");
+    }
+    int rc = this.getOld().set_qos(q.convert());
+    Utilities.checkReturnCode(rc, this.environment,
+            "Topic.setQos() failed.");
+
+}
+
+@Override
+public InconsistentTopicStatus getInconsistentTopicStatus() {
+    InconsistentTopicStatusHolder holder = new InconsistentTopicStatusHolder();
+    int rc = this.getOld().get_inconsistent_topic_status(holder);
+    Utilities.checkReturnCode(rc, this.environment,
+            "Topic.getInconsistentTopicStatus()");
+
+    return StatusConverter.convert(this.environment, holder.value);
+}
+
+@Override
+public StatusCondition<Topic<TYPE>> getStatusCondition() {
+    StatusCondition oldCondition = this.getOld().get_statuscondition();
+
+    if (oldCondition == null) {
+        Utilities.throwLastErrorException(this.environment);
+    }
+    return new StatusConditionImpl<Topic<TYPE>>(this.environment,
+            oldCondition, this);
+}
+
+@Override
+protected void destroy() {
+    this.parent.destroyTopic(this);
+
+}
+*/
+
+
+/*
+@Override
+public String getName() {
+    return this.getOld().get_name();
+}
+
+@Override
+public DomainParticipant getParent() {
+    return this.parent;
+}
+
+ TODO FRCYC
+@Override
+public void disposeAllData() {
+    int rc = this.getOld().dispose_all_data();
+    Utilities.checkReturnCode(rc, this.environment,
+            "Topic.disposeAllData() failed.");
+}
+
+@Override
+public AllDataDisposedStatus getAllDataDisposedTopicStatus() {
+    AllDataDisposedTopicStatusHolder holder = new AllDataDisposedTopicStatusHolder();
+    int rc = this.getOld().get_all_data_disposed_topic_status(holder);
+    Utilities.checkReturnCode(rc, this.environment,
+            "Topic.getAllDataDisposedTopicStatus()");
+
+    return StatusConverter.convert(this.environment, holder.value);
+}
+*/
+

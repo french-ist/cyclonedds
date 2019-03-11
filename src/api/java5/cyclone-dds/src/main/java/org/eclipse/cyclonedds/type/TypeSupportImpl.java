@@ -56,34 +56,7 @@ public class TypeSupportImpl<TYPE> extends AbstractTypeSupport<TYPE> {
         super();
         this.environment = environment;
         this.dataType = dataType;
-        this.typeName = typeName;
-
-        String typeSupportName = dataType.getName() + "TypeSupport";
-/* TODO FRCYC
-        try {
-            Class<? extends org.eclipse.cyclonedds.dcps.TypeSupportImpl> oldTypeSupportClaz;
-
-            oldTypeSupportClaz = (Class<? extends org.eclipse.cyclonedds.dcps.TypeSupportImpl>) Class
-                    .forName(typeSupportName);
-            this.oldTypeSupport = oldTypeSupportClaz.newInstance();
-        } catch (ClassCastException e) {
-            throw new PreconditionNotMetExceptionImpl(
-                    this.environment,
-                    "Allocating new TypeSupport failed. "
-                            + typeName
-                            + "' is not an instance of org.eclipse.cyclonedds.dcps.TypeSupportImpl.");
-        } catch (InstantiationException e) {
-            throw new PreconditionNotMetExceptionImpl(this.environment,
-                    "Allocating new TypeSupport failed. " + e.getMessage());
-        } catch (IllegalAccessException e) {
-            throw new PreconditionNotMetExceptionImpl(this.environment,
-                    "Allocating new TypeSupport failed. " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            throw new PreconditionNotMetExceptionImpl(this.environment,
-                    "Allocating new TypeSupport failed (" + typeSupportName
-                            + "); " + e.getMessage());
-        }
-*/
+        this.typeName = typeName;        
     }
 
     @Override
@@ -108,21 +81,6 @@ public class TypeSupportImpl<TYPE> extends AbstractTypeSupport<TYPE> {
     public Class<TYPE> getType() {
         return this.dataType;
     }
-
-    /* TODO FRCYC
-    @Override
-    public String getTypeName() {
-        if (this.typeName != null) {
-            return this.typeName;
-        }
-        return oldTypeSupport.get_type_name();
-    }
-
-    @Override
-    public TypeSupport getOldTypeSupport() {
-        return this.oldTypeSupport;
-    }
-    */
 
     @Override
     public AbstractDataWriter<TYPE> createDataWriter(PublisherImpl publisher,
@@ -151,17 +109,7 @@ public class TypeSupportImpl<TYPE> extends AbstractTypeSupport<TYPE> {
     }
 
 	@Override
-	public TypeSupport getOldTypeSupport() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public String getTypeName() {
-		// TODO Auto-generated method stub
-		return null;
+		return typeName;
 	}
-    
-    
-
 }

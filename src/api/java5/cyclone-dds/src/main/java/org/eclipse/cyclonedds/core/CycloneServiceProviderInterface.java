@@ -3,6 +3,7 @@ package org.eclipse.cyclonedds.core;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.cyclonedds.core.policy.PolicyFactoryImpl;
 import org.eclipse.cyclonedds.domain.DomainParticipantFactoryImpl;
 import org.eclipse.cyclonedds.type.TypeSupportImpl;
 import org.eclipse.cyclonedds.type.TypeSupportProtobuf;
@@ -23,14 +24,14 @@ import org.omg.dds.type.builtin.KeyedString;
 import org.omg.dds.type.dynamic.DynamicDataFactory;
 import org.omg.dds.type.dynamic.DynamicTypeFactory;
 
-
 public class CycloneServiceProviderInterface implements ServiceProviderInterface {
 
 	private final CycloneServiceEnvironment environment;
+	private final PolicyFactory policyFactory;
 
 	public CycloneServiceProviderInterface(CycloneServiceEnvironment environment) {
 		this.environment = environment;	
-	
+		this.policyFactory = new PolicyFactoryImpl(environment);
 	}
 
 	@Override
@@ -151,8 +152,7 @@ public class CycloneServiceProviderInterface implements ServiceProviderInterface
 
 	@Override
 	public PolicyFactory getPolicyFactory() {
-		// TODO Auto-generated method stub
-		return null;
+		return policyFactory;
 	}
 
 	@Override

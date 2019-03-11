@@ -122,13 +122,6 @@ public abstract class TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         return this.environment;
     }
 
-    
-    @Override
-    public TypeSupport getOldTypeSupport() {
-        //TODO FRCYC return this.ddsTypeSupport.getOldTypeSupport();
-    	return null;
-    }
-
     @Override
     public PROTOBUF_TYPE newData() {
         try {
