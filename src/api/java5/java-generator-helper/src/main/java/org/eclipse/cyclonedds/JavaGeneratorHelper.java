@@ -7,8 +7,7 @@ import org.eclipse.cyclonedds.builders.ConcreteDdsKeyDescriptorBuilder;
 import org.eclipse.cyclonedds.builders.ConcreteMessageOptionsBuilder;
 import org.eclipse.cyclonedds.builders.ConcreteMsgDescBuilder;
 import org.eclipse.cyclonedds.builders.Remplacements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 import java.io.IOException;
 import java.io.*;
@@ -23,9 +22,6 @@ import java.util.List;
 public class JavaGeneratorHelper {
 
     final static Charset ENCODING = StandardCharsets.UTF_8;
-
-    //private static final Logger LOG = LoggerFactory.getLogger(JavaGeneratorHelper.class
-    //        .getName());
 
     static DdscLexer lexer;
     static DdscParser parser;
@@ -88,11 +84,11 @@ public class JavaGeneratorHelper {
         }
     }
 
-    public static void idl2c(String idlfile) {
+    public static void idl2c(String idlfile, String output_dir) {
         String idljar = "../../../../../cyclonedds/build/idlc/target/idlc-jar-with-dependencies.jar ";
         List<String> cmds = new ArrayList<String>();
-        cmds.add("java -classpath " + idljar  + " org.eclipse.cyclonedds.compilers.Idlc -d . -I. "  + idlfile);
-        execCommands(cmds,"../../../../../cyclonedds/compile.sh");
+        cmds.add("java -classpath " + idljar  + " org.eclipse.cyclonedds.compilers.Idlc -d " + output_dir + " -I. "  + idlfile);
+        execCommands(cmds,"/tmp/compile.sh");
     }
 
     private String getIdlHelperClassFrom(String file, String outputDir, String javaPackage) {
@@ -150,7 +146,7 @@ public class JavaGeneratorHelper {
 
     private JavaGeneratorHelper(String[] args) {
         // compile with idl2c
-        idl2c (args[0] + ".idl");
+        idl2c (args[0] + ".idl", args[1]);
         getIdlHelperClassFrom(args[0] + ".c", args[1], args[2]);
     }
 
