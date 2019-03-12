@@ -50,15 +50,14 @@ import org.omg.dds.type.TypeSupport;
 public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TYPE>, TopicListenerImpl<TYPE>> 
 	implements org.eclipse.cyclonedds.topic.AbstractTopic<TYPE> {
 	
-	private int jnaTopic;
 	private List<DataReader<TYPE>> associatedReaders;
-	
 	protected  String topicName;
 	protected AbstractTypeSupport<TYPE> typeSupport;
 	protected TopicQos qos;
 	protected Collection<Class<? extends Status>> statuses;
 	
-
+	private final int jnaTopic;
+	private Topic<TYPE> topic;
     
 	public TopicImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl participant, 
@@ -139,15 +138,38 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
 
     @SuppressWarnings("unchecked")
     public TopicImpl(CycloneServiceEnvironment environment,
-            DomainParticipantImpl participant, String topicName, Topic old) {
-        super(environment);
+            DomainParticipantImpl participant, String topicName, Topic<TYPE> topic) {
+        
+    	super(environment);
+        this.topicName = topicName;
+        this.listener = (TopicListenerImpl<TYPE>) listener;
+        this.topic = topic;
+        
+        associatedReaders = new ArrayList<DataReader<TYPE>>();
+        
+        DdsTopicDescriptor typeDescription = DdsTopicDescriptorFactory.getDdsTopicDescriptor(environment, this);
+        
+        jnaTopic = org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_create_topic(participant.getJnaParticipant(),
+        		typeDescription.getDdsTopicDescriptor(), 
+				topicName, 
+				Utilities.convert(environment, qos), 
+				Utilities.convert(environment, listener));
+        
+        Utilities.checkReturnCode(
+        		jnaTopic,
+                environment,
+                "Registration of Type with name '"
+                        + this.typeSupport.getTypeName() + "' failed.");
+    	
+    	/*
+    	super(environment);
         this.listener = null;
 
         if (topicName == null) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Supplied Topic name is null.");
         }
-        if (old == null) {
+        if (topic == null) {
             throw new IllegalArgumentExceptionImpl(environment,
                     "Invalid <null> Topic provided.");
         }
@@ -255,8 +277,7 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
 
 	@Override
 	public TypeSupport<TYPE> getTypeSupport() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.typeSupport;
 	}
 
 	@Override
@@ -266,8 +287,7 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return topicName;
 	}
 
 	@Override
@@ -328,6 +348,10 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
 	protected void destroy() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public int getJnaTopic() {
+		return jnaTopic;
 	}
 
    

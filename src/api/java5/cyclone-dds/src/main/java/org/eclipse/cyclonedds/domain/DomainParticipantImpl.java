@@ -562,8 +562,7 @@ public class DomainParticipantImpl extends EntityImpl<DomainParticipantQos, Doma
 		// TODO Auto-generated method stub		
 	}
 
-	public int getJnaParticipant() {
-		
+	public int getJnaParticipant() {		
 		return jnaParticipant;
 	}
 

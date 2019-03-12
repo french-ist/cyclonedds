@@ -79,9 +79,6 @@ public class HelloWorldDataPublisher {
 
         // Create DataReader on our topic with default QoS except Reliability
         // and Durability
-        System.out.println("#1" + pub);
-        System.out.println("#2" + pub.getDefaultDataWriterQos());
-        System.out.println("#3" +pub.getDefaultDataWriterQos().withPolicies(r, d));
         DataWriter<Msg> writer = pub.createDataWriter(topic, pub
                 .getDefaultDataWriterQos().withPolicies(r, d));
 

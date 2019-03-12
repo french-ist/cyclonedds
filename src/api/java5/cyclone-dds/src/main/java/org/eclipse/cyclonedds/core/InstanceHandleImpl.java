@@ -26,11 +26,11 @@ import org.omg.dds.core.ServiceEnvironment;
 public class InstanceHandleImpl extends InstanceHandle {
     private static final long serialVersionUID = 8433681503549822293L;
     private final transient CycloneServiceEnvironment environment;
-    private final long value;
+    private final long keyHash;
 
-    public InstanceHandleImpl(CycloneServiceEnvironment environment, long value) {
+    public InstanceHandleImpl(CycloneServiceEnvironment environment, long keyHashValue) {
         this.environment = environment;
-        this.value = value;
+        this.keyHash = keyHashValue;
     }
 
     @Override
@@ -47,11 +47,11 @@ public class InstanceHandleImpl extends InstanceHandle {
             throw new IllegalOperationExceptionImpl(this.environment,
                     "Cannot compare Cyclone InstanceHandle to non-Cyclone InstanceHandle");
         }
-        if (this.value == other.getValue()) {
+        if (this.keyHash == other.getValue()) {
             return 0;
         }
 
-        if (this.value < other.getValue()) {
+        if (this.keyHash < other.getValue()) {
             return -1;
         }
         return 1;
@@ -69,24 +69,24 @@ public class InstanceHandleImpl extends InstanceHandle {
     }
 
     public long getValue(){
-        return this.value;
+        return this.keyHash;
     }
 
     @Override
     public boolean equals(Object other){
         if(other instanceof InstanceHandleImpl){
-            return (((InstanceHandleImpl)other).value == this.value);
+            return (((InstanceHandleImpl)other).keyHash == this.keyHash);
         }
         return false;
     }
 
     @Override
     public String toString(){
-        return "InstanceHandle (" + this.value + ")";
+        return "InstanceHandle (" + this.keyHash + ")";
     }
 
     @Override
     public int hashCode(){
-        return 31 * 17 + (int) (this.value ^ (this.value >>> 32));
+        return 31 * 17 + (int) (this.keyHash ^ (this.keyHash >>> 32));
     }
 }

@@ -25,6 +25,15 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import org.eclipse.cyclonedds.core.AlreadyClosedExceptionImpl;
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
+import org.eclipse.cyclonedds.core.InstanceHandleImpl;
+import org.eclipse.cyclonedds.core.TimeImpl;
+import org.eclipse.cyclonedds.core.Utilities;
+import org.eclipse.cyclonedds.dcps.keys.KeyHashEncoder;
+import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
+import org.eclipse.cyclonedds.topic.TopicImpl;
 import org.omg.dds.core.Duration;
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.StatusCondition;
@@ -39,34 +48,45 @@ import org.omg.dds.pub.DataWriterListener;
 import org.omg.dds.pub.DataWriterQos;
 import org.omg.dds.topic.SubscriptionBuiltinTopicData;
 import org.omg.dds.topic.Topic;
-import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
-import org.eclipse.cyclonedds.core.StatusConditionImpl;
-import org.eclipse.cyclonedds.core.TimeImpl;
-import org.eclipse.cyclonedds.core.Utilities;
-import org.eclipse.cyclonedds.core.status.StatusConverter;
-import org.eclipse.cyclonedds.topic.TopicImpl;
+
+import com.sun.jna.Pointer;
 
 public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
-    private final TopicImpl<TYPE> topic;
-    private final ReflectionDataWriter<TYPE> reflectionWriter = null;
+    
+	private final TopicImpl<TYPE> topic;
+	private DataWriterQos qos;
+	private Collection<Class<? extends Status>> statuses;
+	private boolean enabled = false;
+	private final int jnaDataWriter;
 
-    public DataWriterImpl(CycloneServiceEnvironment environment,
+    @SuppressWarnings("unchecked")
+	public DataWriterImpl(CycloneServiceEnvironment environment,
             PublisherImpl parent, TopicImpl<TYPE> topic, DataWriterQos qos,
             DataWriterListener<TYPE> listener,
             Collection<Class<? extends Status>> statuses) {
         super(environment, parent);
         this.topic = topic;
-
+        this.qos = qos;
+        this.listener = (DataWriterListenerImpl<TYPE>) listener;
+        this.statuses = statuses;
+        
         if (qos == null) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Supplied DataWriterQos is null.");
         }
+        
         if (topic == null) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Supplied Topic is null.");
         }
+        
+        jnaDataWriter = DdscLibrary.dds_create_writer(
+        		parent.getJnaPublisher(), 
+        		topic.getJnaTopic(), 
+        		Utilities.convert(qos), 
+        		Utilities.convert(listener));
+
+        /*
         DataWriterQos oldQos;
 
         try {
@@ -82,7 +102,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
         } else {
             this.listener = null;
         }
-        /* FRCYC To be replaced by JNA/JNI access
+        FRCYC To be replaced by JNA/JNI access
         DataWriter old = this.parent.getOld().create_datawriter(
                 topic.getOld(), oldQos, this.listener,
                 StatusConverter.convertMask(this.environment, statuses));
@@ -102,353 +122,58 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
         */
     }
 
-    /* TODO FRCYC 
-    private void setListener(DataWriterListener<TYPE> listener, int mask) {
-        DataWriterListenerImpl<TYPE> wrapperListener;
-        int rc;
-
-        if (listener != null) {
-            wrapperListener = new DataWriterListenerImpl<TYPE>(
-                    this.environment, this, listener);
-        } else {
-            wrapperListener = null;
-        }
-        rc = this.getOld().set_listener(wrapperListener, mask);
-        Utilities.checkReturnCode(rc, this.environment,
-                "DataWriter.setListener() failed.");
-
-        this.listener = wrapperListener;
-    }
-
-    @Override
-    public void setListener(DataWriterListener<TYPE> listener) {
-        this.setListener(listener, StatusConverter.getAnyMask());
-    }
-
-    @Override
-    public void setListener(DataWriterListener<TYPE> listener,
-            Collection<Class<? extends Status>> statuses) {
-        this.setListener(listener,
-                StatusConverter.convertMask(this.environment, statuses));
-    }
-
-    @Override
-    public void setListener(DataWriterListener<TYPE> listener,
-            Class<? extends Status>... statuses) {
-        this.setListener(listener,
-                StatusConverter.convertMask(this.environment, statuses));
-    }
-    */
-
-    @Override
-    public DataWriterQos getQos() {
-        return this.reflectionWriter.getQos();
-    }
-
-    @Override
-    public void setQos(DataWriterQos qos) {
-        //TODO FRCYC this.reflectionWriter.setQos(qos);
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public <OTHER> DataWriter<OTHER> cast() {
-        DataWriter<OTHER> other;
-        try {
-            other = (DataWriter<OTHER>) this;
-        } catch (ClassCastException cce) {
-            throw new IllegalOperationExceptionImpl(this.environment,
-                    "Unable to perform requested cast.");
-        }
-        return other;
-    }
-
-    @Override
-    public Topic<TYPE> getTopic() {
-        return this.topic;
-    }
-
-    @Override
-    public void waitForAcknowledgments(Duration maxWait)
-            throws TimeoutException {
-        //TODO FRCYC this.reflectionWriter.waitForAcknowledgments(maxWait);
-    }
-
-    /* TODO FRCYC
-    @Override
-    public void waitForAcknowledgments(long maxWait, TimeUnit unit)
-            throws TimeoutException {
-    	TODO FRCYC this.reflectionWriter.waitForAcknowledgments(maxWait, unit);
-    }
-
-    @Override
-    public LivelinessLostStatus getLivelinessLostStatus() {
-    	TODO FRCYC return this.reflectionWriter.getLivelinessLostStatus();
-    }
-
-    @Override
-    public OfferedDeadlineMissedStatus getOfferedDeadlineMissedStatus() {
-        return this.reflectionWriter.getOfferedDeadlineMissedStatus();
-    }
-
-    @Override
-    public OfferedIncompatibleQosStatus getOfferedIncompatibleQosStatus() {
-        return this.reflectionWriter.getOfferedIncompatibleQosStatus();
-    }
-
-    @Override
-    public PublicationMatchedStatus getPublicationMatchedStatus() {
-        return this.reflectionWriter.getPublicationMatchedStatus();
-    }
-    */
-
-    @Override
-    public void assertLiveliness() {
-        this.reflectionWriter.assertLiveliness();
-    }
-
-    @Override
-    public Set<InstanceHandle> getMatchedSubscriptions() {
-        return this.reflectionWriter.getMatchedSubscriptions();
-    }
-
-    @Override
-    public SubscriptionBuiltinTopicData getMatchedSubscriptionData(
-            InstanceHandle subscriptionHandle) {
-        return this.reflectionWriter
-                .getMatchedSubscriptionData(subscriptionHandle);
-    }
-
-    @Override
-    public InstanceHandle registerInstance(TYPE instanceData)
-            throws TimeoutException {
-        return this.reflectionWriter.registerInstance(instanceData);
-    }
-
-    /* TODO FRCYC
-    @Override
-    public InstanceHandle registerInstance(TYPE instanceData,
-            Time sourceTimestamp) throws TimeoutException {
-        return this.reflectionWriter.registerInstance(instanceData,
-                sourceTimestamp);
-    }
-
-    @Override
-    public InstanceHandle registerInstance(TYPE instanceData,
-            long sourceTimestamp, TimeUnit unit) throws TimeoutException {
-        return this.reflectionWriter.registerInstance(instanceData,
-                sourceTimestamp, unit);
-    }*/
-
-    @Override
-    public void unregisterInstance(InstanceHandle handle)
-            throws TimeoutException {
-        this.reflectionWriter.unregisterInstance(handle);
-    }
-
-    @Override
-    public void unregisterInstance(InstanceHandle handle, TYPE instanceData)
-            throws TimeoutException {
-        this.reflectionWriter.unregisterInstance(handle, instanceData);
-    }
-
-    /* TODO FRCYC 
-    @Override
-    public void unregisterInstance(InstanceHandle handle, TYPE instanceData,
-            Time sourceTimestamp) throws TimeoutException {
-        this.reflectionWriter.unregisterInstance(handle, instanceData,
-                sourceTimestamp);
-    }
-
-    @Override
-    public void unregisterInstance(InstanceHandle handle, TYPE instanceData,
-            long sourceTimestamp, TimeUnit unit) throws TimeoutException {
-        this.reflectionWriter.unregisterInstance(handle, instanceData,
-                sourceTimestamp, unit);
-    }*/
-
-    @Override
-    public void write(TYPE instanceData) throws TimeoutException {
-        this.reflectionWriter.write(instanceData, this.environment.getSPI()
-                .nilHandle());
-    }
-
-    @Override
-    public void write(TYPE instanceData, Time sourceTimestamp)
-            throws TimeoutException {
-        /* TODO FRCYC this.reflectionWriter.write(instanceData, this.environment.getSPI()
-                .nilHandle(), sourceTimestamp);
-                */
-    }
-
-    @Override
-    public void write(TYPE instanceData, long sourceTimestamp, TimeUnit unit)
-            throws TimeoutException {
-        this.reflectionWriter.write(instanceData, new TimeImpl(
-                this.environment, sourceTimestamp, unit));
-    }
-
-    @Override
-    public void write(TYPE instanceData, InstanceHandle handle)
-            throws TimeoutException {
-        this.reflectionWriter.write(instanceData, handle);
-    }
-
-    @Override
-    public void write(TYPE instanceData, InstanceHandle handle,
-            Time sourceTimestamp) throws TimeoutException {
-        //TODO FRCYC this.reflectionWriter.write(instanceData, handle, sourceTimestamp);
-    }
-    
-
-    @Override
-    public void write(TYPE instanceData, InstanceHandle handle,
-            long sourceTimestamp, TimeUnit unit) throws TimeoutException {
-        this.reflectionWriter
-                .write(instanceData, handle, sourceTimestamp, unit);
-    }
-
-    @Override
-    public void dispose(InstanceHandle instanceHandle) throws TimeoutException {
-        this.reflectionWriter.dispose(instanceHandle, null);
-    }
-
-    @Override
-    public void dispose(InstanceHandle instanceHandle, TYPE instanceData)
-            throws TimeoutException {
-        this.reflectionWriter.dispose(instanceHandle, instanceData);
-    }
-
-    @Override
-    public void dispose(InstanceHandle instanceHandle, TYPE instanceData,
-            Time sourceTimestamp) throws TimeoutException {
-        /* TODO FRCYC
-    	this.reflectionWriter.dispose(instanceHandle, instanceData,
-                sourceTimestamp);
-                */
-    }
-
-    @Override
-    public void dispose(InstanceHandle instanceHandle, TYPE instanceData,
-            long sourceTimestamp, TimeUnit unit) throws TimeoutException {
-        /* TODO FRCYC
-    	this.reflectionWriter.dispose(instanceHandle, instanceData,
-                sourceTimestamp, unit);
-                */
-    }
-
-    @Override
-    public TYPE getKeyValue(TYPE keyHolder, InstanceHandle handle) {
-        return this.reflectionWriter.getKeyValue(keyHolder, handle);
-    }
-
-    @Override
-    public TYPE getKeyValue(InstanceHandle handle) {
-        return this.reflectionWriter.getKeyValue(handle);
-    }
-
-    @Override
-    public InstanceHandle lookupInstance(TYPE keyHolder) {
-        return this.reflectionWriter.lookupInstance(keyHolder);
-    }
-
-    /* TODO FRCYC
-    @Override
-    public StatusCondition<DataWriter<TYPE>> getStatusCondition() {
-        StatusCondition oldCondition = this.getOld().get_statuscondition();
-
-        if (oldCondition == null) {
-            Utilities.throwLastErrorException(this.environment);
-        }
-        return new StatusConditionImpl<DataWriter<TYPE>>(this.environment,
-                oldCondition, this);
-    }*/
-
-    @Override
-    public void writeDispose(TYPE instanceData) throws TimeoutException {
-        this.reflectionWriter.writeDispose(instanceData);
-
-    }
-
-    @Override
-    public void writeDispose(TYPE instanceData, Time sourceTimestamp)
-            throws TimeoutException {
-        this.reflectionWriter.writeDispose(instanceData, sourceTimestamp);
-    }
-
-    @Override
-    public void writeDispose(TYPE instanceData, long sourceTimestamp,
-            TimeUnit unit) throws TimeoutException {
-        this.reflectionWriter.writeDispose(instanceData, sourceTimestamp, unit);
-    }
-
-    @Override
-    public void writeDispose(TYPE instanceData, InstanceHandle handle)
-            throws TimeoutException {
-        this.reflectionWriter.writeDispose(instanceData, handle);
-    }
-
-    @Override
-    public void writeDispose(TYPE instanceData, InstanceHandle handle,
-            Time sourceTimestamp) throws TimeoutException {
-        this.reflectionWriter.writeDispose(instanceData, handle,
-                sourceTimestamp);
-    }
-
-    @Override
-    public void writeDispose(TYPE instanceData, InstanceHandle handle,
-            long sourceTimestamp, TimeUnit unit) throws TimeoutException {
-        this.reflectionWriter.writeDispose(instanceData, handle,
-                sourceTimestamp, unit);
-
-    }
-
-    @Override
-    protected void destroy() {
-        super.destroy();
-        this.topic.close();
-    }
+	@Override
+	public void writeDispose(TYPE instanceData) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
 
 	@Override
-	public StatusCondition<DataWriter<TYPE>> getStatusCondition() {
+	public void writeDispose(TYPE instanceData, Time sourceTimestamp) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void writeDispose(TYPE instanceData, long sourceTimestamp, TimeUnit unit) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void writeDispose(TYPE instanceData, InstanceHandle handle) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void writeDispose(TYPE instanceData, InstanceHandle handle, Time sourceTimestamp) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void writeDispose(TYPE instanceData, InstanceHandle handle, long sourceTimestamp, TimeUnit unit)
+			throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public <OTHER> DataWriter<OTHER> cast() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setListener(DataWriterListener<TYPE> listener) {
+	public Topic<TYPE> getTopic() {
+		return topic;
+	}
+
+	@Override
+	public void waitForAcknowledgments(Duration maxWait) throws TimeoutException {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public void setListener(DataWriterListener<TYPE> listener, Collection<Class<? extends Status>> statuses) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setListener(DataWriterListener<TYPE> listener, Class<? extends Status>... statuses) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void enable() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Set<Class<? extends Status>> getStatusChanges() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public InstanceHandle getInstanceHandle() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -482,6 +207,30 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
 	}
 
 	@Override
+	public void assertLiveliness() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Set<InstanceHandle> getMatchedSubscriptions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SubscriptionBuiltinTopicData getMatchedSubscriptionData(InstanceHandle subscriptionHandle) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle registerInstance(TYPE instanceData) throws TimeoutException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public InstanceHandle registerInstance(TYPE instanceData, Time sourceTimestamp) throws TimeoutException {
 		// TODO Auto-generated method stub
 		return null;
@@ -492,6 +241,18 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
 			throws TimeoutException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void unregisterInstance(InstanceHandle handle) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void unregisterInstance(InstanceHandle handle, TYPE instanceData) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -507,4 +268,152 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void write(TYPE instanceData) throws TimeoutException {
+		write(instanceData, new TimeImpl(environment, System.nanoTime(), TimeUnit.NANOSECONDS));
+	}
+
+	protected KeyHashEncoder<TYPE> keyHashEncoder;
+	
+	@Override
+	public void write(TYPE instanceData, Time sourceTimestamp) throws TimeoutException {
+		if(jnaDataWriter > 0) {
+			InstanceHandle handle = null;
+			if(keyHashEncoder != null) {				
+				handle = keyHashEncoder.encode(instanceData);
+			} else {
+				handle = new InstanceHandleImpl(environment, jnaDataWriter);
+			}
+			write(instanceData, handle, sourceTimestamp);
+		} else {
+			throw new AlreadyClosedExceptionImpl(environment, "DataWriter is closed; can't write");
+		}
+	}
+
+	@Override
+	public void write(TYPE instanceData, long sourceTimestamp, TimeUnit unit) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void write(TYPE instanceData, InstanceHandle handle) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void write(TYPE instanceData, InstanceHandle handle, Time sourceTimestamp) throws TimeoutException {
+		if(jnaDataWriter > 0) {			
+			Pointer pointer = null;
+			DdscLibrary.dds_write_ts(jnaDataWriter, pointer, sourceTimestamp.getTime(TimeUnit.NANOSECONDS));
+			
+		} else {
+			throw new AlreadyClosedExceptionImpl(environment, "DataWriter is closed; can't write");
+		}
+		
+	}
+
+	@Override
+	public void write(TYPE instanceData, InstanceHandle handle, long sourceTimestamp, TimeUnit unit)
+			throws TimeoutException {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void dispose(InstanceHandle instanceHandle) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dispose(InstanceHandle instanceHandle, TYPE instanceData) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dispose(InstanceHandle instanceHandle, TYPE instanceData, Time sourceTimestamp)
+			throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void dispose(InstanceHandle instanceHandle, TYPE instanceData, long sourceTimestamp, TimeUnit unit)
+			throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public TYPE getKeyValue(TYPE keyHolder, InstanceHandle handle) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TYPE getKeyValue(InstanceHandle handle) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle lookupInstance(TYPE keyHolder) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusCondition<DataWriter<TYPE>> getStatusCondition() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setListener(DataWriterListener<TYPE> listener) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setListener(DataWriterListener<TYPE> listener, Collection<Class<? extends Status>> statuses) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setListener(DataWriterListener<TYPE> listener, Class<? extends Status>... statuses) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public DataWriterQos getQos() {
+		return qos;
+	}
+
+	@Override
+	public void setQos(DataWriterQos qos) {
+		this.qos = qos;
+	}
+
+	@Override
+	public void enable() {
+		this.enabled  = true;
+	}
+
+	@Override
+	public Set<Class<? extends Status>> getStatusChanges() {
+		return (Set<Class<? extends Status>>) statuses;
+	}
+
+	@Override
+	public InstanceHandle getInstanceHandle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    
 }

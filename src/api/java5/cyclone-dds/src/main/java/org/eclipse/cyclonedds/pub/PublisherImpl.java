@@ -35,6 +35,8 @@ import org.eclipse.cyclonedds.core.DomainEntityImpl;
 import org.eclipse.cyclonedds.core.InstanceHandleImpl;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
+import org.eclipse.cyclonedds.core.Utilities;
+import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
 import org.eclipse.cyclonedds.topic.TopicImpl;
 import org.eclipse.cyclonedds.type.AbstractTypeSupport;
@@ -44,6 +46,7 @@ import org.omg.dds.core.StatusCondition;
 import org.omg.dds.core.policy.QosPolicy.ForPublisher;
 import org.omg.dds.core.status.Status;
 import org.omg.dds.domain.DomainParticipant;
+import org.omg.dds.domain.DomainParticipantQos;
 import org.omg.dds.pub.DataWriter;
 import org.omg.dds.pub.DataWriterListener;
 import org.omg.dds.pub.DataWriterQos;
@@ -62,6 +65,7 @@ public class PublisherImpl extends DomainEntityImpl<PublisherQos, PublisherListe
 	private DataWriterQos defaultDataWriterQos;
 	private boolean closed = false;
 	private boolean enabled = false;
+	private final int jnaPublisher;
 
 	public PublisherImpl(CycloneServiceEnvironment environment,
 			DomainParticipantImpl parent, 
@@ -74,8 +78,11 @@ public class PublisherImpl extends DomainEntityImpl<PublisherQos, PublisherListe
 		handle = new InstanceHandleImpl(environment, parent.getJnaParticipant()); 
 		writers = Collections.synchronizedList(new ArrayList<AbstractDataWriter<?>>());
 		defaultDataWriterQos = new DataWriterQosImpl(environment);
-		
-		//TODO call to JNA
+				
+		jnaPublisher = DdscLibrary.dds_create_publisher(
+				parent.getJnaParticipant(), 
+				Utilities.convert(qos),
+				Utilities.convert(parent));
 	}
 
 	@Override
@@ -307,6 +314,10 @@ public class PublisherImpl extends DomainEntityImpl<PublisherQos, PublisherListe
 	@Override
 	protected void destroy() {
 		// TODO Call to JNA for destruction
+	}
+
+	public int getJnaPublisher() {
+		return jnaPublisher;
 	}
 }
 

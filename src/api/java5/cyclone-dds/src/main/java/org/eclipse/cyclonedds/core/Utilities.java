@@ -25,11 +25,15 @@ import java.util.concurrent.TimeoutException;
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_listener_t;
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_qos_t;
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_topic_descriptor_t;
+import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
 import org.eclipse.cyclonedds.topic.TopicImpl;
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.Time;
 import org.omg.dds.domain.DomainParticipantListener;
 import org.omg.dds.domain.DomainParticipantQos;
+import org.omg.dds.pub.DataWriterListener;
+import org.omg.dds.pub.DataWriterQos;
+import org.omg.dds.pub.PublisherQos;
 import org.omg.dds.topic.TopicListener;
 import org.omg.dds.topic.TopicQos;
 
@@ -331,6 +335,27 @@ public class Utilities {
 	}
 
 	public static dds_topic_descriptor_t convert(CycloneServiceEnvironment environment, TopicImpl<?> topicImpl) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static PointerByReference convert(PublisherQos qos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static dds_listener_t convert(DomainParticipantImpl parent) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static PointerByReference convert(DataWriterQos qos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	public static <TYPE> dds_listener_t convert(DataWriterListener<TYPE> listener) {
 		// TODO Auto-generated method stub
 		return null;
 	}
