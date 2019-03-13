@@ -16,6 +16,7 @@
 		<module>Overhead</module>
 		<module>Roundtrip</module>
 		<module>HelloWorld</module>
+		<module>Throughput</module>
 	</modules>
 
 </project>
