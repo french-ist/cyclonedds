@@ -32,7 +32,22 @@
 
 	<build>
 		<plugins>
-			<!-- Embbed every depdencies -->
+         <!-- IDL code generation -->
+         <plugin>
+            <groupId>org.eclipse.cyclonedds</groupId>
+            <artifactId>idl2j</artifactId>
+            <version>${project.version}</version>
+            <executions>
+               <execution>
+                  <id>idl-compile</id>
+                  <phase>generate-sources</phase>
+                  <goals>
+                     <goal>idl-compile</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+			<!-- Embbed every dependencies -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
