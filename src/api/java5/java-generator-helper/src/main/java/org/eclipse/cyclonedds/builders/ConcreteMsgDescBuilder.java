@@ -17,8 +17,18 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
     InternalState internalState = InternalState.NOTHING;    
     private String variableName;
     int index = 0;
+    
+    private String className = null;
+	private String defaultClassName = null;    
+	
+    public ConcreteMsgDescBuilder(String defaultClassName, String className) {
+    	this.defaultClassName  = defaultClassName;
+    	this.className = className;
+	}
 
-    @Override
+
+
+	@Override
     public void setState(BuildingState listenerState, String text){
         switch (listenerState) {
             case DECLARATION_SPECIFIER:                
@@ -102,7 +112,13 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
         StringBuilder javaCode = new StringBuilder();        
         javaCode.append("\tpublic dds_topic_descriptor.ByReference getDdsTopicDescriptor() {\n");
         javaCode.append("\t\tdds_topic_descriptor.ByReference ret = new dds_topic_descriptor.ByReference();\n");
-        javaCode.append("\t\tret.m_size = "+listParams.get(0)+" ;\n");
+
+        if(className == null) {
+            javaCode.append("\t\tret.m_size = "+listParams.get(0)+" ;\n");
+        } else {
+        	javaCode.append("\t\tret.m_size = "+listParams.get(0).replace(defaultClassName+"_"+className, className) +" ;\n");
+        }
+
         javaCode.append("\t\tret.m_align = "+listParams.get(1)+";\n");
         javaCode.append("\t\tret.m_flagset = "+listParams.get(2)+";\n");
         javaCode.append("\t\tret.m_nkeys = "+listParams.get(3)+";\n");

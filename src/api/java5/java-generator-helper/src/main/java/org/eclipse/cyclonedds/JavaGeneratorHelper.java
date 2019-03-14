@@ -26,6 +26,8 @@ public class JavaGeneratorHelper {
     static DdscLexer lexer;
     static DdscParser parser;
 
+	private String className = null;
+
     private void initAntlr(String file) {
         try {
             lexer = new DdscLexer(CharStreams.fromStream(new FileInputStream(file)));
@@ -84,28 +86,31 @@ public class JavaGeneratorHelper {
         }
     }
 
-    public static void idl2c(String idlfile, String output_dir) {
+    public static void idl2c(String idlfile) {
+    	System.out.println("idl2c >>> idlFile: "+idlfile+", outputDir: /tmp");
         String idljar = "../../../../../cyclonedds/build/idlc/target/idlc-jar-with-dependencies.jar ";
         List<String> cmds = new ArrayList<String>();
-        cmds.add("java -classpath " + idljar  + " org.eclipse.cyclonedds.compilers.Idlc -d " + output_dir + " -I. "  + idlfile);
+        cmds.add("java -classpath " + idljar  + " org.eclipse.cyclonedds.compilers.Idlc -d /tmp -I. "  + idlfile);
         execCommands(cmds,"/tmp/compile.sh");
     }
 
     private String getIdlHelperClassFrom(String file, String outputDir, String javaPackage) {
-        initAntlr(file);
+    	System.out.println("getIdlHelperClassFrom >>> file: "+file+", outputDir: "+outputDir+", javaPackage: " + javaPackage);
+        
+		String defaultClassName = file.substring(
+            file.lastIndexOf("/")==-1 ? 0: file.lastIndexOf(File.separator)+1, 
+            file.lastIndexOf(".")).replace(".", "") ;        
+        
+		initAntlr(file);
         ConcreteDdsKeyDescriptorBuilder ddsKdesc = new ConcreteDdsKeyDescriptorBuilder();
-        ConcreteMessageOptionsBuilder ddsOps = new ConcreteMessageOptionsBuilder();
-        ConcreteMsgDescBuilder ddsMsgDescr = new ConcreteMsgDescBuilder();
+        ConcreteMessageOptionsBuilder ddsOps = new ConcreteMessageOptionsBuilder(defaultClassName, className);
+        ConcreteMsgDescBuilder ddsTopicDescr = new ConcreteMsgDescBuilder(defaultClassName, className);
         ParseTreeWalker walker = new ParseTreeWalker();        
         walker.walk(
-            new UserDdscListener(ddsKdesc, ddsOps, ddsMsgDescr),
+            new UserDdscListener(ddsKdesc, ddsOps, ddsTopicDescr),
             parser.main());
-                
-        String className = file.substring(
-            file.lastIndexOf("/")==-1 ? 0: file.lastIndexOf(File.separator)+1, 
-            file.lastIndexOf(".")).replace(".", "") ;
-        StringBuilder javaCode = new StringBuilder();
-
+        
+        StringBuilder javaCode = new StringBuilder();        
         javaCode.append("package "+javaPackage+";\n\n");
         javaCode.append("import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_key_descriptor;\n");
         //javaCode.append("import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_key_descriptor.ByReference;\n");
@@ -121,11 +126,11 @@ public class JavaGeneratorHelper {
         javaCode.append("import org.eclipse.cyclonedds.topic.DdsTopicDescriptor;\n");
         javaCode.append("import com.sun.jna.Memory;\n\n");
 
-        javaCode.append("\npublic class "+className+"_Helper extends DdsTopicDescriptor {\n");
+        javaCode.append("\npublic class "+getClassName(defaultClassName)+"_Helper extends DdsTopicDescriptor {\n");
         javaCode.append("\n"+ddsKdesc.getJavaCode());
         javaCode.append("\n"+ddsOps.getJavaCode());
-        javaCode.append("\n"+ddsMsgDescr.getJavaCode());
-        javaCode.append(Remplacements.getHelperUtilsCode(className+"_Helper"));
+        javaCode.append("\n"+ddsTopicDescr.getJavaCode());
+        javaCode.append(Remplacements.getHelperUtilsCode(getClassName(defaultClassName)+"_Helper"));
         javaCode.append("\n}");
 
         try {
@@ -133,7 +138,7 @@ public class JavaGeneratorHelper {
             if(!(new File(dir)).exists() && !new File(dir).mkdirs()){
                 throw new Exception("Cannot create :" + outputDir + File.separator + javaPackage.replace(".", File.separator));
             }
-            PrintWriter out = new PrintWriter(dir + className + "_Helper.java");
+            PrintWriter out = new PrintWriter(dir + getClassName(defaultClassName) + "_Helper.java");
             out.print(javaCode.toString());            
             out.flush();
             out.close();
@@ -143,18 +148,43 @@ public class JavaGeneratorHelper {
 
         return javaCode.toString();
     }
+    
+    public String getClassName(String defaultClassName) {
+    	return className == null ? defaultClassName:className;
+    }
 
     private JavaGeneratorHelper(String[] args) {
         // compile with idl2c
-        idl2c (args[0] + ".idl", args[1]);
-        getIdlHelperClassFrom(args[0] + ".c", args[1], args[2]);
+        idl2c (args[0] + ".idl");        
+        
+        //generate classes
+        String cPath = "/tmp/" + (new File(args[0] + ".c")).getName();        
+        getIdlHelperClassFrom(cPath, args[1], args[2]);
     }
+    
 
-    public static void main(String[] args) {
-        if (args.length != 3) {
+	public JavaGeneratorHelper(String idl, String outputDir, String javaPackage, String className) {
+        // compile with idl2c
+        idl2c (idl + ".idl");        
+        
+        //generate classes
+        String cPath = "/tmp/" + (new File(idl+ ".c")).getName();        
+        getIdlHelperClassFrom(cPath, outputDir, javaPackage, className);
+	}
+
+	private void getIdlHelperClassFrom(String cPath, String outputDir, String javaPackage, String className) {
+		this.className  = className;
+		getIdlHelperClassFrom(cPath, outputDir, javaPackage);
+	}
+
+	public static void main(String[] args) {
+        if (args.length < 3) {
             System.err.println("Usage: java -jar target/java-generator-helper-<VERSION>.jar <idl_file> <output_directory> <java_package>");
             System.exit(0);
+        } else if (args.length == 3) {
+        	new JavaGeneratorHelper(args);
+        } else  if (args.length == 4) {
+        	new JavaGeneratorHelper(args[0], args[1], args[2], args[3]);
         }
-        new JavaGeneratorHelper(args);
     }
 }

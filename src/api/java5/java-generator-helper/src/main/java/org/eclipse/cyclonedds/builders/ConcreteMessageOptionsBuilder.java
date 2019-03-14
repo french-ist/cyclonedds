@@ -15,10 +15,17 @@ public class ConcreteMessageOptionsBuilder implements JavaCodeBuilder{
         BRACE_OPEN, 
         FIELD
     }
-    private int index = 0;
-    InternalState internalState = InternalState.NOTHING;    
+    InternalState internalState = InternalState.NOTHING;
+    private int index = 0;    
+	private String className = null;
+	private String defaultClassName = null;    
     
-    @Override
+    public ConcreteMessageOptionsBuilder(String defaultClassName, String className) {
+    	this.defaultClassName  = defaultClassName;
+    	this.className = className;
+	}
+
+	@Override
     public void setState(BuildingState listenerState, String text){
         switch (listenerState) {
             case DECLARATION_SPECIFIER:                
@@ -66,7 +73,13 @@ public class ConcreteMessageOptionsBuilder implements JavaCodeBuilder{
                         }
                     } else {
                         if(text.indexOf("(") != -1 ){
-                            listParams.add(index,  Remplacements.replace(text));
+                        	if(className != null && text.indexOf("offsetof") != -1) {
+                        		System.out.println("################## "+text+", defaultClassName: "+defaultClassName+", className: "+className+" ################");
+                        		listParams.add(index,  Remplacements.replace(text).replace(defaultClassName+"_"+className, className));
+                        	} else {
+                        		listParams.add(index,  Remplacements.replace(text));
+                        	}
+                            
                         } else {
                             listParams.add(index, "DdscLibrary."+text);
                         }
