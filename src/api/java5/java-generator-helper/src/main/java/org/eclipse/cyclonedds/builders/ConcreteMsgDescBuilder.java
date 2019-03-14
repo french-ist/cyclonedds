@@ -16,7 +16,7 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
     ArrayList<String> listParams = new ArrayList<String>();
     InternalState internalState = InternalState.NOTHING;    
     private String variableName;
-    int index = 0;
+    private int index = 0;
     
     private String className = null;
 	private String defaultClassName = null;    
@@ -24,12 +24,13 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
     public ConcreteMsgDescBuilder(String defaultClassName, String className) {
     	this.defaultClassName  = defaultClassName;
     	this.className = className;
+    	index = 0;
 	}
 
 
 
 	@Override
-    public void setState(BuildingState listenerState, String text){
+    public void setState(BuildingState listenerState, String text){		
         switch (listenerState) {
             case DECLARATION_SPECIFIER:                
                 if(internalState == InternalState.NOTHING){
@@ -49,21 +50,18 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
                     if(text.indexOf("{") !=-1){
                         internalState = InternalState.FIELD;                                            
                     }
-                } else if (internalState == InternalState.FIELD){                    
+                } else if (internalState == InternalState.FIELD){
                     if(text.indexOf("|") != -1){
                         String[] fields = text.split("\\|");
-                        if(fields.length > 0){
-                            listParams.add(index,"");
-                            for(int i=0;i<fields.length;i++){
-                                String sep = "";
-                                if(i<fields.length-1){
-                                    sep = " | ";
-                                }                                
-                                listParams.set(index, listParams.get(index)+ "DdscLibrary."+fields[i] + sep);
-                            }
-                        } else {
-                            listParams.add(index, "DdscLibrary."+text);
+                        listParams.add(index,"");                            
+                        for(int i=0;i<fields.length;i++){
+                            String sep = "";
+                            if(i<fields.length-1){
+                                sep = " | ";
+                            }                                
+                            listParams.set(index, listParams.get(index)+ "DdscLibrary."+fields[i] + sep);
                         }
+                        index++;
                     } else {
                         if(text.indexOf("(")!=-1 && text.indexOf(")")!=-1){
                             listParams.add(index, Remplacements.replace(text));
@@ -76,16 +74,22 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
                         } else if (Remplacements.isCNumber(text)){
                             listParams.add(index, Remplacements.cToJavaNumber(text));
                         } else if (!text.startsWith("\"") && !text.endsWith("\"")){
-                            if(text.endsWith("Msg_keys")){
+                            if(text.endsWith("_keys")){
                                 listParams.add(index, "getByReference("+text+")");
-                            } else if (text.endsWith("Msg_ops")){
+                            } else if (text.endsWith("_ops")){
                                 listParams.add(index, "getIntByReference("+text+")");
-                            }                            
+                            } else {
+                            	if("NULL".equals(text)) {                            		
+                                	listParams.add(index, "null");
+                            	} else {
+                                    listParams.add(index, "DdscLibrary."+text);
+                            	}                            	
+                            }
                         } else {
                             listParams.add(index, "DdscLibrary."+text);
                         }
+                        index++;
                     }
-                    index++;
                 }
                 break; 
             case CLOSE_BRACE:
@@ -107,6 +111,10 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
     public String getJavaCode() {
         if (variableName == null){
             return null;
+        }
+        
+        for(int i=0;i<listParams.size();i++) {
+        	System.out.println("listParams.get("+i+") = " + listParams.get(i));
         }
 
         StringBuilder javaCode = new StringBuilder();        

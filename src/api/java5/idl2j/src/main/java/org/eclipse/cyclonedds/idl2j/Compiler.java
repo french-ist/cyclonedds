@@ -28,7 +28,7 @@ import java.util.Date;
 
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugin.logging.SystemStreamLog;
-
+import org.eclipse.cyclonedds.JavaGeneratorHelper;
 import org.eclipse.cyclonedds.idl2j.KeyListDescriptor;
 import org.eclipse.cyclonedds.idl2j.KeyListParser;
 
@@ -45,356 +45,367 @@ import java.util.List;
 public class Compiler
 {
 
-   // Maven logger
-   private Log log;
+	// Maven logger
+	private Log log;
 
-   // arguments
-   private String[] args;
+	// arguments
+	private String[] args;
 
-   // destination directory
-   private String destDir;
+	// destination directory
+	protected String destDir;
 
-   // verbose mode
-   private boolean verbose;
+	// verbose mode
+	private boolean verbose;
 
-   // default package prefix
-   private String defaultPkgPrefix;
+	// default package prefix
+	private String defaultPkgPrefix;
 
-   // default constructor (uses SystemStreamLog as Maven logger)
-   protected Compiler()
-   {
-      this(new SystemStreamLog());
-   }
+	protected String className;
 
-   // constructor called by Mojo
-   protected Compiler(Log log)
-   {
-      this.log = log;
-      this.destDir = "";
-      this.verbose = false;
-      this.defaultPkgPrefix = "";
-   }
+	// default constructor (uses SystemStreamLog as Maven logger)
+	protected Compiler()
+	{
+		this(new SystemStreamLog());
+	}
 
-   // parse arguments
-   protected void parseArgs(String[] args) throws Exception
-   {
-      this.args = args;
+	// constructor called by Mojo
+	protected Compiler(Log log)
+	{
+		this.log = log;
+		this.destDir = "";
+		this.verbose = false;
+		this.defaultPkgPrefix = "";
+	}
 
-      // get destination dir and verbose arguments
-      for (int i = 0; i < args.length; ++i)
-      {
-         if (args[i].equals("-td"))
-         {
-            destDir = args[ ++i] + File.separator;
-         }
-         if (args[i].equals("-defaultPkgPrefix"))
-         {
-            defaultPkgPrefix = args[ ++i];
-         }
-         if (args[i].equals("-v") || args[i].equals("-verbose"))
-         {
-            verbose = true;
-         }
-      }
-   }
+	private Compiler(String[] args) {
+		try
+		{
+			// add idlj command as first argument
+			String[] processArgs = new String[args.length + 1];
+			processArgs[0] = "idlj";
+			System.arraycopy(args, 0, processArgs, 1, args.length);
 
-   // run JDK's idlj
-   protected void runIdlj() throws Exception
-   {
-      List<String> idljArgs = new ArrayList<String>();
-      if (verbose)
-      {
-         log.info("Running idlj compiler : ");
-      }
-      StringBuffer cmdLine = new StringBuffer();
-      for (String arg : args)
-      {
-         if ( !arg.equals("-defaultPkgPrefix") && !arg.equals(defaultPkgPrefix))
-         {
-            cmdLine.append(arg + " ");
-            idljArgs.add(arg);
-         }
-      }
-      if (verbose)
-      {
-         log.info(cmdLine);
-      }
-      String[] result = new String[idljArgs.size()];
-      ProcessBuilder pb = new ProcessBuilder(idljArgs.toArray(result));
-      Process idljProc = null;
-      int exitStatus = 1;
-      boolean errorOccured = false;
-      try
-      {
-         // start idlj process
-         idljProc = pb.start();
 
-         // consume outputs lines separate threads to avoid blocking situation
-         // in case the OS redirection buffer in full (typically on Windows...)
-         StdoutGobbler outGobbler = new StdoutGobbler(idljProc.getInputStream(), log);
-         StderrGobbler errGobbler = new StderrGobbler(idljProc.getErrorStream(), log);
-         outGobbler.start();
-         errGobbler.start();
+			// start Compiler
+			Compiler compiler = new Compiler();
+			compiler.parseArgs(processArgs);
+			compiler.runIdlj();
+			compiler.patchGeneratedCode();
+			if ( !compiler.defaultPkgPrefix.isEmpty())
+			{
+				compiler.patchNonScopedGeneratedCode();
+			}
 
-         // wait for process end
-         exitStatus = idljProc.waitFor();
+			String idlFile = args[args.length - 1];	         
+			new JavaGeneratorHelper(idlFile.replace(".idl", ""), compiler.destDir, (new File(idlFile)).getName().replace(".idl", ""), compiler.className);
 
-         outGobbler.close();
-         errGobbler.close();
+		}
+		catch (Throwable t)
+		{
+			System.err.println(t.getMessage());
+			System.exit(1);
+		}
+	}
 
-         // check if some error were printed
-         // (it happens that idlj returns 0 as exit code despite of errors...)
-         errorOccured = errGobbler.wasErrorPrinted();
+	// parse arguments
+	protected void parseArgs(String[] args) throws Exception
+	{
+		this.args = args;
 
-      }
-      catch (Throwable t)
-      {
-         if (verbose)
-         {
-            t.printStackTrace();
-         }
-         throw new Exception("Error running idlj: " + t.getMessage());
-      }
-      finally
-      {
-         if (idljProc != null)
-         {
-            idljProc.destroy();
-         }
-      }
+		// get destination dir and verbose arguments
+		for (int i = 0; i < args.length; ++i)
+		{
+			if (args[i].equals("-td"))
+			{
+				destDir = args[ ++i] + File.separator;
+			}
+			if (args[i].equals("-defaultPkgPrefix"))
+			{
+				defaultPkgPrefix = args[ ++i];
+			}
+			if (args[i].equals("-v") || args[i].equals("-verbose"))
+			{
+				verbose = true;
+			}
+		}
+	}
 
-      if (exitStatus != 0)
-      {
-         throw new Exception("Error running idlj: exit status is " + idljProc.exitValue());
-      }
-      if (errorOccured)
-      {
-         throw new Exception("Error running idlj: see above error logs");
-      }
+	// run JDK's idlj
+	protected void runIdlj() throws Exception
+	{
+		List<String> idljArgs = new ArrayList<String>();
+		if (verbose)
+		{
+			log.info("Running idlj compiler : ");
+		}
+		StringBuffer cmdLine = new StringBuffer();
+		for (String arg : args)
+		{
+			if ( !arg.equals("-defaultPkgPrefix") && !arg.equals(defaultPkgPrefix))
+			{
+				cmdLine.append(arg + " ");
+				idljArgs.add(arg);
+			}
+		}
+		if (verbose)
+		{
+			log.info(cmdLine);
+		}
+		String[] result = new String[idljArgs.size()];
+		ProcessBuilder pb = new ProcessBuilder(idljArgs.toArray(result));
+		Process idljProc = null;
+		int exitStatus = 1;
+		boolean errorOccured = false;
+		try
+		{
+			// start idlj process
+			idljProc = pb.start();
 
-      if (verbose)
-      {
-         log.info("  Done.");
-      }
-   }
+			// consume outputs lines separate threads to avoid blocking situation
+			// in case the OS redirection buffer in full (typically on Windows...)
+			StdoutGobbler outGobbler = new StdoutGobbler(idljProc.getInputStream(), log);
+			StderrGobbler errGobbler = new StderrGobbler(idljProc.getErrorStream(), log);
+			outGobbler.start();
+			errGobbler.start();
 
-   // patch code generated by idlj
-   protected void patchGeneratedCode() throws Exception
-   {
+			// wait for process end
+			exitStatus = idljProc.waitFor();
 
-      String idlFile = args[args.length - 1];
+			outGobbler.close();
+			errGobbler.close();
 
-      try
-      {
-         if (verbose)
-         {
-            log.info("Parsing : " + idlFile);
-         }
+			// check if some error were printed
+			// (it happens that idlj returns 0 as exit code despite of errors...)
+			errorOccured = errGobbler.wasErrorPrinted();
 
-         Collection<KeyListDescriptor> keyLists = KeyListParser.jparse(idlFile);
-         if (verbose)
-         {
-            System.out.println("  Done.");
-         }
+		}
+		catch (Throwable t)
+		{
+			if (verbose)
+			{
+				t.printStackTrace();
+			}
+			throw new Exception("Error running idlj: " + t.getMessage());
+		}
+		finally
+		{
+			if (idljProc != null)
+			{
+				idljProc.destroy();
+			}
+		}
 
-         for (KeyListDescriptor keyList : keyLists)
-         {
-            String[] elements = keyList.typeName().split("\\.");
-            String className = elements[elements.length - 1];
-            String javaFile = destDir + keyList.typeName().replace('.', '/') + ".java";
-            if (verbose)
-            {
-               System.out.println("Updating : " + javaFile);
-            }
-            try
-            {
-               StringBuilder buf = new StringBuilder();
-               BufferedReader in = new BufferedReader(new FileReader(javaFile));
+		if (exitStatus != 0)
+		{
+			throw new Exception("Error running idlj: exit status is " + idljProc.exitValue());
+		}
+		if (errorOccured)
+		{
+			throw new Exception("Error running idlj: see above error logs");
+		}
 
-               try
-               {
-                  String line = in.readLine();
-                  while (line != null)
-                  {
-                     if (line.contains("public final class " + className))
-                     {
-                        line = line.replace("final class " + className, "class " + className + " extends Structure");
-                    	 buf.append("/**\n");
-                        buf.append("* Updated by idl2j\n");
-                        buf.append("* from ").append(idlFile).append("\n");
-                        buf.append("* ")
-                              .append(
-                                    DateFormat
-                                          .getDateTimeInstance(DateFormat.FULL, DateFormat.FULL)
-                                          .format(new Date()))
-                              .append("\n");
-                        buf.append("*/\n");
-                        buf.append("\n");
-                        // for JNA
-                        buf.append("import java.util.Arrays;\n");
-                        buf.append("import java.util.List;\n");
-                        buf.append("import com.sun.jna.Pointer;\n");
-                        buf.append("import com.sun.jna.Structure;\n");
-                        //
-                        buf.append("import org.eclipse.cyclonedds.dcps.keys.KeyList;");
-                        buf.append("\n");
-                        buf.append("\n");
-                        buf.append("@KeyList(\n");
-                        buf.append("    topicType = \"")
-                              .append(className).append("\",\n");
-                        if ( !keyList.keyList().isEmpty())
-                        {
-                           buf.append("    keys = {\"")
-                                 .append(keyList.keyList().replace(", ", "\", \""))
-                                 .append("\"}\n");
-                        }
-                        else
-                        {
-                           buf.append("    keys = {}\n");
-                        }
-                        buf.append(")\n");
-                        buf.append(line).append("\n");
-                        line = in.readLine();
-                     }
-                     // JNA
-                      if (line.contains("public " + className + " ("))
-                      {
-                         buf.append(line).append("\n");
-                         line = in.readLine(); // {
-                         buf.append(line).append("\n");
-                         buf.append("\tsuper();\n");
-                         line = in.readLine(); // {
-                      }
-                      if (line.contains("} // class " + className))
-                      {
-                         buf.append("\tprotected List<String> getFieldOrder() {\n");
-                         buf.append("\t\treturn Arrays.asList(\"userID\", \"message\");\n");  // TODO retrieve the fields from idl file or maybe from .h generated by idlc
-                         buf.append("\t}\n");
-                         // TODO retrieve the topic name (here HelloWorldData_Msg) from idl file or maybe from .h generated by idlc
-                         buf.append("\tpublic "+className+"(Pointer peer) {\n\t\tsuper(peer);\n\t}\n");
-                         buf.append("\tpublic static class ByReference extends "+className+" implements Structure.ByReference {};\n");
-                         buf.append("\tpublic static class ByValue extends "+className+" implements Structure.ByValue {};\n");
-                         // end TODO retrieve the topic name (here HelloWorldData_Msg) from idl file or maybe from .h generated by idlc
-                      }
-                     buf.append(line).append("\n");
-                     line = in.readLine();
-                  }
-                  in.close();
+		if (verbose)
+		{
+			log.info("  Done.");
+		}
+	}
 
-                  BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
-                        new FileOutputStream(javaFile), "UTF-8"));
-                  try
-                  {
-                     out.write(buf.toString());
-                  }
-                  finally
-                  {
-                     out.close();
-                  }
-               }
-               finally
-               {
-                  in.close();
-               }
-            }
-            catch (IOException e)
-            {
-               System.err.println("[ERROR] Unable to update file " + javaFile);
-               e.printStackTrace();
-            }
+	// patch code generated by idlj
+	protected void patchGeneratedCode() throws Exception
+	{
 
-            if (verbose)
-            {
-               log.info("  Done.");
-            }
-         }
-      }
-      catch (Throwable t)
-      {
-         if (verbose)
-         {
-            t.printStackTrace();
-         }
-         throw new Exception("Error patching code generated for "
-               + idlFile + ": " + t.getMessage());
-      }
-   }
+		String idlFile = args[args.length - 1];
 
-   // patch code generated by idlj
-   protected void patchNonScopedGeneratedCode() throws Exception
-   {
-      if (verbose)
-      {
-         log.info("Moving files from default package to " + defaultPkgPrefix + " package");
-      }
+		try
+		{
+			if (verbose)
+			{
+				log.info("Parsing : " + idlFile);
+			}
 
-      // find all *.java files in the destDir directory (no recursive search)
-      String[] dir = new java.io.File(destDir).list(
-            new FilenameFilter()
-            {
+			Collection<KeyListDescriptor> keyLists = KeyListParser.jparse(idlFile);
+			if (verbose)
+			{
+				System.out.println("  Done.");
+			}
 
-               @Override
-               public boolean accept(File dir, String name)
-               {
-                  return name.endsWith(".java");
-               }
-            }
-            );
+			for (KeyListDescriptor keyList : keyLists)
+			{
+				String[] elements = keyList.typeName().split("\\.");
+				className = elements[elements.length - 1];
+				String javaFile = destDir + keyList.typeName().replace('.', '/') + ".java";
+				if (verbose)
+				{
+					System.out.println("Updating : " + javaFile);
+				}
+				try
+				{
+					StringBuilder buf = new StringBuilder();
+					BufferedReader in = new BufferedReader(new FileReader(javaFile));
 
-      // create directories for package "defaultPkgPrefix"
-      File defaultDir = new File(destDir + File.separator
-            + defaultPkgPrefix.replace('.', File.separatorChar));
-      if ( !defaultDir.exists() && !defaultDir.mkdirs())
-      {
-         System.err.println("[ERROR] Unable to create directory: " + defaultDir);
-      }
+					try
+					{
+						String line = in.readLine();
+						while (line != null)
+						{
+							if (line.contains("public final class " + className))
+							{
+								line = line.replace("final class " + className, "class " + className + " extends Structure");
+								buf.append("/**\n");
+								buf.append("* Updated by idl2j\n");
+								buf.append("* from ").append(idlFile).append("\n");
+								buf.append("* ")
+								.append(
+										DateFormat
+										.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL)
+										.format(new Date()))
+								.append("\n");
+								buf.append("*/\n");
+								buf.append("\n");
+								// for JNA
+								buf.append("import java.util.Arrays;\n");
+								buf.append("import java.util.List;\n");
+								buf.append("import com.sun.jna.Pointer;\n");
+								buf.append("import com.sun.jna.Structure;\n");
+								//
+								buf.append("import org.eclipse.cyclonedds.dcps.keys.KeyList;");
+								buf.append("\n");
+								buf.append("\n");
+								buf.append("@KeyList(\n");
+								buf.append("    topicType = \"")
+								.append(className).append("\",\n");
+								if ( !keyList.keyList().isEmpty())
+								{
+									buf.append("    keys = {\"")
+									.append(keyList.keyList().replace(", ", "\", \""))
+									.append("\"}\n");
+								}
+								else
+								{
+									buf.append("    keys = {}\n");
+								}
+								buf.append(")\n");
+								buf.append(line).append("\n");
+								line = in.readLine();
+							}
+							// JNA
+							if (line.contains("public " + className + " ("))
+							{
+								buf.append(line).append("\n");
+								line = in.readLine(); // {
+								buf.append(line).append("\n");
+								buf.append("\tsuper();\n");
+								line = in.readLine(); // {
+							}
+							if (line.contains("} // class " + className))
+							{
+								buf.append("\tprotected List<String> getFieldOrder() {\n");
+								buf.append("\t\treturn Arrays.asList(\"userID\", \"message\");\n");  // TODO retrieve the fields from idl file or maybe from .h generated by idlc
+								buf.append("\t}\n");
+								// TODO retrieve the topic name (here HelloWorldData_Msg) from idl file or maybe from .h generated by idlc
+								buf.append("\tpublic "+className+"(Pointer peer) {\n\t\tsuper(peer);\n\t}\n");
+								buf.append("\tpublic static class ByReference extends "+className+" implements Structure.ByReference {};\n");
+								buf.append("\tpublic static class ByValue extends "+className+" implements Structure.ByValue {};\n");
+								// end TODO retrieve the topic name (here HelloWorldData_Msg) from idl file or maybe from .h generated by idlc
+							}
+							buf.append(line).append("\n");
+							line = in.readLine();
+						}
+						in.close();
 
-      // copy each java file to its new package directory,
-      // adding the package declaration within
-      for (int i = 0; i < dir.length; i++)
-      {
-         if (verbose)
-         {
-            log.info("  moving " + dir[i]);
-         }
-         Path in = Paths.get(destDir + File.separator + dir[i]);
-         List<String> lines = Files.readAllLines(in, StandardCharsets.UTF_8);
-         lines.add(0, "package " + defaultPkgPrefix + ";");
-         Path out = Paths.get(defaultDir + File.separator + dir[i]);
-         Files.write(out, lines, StandardCharsets.UTF_8);
-         Files.delete(in);
-      }
-   }
+						BufferedWriter out = new BufferedWriter(new OutputStreamWriter(
+								new FileOutputStream(javaFile), "UTF-8"));
+						try
+						{
+							out.write(buf.toString());
+						}
+						finally
+						{
+							out.close();
+						}
+					}
+					finally
+					{
+						in.close();
+					}
+				}
+				catch (IOException e)
+				{
+					System.err.println("[ERROR] Unable to update file " + javaFile);
+					e.printStackTrace();
+				}
 
-   /**
-    * Invoke the idl compiler for the given IDL File
-    *
-    * @param arguments command line to be passed to idlj
-    */
-   public static void main(String[] args)
-   {
+				if (verbose)
+				{
+					log.info("  Done.");
+				}
+			}
+		}
+		catch (Throwable t)
+		{
+			if (verbose)
+			{
+				t.printStackTrace();
+			}
+			throw new Exception("Error patching code generated for "
+					+ idlFile + ": " + t.getMessage());
+		}
+	}
 
-      try
-      {
-         // add idlj command as first argument
-         String[] processArgs = new String[args.length + 1];
-         processArgs[0] = "idlj";
-         System.arraycopy(args, 0, processArgs, 1, args.length);
+	// patch code generated by idlj
+	protected void patchNonScopedGeneratedCode() throws Exception
+	{
+		if (verbose)
+		{
+			log.info("Moving files from default package to " + defaultPkgPrefix + " package");
+		}
 
-         // start Compiler
-         Compiler compiler = new Compiler();
-         compiler.parseArgs(processArgs);
-         compiler.runIdlj();
-         compiler.patchGeneratedCode();
-         if ( !compiler.defaultPkgPrefix.isEmpty())
-         {
-            compiler.patchNonScopedGeneratedCode();
-         }
-      }
-      catch (Throwable t)
-      {
-         System.err.println(t.getMessage());
-         System.exit(1);
-      }
-   }
+		// find all *.java files in the destDir directory (no recursive search)
+		String[] dir = new java.io.File(destDir).list(
+				new FilenameFilter()
+				{
+
+					@Override
+					public boolean accept(File dir, String name)
+					{
+						return name.endsWith(".java");
+					}
+				}
+				);
+
+		// create directories for package "defaultPkgPrefix"
+		File defaultDir = new File(destDir + File.separator
+				+ defaultPkgPrefix.replace('.', File.separatorChar));
+		if ( !defaultDir.exists() && !defaultDir.mkdirs())
+		{
+			System.err.println("[ERROR] Unable to create directory: " + defaultDir);
+		}
+
+		// copy each java file to its new package directory,
+		// adding the package declaration within
+		for (int i = 0; i < dir.length; i++)
+		{
+			if (verbose)
+			{
+				log.info("  moving " + dir[i]);
+			}
+			Path in = Paths.get(destDir + File.separator + dir[i]);
+			List<String> lines = Files.readAllLines(in, StandardCharsets.UTF_8);
+			lines.add(0, "package " + defaultPkgPrefix + ";");
+			Path out = Paths.get(defaultDir + File.separator + dir[i]);
+			Files.write(out, lines, StandardCharsets.UTF_8);
+			Files.delete(in);
+		}
+	}
+
+	/**
+	 * Invoke the idl compiler for the given IDL File
+	 *
+	 * @param arguments command line to be passed to idlj
+	 */
+	public static void main(String[] args)
+	{
+		new Compiler(args);
+
+	}
 }

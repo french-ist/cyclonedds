@@ -45,7 +45,7 @@ public class ConcreteDdsKeyDescriptorBuilder implements DdsKeyDescriptorBuilder 
 
     public String getJavaCode(){
         if(keysVariableName==null){
-            return null;
+            return "";
         }
 
         StringBuilder javaCode =new StringBuilder();        

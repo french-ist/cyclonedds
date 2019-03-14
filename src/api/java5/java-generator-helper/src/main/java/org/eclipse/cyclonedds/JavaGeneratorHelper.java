@@ -87,16 +87,13 @@ public class JavaGeneratorHelper {
     }
 
     public static void idl2c(String idlfile) {
-    	System.out.println("idl2c >>> idlFile: "+idlfile+", outputDir: /tmp");
-        String idljar = "../../../../../cyclonedds/build/idlc/target/idlc-jar-with-dependencies.jar ";
         List<String> cmds = new ArrayList<String>();
-        cmds.add("java -classpath " + idljar  + " org.eclipse.cyclonedds.compilers.Idlc -d /tmp -I. "  + idlfile);
+        cmds.add("cp $(find ~/ -type f 2>/dev/null | grep \"cyclonedds/src/idlc/target/idlc-jar-with-dependencies.jar\") /tmp/");
+        cmds.add("java -classpath /tmp/idlc-jar-with-dependencies.jar org.eclipse.cyclonedds.compilers.Idlc -d /tmp -I. "  + idlfile);
         execCommands(cmds,"/tmp/compile.sh");
     }
 
     private String getIdlHelperClassFrom(String file, String outputDir, String javaPackage) {
-    	System.out.println("getIdlHelperClassFrom >>> file: "+file+", outputDir: "+outputDir+", javaPackage: " + javaPackage);
-        
 		String defaultClassName = file.substring(
             file.lastIndexOf("/")==-1 ? 0: file.lastIndexOf(File.separator)+1, 
             file.lastIndexOf(".")).replace(".", "") ;        
@@ -113,13 +110,11 @@ public class JavaGeneratorHelper {
         StringBuilder javaCode = new StringBuilder();        
         javaCode.append("package "+javaPackage+";\n\n");
         javaCode.append("import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_key_descriptor;\n");
-        //javaCode.append("import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_key_descriptor.ByReference;\n");
         javaCode.append("import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_topic_descriptor;\n");
         javaCode.append("import org.eclipse.cyclonedds.ddsc.dds_public_impl.DdscLibrary;\n");
         javaCode.append("import org.eclipse.cyclonedds.helper.NativeSize;\n");        
         javaCode.append("import com.sun.jna.ptr.IntByReference;\n");        
         javaCode.append("import com.sun.jna.Native;\n");
-        //javaCode.append("import java.util.List;\n");
         javaCode.append("import java.lang.reflect.Method;\n");        
         javaCode.append("import com.sun.jna.Pointer;\n");
         javaCode.append("import com.sun.jna.Structure;\n");
@@ -154,7 +149,6 @@ public class JavaGeneratorHelper {
     }
 
     private JavaGeneratorHelper(String[] args) {
-        // compile with idl2c
         idl2c (args[0] + ".idl");        
         
         //generate classes

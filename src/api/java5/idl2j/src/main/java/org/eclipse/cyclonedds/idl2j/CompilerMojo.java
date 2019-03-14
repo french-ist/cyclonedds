@@ -25,6 +25,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.project.MavenProject;
+import org.eclipse.cyclonedds.JavaGeneratorHelper;
 
 
 /**
@@ -150,6 +151,7 @@ public class CompilerMojo
          try
          {
             // run Compiler
+        	comp = new Compiler(getLog());
             comp.parseArgs(args);
             getLog().debug("   run idlj");
             comp.runIdlj();
@@ -160,6 +162,10 @@ public class CompilerMojo
                getLog().debug("   patch non-scoped generated code");
                comp.patchNonScopedGeneratedCode();
             }
+            
+            String pathIdlFile = args[args.length - 1];
+            new JavaGeneratorHelper(pathIdlFile.replace(".idl", ""), comp.destDir, (new File(pathIdlFile)).getName().replace(".idl", ""), comp.className);
+            
             getLog().debug("   Done!");
          }
          catch (Exception e)

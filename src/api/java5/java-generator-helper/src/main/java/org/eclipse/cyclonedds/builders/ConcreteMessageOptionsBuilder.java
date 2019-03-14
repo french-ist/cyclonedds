@@ -74,7 +74,6 @@ public class ConcreteMessageOptionsBuilder implements JavaCodeBuilder{
                     } else {
                         if(text.indexOf("(") != -1 ){
                         	if(className != null && text.indexOf("offsetof") != -1) {
-                        		System.out.println("################## "+text+", defaultClassName: "+defaultClassName+", className: "+className+" ################");
                         		listParams.add(index,  Remplacements.replace(text).replace(defaultClassName+"_"+className, className));
                         	} else {
                         		listParams.add(index,  Remplacements.replace(text));
