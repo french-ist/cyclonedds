@@ -88,7 +88,7 @@ public class JavaGeneratorHelper {
 
     public static void idl2c(String idlfile) {
         List<String> cmds = new ArrayList<String>();
-        cmds.add("cp $(find ~/ -type f 2>/dev/null | grep \"cyclonedds/src/idlc/target/idlc-jar-with-dependencies.jar\") /tmp/");
+        cmds.add("cp `find ~ -name idlc-jar-with-dependencies.jar` /tmp/");
         cmds.add("java -classpath /tmp/idlc-jar-with-dependencies.jar org.eclipse.cyclonedds.compilers.Idlc -d /tmp -I. "  + idlfile);
         execCommands(cmds,"/tmp/compile.sh");
     }
