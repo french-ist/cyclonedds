@@ -20,6 +20,8 @@
  */
 package org.eclipse.cyclonedds.pub;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -33,6 +35,7 @@ import org.eclipse.cyclonedds.core.TimeImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.dcps.keys.KeyHashEncoder;
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
+import org.eclipse.cyclonedds.topic.DdsTopicDescriptor;
 import org.eclipse.cyclonedds.topic.TopicImpl;
 import org.omg.dds.core.Duration;
 import org.omg.dds.core.InstanceHandle;
@@ -50,6 +53,10 @@ import org.omg.dds.topic.SubscriptionBuiltinTopicData;
 import org.omg.dds.topic.Topic;
 
 import com.sun.jna.Pointer;
+import com.sun.jna.Structure;
+import com.sun.jna.Structure.ByReference;
+import org.eclipse.cyclonedds.core.JnaData;
+
 
 public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
     
@@ -123,6 +130,28 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
     }
 
 	@Override
+	public DataWriterQos getQos() {
+		return qos;
+	}
+
+
+	@Override
+	public void enable() {
+		this.enabled  = true;
+	}
+
+	@Override
+	public Set<Class<? extends Status>> getStatusChanges() {
+		return (Set<Class<? extends Status>>) statuses;
+	}
+
+	@Override
+	public InstanceHandle getInstanceHandle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public void writeDispose(TYPE instanceData) throws TimeoutException {
 		// TODO Auto-generated method stub
 		
@@ -167,7 +196,8 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
 
 	@Override
 	public Topic<TYPE> getTopic() {
-		return topic;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
@@ -272,46 +302,6 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
 	@Override
 	public void write(TYPE instanceData) throws TimeoutException {
 		write(instanceData, new TimeImpl(environment, System.nanoTime(), TimeUnit.NANOSECONDS));
-	}
-
-	protected KeyHashEncoder<TYPE> keyHashEncoder;
-	
-	@Override
-	public void write(TYPE instanceData, Time sourceTimestamp) throws TimeoutException {
-		if(jnaDataWriter > 0) {
-			InstanceHandle handle = null;
-			if(keyHashEncoder != null) {				
-				handle = keyHashEncoder.encode(instanceData);
-			} else {
-				handle = new InstanceHandleImpl(environment, jnaDataWriter);
-			}
-			write(instanceData, handle, sourceTimestamp);
-		} else {
-			throw new AlreadyClosedExceptionImpl(environment, "DataWriter is closed; can't write");
-		}
-	}
-
-	@Override
-	public void write(TYPE instanceData, long sourceTimestamp, TimeUnit unit) throws TimeoutException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void write(TYPE instanceData, InstanceHandle handle) throws TimeoutException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void write(TYPE instanceData, InstanceHandle handle, Time sourceTimestamp) throws TimeoutException {
-		if(jnaDataWriter > 0) {			
-			Pointer pointer = null;
-			DdscLibrary.dds_write_ts(jnaDataWriter, pointer, sourceTimestamp.getTime(TimeUnit.NANOSECONDS));
-			
-		} else {
-			throw new AlreadyClosedExceptionImpl(environment, "DataWriter is closed; can't write");
-		}
 		
 	}
 
@@ -319,6 +309,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
 	public void write(TYPE instanceData, InstanceHandle handle, long sourceTimestamp, TimeUnit unit)
 			throws TimeoutException {
 		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
@@ -390,30 +381,51 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
 	}
 
 	@Override
-	public DataWriterQos getQos() {
-		return qos;
-	}
-
-	@Override
 	public void setQos(DataWriterQos qos) {
 		this.qos = qos;
 	}
 
+	protected KeyHashEncoder<TYPE> keyHashEncoder;
+	
 	@Override
-	public void enable() {
-		this.enabled  = true;
+	public void write(TYPE instanceData, Time sourceTimestamp) throws TimeoutException {
+		if(jnaDataWriter > 0) {
+			InstanceHandle handle = null;
+			if(keyHashEncoder != null) {				
+				handle = keyHashEncoder.encode(instanceData);
+			} else {
+				handle = new InstanceHandleImpl(environment, jnaDataWriter);
+			}
+			write(instanceData, handle, sourceTimestamp);
+		} else {
+			throw new AlreadyClosedExceptionImpl(environment, "DataWriter is closed; can't write");
+		}		
 	}
 
-	@Override
-	public Set<Class<? extends Status>> getStatusChanges() {
-		return (Set<Class<? extends Status>>) statuses;
-	}
 
 	@Override
-	public InstanceHandle getInstanceHandle() {
+	public void write(TYPE instanceData, InstanceHandle handle, Time sourceTimestamp) throws TimeoutException {
+		if(jnaDataWriter > 0) {
+			JnaData data = (JnaData) instanceData;
+			ByReference ref = data.getData();
+			((Structure) ref).write();
+			DdscLibrary.dds_write_ts(jnaDataWriter, ((Structure) ref).getPointer(), sourceTimestamp.getTime(TimeUnit.NANOSECONDS));
+		} else {
+			throw new AlreadyClosedExceptionImpl(environment, "DataWriter is closed; can't write");
+		}		
+	}
+
+
+	@Override
+	public void write(TYPE instanceData, long sourceTimestamp, TimeUnit unit) throws TimeoutException {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
-    
+
+	@Override
+	public void write(TYPE instanceData, InstanceHandle handle) throws TimeoutException {
+		// TODO Auto-generated method stub
+		
+	}
 }

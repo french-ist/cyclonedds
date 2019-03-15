@@ -113,10 +113,6 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
             return null;
         }
         
-        for(int i=0;i<listParams.size();i++) {
-        	System.out.println("listParams.get("+i+") = " + listParams.get(i));
-        }
-
         StringBuilder javaCode = new StringBuilder();        
         javaCode.append("\tpublic dds_topic_descriptor.ByReference getDdsTopicDescriptor() {\n");
         javaCode.append("\t\tdds_topic_descriptor.ByReference ret = new dds_topic_descriptor.ByReference();\n");

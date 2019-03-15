@@ -58,6 +58,7 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
 	
 	private final int jnaTopic;
 	private Topic<TYPE> topic;
+	private DdsTopicDescriptor ddsTopicDescriptor;
     
 	public TopicImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl participant, 
@@ -75,10 +76,10 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
         
         associatedReaders = new ArrayList<DataReader<TYPE>>();
         
-        DdsTopicDescriptor typeDescription = DdsTopicDescriptorFactory.getDdsTopicDescriptor(environment, this);
+        ddsTopicDescriptor = DdsTopicDescriptorFactory.getDdsTopicDescriptor(environment, this);
         
         jnaTopic = org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_create_topic(participant.getJnaParticipant(),
-        		typeDescription.getDdsTopicDescriptor(), 
+        		ddsTopicDescriptor.getDdsTopicDescriptor(), 
 				topicName, 
 				Utilities.convert(environment, qos), 
 				Utilities.convert(environment, listener));
@@ -229,7 +230,9 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
         */
     }
   
-
+    public DdsTopicDescriptor getDdsTopicDescriptor() {
+    	return ddsTopicDescriptor;
+    }
     
     @SuppressWarnings("unchecked")
     @Override
