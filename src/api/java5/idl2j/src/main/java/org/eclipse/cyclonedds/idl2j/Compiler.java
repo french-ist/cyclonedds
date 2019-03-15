@@ -254,6 +254,7 @@ public class Compiler
 							if (line.contains("public final class " + className))
 							{
 								line = line.replace("final class " + className, "class " + className + " extends Structure");
+								line = line.replace(" implements ", " implements JnaData, ");
 								buf.append("/**\n");
 								buf.append("* Updated by idl2j\n");
 								buf.append("* from ").append(idlFile).append("\n");
@@ -270,6 +271,7 @@ public class Compiler
 								buf.append("import java.util.List;\n");
 								buf.append("import com.sun.jna.Pointer;\n");
 								buf.append("import com.sun.jna.Structure;\n");
+								buf.append("import org.eclipse.cyclonedds.core.JnaData;\n");
 								//
 								buf.append("import org.eclipse.cyclonedds.dcps.keys.KeyList;");
 								buf.append("\n");
