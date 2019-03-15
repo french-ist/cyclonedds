@@ -8,7 +8,7 @@
   <artifactId>helloworld-pub</artifactId>
   <version>0.1-SNAPSHOT</version>
 
-  <name>Java JNA example: Helloworld Pub</name>
+  <name>Java JNA example: helloworld pub</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,11 +27,6 @@
 			<artifactId>jna-dds</artifactId>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
-    <dependency>
-    	<groupId>org.eclipse.cyclonedds</groupId>
-      <artifactId>jna-dds</artifactId>
-      <version>0.1-SNAPSHOT</version>    
-    </dependency>
   </dependencies>
 
   <build>

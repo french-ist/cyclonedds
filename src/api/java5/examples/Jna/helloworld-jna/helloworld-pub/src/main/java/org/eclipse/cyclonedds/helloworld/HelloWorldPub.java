@@ -33,7 +33,7 @@ public class HelloWorldPub
         DdscLibrary.dds_set_enabled_status(writer, DdscLibrary.DDS_PUBLICATION_MATCHED_STATUS);
         assert(helper.dds_error_check(topic, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0) ;
 
-        while (true) {
+        /*while (true) {
             IntBuffer status = IntBuffer.allocate(Native.getNativeSize(Integer.class));
             int ret = DdscLibrary.dds_get_status_changes(writer, status);
             assert(helper.dds_error_check(ret, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
@@ -41,12 +41,14 @@ public class HelloWorldPub
             if (status.get() == DdscLibrary.DDS_PUBLICATION_MATCHED_STATUS) {
                 System.out.println("DDS_PUBLICATION_MATCHED_STATUS");
                 break;
+            } else {
+            	System.err.println("Status: " + status.get());
             }
 
-            /* Polling sleep. */
+            /* Polling sleep. 
             int milliSeconds = 20;
             org.eclipse.cyclonedds.ddsc.dds_public_time.DdscLibrary.dds_sleepfor(milliSeconds*1000000L);
-        }
+        }*/
 
         /* Create a message to write. */
         HelloWorldData_Msg.ByReference msg = new HelloWorldData_Msg.ByReference();

@@ -8,12 +8,12 @@
   <artifactId>helloworld-sub</artifactId>
   <version>0.1-SNAPSHOT</version>
 
-  <name>Java JNA example: Helloworld Sub</name>
+  <name>Java JNA example: helloworld sub</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.6</maven.compiler.source>
-    <maven.compiler.target>1.6</maven.compiler.target>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
 
   <dependencies>	
@@ -27,11 +27,6 @@
 			<artifactId>jna-dds</artifactId>
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
-    <dependency>
-    	<groupId>org.eclipse.cyclonedds</groupId>
-      <artifactId>jna-dds</artifactId>
-      <version>0.1-SNAPSHOT</version>    
-    </dependency>
   </dependencies>
 
   <build>
