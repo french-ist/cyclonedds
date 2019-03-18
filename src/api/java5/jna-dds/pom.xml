@@ -107,7 +107,7 @@
 							<mainClass>org.eclipse.cyclonedds.JavaGeneratorHelper</mainClass>
 							<workingDirectory>${parent.basedir}</workingDirectory>
 							<arguments>
-								<argument>${jna.dds.dir}src/test/helloworld-files/generated-c/HelloWorldData</argument>
+								<argument>${jna.dds.dir}src/test/helloworld-files/HelloWorldData.idl</argument>
 								<argument>${jna.dds.dir}target/generated-sources/</argument>
 								<argument>org.eclipse.cyclonedds.helloworld</argument>
 							</arguments>

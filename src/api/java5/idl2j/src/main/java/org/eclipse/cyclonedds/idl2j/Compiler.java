@@ -96,9 +96,13 @@ public class Compiler
 				compiler.patchNonScopedGeneratedCode();
 			}
 
-			String idlFile = args[args.length - 1];	         
-			new JavaGeneratorHelper(idlFile.replace(".idl", ""), compiler.destDir, (new File(idlFile)).getName().replace(".idl", ""), compiler.className);
-
+			String idlFile = args[args.length - 1];	
+			 JavaGeneratorHelper jgh = new JavaGeneratorHelper();
+			 jgh.execute(idlFile, 
+					 compiler.destDir, 
+					 (new File(idlFile)).getName().replace(".idl", ""), 
+					 compiler.className);
+			
 		}
 		catch (Throwable t)
 		{

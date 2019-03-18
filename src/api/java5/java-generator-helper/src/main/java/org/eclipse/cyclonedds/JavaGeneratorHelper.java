@@ -55,7 +55,7 @@ public class JavaGeneratorHelper {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        System.out.println(" executing " + cmdFile);
+        System.out.println("Executing: " + cmdFile);
         String[] largs = {"/bin/sh", "-c", cmdFile};
         Process process = null;
         try {
@@ -86,19 +86,21 @@ public class JavaGeneratorHelper {
         }
     }
 
-    public static void idl2c(String idlfile) {
+    public static void idl2c(String idlFile) {
+    	System.err.println("#### idl2c " + idlFile + "####");
         List<String> cmds = new ArrayList<String>();
-        cmds.add("cp $(find ~/ -type f 2>/dev/null | grep \"cyclonedds/src/idlc/target/idlc-jar-with-dependencies.jar\") /tmp/");
-        cmds.add("java -classpath /tmp/idlc-jar-with-dependencies.jar org.eclipse.cyclonedds.compilers.Idlc -d /tmp -I. "  + idlfile);
+        cmds.add("cp -u $(find ~/ -type f 2>/dev/null | grep \"/src/idlc/target/idlc-jar-with-dependencies.jar\") /tmp/");
+        cmds.add("java -classpath /tmp/idlc-jar-with-dependencies.jar org.eclipse.cyclonedds.compilers.Idlc -d /tmp -I. "  + idlFile);
         execCommands(cmds,"/tmp/compile.sh");
     }
 
-    private String getIdlHelperClassFrom(String file, String outputDir, String javaPackage) {
-		String defaultClassName = file.substring(
-            file.lastIndexOf("/")==-1 ? 0: file.lastIndexOf(File.separator)+1, 
-            file.lastIndexOf(".")).replace(".", "") ;        
+    private String getIdlHelperClassFrom(String cFile, String outputDir, String javaPackage) {
+    	System.err.println("#### getIdlHelperClassFrom cFile: " + cFile + "outputDir: "+outputDir+"javaPackage: "+javaPackage+"####");
+		String defaultClassName = cFile.substring(
+            cFile.lastIndexOf("/")==-1 ? 0: cFile.lastIndexOf(File.separator)+1, 
+            cFile.lastIndexOf(".")).replace(".", "") ;        
         
-		initAntlr(file);
+		initAntlr(cFile);
         ConcreteDdsKeyDescriptorBuilder ddsKdesc = new ConcreteDdsKeyDescriptorBuilder();
         ConcreteMessageOptionsBuilder ddsOps = new ConcreteMessageOptionsBuilder(defaultClassName, className);
         ConcreteMsgDescBuilder ddsTopicDescr = new ConcreteMsgDescBuilder(defaultClassName, className);
@@ -148,37 +150,34 @@ public class JavaGeneratorHelper {
     	return className == null ? defaultClassName:className;
     }
 
-    private JavaGeneratorHelper(String[] args) {
-        idl2c (args[0] + ".idl");        
-        
-        //generate classes
-        String cPath = "/tmp/" + (new File(args[0] + ".c")).getName();        
-        getIdlHelperClassFrom(cPath, args[1], args[2]);
-    }
-    
-
-	public JavaGeneratorHelper(String idl, String outputDir, String javaPackage, String className) {
-        // compile with idl2c
-        idl2c (idl + ".idl");        
-        
-        //generate classes
-        String cPath = "/tmp/" + (new File(idl+ ".c")).getName();        
-        getIdlHelperClassFrom(cPath, outputDir, javaPackage, className);
-	}
-
 	private void getIdlHelperClassFrom(String cPath, String outputDir, String javaPackage, String className) {
 		this.className  = className;
 		getIdlHelperClassFrom(cPath, outputDir, javaPackage);
 	}
-
+	
+	public JavaGeneratorHelper() {}
+	
+	public void execute(String idlFilePath, String outputDir, String packageName) {
+		idl2c(idlFilePath);
+		String cFilePath = "/tmp/" + (new File(idlFilePath+ ".c")).getName().replace(".idl", "");
+		getIdlHelperClassFrom(cFilePath, outputDir, packageName);
+	}
+	
+	public void execute(String idlFilePath, String outputDir, String packageName, String className) {
+		idl2c(idlFilePath);
+		String cFilePath = "/tmp/" + (new File(idlFilePath+ ".c")).getName().replace(".idl", "");
+		getIdlHelperClassFrom(cFilePath, outputDir, packageName, className);
+	}
+	
 	public static void main(String[] args) {
+		JavaGeneratorHelper jgh = new JavaGeneratorHelper();
         if (args.length < 3) {
-            System.err.println("Usage: java -jar target/java-generator-helper-<VERSION>.jar <idl_file> <output_directory> <java_package>");
+            System.err.println("Usage: java -jar target/java-generator-helper-<VERSION>.jar <idl_file> <output_directory> <java_package> [<class_name>]");
             System.exit(0);
         } else if (args.length == 3) {
-        	new JavaGeneratorHelper(args);
+        	jgh.execute(args[0], args[1], args[2]);
         } else  if (args.length == 4) {
-        	new JavaGeneratorHelper(args[0], args[1], args[2], args[3]);
+        	jgh.execute(args[0], args[1], args[2], args[3]);
         }
-    }
+	}	
 }
