@@ -87,15 +87,15 @@ public class JavaGeneratorHelper {
     }
 
     public static void idl2c(String idlFile) {
-    	System.err.println("#### idl2c " + idlFile + "####");
+    	System.err.println("#### idl2c " + idlFile + " ####");
         List<String> cmds = new ArrayList<String>();
-        cmds.add("cp -u $(find ~/ -type f 2>/dev/null | grep \"/src/idlc/target/idlc-jar-with-dependencies.jar\") /tmp/");
+        cmds.add("cp -u $(find ~/ -type f 2>/dev/null | grep \"idlc-jar-with-dependencies.jar\") /tmp/");
         cmds.add("java -classpath /tmp/idlc-jar-with-dependencies.jar org.eclipse.cyclonedds.compilers.Idlc -d /tmp -I. "  + idlFile);
         execCommands(cmds,"/tmp/compile.sh");
     }
 
     private String getIdlHelperClassFrom(String cFile, String outputDir, String javaPackage) {
-    	System.err.println("#### getIdlHelperClassFrom cFile: " + cFile + "outputDir: "+outputDir+"javaPackage: "+javaPackage+"####");
+    	System.err.println("#### getIdlHelperClassFrom cFile: " + cFile + ", outputDir: "+outputDir+", javaPackage: "+javaPackage+"####");
 		String defaultClassName = cFile.substring(
             cFile.lastIndexOf("/")==-1 ? 0: cFile.lastIndexOf(File.separator)+1, 
             cFile.lastIndexOf(".")).replace(".", "") ;        
