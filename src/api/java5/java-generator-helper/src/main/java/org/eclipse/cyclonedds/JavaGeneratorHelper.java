@@ -89,7 +89,7 @@ public class JavaGeneratorHelper {
     public static void idl2c(String idlFile) {
     	System.err.println("#### idl2c " + idlFile + " ####");
         List<String> cmds = new ArrayList<String>();
-        cmds.add("cp -u $(find ~/ -type f 2>/dev/null | grep \"idlc-jar-with-dependencies.jar\") /tmp/");
+        cmds.add("cp $(find ~/ -type f 2>/dev/null | grep \"idlc-jar-with-dependencies.jar\") /tmp/");
         cmds.add("java -classpath /tmp/idlc-jar-with-dependencies.jar org.eclipse.cyclonedds.compilers.Idlc -d /tmp -I. "  + idlFile);
         execCommands(cmds,"/tmp/compile.sh");
     }
