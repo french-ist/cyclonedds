@@ -46,7 +46,7 @@ public class HelloWorldSub
         //samples[0] = HelloWorldData_Msg__alloc ();
         Pointer samplesAlloc = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(helper.getNativeSize("HelloWorldData_Msg"));
         PointerByReference samplePtr = new PointerByReference(samplesAlloc);
-        dds_sample_info.ByReference infosPtr = new  dds_sample_info.ByReference();
+        dds_sample_info.ByReference infosPtr = new dds_sample_info.ByReference();
         dds_sample_info[] infosArr = (dds_sample_info[]) infosPtr.toArray(1);
         
         while(true){               

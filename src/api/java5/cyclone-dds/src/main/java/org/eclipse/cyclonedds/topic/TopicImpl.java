@@ -59,6 +59,7 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
 	private final int jnaTopic;
 	private Topic<TYPE> topic;
 	private DdsTopicDescriptor ddsTopicDescriptor;
+	private TYPE genericTypeInstance;
     
 	public TopicImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl participant, 
@@ -77,6 +78,7 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
         associatedReaders = new ArrayList<DataReader<TYPE>>();
         
         ddsTopicDescriptor = DdsTopicDescriptorFactory.getDdsTopicDescriptor(environment, this);
+        genericTypeInstance =  DdsTopicDescriptorFactory.getGenericTypeInstance(environment, this);
         
         jnaTopic = org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_create_topic(participant.getJnaParticipant(),
         		ddsTopicDescriptor.getDdsTopicDescriptor(), 
@@ -136,6 +138,10 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
             this.listener.setInitialised();
         }
     }
+	
+	public TYPE getGenericTypeInstance() {
+		return genericTypeInstance;
+	}
 
     @SuppressWarnings("unchecked")
     public TopicImpl(CycloneServiceEnvironment environment,
@@ -341,11 +347,6 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
 		return null;
 	}
 
-	@Override
-	public org.eclipse.cyclonedds.topic.Topic getOld() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	protected void destroy() {

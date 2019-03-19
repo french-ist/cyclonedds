@@ -96,6 +96,7 @@ public class DomainParticipantImpl extends EntityImpl<DomainParticipantQos, Doma
         jnaParticipant = org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_create_participant (domainId, 
         		Utilities.convert(qos), 
         		Utilities.convert(listener));
+        
         Utilities.checkReturnCode(jnaParticipant, environment, "Can't create JNA participant"); //TODO check if valid
         
         this.domainId = domainId;

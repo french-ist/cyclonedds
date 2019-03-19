@@ -308,7 +308,7 @@ public class Compiler
 							if (line.contains("} // class " + className))
 							{
 								createGetFieldOrderMethod(buf);
-								buf.append("\t}\n");
+								createNewStructureMethod(buf);								
 								buf.append("\tpublic "+className+"(Pointer peer) {\n\t\tsuper(peer);\n\t}\n");
 								createGetDataMethod(buf);
 								buf.append("\tpublic static class ByReference extends "+className+" implements Structure.ByReference {};\n");
@@ -360,7 +360,7 @@ public class Compiler
 
 	private void createGetDataMethod(StringBuilder buf) {
 		//getData method
-		buf.append("\tpublic Structure.ByReference getData(){\n");
+		buf.append("\tpublic Structure.ByReference getStructureReference(){\n");
 		buf.append("\t\t"+className+".ByReference bref = new "+className+".ByReference();\n");								
 		for (int i=0;i<listParams.size();i++) {										
 			buf.append("\t\tbref."+listParams.get(i).second+" = "+listParams.get(i).second+";\n");
@@ -369,6 +369,15 @@ public class Compiler
 		buf.append("\t}\n");
 		//end getData method
 	}
+	
+	private void createNewStructureMethod(StringBuilder buf) {
+		//getFieldOrder method
+		buf.append("\tpublic Structure getNewStructureFrom(Pointer peer) {\n");								
+		buf.append("\t\treturn new "+className+"(peer);\n");
+		buf.append("\t}\n");
+		//end getFieldOrder method
+	}
+
 
 	private void createGetFieldOrderMethod(StringBuilder buf) {
 		//getFieldOrder method
@@ -385,6 +394,7 @@ public class Compiler
 		} else if(listParams.size() == 1) {
 			buf.append("\t\treturn Arrays.asList(\""+listParams.get(0).second+"\");\n");	
 		}
+		buf.append("\t}\n");
 		//end getFieldOrder method
 	}
 

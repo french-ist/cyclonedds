@@ -34,6 +34,9 @@ import org.omg.dds.domain.DomainParticipantQos;
 import org.omg.dds.pub.DataWriterListener;
 import org.omg.dds.pub.DataWriterQos;
 import org.omg.dds.pub.PublisherQos;
+import org.omg.dds.sub.DataReaderListener;
+import org.omg.dds.sub.DataReaderQos;
+import org.omg.dds.sub.SubscriberQos;
 import org.omg.dds.topic.TopicListener;
 import org.omg.dds.topic.TopicQos;
 
@@ -356,6 +359,21 @@ public class Utilities {
 
 
 	public static <TYPE> dds_listener_t convert(DataWriterListener<TYPE> listener) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static PointerByReference convert(SubscriberQos qos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static PointerByReference convert(DataReaderQos qos) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public static <TYPE> dds_listener_t convert(DataReaderListener<TYPE> listener) {
 		// TODO Auto-generated method stub
 		return null;
 	}

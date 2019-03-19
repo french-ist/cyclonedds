@@ -41,19 +41,23 @@ import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 public abstract class AbstractTypeSupport<TYPE> extends TypeSupport<TYPE> {
 
     public abstract AbstractDataWriter<TYPE> createDataWriter(
-            PublisherImpl publisher, AbstractTopic<TYPE> topic,
+            PublisherImpl publisher, 
+            AbstractTopic<TYPE> topic,
             DataWriterQos qos,
             DataWriterListener<TYPE> listener,
             Collection<Class<? extends Status>> statuses);
 
     public abstract AbstractDataReader<TYPE> createDataReader(
             SubscriberImpl subscriber,
-            TopicDescriptionExt<TYPE> topicDescription, DataReaderQos qos,
+            AbstractTopic<TYPE> topic,
+            DataReaderQos qos,
             DataReaderListener<TYPE> listener,
             Collection<Class<? extends Status>> statuses);
 
     public abstract AbstractTopic<TYPE> createTopic(
-            DomainParticipantImpl participant, String topicName, TopicQos qos,
+            DomainParticipantImpl participant, 
+            String topicName, 
+            TopicQos qos,
             TopicListener<TYPE> listener,
             Collection<Class<? extends Status>> statuses);
 }

@@ -71,7 +71,7 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
 
     @Override
     public DomainParticipant createParticipant(int domainId) {
-        return this.createParticipant(domainId, this.getDefaultParticipantQos(), null,
+        return createParticipant(domainId, this.getDefaultParticipantQos(), null,
                 new HashSet<Class<? extends Status>>());
     }
 

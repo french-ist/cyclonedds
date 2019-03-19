@@ -23,17 +23,24 @@ package org.eclipse.cyclonedds.sub;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.cyclonedds.core.AlreadyClosedExceptionImpl;
 import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.DomainEntityImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
+import org.eclipse.cyclonedds.core.InstanceHandleImpl;
+import org.eclipse.cyclonedds.core.Utilities;
+import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
+import org.eclipse.cyclonedds.pub.AbstractDataWriter;
 import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
+import org.eclipse.cyclonedds.topic.TopicImpl;
 import org.eclipse.cyclonedds.type.AbstractTypeSupport;
 import org.omg.dds.core.AlreadyClosedException;
 import org.omg.dds.core.InstanceHandle;
@@ -48,19 +55,36 @@ import org.omg.dds.sub.SubscriberQos;
 import org.omg.dds.topic.TopicDescription;
 import org.omg.dds.topic.TopicQos;
 
-public class SubscriberImpl
-        extends
-        DomainEntityImpl<SubscriberQos, SubscriberListener, SubscriberListenerImpl>
-        implements Subscriber {
+public class SubscriberImpl extends DomainEntityImpl<SubscriberQos, SubscriberListener, SubscriberListenerImpl> implements Subscriber {
     
-	private final HashMap<DataReader, AbstractDataReader<?>> readers;
-    private final boolean isBuiltin;
+	//private final HashMap<DataReader, AbstractDataReader<?>> readers;
+    //private final boolean isBuiltin;
 
-    public SubscriberImpl(CycloneServiceEnvironment environment,
+    private DomainParticipantImpl parent;
+	private SubscriberQos qos;
+	private InstanceHandleImpl handle;
+	private List<AbstractDataReader<?>> readers;
+	private DataReaderQosImpl defaultDataReaderQos;
+	private int jnaSubscriber;
+	private boolean closed = false;
+	private boolean enabled = true;
+
+	public SubscriberImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl parent, SubscriberQos qos,
             SubscriberListener listener,
             Collection<Class<? extends Status>> statuses) {
         super(environment);
+        this.parent = parent;
+        this.qos = qos;
+        
+        handle = new InstanceHandleImpl(environment, parent.getJnaParticipant());
+        readers = Collections.synchronizedList(new ArrayList<AbstractDataReader<?>>());
+        defaultDataReaderQos = new DataReaderQosImpl(environment);
+        
+		jnaSubscriber = DdscLibrary.dds_create_subscriber(
+				parent.getJnaParticipant(), 
+				Utilities.convert(qos),
+				Utilities.convert(parent));
         
         /* TODO FRCYC
         SubscriberQos oldQos;
@@ -92,13 +116,14 @@ public class SubscriberImpl
             Utilities.throwLastErrorException(this.environment);
         }
         this.setOld(old);
-        */
+        
         this.readers = new HashMap<DataReader, AbstractDataReader<?>>();
         this.isBuiltin = false;
 
         if (this.listener != null) {
             this.listener.setInitialised();
         }
+        */
     }
 
     public SubscriberImpl(CycloneServiceEnvironment environment,
@@ -111,12 +136,12 @@ public class SubscriberImpl
         }
         this.listener = null;
         //TODO FRCYC this.setOld(oldSubscriber);
-        this.readers = new HashMap<DataReader, AbstractDataReader<?>>();
-        this.isBuiltin = true;
+        //this.readers = new HashMap<DataReader, AbstractDataReader<?>>();
+        //this.isBuiltin = true;
     }
-
+    
     public boolean isBuiltin() {
-        return this.isBuiltin;
+        return false;//this.isBuiltin;
     }
 
     private void setListener(SubscriberListener listener, int mask) {
@@ -200,12 +225,28 @@ public class SubscriberImpl
 
     @Override
     public <TYPE> DataReader<TYPE> createDataReader(
-            TopicDescription<TYPE> topic, DataReaderQos qos,
+            TopicDescription<TYPE> topic, 
+            DataReaderQos qos,
             DataReaderListener<TYPE> listener,
             Collection<Class<? extends Status>> statuses) {
-        AbstractDataReader<TYPE> reader;
-        AbstractTypeSupport<TYPE> typeSupport;
 
+        if(closed ) {
+        	throw new AlreadyClosedExceptionImpl(environment, "Subscriber closed, can't create DataReader");
+        }
+        
+        if(qos == null) {
+        	qos = getDefaultDataReaderQos();
+        }
+        
+        AbstractTypeSupport<TYPE> typeSupport = (AbstractTypeSupport<TYPE>) topic.getTypeSupport();
+        AbstractDataReader<TYPE> dataReader = typeSupport.createDataReader(this, (TopicImpl<TYPE>)topic, qos, listener, statuses);
+        readers.add(dataReader);
+        if(this.qos.getEntityFactory().isAutoEnableCreatedEntities() && this.enabled  ) {
+        	dataReader.enable();
+        }
+        return dataReader;
+        
+        /*
         if (topic == null) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Supplied Topic is null.");
@@ -224,6 +265,7 @@ public class SubscriberImpl
             }
         }
         return reader;
+        */        
     }
 
     @Override
@@ -236,15 +278,15 @@ public class SubscriberImpl
     }
 
     @Override
-    public <TYPE> DataReader<TYPE> createDataReader(
-            TopicDescription<TYPE> topic, DataReaderQos qos) {
-        return this.createDataReader(topic, qos, null,
+    public <TYPE> DataReader<TYPE> createDataReader( TopicDescription<TYPE> topic, DataReaderQos qos) {
+        return createDataReader(topic, qos, null,
                 new HashSet<Class<? extends Status>>());
     }
 
     @Override
     public <TYPE> DataReader<TYPE> lookupDataReader(String topicName) {
-        if (topicName == null) {
+        /*
+    	if (topicName == null) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Supplied topicName is null.");
         }
@@ -265,15 +307,16 @@ public class SubscriberImpl
             if (builtinReader != null) {
                 return this.initBuiltinReader(builtinReader);
             }
-            */
-        }
+            
+        }*/
         return null;
     }
 
     @Override
     public <TYPE> DataReader<TYPE> lookupDataReader(
             TopicDescription<TYPE> topicDescription) {
-        if (topicDescription == null) {
+        /*
+    	if (topicDescription == null) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Supplied topicName is null.");
         }
@@ -296,8 +339,9 @@ public class SubscriberImpl
             if (builtinReader != null) {
                 return this.initBuiltinReader(builtinReader, topicDescription);
             }
-            */
+            
         }
+        */
         return null;
     }
 
@@ -345,7 +389,7 @@ public class SubscriberImpl
 
     public <TYPE> DataReader<TYPE> lookupDataReader(DataReader old) {
         DataReader<TYPE> result;
-
+        /*
         synchronized (this.readers) {
             AbstractDataReader<?> found = this.readers.get(old);
 
@@ -356,22 +400,23 @@ public class SubscriberImpl
             } else {
                 result = null;
             }
-        }
-        return result;
+        }*/
+        return result = null;
     }
 
     @Override
     public void closeContainedEntities() {
-        synchronized (this.readers) {
+        /*synchronized (this.readers) {
             HashMap<DataReader, AbstractDataReader<?>> copyReaders = new HashMap<DataReader, AbstractDataReader<?>>(this.readers);
             for (AbstractDataReader<?> reader : copyReaders.values()) {
                 try {
                     reader.close();
                 } catch (AlreadyClosedException a) {
-                    /* Entity may be closed concurrently by application */
+                    /* Entity may be closed concurrently by application 
                 }
             }
         }
+        */
     }
 
     public Collection<DataReader<?>> getDataReaders(
@@ -601,8 +646,7 @@ public class SubscriberImpl
 
 	@Override
 	public DataReaderQos getDefaultDataReaderQos() {
-		// TODO Auto-generated method stub
-		return null;
+		return defaultDataReaderQos;
 	}
 
 	@Override
@@ -615,6 +659,10 @@ public class SubscriberImpl
 	protected void destroy() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public int getJnaSubscriber() {
+		return jnaSubscriber;
 	}
 	
 	

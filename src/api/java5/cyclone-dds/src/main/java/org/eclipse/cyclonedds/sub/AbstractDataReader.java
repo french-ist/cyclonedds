@@ -59,11 +59,14 @@ import org.omg.dds.topic.TopicDescription;
 import org.eclipse.cyclonedds.core.DomainEntityImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
+import org.eclipse.cyclonedds.core.JnaData;
 import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.StatusConditionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.policy.ResourceLimitsImpl;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
+import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
+import org.eclipse.cyclonedds.helper.NativeSize;
 import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 
 public abstract class AbstractDataReader<TYPE>
@@ -71,17 +74,15 @@ public abstract class AbstractDataReader<TYPE>
         DomainEntityImpl<DataReaderQos, DataReaderListener<TYPE>, DataReaderListenerImpl<TYPE>>
         implements org.eclipse.cyclonedds.sub.DataReader<TYPE> {
 
-    protected final TopicDescriptionExt<TYPE> topicDescription;
     protected final HashMap<Condition, ReadConditionImpl<TYPE>> conditions;
     protected final HashSet<AbstractIterator<TYPE>> iterators;
     protected final Selector<TYPE> selector;
 
 
     public AbstractDataReader(CycloneServiceEnvironment environment,
-            SubscriberImpl parent, TopicDescriptionExt<TYPE> topicDescription) {
+            SubscriberImpl parent) {
         super(environment);
 
-        this.topicDescription = topicDescription;
         this.conditions = new HashMap<Condition, ReadConditionImpl<TYPE>>();
         this.iterators = new HashSet<AbstractIterator<TYPE>>();
         this.selector = new SelectorImpl<TYPE>(environment, this);
@@ -261,10 +262,6 @@ public abstract class AbstractDataReader<TYPE>
                 StatusConverter.convertMask(this.environment, statuses)); */
     }
 
-    @Override
-    public TopicDescription<TYPE> getTopicDescription() {
-        return this.topicDescription;
-    }
 
     /*
     @Override

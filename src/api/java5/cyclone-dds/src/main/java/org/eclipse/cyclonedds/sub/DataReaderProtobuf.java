@@ -32,6 +32,7 @@ import org.omg.dds.sub.DataReaderListener;
 import org.omg.dds.sub.DataReaderQos;
 import org.omg.dds.sub.Sample;
 import org.omg.dds.sub.Sample.Iterator;
+import org.omg.dds.topic.TopicDescription;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.Utilities;
@@ -44,25 +45,26 @@ import org.eclipse.cyclonedds.type.TypeSupportProtobuf;
 
 public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         AbstractDataReader<PROTOBUF_TYPE> {
-    private final HashMap<List<Sample<PROTOBUF_TYPE>>, PreAllocatorProtobuf<PROTOBUF_TYPE, DDS_TYPE>> preallocated;
-    private final ReflectionDataReader<DDS_TYPE, PROTOBUF_TYPE> reflectionReader;
-    private final TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> typeSupport;
+    //private final HashMap<List<Sample<PROTOBUF_TYPE>>, PreAllocatorProtobuf<PROTOBUF_TYPE, DDS_TYPE>> preallocated;
+    //private final ReflectionDataReader<DDS_TYPE, PROTOBUF_TYPE> reflectionReader;
+    //private final TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> typeSupport;
 
     @SuppressWarnings("unchecked")
     public DataReaderProtobuf(CycloneServiceEnvironment environment,
             SubscriberImpl parent,
-            TopicDescriptionExt<PROTOBUF_TYPE> topicDescription,
             DataReaderQos qos, DataReaderListener<PROTOBUF_TYPE> listener,
             Collection<Class<? extends Status>> statuses) {
-        super(environment, parent, topicDescription);
+        super(environment, parent);
         if (qos == null) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Supplied DataReaderQos is null.");
         }
+        /*
         if (topicDescription == null) {
             throw new IllegalArgumentExceptionImpl(this.environment,
                     "Supplied TopicDescription is null.");
         }
+        */
         DataReaderQos oldQos;
 
         try {
@@ -87,7 +89,7 @@ public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
             Utilities.throwLastErrorException(this.environment);
         }
         this.setOld(old);
-        */
+       
         this.preallocated = new HashMap<List<Sample<PROTOBUF_TYPE>>, PreAllocatorProtobuf<PROTOBUF_TYPE, DDS_TYPE>>();
         this.typeSupport = (TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE>) topicDescription
                 .getTypeSupport();
@@ -99,8 +101,10 @@ public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         if (this.listener != null) {
             this.listener.setInitialised();
         }
+         */
     }
 
+    /*
     @Override
     protected void destroy() {
         super.destroy();
@@ -130,6 +134,7 @@ public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
         }
         return pa;
     }
+    
 
     @Override
     protected ReflectionDataReader<?, PROTOBUF_TYPE> getReflectionReader() {
@@ -184,7 +189,7 @@ public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
                                 .getKeyValue()), ddsSample.getInfo());
             }
         }
-        */
+        
         return result;
     }
 
@@ -212,10 +217,10 @@ public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
                         this.typeSupport.ddsKeyToProtobuf(ddsSample
                                 .getKeyValue()), ddsSample.getInfo());
             }
-        }*/
+        }
         return result;
     }
-
+	*/
 	@Override
 	public void enable() {
 		// TODO Auto-generated method stub
@@ -230,6 +235,55 @@ public class DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
 
 	@Override
 	public InstanceHandle getInstanceHandle() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PROTOBUF_TYPE getKeyValue(InstanceHandle arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PROTOBUF_TYPE getKeyValue(PROTOBUF_TYPE arg0, InstanceHandle arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TopicDescription<PROTOBUF_TYPE> getTopicDescription() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public InstanceHandle lookupInstance(PROTOBUF_TYPE arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean readNextSample(Sample<PROTOBUF_TYPE> arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean takeNextSample(Sample<PROTOBUF_TYPE> arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	protected ReflectionDataReader<?, PROTOBUF_TYPE> getReflectionReader() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PreAllocator<PROTOBUF_TYPE> getPreAllocator(List<Sample<PROTOBUF_TYPE>> samples, Class<?> sampleSeqHolderClz,
+			Field sampleSeqHolderValueField) {
 		// TODO Auto-generated method stub
 		return null;
 	}

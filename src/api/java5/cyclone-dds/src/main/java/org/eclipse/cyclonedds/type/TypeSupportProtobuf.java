@@ -43,7 +43,6 @@ import org.eclipse.cyclonedds.sub.AbstractDataReader;
 import org.eclipse.cyclonedds.sub.DataReaderProtobuf;
 import org.eclipse.cyclonedds.sub.SubscriberImpl;
 import org.eclipse.cyclonedds.topic.AbstractTopic;
-import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 import org.eclipse.cyclonedds.topic.TopicProtobuf;
 
 //TODO FRCYC import TypeSupport;
@@ -168,16 +167,7 @@ public abstract class TypeSupportProtobuf<PROTOBUF_TYPE, DDS_TYPE> extends
                 (TopicProtobuf<PROTOBUF_TYPE>) topic, qos, listener, statuses);
     }
 
-    @Override
-    public AbstractDataReader<PROTOBUF_TYPE> createDataReader(
-            SubscriberImpl subscriber,
-            TopicDescriptionExt<PROTOBUF_TYPE> topicDescription, DataReaderQos qos,
-            DataReaderListener<PROTOBUF_TYPE> listener,
-            Collection<Class<? extends Status>> statuses){
-        return new DataReaderProtobuf<PROTOBUF_TYPE, DDS_TYPE>(
-                this.environment, subscriber, topicDescription, qos, listener,
-                statuses);
-    }
+
 
     public byte[] getMetaDescriptor(){
         return this.metaData.clone();

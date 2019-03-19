@@ -407,7 +407,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
 	public void write(TYPE instanceData, InstanceHandle handle, Time sourceTimestamp) throws TimeoutException {
 		if(jnaDataWriter > 0) {
 			JnaData data = (JnaData) instanceData;
-			ByReference ref = data.getData();
+			ByReference ref = data.getStructureReference();
 			((Structure) ref).write();
 			DdscLibrary.dds_write_ts(jnaDataWriter, ((Structure) ref).getPointer(), sourceTimestamp.getTime(TimeUnit.NANOSECONDS));
 		} else {

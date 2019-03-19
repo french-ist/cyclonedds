@@ -41,7 +41,7 @@ import org.eclipse.cyclonedds.sub.AbstractDataReader;
 import org.eclipse.cyclonedds.sub.DataReaderImpl;
 import org.eclipse.cyclonedds.sub.SubscriberImpl;
 import org.eclipse.cyclonedds.topic.AbstractTopic;
-import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
+//import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 import org.eclipse.cyclonedds.topic.TopicImpl;
 
 public class TypeSupportImpl<TYPE> extends AbstractTypeSupport<TYPE> {
@@ -90,16 +90,14 @@ public class TypeSupportImpl<TYPE> extends AbstractTypeSupport<TYPE> {
         return new DataWriterImpl<TYPE>(this.environment, publisher,
                 (TopicImpl<TYPE>) topic, qos, listener, statuses);
     }
-
-    @Override
-    public AbstractDataReader<TYPE> createDataReader(SubscriberImpl subscriber,
-            TopicDescriptionExt<TYPE> topicDescription, DataReaderQos qos,
-            DataReaderListener<TYPE> listener,
-            Collection<Class<? extends Status>> statuses) {
-        return new DataReaderImpl<TYPE>(this.environment, subscriber,
-                topicDescription, qos, listener, statuses);
-    }
-
+    
+	@Override
+	public AbstractDataReader<TYPE> createDataReader(SubscriberImpl subscriber, AbstractTopic<TYPE> topic,
+			DataReaderQos qos, DataReaderListener<TYPE> listener, Collection<Class<? extends Status>> statuses) {
+		return new DataReaderImpl<TYPE>(this.environment, subscriber,
+				(TopicImpl<TYPE>) topic,  qos, listener, statuses);
+	}
+    
     @Override
     public AbstractTopic<TYPE> createTopic(DomainParticipantImpl participant,
             String topicName, TopicQos qos, TopicListener<TYPE> listener,
@@ -112,4 +110,6 @@ public class TypeSupportImpl<TYPE> extends AbstractTypeSupport<TYPE> {
 	public String getTypeName() {
 		return typeName;
 	}
+
+
 }
