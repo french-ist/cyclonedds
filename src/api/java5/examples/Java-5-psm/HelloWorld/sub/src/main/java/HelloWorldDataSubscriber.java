@@ -76,7 +76,8 @@ public class HelloWorldDataSubscriber {
         // Prepare a List of Sample<Msg> for received samples
         List<Sample<Msg>> samples = new ArrayList<Sample<Msg>>();
 
-        // Try to take samples every seconds. We stop as soon as we get some.
+         System.out.println("Waiting for a message ... ");
+         // Try to take samples every seconds. We stop as soon as we get some.
         while (samples.size() == 0) {
             reader.take(samples);
             try {
