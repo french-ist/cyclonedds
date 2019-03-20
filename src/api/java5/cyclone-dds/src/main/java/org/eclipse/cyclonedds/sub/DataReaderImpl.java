@@ -44,7 +44,7 @@ import com.sun.jna.ptr.PointerByReference;
 
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.InstanceHandleImpl;
-import org.eclipse.cyclonedds.core.JnaData;
+import org.eclipse.cyclonedds.core.UserClass;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
 import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.DurationImpl;
@@ -52,9 +52,9 @@ import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 import org.eclipse.cyclonedds.ddsc.dds.dds_sample_info;
-import org.eclipse.cyclonedds.helloworld.HelloWorldData_Msg;
 import org.eclipse.cyclonedds.helper.NativeSize;
-import org.eclipse.cyclonedds.topic.DdsTopicDescriptor;
+import org.eclipse.cyclonedds.topic.UserClassHelper;
+import org.eclipse.cyclonedds.topic.JnaUserClassFactory;
 import org.eclipse.cyclonedds.topic.TopicDescriptionExt;
 import org.eclipse.cyclonedds.topic.TopicImpl;
 
@@ -65,7 +65,13 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
 	private long jnaDataReader;
 	private DataReaderQos qos;
 	private TopicImpl<TYPE> topic;
-	private JnaData jnaObjectInstance;
+	//private UserClass jnaObjectInstance;
+	
+	private int NB_SAMPLES;
+	private NativeSize bufferElementCount;
+	private Pointer bufferAllocation;
+	private PointerByReference buffer;
+	private TYPE userClassInstance;
 
 	@SuppressWarnings("unchecked")
 	public DataReaderImpl(CycloneServiceEnvironment environment, 
@@ -85,9 +91,12 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
 				Utilities.convert(qos), 
 				Utilities.convert(listener));
 		
-		jnaObjectInstance = (JnaData)topic.getGenericTypeInstance();
-		
+		userClassInstance = JnaUserClassFactory.getJnaUserClassInstance(environment, topic);
 		handle = new  InstanceHandleImpl(environment, jnaDataReader);
+		NB_SAMPLES = 16;
+		bufferElementCount = new NativeSize(NB_SAMPLES);
+		bufferAllocation = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc( new NativeSize(NB_SAMPLES*((UserClass)userClassInstance).getNativeSize()));			
+		buffer = new PointerByReference(bufferAllocation);
 	}
 	
 	@Override
@@ -95,47 +104,48 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
 		if(jnaDataReader <= 0 ) {
 			throw new PreconditionNotMetExceptionImpl(environment, "DataReader not ready");
 		}
-		int NB_SAMPLES = 128;
-		NativeSize bufferSize = new NativeSize(NB_SAMPLES); //helper.getNativeSize("HelloWorldData_Msg");
-		Pointer bufferAllocation = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc( new NativeSize(NB_SAMPLES*48)); //48 = helper.getNativeSize("HelloWorldData_Msg");			
-		PointerByReference buffer = new PointerByReference(bufferAllocation);
 		dds_sample_info.ByReference sampleInforRef = new  dds_sample_info.ByReference();		
 		dds_sample_info[] sampleInfosArray = (dds_sample_info[]) sampleInforRef.toArray(NB_SAMPLES);
-		
-		int retCode = DdscLibrary.dds_take((int)jnaDataReader, buffer, sampleInforRef, bufferSize, NB_SAMPLES);
-				
-		//Structure  arrayMsgRef = new Structure(buf.getValue());
-		Structure arrayMsgRef = jnaObjectInstance.getNewStructureFrom(buffer.getValue());
-        arrayMsgRef.read();
-        sampleInforRef.read();
-		
-        if(retCode > 0 && sampleInfosArray[0].getValid_data() > 0) {        	
+		int retCode = DdscLibrary.dds_take((int)jnaDataReader, buffer, sampleInforRef, bufferElementCount, NB_SAMPLES);
+		if(retCode > 0 ) {
+			Structure arrayMsgRef = ((UserClass)userClassInstance).getNewStructureFrom(buffer.getValue());
+	        arrayMsgRef.read();
+	        sampleInforRef.read();
         	TYPE[] samplesArray = (TYPE[]) arrayMsgRef.toArray(NB_SAMPLES);
         	for(int i=0;i<NB_SAMPLES;i++) {
-        		SampleInfo sampleInfo = new SampleInfo();
-        		
-        		sampleInfo.valid_data = sampleInfosArray[i].getValid_data()==0 ? false:true;
-        		sampleInfo.sample_state = sampleInfosArray[i].getSample_state();
-        		sampleInfo.view_state = sampleInfosArray[i].getView_state();
-        		sampleInfo.instance_state = sampleInfosArray[i].getInstance_state();
-        		sampleInfo.source_timestamp = new DurationImpl(environment, sampleInfosArray[i].getSource_timestamp(), TimeUnit.NANOSECONDS);
-        		sampleInfo.instance_handle = sampleInfosArray[i].getInstance_handle();
-        		sampleInfo.publication_handle = sampleInfosArray[i].getPublication_handle();
-        		sampleInfo.disposed_generation_count = sampleInfosArray[i].getDisposed_generation_count();
-        		sampleInfo.no_writers_generation_count = sampleInfosArray[i].getDisposed_generation_count();
-        		sampleInfo.sample_rank = sampleInfosArray[i].getSample_rank();
-        		sampleInfo.generation_rank = sampleInfosArray[i].getGeneration_rank();
-        		sampleInfo.absolute_generation_rank = sampleInfosArray[i].getAbsolute_generation_rank();
-        		sampleInfo.reception_timestamp = new DurationImpl(environment, System.nanoTime(), TimeUnit.NANOSECONDS);
-        		
-				Sample<TYPE> sample = new SampleImpl<TYPE>(environment, samplesArray[i], sampleInfo );
-        		samples.add(sample);
+        		if(sampleInfosArray[i].getValid_data() > 0) {
+					Sample<TYPE> sample = new SampleImpl<TYPE>(environment, samplesArray[i], getSampleInfo(sampleInfosArray[i]) );
+	        		samples.add(sample);
+        		}
         	}
         }
-        
 		return samples;
 	}
 
+	private SampleInfo getSampleInfo(dds_sample_info sampleInfosArray) {
+		SampleInfo sampleInfo = new SampleInfo();		
+		sampleInfo.valid_data = sampleInfosArray.getValid_data()==0 ? false:true;
+		sampleInfo.sample_state = sampleInfosArray.getSample_state();
+		sampleInfo.view_state = sampleInfosArray.getView_state();
+		sampleInfo.instance_state = sampleInfosArray.getInstance_state();
+		sampleInfo.source_timestamp = new DurationImpl(environment, sampleInfosArray.getSource_timestamp(), TimeUnit.NANOSECONDS);
+		sampleInfo.instance_handle = sampleInfosArray.getInstance_handle();
+		sampleInfo.publication_handle = sampleInfosArray.getPublication_handle();
+		sampleInfo.disposed_generation_count = sampleInfosArray.getDisposed_generation_count();
+		sampleInfo.no_writers_generation_count = sampleInfosArray.getDisposed_generation_count();
+		sampleInfo.sample_rank = sampleInfosArray.getSample_rank();
+		sampleInfo.generation_rank = sampleInfosArray.getGeneration_rank();
+		sampleInfo.absolute_generation_rank = sampleInfosArray.getAbsolute_generation_rank();
+		sampleInfo.reception_timestamp = new DurationImpl(environment, System.nanoTime(), TimeUnit.NANOSECONDS);
+		return sampleInfo;
+	}
+
+	@Override
+	protected void destroy() {
+		super.destroy();
+		org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_free(bufferAllocation);
+	}
+	
 	@Override
 	public TYPE getKeyValue(InstanceHandle arg0) {
 		// TODO Auto-generated method stub
@@ -174,14 +184,12 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
 
 	@Override
 	public void enable() {
-		// TODO Auto-generated method stub
-		
+		this.enable = true;
 	}
 
 	@Override
 	public InstanceHandle getInstanceHandle() {
-		// TODO Auto-generated method stub
-		return null;
+		return handle;
 	}
 
 	@Override

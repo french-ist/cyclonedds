@@ -95,13 +95,12 @@ public class Compiler
 			{
 				compiler.patchNonScopedGeneratedCode();
 			}
-
+			JavaGeneratorHelper jgh = new JavaGeneratorHelper();
 			String idlFile = args[args.length - 1];	
-			 JavaGeneratorHelper jgh = new JavaGeneratorHelper();
-			 jgh.execute(idlFile, 
-					 compiler.destDir, 
-					 (new File(idlFile)).getName().replace(".idl", ""), 
-					 compiler.className);
+			jgh.execute(idlFile, 
+					compiler.destDir, 
+					(new File(idlFile)).getName().replace(".idl", ""), 
+					compiler.className);
 			
 		}
 		catch (Throwable t)
@@ -254,11 +253,11 @@ public class Compiler
 						
 						while (line != null)
 						{
-							getPublicFields(line);
+							line = getPublicFields(line);
 							if (line.contains("public final class " + className))
 							{
-								line = line.replace("final class " + className, "class " + className + " extends Structure");
-								line = line.replace(" implements ", " implements JnaData, ");
+								line = line.replace("final class " + className, "class " + className + " extends Structure ");
+								line = line.replace(" implements ", " implements UserClass, ");
 								buf.append("/**\n");
 								buf.append("* Updated by idl2j\n");
 								buf.append("* from ").append(idlFile).append("\n");
@@ -275,9 +274,11 @@ public class Compiler
 								buf.append("import java.util.List;\n");
 								buf.append("import com.sun.jna.Pointer;\n");
 								buf.append("import com.sun.jna.Structure;\n");
-								buf.append("import org.eclipse.cyclonedds.core.JnaData;\n");
+								buf.append("import org.eclipse.cyclonedds.core.UserClass;\n");
+								buf.append("import org.eclipse.cyclonedds.dcps.keys.KeyList;\n");
+								buf.append("import org.eclipse.cyclonedds.helper.NativeSize;\n");
+								//buf.append("import "+className+"."+className+"_Helper;");
 								//
-								buf.append("import org.eclipse.cyclonedds.dcps.keys.KeyList;");
 								buf.append("\n");
 								buf.append("\n");
 								buf.append("@KeyList(\n");
@@ -302,17 +303,21 @@ public class Compiler
 								buf.append(line).append("\n");
 								line = in.readLine(); // {
 								buf.append(line).append("\n");
-								buf.append("\tsuper();\n");
+								buf.append("    super();\n");
+								//buf.append("    helper = new "+className+"_Helper();\n");
 								line = in.readLine(); // {
 							}
 							if (line.contains("} // class " + className))
 							{
 								createGetFieldOrderMethod(buf);
-								createNewStructureMethod(buf);								
-								buf.append("\tpublic "+className+"(Pointer peer) {\n\t\tsuper(peer);\n\t}\n");
+								createNewStructureMethod(buf);
+								createNewGetSizeMethod(buf);
+								buf.append("  public "+className+"(Pointer peer) {\n    super(peer);\n  }\n\n");
 								createGetDataMethod(buf);
-								buf.append("\tpublic static class ByReference extends "+className+" implements Structure.ByReference {};\n");
-								buf.append("\tpublic static class ByValue extends "+className+" implements Structure.ByValue {};\n");
+								
+								//buf.append("  private "+className+"_Helper helper;\n\n");
+								buf.append("  public static class ByReference extends "+className+" implements Structure.ByReference {};\n\n");
+								buf.append("  public static class ByValue extends "+className+" implements Structure.ByValue {};\n\n");
 							}
 							buf.append(line).append("\n");
 							line = in.readLine();
@@ -360,30 +365,39 @@ public class Compiler
 
 	private void createGetDataMethod(StringBuilder buf) {
 		//getData method
-		buf.append("\tpublic Structure.ByReference getStructureReference(){\n");
-		buf.append("\t\t"+className+".ByReference bref = new "+className+".ByReference();\n");								
+		buf.append("  public Structure.ByReference getStructureReference(){\n");
+		buf.append("    "+className+".ByReference bref = new "+className+".ByReference();\n");								
 		for (int i=0;i<listParams.size();i++) {										
-			buf.append("\t\tbref."+listParams.get(i).second+" = "+listParams.get(i).second+";\n");
+			buf.append("    bref."+listParams.get(i).second+" = "+listParams.get(i).second+";\n");
 		}
-		buf.append("\t\treturn bref;\n");
-		buf.append("\t}\n");
+		buf.append("    return bref;\n");
+		buf.append("  }\n\n");
 		//end getData method
 	}
+
+	private void createNewGetSizeMethod(StringBuilder buf) {
+		//getFieldOrder method
+		buf.append("  public int getNativeSize() {\n");								
+		buf.append("    return size();\n");
+		buf.append("  }\n\n");
+		//end getFieldOrder method
+	}
+	
 	
 	private void createNewStructureMethod(StringBuilder buf) {
 		//getFieldOrder method
-		buf.append("\tpublic Structure getNewStructureFrom(Pointer peer) {\n");								
-		buf.append("\t\treturn new "+className+"(peer);\n");
-		buf.append("\t}\n");
+		buf.append("  public Structure getNewStructureFrom(Pointer peer) {\n");								
+		buf.append("    return new "+className+"(peer);\n");
+		buf.append("  }\n\n");
 		//end getFieldOrder method
 	}
 
 
 	private void createGetFieldOrderMethod(StringBuilder buf) {
 		//getFieldOrder method
-		buf.append("\tprotected List<String> getFieldOrder() {\n");								
+		buf.append("  protected List<String> getFieldOrder() {\n");								
 		if(listParams.size() > 1) {
-			buf.append("\t\treturn Arrays.asList(");
+			buf.append("    return Arrays.asList(");
 			for (int i=0;i<listParams.size();i++) {										
 				buf.append("\""+listParams.get(i).second+"\"");
 				if(i < listParams.size()-1) {
@@ -392,13 +406,13 @@ public class Compiler
 			}
 			buf.append(");\n");
 		} else if(listParams.size() == 1) {
-			buf.append("\t\treturn Arrays.asList(\""+listParams.get(0).second+"\");\n");	
+			buf.append("    return Arrays.asList(\""+listParams.get(0).second+"\");\n");	
 		}
-		buf.append("\t}\n");
+		buf.append("  }\n\n");
 		//end getFieldOrder method
 	}
 
-	private void getPublicFields(String line) {
+	private String getPublicFields(String line) {
 		if (line.trim().startsWith("public") && line.trim().endsWith(";")) {
 			String tmpLine =  line.trim().replace("public ", "");
 			String varType;
@@ -408,13 +422,17 @@ public class Compiler
 				String[] tabDeclarator = declarator.split("\\s+");
 				varType = tabDeclarator[0];
 				varName = tabDeclarator[1];
+				if(line.contains("[]") && line.contains("null")) {
+					line = line.replace("null", "new "+varType+"[128]");
+				}
 			} else {
 				String[] tabDeclarator = tmpLine.split("\\s+");
 				varType = tabDeclarator[0];
 				varName = tabDeclarator[1];
-			}								
+			}
 			listParams.add(new Pair<String>(varType, varName.replace("[", "").replace("]","")));
 		}
+		return line;
 	}
 
 	// patch code generated by idlj

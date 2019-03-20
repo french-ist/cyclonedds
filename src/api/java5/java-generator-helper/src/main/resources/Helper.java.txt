@@ -23,15 +23,18 @@ private dds_key_descriptor.ByReference getByReference(dds_key_descriptor[] hello
 }
 
 public NativeSize getNativeSize(String string) {
+    //System.out.println("### getNativeSize("+string+")");
     return new NativeSize(sizeof(string));
 }
 
 public int getIntSize(String string) {
+    //System.out.println("### getIntSize("+string+")");
     return (int)sizeof(string);
 }
 
 public Integer offsetof(String clazz, String field){
     try {
+    	//System.out.println("### offsetof("+clazz+","+field+")");
         String clazzFullName = (getClass().getPackage() + "." +clazz).replace("package ", "");
         Class<?> c = Class.forName(clazzFullName);        
         Object instance = c.newInstance();
@@ -42,15 +45,16 @@ public Integer offsetof(String clazz, String field){
             method.setAccessible(true);
             return (Integer)method.invoke(instance, field);
         }
-        return null;
+        return 0;
     } catch (Exception e) {
         e.printStackTrace();
-        return null;
+        return 0;
     }
 }
 
 
 public Integer sizeof(String clazz){
+	//System.out.println("### sizeof("+clazz+")");
     if(clazz.equals("char*")){
         return 8;
     } else {
@@ -59,7 +63,7 @@ public Integer sizeof(String clazz){
             Class<?> c = Class.forName(clazzFullName);
             Class<?> parameterTypes[] = {};
             Method method = c.getMethod("size", parameterTypes);
-            int size = (Integer) method.invoke(c.newInstance(), (Object[])null);            
+            int size = (Integer) method.invoke(c.newInstance(), new Object[] {});            
             return size;
         } catch (Exception e) {
             e.printStackTrace();

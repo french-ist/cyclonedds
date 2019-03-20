@@ -35,7 +35,7 @@ import org.eclipse.cyclonedds.core.TimeImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.dcps.keys.KeyHashEncoder;
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
-import org.eclipse.cyclonedds.topic.DdsTopicDescriptor;
+import org.eclipse.cyclonedds.topic.UserClassHelper;
 import org.eclipse.cyclonedds.topic.TopicImpl;
 import org.omg.dds.core.Duration;
 import org.omg.dds.core.InstanceHandle;
@@ -55,7 +55,7 @@ import org.omg.dds.topic.Topic;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import com.sun.jna.Structure.ByReference;
-import org.eclipse.cyclonedds.core.JnaData;
+import org.eclipse.cyclonedds.core.UserClass;
 
 
 public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
@@ -406,7 +406,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
 	@Override
 	public void write(TYPE instanceData, InstanceHandle handle, Time sourceTimestamp) throws TimeoutException {
 		if(jnaDataWriter > 0) {
-			JnaData data = (JnaData) instanceData;
+			UserClass data = (UserClass) instanceData;
 			ByReference ref = data.getStructureReference();
 			((Structure) ref).write();
 			DdscLibrary.dds_write_ts(jnaDataWriter, ((Structure) ref).getPointer(), sourceTimestamp.getTime(TimeUnit.NANOSECONDS));

@@ -102,15 +102,22 @@ public class ConcreteMessageOptionsBuilder implements JavaCodeBuilder{
         }
 
         StringBuilder javaCode = new StringBuilder();
-        javaCode.append("\tprivate Integer[] "+arrayName+" = {\n");
+        javaCode.append("Integer[] "+arrayName+" = {\n");
         for(int i=0;i<listParams.size();i++){
-            javaCode.append("\t\t" + listParams.get(i));
+            javaCode.append("\t\t\t" + listParams.get(i));
             if(i<listParams.size()-1){
                 javaCode.append(",\n");
             }
         }
-        javaCode.append("\n\t};\n");
-        return javaCode.toString();
+        javaCode.append("\n\t\t};\n");
+        
+        StringBuilder retJavaCode = new StringBuilder();
+        retJavaCode.append("\tpublic Integer[] get"+arrayName+"() {\n");
+        retJavaCode.append("\t\t"+javaCode.toString());
+        retJavaCode.append("\t\t\treturn "+arrayName+";\n");
+        retJavaCode.append("\t}\n");
+        
+        return retJavaCode.toString();
     }
 
 }

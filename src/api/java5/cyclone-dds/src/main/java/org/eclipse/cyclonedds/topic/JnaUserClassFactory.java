@@ -5,14 +5,15 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 
-public class DdsTopicDescriptorFactory {
 
-	public static DdsTopicDescriptor getDdsTopicDescriptor(CycloneServiceEnvironment environment,
+public class JnaUserClassFactory {
+
+	public static UserClassHelper getJnaUserClassHelperInstance(CycloneServiceEnvironment environment,
 			TopicImpl<?> topicImpl) {
         try {
 			Class<?> clazz = (Class<?>) Class.forName(topicImpl.getTypeSupport().getTypeName()+"_Helper");
 			Constructor<?> ctr = clazz.getConstructor(new Class[]{});
-			return (DdsTopicDescriptor) ctr.newInstance(new Object[] {});
+			return (UserClassHelper) ctr.newInstance(new Object[] {});
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
@@ -32,7 +33,7 @@ public class DdsTopicDescriptorFactory {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <TYPE> TYPE getGenericTypeInstance(CycloneServiceEnvironment environment, TopicImpl<?> topicImpl) {
+	public static <TYPE> TYPE getJnaUserClassInstance(CycloneServiceEnvironment environment, TopicImpl<?> topicImpl) {
 		try {			
 			Class<TYPE> clazz = (Class<TYPE>) Class.forName(topicImpl.getTypeSupport().getTypeName());
 			Constructor<?> ctr = clazz.getConstructor(new Class[]{});

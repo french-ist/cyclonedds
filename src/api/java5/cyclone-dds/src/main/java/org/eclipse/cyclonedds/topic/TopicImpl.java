@@ -58,8 +58,6 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
 	
 	private final int jnaTopic;
 	private Topic<TYPE> topic;
-	private DdsTopicDescriptor ddsTopicDescriptor;
-	private TYPE genericTypeInstance;
     
 	public TopicImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl participant, 
@@ -74,14 +72,12 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
         this.qos = qos;        
         this.listener = (TopicListenerImpl<TYPE>) listener;
         this.statuses = statuses;
-        
         associatedReaders = new ArrayList<DataReader<TYPE>>();
         
-        ddsTopicDescriptor = DdsTopicDescriptorFactory.getDdsTopicDescriptor(environment, this);
-        genericTypeInstance =  DdsTopicDescriptorFactory.getGenericTypeInstance(environment, this);
+        UserClassHelper userClassHelperInstance = JnaUserClassFactory.getJnaUserClassHelperInstance(environment, this);
         
         jnaTopic = org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_create_topic(participant.getJnaParticipant(),
-        		ddsTopicDescriptor.getDdsTopicDescriptor(), 
+        		userClassHelperInstance.getDdsTopicDescriptor(), 
 				topicName, 
 				Utilities.convert(environment, qos), 
 				Utilities.convert(environment, listener));
@@ -139,10 +135,6 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
         }
     }
 	
-	public TYPE getGenericTypeInstance() {
-		return genericTypeInstance;
-	}
-
     @SuppressWarnings("unchecked")
     public TopicImpl(CycloneServiceEnvironment environment,
             DomainParticipantImpl participant, String topicName, Topic<TYPE> topic) {
@@ -150,11 +142,10 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
     	super(environment);
         this.topicName = topicName;
         this.listener = (TopicListenerImpl<TYPE>) listener;
-        this.topic = topic;
-        
+        this.topic = topic;        
         associatedReaders = new ArrayList<DataReader<TYPE>>();
         
-        DdsTopicDescriptor typeDescription = DdsTopicDescriptorFactory.getDdsTopicDescriptor(environment, this);
+        UserClassHelper typeDescription = JnaUserClassFactory.getJnaUserClassHelperInstance(environment, this);
         
         jnaTopic = org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_create_topic(participant.getJnaParticipant(),
         		typeDescription.getDdsTopicDescriptor(), 
@@ -235,11 +226,7 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
         }
         */
     }
-  
-    public DdsTopicDescriptor getDdsTopicDescriptor() {
-    	return ddsTopicDescriptor;
-    }
-    
+   
     @SuppressWarnings("unchecked")
     @Override
     public <OTHER> TopicDescription<OTHER> cast() {
