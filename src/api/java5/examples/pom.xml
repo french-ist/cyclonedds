@@ -6,14 +6,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.cyclonedds</groupId>
 	<artifactId>examples</artifactId>
-	<name>Java examples</name>
+	<name>examples</name>
 	<version>0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>Jna</module>		
-		<module>Java-5-psm</module>		
-		<module>Java</module> 
+        <module>jna</module>
+		<module>HelloWorld</module>
+		<module>Throughput</module>
+		<module>RoundTrip</module>
 	</modules>
 
 </project>

@@ -20,6 +20,5 @@
 		<module>jna-dds</module>
 		<module>java-generator-helper</module>
 		<module>examples</module>
-		<module>samples</module>
 	</modules>
 </project>
