@@ -168,27 +168,6 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>copy-resources</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<!--<outputDirectory>${basedir}/target/linux-x86-64</outputDirectory> -->
-							<outputDirectory>${basedir}/src/main/resources</outputDirectory>
-							<resources>
-								<resource>
-									<directory>../../../../build/lib/</directory>
-									<include>**/*.so*</include>
-								</resource>
-								<resource>
-									<directory>src/test/helloworld-files/generated-c/</directory>
-									<include>**/*.so*</include>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-					<execution>
 						<id>copy-java</id>
 						<phase>process-resources</phase>
 						<goals>
