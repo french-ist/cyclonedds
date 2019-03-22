@@ -1,4 +1,17 @@
+<!--
+
+ * Copyright(c) 2006 to 2019 ADLINK Technology Limited and others
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v. 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License
+ * v. 1.0 which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
+
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
@@ -46,7 +59,6 @@
                                        <include>dds_builtinTopics.idl</include>
                                        <include>dds_dcps_builtintopics.idl</include>
                                        <include>dds_predefTypes.idl</include>
-                                       <include>dds_dcps_interfaces.idl</include>
                                    </includes>
                                    <emitStubs>false</emitStubs>
                                    <emitSkeletons>false</emitSkeletons>
