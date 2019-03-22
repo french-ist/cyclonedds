@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-                                Vortex Cafe
-
-       This software and documentation are Copyright 2010 to 2019 ADLINK
-       Technology Limited, its affiliated companies and licensors. All rights
-       reserved.
-
-       Licensed under the ADLINK Software License Agreement Rev 2.7 2nd October
-       2014 (the "License"); you may not use this file except in compliance with
-       the License.
-       You may obtain a copy of the License at:
-                           docs/LICENSE.html
-
-       See the License for the specific language governing permissions and
-       limitations under the License.
-
+ * Copyright(c) 2006 to 2019 ADLINK Technology Limited and others
+ *
+ * This program and the accompanying materials are made available under the
+ * terms of the Eclipse Public License v. 2.0 which is available at
+ * http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License
+ * v. 1.0 which is available at
+ * http://www.eclipse.org/org/documents/edl-v10.php.
+ *
+ * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 -->
 <xsl:stylesheet version="1.0"
 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
