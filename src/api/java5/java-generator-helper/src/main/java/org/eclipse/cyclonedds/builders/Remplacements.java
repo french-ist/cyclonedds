@@ -22,7 +22,9 @@ public class Remplacements {
         File file = new File(path);
         StringBuilder str = new StringBuilder();
         
-        str.append("\n    public "+className+"(){}\n");                
+        str.append("\n    public "+className+"(){}\n");        
+        //str.append("\n    public "+className+"(Pointer peer){ super(peer);}\n");
+        
         Scanner scanner = null;
         try {
             scanner = new Scanner(file);

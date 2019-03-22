@@ -88,7 +88,7 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
                             if(text.endsWith("_keys")){
                                 listParams.add(index, "getByReference("+text+")");
                             } else if (text.endsWith("_ops")){
-                                listParams.add(index, "getIntByReference("+text+")");
+                                listParams.add(index, "getIntByReference(get"+text+"())");
                             } else {
                             	if("NULL".equals(text)) {                            		
                                 	listParams.add(index, "null");

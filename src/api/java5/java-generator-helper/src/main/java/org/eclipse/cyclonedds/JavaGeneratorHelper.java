@@ -131,10 +131,10 @@ public class JavaGeneratorHelper {
         javaCode.append("import java.lang.reflect.Method;\n");        
         javaCode.append("import com.sun.jna.Pointer;\n");
         javaCode.append("import com.sun.jna.Structure;\n");
-        javaCode.append("import org.eclipse.cyclonedds.topic.DdsTopicDescriptor;\n");
+        javaCode.append("import org.eclipse.cyclonedds.topic.UserClassHelper;\n");        
         javaCode.append("import com.sun.jna.Memory;\n\n");
 
-        javaCode.append("\npublic class "+getClassName(defaultClassName)+"_Helper extends DdsTopicDescriptor {\n");
+        javaCode.append("\npublic class "+getClassName(defaultClassName)+"_Helper implements UserClassHelper {\n");
         javaCode.append("\n"+ddsKdesc.getJavaCode());
         javaCode.append("\n"+ddsOps.getJavaCode());
         javaCode.append("\n"+ddsTopicDescr.getJavaCode());
