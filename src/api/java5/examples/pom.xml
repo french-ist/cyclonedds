@@ -28,5 +28,32 @@
 		<module>Throughput</module>
 		<module>RoundTrip</module>
 	</modules>
-
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+					<filesets>
+						<fileset>
+							<directory>${project.basedir}</directory>
+                            <includes>
+                                <include>**/*.jar</include>
+                                <include>**/*.so</include>
+                            </includes>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+						<fileset>
+							<directory>${project.basedir}</directory>
+                            <includes>
+                                <include>*/jar</include>
+                                <include>*/linux-x86-64</include>
+                            </includes>
+							<followSymlinks>false</followSymlinks>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
