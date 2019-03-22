@@ -34,6 +34,8 @@ import org.omg.dds.type.builtin.KeyedBytes;
 import org.omg.dds.type.builtin.KeyedString;
 import org.omg.dds.type.dynamic.DynamicDataFactory;
 import org.omg.dds.type.dynamic.DynamicTypeFactory;
+import org.eclipse.cyclonedds.core.ModifiableTimeImpl;
+import org.eclipse.cyclonedds.utils.TimeHelper;
 
 public class CycloneServiceProviderInterface implements ServiceProviderInterface {
 
@@ -121,8 +123,7 @@ public class CycloneServiceProviderInterface implements ServiceProviderInterface
 
 	@Override
 	public Time invalidTime() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ModifiableTimeImpl(environment, TimeHelper.TIME_INVALID);
 	}
 
 	@Override
