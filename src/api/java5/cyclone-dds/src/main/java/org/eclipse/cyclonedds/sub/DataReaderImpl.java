@@ -37,6 +37,7 @@ import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.InstanceHandleImpl;
 import org.eclipse.cyclonedds.core.UserClass;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
+import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.DurationImpl;
 import org.eclipse.cyclonedds.core.Utilities;
@@ -112,6 +113,29 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
         }
 		return samples;
 	}
+	
+	@Override
+    public List<Sample<TYPE>> read(List<Sample<TYPE>> samples) {
+		if(jnaDataReader <= 0 ) {
+			throw new PreconditionNotMetExceptionImpl(environment, "DataReader not ready");
+		}
+		dds_sample_info.ByReference sampleInforRef = new  dds_sample_info.ByReference();		
+		dds_sample_info[] sampleInfosArray = (dds_sample_info[]) sampleInforRef.toArray(NB_SAMPLES);
+		int retCode = DdscLibrary.dds_read((int)jnaDataReader, buffer, sampleInforRef, bufferElementCount, NB_SAMPLES);
+		if(retCode > 0 ) {
+			Structure arrayMsgRef = ((UserClass)userClassInstance).getNewStructureFrom(buffer.getValue());
+	        arrayMsgRef.read();
+	        sampleInforRef.read();
+        	TYPE[] samplesArray = (TYPE[]) arrayMsgRef.toArray(NB_SAMPLES);
+        	for(int i=0;i<NB_SAMPLES;i++) {
+        		if(sampleInfosArray[i].getValid_data() > 0) {
+					Sample<TYPE> sample = new SampleImpl<TYPE>(environment, samplesArray[i], getSampleInfo(sampleInfosArray[i]) );
+	        		samples.add(sample);
+        		}
+        	}
+        }
+		return samples;
+    }
 
 	private SampleInfo getSampleInfo(dds_sample_info sampleInfosArray) {
 		SampleInfo sampleInfo = new SampleInfo();		

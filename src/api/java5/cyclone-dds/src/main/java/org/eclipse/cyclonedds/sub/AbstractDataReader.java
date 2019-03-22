@@ -54,6 +54,7 @@ import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.UserClass;
 import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.StatusConditionImpl;
+import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.policy.ResourceLimitsImpl;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
@@ -515,7 +516,7 @@ public abstract class AbstractDataReader<TYPE>
 
     @Override
     public List<Sample<TYPE>> read(List<Sample<TYPE>> samples) {
-        return this.getReflectionReader().read(samples);
+        throw new UnsupportedOperationExceptionImpl(environment, "NIY");
     }
 
     @Override

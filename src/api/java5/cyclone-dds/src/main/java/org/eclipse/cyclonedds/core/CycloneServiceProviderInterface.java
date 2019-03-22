@@ -117,8 +117,7 @@ public class CycloneServiceProviderInterface implements ServiceProviderInterface
 
 	@Override
 	public ModifiableTime newTime(long time, TimeUnit units) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ModifiableTimeImpl(environment, time, units);
 	}
 
 	@Override
