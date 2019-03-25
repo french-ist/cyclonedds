@@ -69,7 +69,7 @@
 						<fileset>
 							<directory>${project.basedir}/..</directory>
                             <includes>
-                                <include>**/*.jar</include>
+                                <include>**/*sub*.jar</include>
                                 <include>**/*.so</include>
                             </includes>
 							<followSymlinks>false</followSymlinks>
