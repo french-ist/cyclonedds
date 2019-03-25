@@ -48,12 +48,15 @@ import org.omg.dds.sub.Subscriber;
 import org.omg.dds.sub.Subscriber.DataState;
 import org.omg.dds.topic.PublicationBuiltinTopicData;
 import org.omg.dds.topic.TopicDescription;
+
 import org.eclipse.cyclonedds.core.DomainEntityImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.UserClass;
+import org.eclipse.cyclonedds.core.AlreadyClosedExceptionImpl;
 import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.StatusConditionImpl;
+import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.policy.ResourceLimitsImpl;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
@@ -69,6 +72,7 @@ public abstract class AbstractDataReader<TYPE>
     protected final HashMap<Condition, ReadConditionImpl<TYPE>> conditions;
     protected final HashSet<AbstractIterator<TYPE>> iterators;
     protected final Selector<TYPE> selector;
+	protected boolean closed = false;
 
 
     public AbstractDataReader(CycloneServiceEnvironment environment,
@@ -488,6 +492,9 @@ public abstract class AbstractDataReader<TYPE>
 
     @Override
     public org.omg.dds.sub.DataReader.Selector<TYPE> select() {
+        if(closed) {
+        	throw new AlreadyClosedExceptionImpl(environment, "DataReader is closed; can't select");
+        }
         return this.selector;
     }
 
@@ -515,13 +522,19 @@ public abstract class AbstractDataReader<TYPE>
 
     @Override
     public List<Sample<TYPE>> read(List<Sample<TYPE>> samples) {
-        return this.getReflectionReader().read(samples);
+    	return read(samples, select());
     }
 
     @Override
     public List<Sample<TYPE>> read(List<Sample<TYPE>> samples,
             org.omg.dds.sub.DataReader.Selector<TYPE> selector) {
-        return this.getReflectionReader().read(samples, selector);
+    	return read(samples, selector, true);
+    }
+    
+    public List<Sample<TYPE>> read(List<Sample<TYPE>> samples,
+    		DataReader.Selector<TYPE> selector, boolean changeState)
+    {
+    	throw new UnsupportedOperationExceptionImpl(environment, "NYI");
     }
 
     @Override

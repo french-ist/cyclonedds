@@ -16,64 +16,150 @@ import java.util.concurrent.TimeUnit;
 import org.omg.dds.core.Duration;
 import org.omg.dds.core.Time;
 
-public class TimeImpl extends ModifiableTimeImpl {
-    private static final long serialVersionUID = 7478771004119429231L;
+import org.omg.dds.core.ModifiableTime;
+import org.omg.dds.core.ServiceEnvironment;
+import org.omg.dds.core.Time;
+import org.eclipse.cyclonedds.utils.TimeHelper;
+import static org.eclipse.cyclonedds.utils.TimeHelper.*;
 
-    public TimeImpl(CycloneServiceEnvironment environment, long duration,
-            TimeUnit unit) {
-        super(environment, duration, unit);
-    }
 
-    public TimeImpl(CycloneServiceEnvironment environment, long seconds,
-            long nanoseconds) {
-        super(environment, seconds, nanoseconds);
-    }
+public class TimeImpl
+   extends Time
+{
 
-    @Override
-    public TimeImpl normalize() {
-        ModifiableTimeImpl modTime = super.normalize();
+   private static final long serialVersionUID = -1756738290992362946L;
 
-        return (TimeImpl) modTime.immutableCopy();
-    }
+   /**
+    * The time in nanoseconds since Epoch (1st Jan. 1970 00:00)
+    */
+   protected final long time;
 
-    @Override
-    public void copyFrom(Time src) {
-        throw new UnsupportedOperationExceptionImpl(this.environment,
-                "Time is not modifiable.");
-    }
+   private static CycloneServiceEnvironment environment;
 
-    @Override
-    public Time immutableCopy() {
-        return this;
-    }
+   /**
+    * Create a new ModifiableTime with specified time in nanoseconds
+    * frome Epoch (1st Jan. 1970 00:00).
+    * 
+    * @param time the time in nanoseconds
+    */
+   public TimeImpl(CycloneServiceEnvironment environment, long time)
+   {
+	   this.environment = environment;
+      if (time < 0)
+         throw new IllegalArgumentException("Cannot create negative time: " + time);
+      this.time = time;
+   }
 
-    @Override
-    public void setTime(long time, TimeUnit unit) {
-        throw new UnsupportedOperationExceptionImpl(this.environment,
-                "Time is not modifiable.");
-    }
+   /**
+    * Create a new Time from a time specified in seconds + nanoseconds.
+    * 
+    * @param sec the seconds part of the time
+    * @param nanoseconds the nanoseconds part of the time
+    */
+   public TimeImpl(int seconds, long nanoSec)
+   {
+      if (nanoSec < 0)
+         throw new IllegalArgumentException("Nagative nanoSec");
+      long time = TimeUnit.NANOSECONDS.convert(seconds, TimeUnit.SECONDS) + nanoSec;
+      if (time < 0)
+         throw new IllegalArgumentException("Cannot create negative time: " + time);
+      this.time = time;
+   }
 
-    @Override
-    public void add(Duration duration) {
-        throw new UnsupportedOperationExceptionImpl(this.environment,
-                "Time is not modifiable.");
-    }
+   /**
+    * Create a new Time from a time in a specified TimeUnit.
+    * 
+    * @param time the time in specified TimeUnit
+    * @param unit the TimeUnit
+    */
+   public TimeImpl(CycloneServiceEnvironment environment, long time, TimeUnit unit)
+   {
+      this(environment, TimeUnit.NANOSECONDS.convert(time, unit));
+   }
 
-    @Override
-    public void add(long duration, TimeUnit unit) {
-        throw new UnsupportedOperationExceptionImpl(this.environment,
-                "Time is not modifiable.");
-    }
+   /**
+    * Create a new Time with the current time.
+    * 
+    * @return the current time
+    */
+   public static TimeImpl GetCurrentTime()
+   {
+      return new TimeImpl(environment, GetCurrentTimeNano());
+   }
 
-    @Override
-    public void subtract(Duration duration) {
-        throw new UnsupportedOperationExceptionImpl(this.environment,
-                "Time is not modifiable.");
-    }
+   @Override
+   public int compareTo(Time o)
+   {
+      if ( !isValid() && !o.isValid())
+         return 0;
 
-    @Override
-    public void subtract(long duration, TimeUnit unit) {
-        throw new UnsupportedOperationExceptionImpl(this.environment,
-                "Time is not modifiable.");
-    }
+      long oTime = o.getTime(TimeUnit.NANOSECONDS);
+
+      if (this.time > oTime)
+         return 1;
+      if (this.time < oTime)
+         return -1;
+
+      return 0;
+   }
+
+   @Override
+   public boolean equals(Object o)
+   {
+      if (o instanceof Time)
+      {
+         Time t = (Time) o;
+         if ( !isValid() && !t.isValid())
+            return true;
+
+         return time == t.getTime(TimeUnit.NANOSECONDS);
+      }
+      return false;
+   }
+
+   @Override
+   public int hashCode()
+   {
+      if (isValid())
+      {
+         return (int) getTime(TimeUnit.NANOSECONDS);
+      }
+      return 0;
+   }
+
+   @Override
+   public ServiceEnvironment getEnvironment()
+   {
+      return environment;
+   }
+
+   @Override
+   public long getTime(TimeUnit inThisUnit)
+   {
+      return ConvertTo(time, inThisUnit);
+   }
+
+   @Override
+   public long getRemainder(TimeUnit primaryUnit, TimeUnit remainderUnit)
+   {
+      return ConvertTo(GetRemainder(time, primaryUnit), remainderUnit);
+   }
+
+   @Override
+   public boolean isValid()
+   {
+      return IsValid(time);
+   }
+
+   @Override
+   public ModifiableTime modifiableCopy()
+   {
+      return new ModifiableTimeImpl(environment, time);
+   }
+
+   @Override
+   public String toString()
+   {
+      return TimeToString(time, true);
+   }
 }

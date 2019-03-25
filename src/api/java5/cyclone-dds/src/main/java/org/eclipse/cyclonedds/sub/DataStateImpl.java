@@ -24,6 +24,7 @@ import org.omg.dds.sub.Subscriber.DataState;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
+import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 import org.omg.dds.sub.ViewState;
 
 public class DataStateImpl implements Subscriber.DataState {
@@ -54,50 +55,42 @@ public class DataStateImpl implements Subscriber.DataState {
                 .withAnyViewState().withAnyInstanceState();
     }
 
-    public static SampleState getSampleStateFromOld(CycloneServiceEnvironment env,
+    public static SampleState getSampleStateFromJna(CycloneServiceEnvironment env,
             int state) {
-        /* TODO FRCYC
     	switch (state) {
-        case READ_SAMPLE_STATE.value:
+        case DdscLibrary.DDS_READ_SAMPLE_STATE:
             return SampleState.READ;
-        case NOT_READ_SAMPLE_STATE.value:
+        case DdscLibrary.DDS_NOT_READ_SAMPLE_STATE:
             return SampleState.NOT_READ;
         default:
             throw new IllegalArgumentExceptionImpl(env, "Invalid SampleState");
         }
-        */
-    	return null;
     }
 
-    public static ViewState getViewStateFromOld(CycloneServiceEnvironment env,
+    public static ViewState getViewStateFromJna(CycloneServiceEnvironment env,
             int state) {
-    	/* TODO FRCYC
         switch (state) {
-        case NEW_VIEW_STATE.value:
+        case DdscLibrary.DDS_NEW_VIEW_STATE:
             return ViewState.NEW;
-        case NOT_NEW_VIEW_STATE.value:
+        case DdscLibrary.DDS_NOT_NEW_VIEW_STATE:
             return ViewState.NOT_NEW;
         default:
             throw new IllegalArgumentExceptionImpl(env, "Invalid ViewState");
-        }*/
-    	return null;
+        }
     }
 
-    public static InstanceState getInstanceStateFromOld(
+    public static InstanceState getInstanceStateFromJna(
             CycloneServiceEnvironment env, int state) {
-    	/* TODO FRCYC
         switch (state) {
-        case ALIVE_INSTANCE_STATE.value:
+        case DdscLibrary.DDS_ALIVE_INSTANCE_STATE:
             return InstanceState.ALIVE;
-        case NOT_ALIVE_DISPOSED_INSTANCE_STATE.value:
+        case DdscLibrary.DDS_NOT_ALIVE_DISPOSED_INSTANCE_STATE:
             return InstanceState.NOT_ALIVE_DISPOSED;
-        case NOT_ALIVE_NO_WRITERS_INSTANCE_STATE.value:
+        case DdscLibrary.DDS_NOT_ALIVE_NO_WRITERS_INSTANCE_STATE:
             return InstanceState.NOT_ALIVE_NO_WRITERS;
         default:
             throw new IllegalArgumentExceptionImpl(env, "Invalid InstanceState");
         }
-        */
-    	return null;
     }
 
     @Override

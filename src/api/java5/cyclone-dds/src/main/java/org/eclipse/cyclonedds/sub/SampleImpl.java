@@ -17,10 +17,16 @@ import org.omg.dds.core.Time;
 import org.omg.dds.sub.InstanceState;
 import org.omg.dds.sub.SampleState;
 import org.omg.dds.sub.ViewState;
+
 import org.eclipse.cyclonedds.core.InstanceHandleImpl;
+import org.eclipse.cyclonedds.core.ModifiableTimeImpl;
+
+import java.util.concurrent.TimeUnit;
+
 import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
+import org.eclipse.cyclonedds.utils.TimeHelper;
 
 public class SampleImpl<TYPE> implements org.eclipse.cyclonedds.sub.Sample<TYPE> {
     private static final long serialVersionUID = 1010323161410625511L;
@@ -72,26 +78,28 @@ public class SampleImpl<TYPE> implements org.eclipse.cyclonedds.sub.Sample<TYPE>
 
     @Override
     public SampleState getSampleState() {
-        return DataStateImpl.getSampleStateFromOld(this.environment,
+        return DataStateImpl.getSampleStateFromJna(this.environment,
                 this.info.sample_state);
     }
 
     @Override
     public ViewState getViewState() {
-        return DataStateImpl.getViewStateFromOld(this.environment,
+        return DataStateImpl.getViewStateFromJna(this.environment,
                 this.info.view_state);
     }
 
     @Override
     public InstanceState getInstanceState() {
-        return DataStateImpl.getInstanceStateFromOld(this.environment,
+        return DataStateImpl.getInstanceStateFromJna(this.environment,
                 this.info.instance_state);
     }
 
     @Override
     public Time getSourceTimestamp() {    	
-        // TODO FRCYC return Utilities.convert(this.environment, this.info.source_timestamp);
-    	return null;
+    	
+    	return new ModifiableTimeImpl(environment, 
+    			info.source_timestamp == null ? TimeHelper.TIME_INVALID:
+    			info.source_timestamp.getDuration(TimeUnit.NANOSECONDS));
     }
 
     @Override
