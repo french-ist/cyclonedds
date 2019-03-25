@@ -23,9 +23,11 @@ import java.util.concurrent.TimeUnit;
 import org.omg.dds.core.Duration;
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.status.Status;
+import org.omg.dds.sub.DataReader;
 import org.omg.dds.sub.DataReaderListener;
 import org.omg.dds.sub.DataReaderQos;
 import org.omg.dds.sub.Sample;
+import org.omg.dds.sub.SampleState;
 import org.omg.dds.sub.Sample.Iterator;
 import org.omg.dds.topic.TopicDescription;
 
@@ -38,6 +40,7 @@ import org.eclipse.cyclonedds.core.InstanceHandleImpl;
 import org.eclipse.cyclonedds.core.UserClass;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
+import org.eclipse.cyclonedds.core.AlreadyClosedExceptionImpl;
 import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
 import org.eclipse.cyclonedds.core.DurationImpl;
 import org.eclipse.cyclonedds.core.Utilities;
@@ -85,7 +88,7 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
 		
 		userClassInstance = JnaUserClassFactory.getJnaUserClassInstance(environment, topic);
 		handle = new  InstanceHandleImpl(environment, jnaDataReader);
-		NB_SAMPLES = 16;
+		NB_SAMPLES = 4;
 		bufferElementCount = new NativeSize(NB_SAMPLES);
 		bufferAllocation = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc( new NativeSize(NB_SAMPLES*((UserClass)userClassInstance).getNativeSize()));			
 		buffer = new PointerByReference(bufferAllocation);
@@ -106,7 +109,7 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
         	TYPE[] samplesArray = (TYPE[]) arrayMsgRef.toArray(NB_SAMPLES);
         	for(int i=0;i<NB_SAMPLES;i++) {
         		if(sampleInfosArray[i].getValid_data() > 0) {
-					Sample<TYPE> sample = new SampleImpl<TYPE>(environment, samplesArray[i], getSampleInfo(sampleInfosArray[i]) );
+					Sample<TYPE> sample = new SampleImpl<TYPE>(environment, samplesArray[i], getSampleInfo(sampleInfosArray[i], false) );
 	        		samples.add(sample);
         		}
         	}
@@ -129,18 +132,18 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
         	TYPE[] samplesArray = (TYPE[]) arrayMsgRef.toArray(NB_SAMPLES);
         	for(int i=0;i<NB_SAMPLES;i++) {
         		if(sampleInfosArray[i].getValid_data() > 0) {
-					Sample<TYPE> sample = new SampleImpl<TYPE>(environment, samplesArray[i], getSampleInfo(sampleInfosArray[i]) );
+					Sample<TYPE> sample = new SampleImpl<TYPE>(environment, samplesArray[i], getSampleInfo(sampleInfosArray[i], true) );
 	        		samples.add(sample);
         		}
         	}
         }
 		return samples;
     }
-
-	private SampleInfo getSampleInfo(dds_sample_info sampleInfosArray) {
+	
+	private SampleInfo getSampleInfo(dds_sample_info sampleInfosArray, boolean changeState) {
 		SampleInfo sampleInfo = new SampleInfo();		
 		sampleInfo.valid_data = sampleInfosArray.getValid_data()==0 ? false:true;
-		sampleInfo.sample_state = sampleInfosArray.getSample_state();
+		sampleInfo.sample_state = changeState ? DdscLibrary.DDS_READ_SAMPLE_STATE : sampleInfosArray.getSample_state();
 		sampleInfo.view_state = sampleInfosArray.getView_state();
 		sampleInfo.instance_state = sampleInfosArray.getInstance_state();
 		sampleInfo.source_timestamp = new DurationImpl(environment, sampleInfosArray.getSource_timestamp(), TimeUnit.NANOSECONDS);

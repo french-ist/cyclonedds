@@ -13,16 +13,15 @@ package unittest.core;
 
 import java.util.concurrent.TimeUnit;
 
+import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.sub.SampleImpl;
+import org.eclipse.cyclonedds.sub.SampleInfo;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.Time;
 import org.omg.dds.sub.Sample;
-
-//import com.prismtech.cafe.ddsi.entities.CacheChange;
-//import com.prismtech.cafe.sub.SampleData;
-//import com.prismtech.cafe.sub.SampleImpl;
 
 import HelloWorldData.Msg;
 import validtest.sub.SampleInfoTest;
@@ -126,9 +125,8 @@ public class TimeTest
    {
       //CacheChange change = new CacheChange(null);
       //SampleData<Msg> sampleData = new SampleData<Msg>(null, change, new Msg(0, "Hi!"));
-      //Sample<Msg> sample = new SampleImpl<>(sampleData, null);
-
-      //Time t = sample.getSourceTimestamp();
-      //Assert.assertFalse(t.isValid());
+      Sample<Msg> sample = new SampleImpl<Msg>((CycloneServiceEnvironment) env, new Msg(0, "Hi!"), new SampleInfo());
+      Time t = sample.getSourceTimestamp();
+      Assert.assertFalse(t.isValid());
    }
 }
