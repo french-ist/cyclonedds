@@ -11,20 +11,34 @@
  */
 package org.eclipse.cyclonedds.core;
 
+import java.nio.ByteOrder;
+
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.ServiceEnvironment;
 
 public class InstanceHandleImpl extends InstanceHandle {
     private static final long serialVersionUID = 8433681503549822293L;
+    
     private final transient CycloneServiceEnvironment environment;
-    private final long keyHash;
+    private long keyHash;
+
+	private long keyHash1;
+
+	private long keyHash2;
 
     public InstanceHandleImpl(CycloneServiceEnvironment environment, long keyHashValue) {
         this.environment = environment;
         this.keyHash = keyHashValue;
     }
 
-    @Override
+    public InstanceHandleImpl(byte[] keyhash)
+    {
+    	environment = null;
+        keyHash1 = bytesToLong(keyhash, 0, ByteOrder.BIG_ENDIAN);
+        keyHash2 = bytesToLong(keyhash, 8, ByteOrder.BIG_ENDIAN);
+    }
+
+	@Override
     public int compareTo(InstanceHandle o) {
         InstanceHandleImpl other = null;
 
@@ -79,5 +93,46 @@ public class InstanceHandleImpl extends InstanceHandle {
     @Override
     public int hashCode(){
         return 31 * 17 + (int) (this.keyHash ^ (this.keyHash >>> 32));
+    }
+    
+    /**
+     * Convert 8 bytes to an long.
+     * 
+     * @param bytes the byte array where to read 8 bytes
+     * @param offset the index in bytes array where to read 8 bytes
+     * @param endianness the endianness to use for conversion
+     * @return the long
+     */
+    public static long bytesToLong(byte[] bytes, int offset, ByteOrder endianness)
+    {
+       if (bytes.length < offset + 8)
+       {
+          throw new IllegalArgumentException(
+                "Cannot read 8 bytes at offset " + offset +
+                      " in a " + bytes.length + " bytes length buffer");
+       }
+
+       if (endianness == ByteOrder.BIG_ENDIAN)
+       {
+          return ( ((long) 0xff & bytes[offset]) << 56)
+                | ( ((long) 0xff & bytes[offset + 1]) << 48)
+                | ( ((long) 0xff & bytes[offset + 2]) << 40)
+                | ( ((long) 0xff & bytes[offset + 3]) << 32)
+                | ( ((long) 0xff & bytes[offset + 4]) << 24)
+                | ( ((long) 0xff & bytes[offset + 5]) << 16)
+                | ( ((long) 0xff & bytes[offset + 6]) << 8)
+                | ( ((long) 0xff & bytes[offset + 7]));
+       }
+       else
+       {
+          return ( ((long) 0xff & bytes[offset + 7]) << 56)
+                | ( ((long) 0xff & bytes[offset + 6]) << 48)
+                | ( ((long) 0xff & bytes[offset + 5]) << 40)
+                | ( ((long) 0xff & bytes[offset + 4]) << 32)
+                | ( ((long) 0xff & bytes[offset + 3]) << 24)
+                | ( ((long) 0xff & bytes[offset + 2]) << 16)
+                | ( ((long) 0xff & bytes[offset + 1]) << 8)
+                | ( ((long) 0xff & bytes[offset]));
+       }
     }
 }
