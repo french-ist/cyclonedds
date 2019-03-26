@@ -4,4 +4,5 @@ _**/**
 **/dependency-reduced-pom.xml
 **/.vscode
 **/.classpath
-**/cyclonedds-*.log
+**/*.jar
+examples/HelloWorld/linux-x86-64/
