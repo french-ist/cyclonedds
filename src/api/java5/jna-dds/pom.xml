@@ -174,17 +174,18 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<!--<outputDirectory>${basedir}/target/linux-x86-64</outputDirectory> -->
 							<outputDirectory>${basedir}/src/main/resources</outputDirectory>
 							<followSymlinks>false</followSymlinks>
 							<resources>
 								<resource>
 									<directory>../../../../build/lib/</directory>
 									<include>**/*.so*</include>
+									<include>**/*.dylib</include>
 								</resource>
 								<resource>
 									<directory>src/test/helloworld-files/generated-c/</directory>
 									<include>**/*.so*</include>
+									<include>**/*.dylib</include>
 								</resource>
 							</resources>
 						</configuration>
@@ -216,6 +217,7 @@
 							<directory>${basedir}/src/main/resources</directory>
                             <includes>
                                 <include>*.so*</include>
+								<include>*.dylib</include>
                             </includes>
 							<followSymlinks>false</followSymlinks>
 						</fileset>
