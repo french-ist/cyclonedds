@@ -1,3 +1,4 @@
 **/target/**
 **/*.so
 src/main/resources/
+/target/
