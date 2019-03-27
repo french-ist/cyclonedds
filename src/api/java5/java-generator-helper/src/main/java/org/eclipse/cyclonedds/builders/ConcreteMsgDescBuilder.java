@@ -23,22 +23,19 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
         NEW_MSG_DESC,
         NAME,
         FIELD
-    }
-    ArrayList<String> listParams = new ArrayList<String>();
-    InternalState internalState = InternalState.NOTHING;    
-    private String variableName;
-    private int index = 0;
+    }    
     
+    InternalState internalState = InternalState.NOTHING;    
     private String className = null;
 	private String defaultClassName = null;    
 	
     public ConcreteMsgDescBuilder(String defaultClassName, String className) {
     	this.defaultClassName  = defaultClassName;
     	this.className = className;
-    	index = 0;
 	}
 
-
+    ArrayList<DdsMsgDescr> propertiesList = new ArrayList<DdsMsgDescr>();
+    int propertiesCount = 0;
 
 	@Override
     public void setState(BuildingState listenerState, String text){		
@@ -52,8 +49,9 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
                 break;
             case DIRECT_DECLARATOR:
                 if(internalState == InternalState.NEW_MSG_DESC){                    
-                    variableName = text;
-                    internalState = InternalState.NAME;                   
+                    propertiesList.add(new DdsMsgDescr(text));
+                    propertiesCount++;
+                    internalState = InternalState.NAME;
                 }                               
                 break;                    
             case INITIALIZER:                
@@ -64,42 +62,40 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
                 } else if (internalState == InternalState.FIELD){
                     if(text.indexOf("|") != -1){
                         String[] fields = text.split("\\|");
-                        listParams.add(index,"");                            
+                        propertiesList.get(propertiesCount-1).addDescriptor("");
                         for(int i=0;i<fields.length;i++){
                             String sep = "";
                             if(i<fields.length-1){
                                 sep = " | ";
                             }                                
-                            listParams.set(index, listParams.get(index)+ "DdscLibrary."+fields[i] + sep);
+                            propertiesList.get(propertiesCount-1).appendToLast("DdscLibrary."+fields[i] + sep);
                         }
-                        index++;
                     } else {
                         if(text.indexOf("(")!=-1 && text.indexOf(")")!=-1){
-                            listParams.add(index, Remplacements.replace(text));
+                            propertiesList.get(propertiesCount-1).addDescriptor(Remplacements.replace(text));
                         } else if (text.startsWith("\"") && text.endsWith("\"")){
-                            listParams.add(index, Remplacements.stringToPointer(text));
+                            propertiesList.get(propertiesCount-1).addDescriptor(Remplacements.stringToPointer(text));
                         } else if(text.indexOf("::") != -1){
-                            listParams.add(index, text);
+                            propertiesList.get(propertiesCount-1).addDescriptor(text);
                         } else if (Remplacements.isNumber(text)){
-                            listParams.add(index, text);
+                            propertiesList.get(propertiesCount-1).addDescriptor(text);
                         } else if (Remplacements.isCNumber(text)){
-                            listParams.add(index, Remplacements.cToJavaNumber(text));
+                            propertiesList.get(propertiesCount-1).addDescriptor(Remplacements.cToJavaNumber(text));
                         } else if (!text.startsWith("\"") && !text.endsWith("\"")){
                             if(text.endsWith("_keys")){
-                                listParams.add(index, "getByReference("+text+")");
+                                propertiesList.get(propertiesCount-1).addDescriptor("getByReference("+text+")");
                             } else if (text.endsWith("_ops")){
-                                listParams.add(index, "getIntByReference(get"+text+"())");
+                                propertiesList.get(propertiesCount-1).addDescriptor("getIntByReference(get"+text+"())");
                             } else {
                             	if("NULL".equals(text)) {                            		
-                                	listParams.add(index, "null");
+                                	propertiesList.get(propertiesCount-1).addDescriptor("null");
                             	} else {
-                                    listParams.add(index, "DdscLibrary."+text);
+                                    propertiesList.get(propertiesCount-1).addDescriptor("DdscLibrary."+text);
                             	}                            	
                             }
                         } else {
-                            listParams.add(index, "DdscLibrary."+text);
+                            propertiesList.get(propertiesCount-1).addDescriptor("DdscLibrary."+text);
                         }
-                        index++;
                     }
                 }
                 break; 
@@ -112,40 +108,41 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
         }
     }
 
-    
-
-    public String getVariableName() {
-        return variableName;
-    }
 
     @Override
     public String getJavaCode() {
-        if (variableName == null){
-            return null;
-        }
         
-        StringBuilder javaCode = new StringBuilder();        
-        javaCode.append("\tpublic dds_topic_descriptor.ByReference getDdsTopicDescriptor() {\n");
-        javaCode.append("\t\tdds_topic_descriptor.ByReference ret = new dds_topic_descriptor.ByReference();\n");
-
-        if(className == null) {
-            javaCode.append("\t\tret.m_size = "+listParams.get(0)+" ;\n");
-        } else {
-        	javaCode.append("\t\tret.m_size = "+listParams.get(0).replace(defaultClassName+"_"+className, className) +" ;\n");
+    	if (propertiesCount == 0){
+            return "\t//no topic descriptor\n";
         }
-
-        javaCode.append("\t\tret.m_align = "+listParams.get(1)+";\n");
-        javaCode.append("\t\tret.m_flagset = "+listParams.get(2)+";\n");
-        javaCode.append("\t\tret.m_nkeys = "+listParams.get(3)+";\n");
-        javaCode.append("\t\tret.m_typename = "+listParams.get(4)+";\n");
-        javaCode.append("\t\tret.m_keys = "+listParams.get(5)+";\n");
-        javaCode.append("\t\tret.m_nops = "+listParams.get(6)+";\n");
-        javaCode.append("\t\tret.m_ops = "+listParams.get(7)+";\n");
-        javaCode.append("\t\tret.m_meta = "+listParams.get(8)+";\n");
-        javaCode.append("\t\treturn ret;\n");
-
-        javaCode.append("\t};\n");
-        return javaCode.toString();
+    	StringBuilder ret = new StringBuilder();   
+    	ret.append("\tpublic dds_topic_descriptor.ByReference getDdsTopicDescriptor(String topicName) {\n");
+    	//ret.append("\t\tSystem.out.println(\"++++++++++\" + topicName);\n");
+    	ret.append("\t\tHashMap<String, dds_topic_descriptor.ByReference> map = new HashMap<String, dds_topic_descriptor.ByReference>();\n");
+    	for(int i=0;i<propertiesCount;i++) {
+    		 StringBuilder javaCode = new StringBuilder();        
+    	     javaCode.append("\t\tdds_topic_descriptor.ByReference "+propertiesList.get(i).getPropertyName()+" = new dds_topic_descriptor.ByReference();\n");
+    	     if(className == null) {
+    	    	 javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_size = "+propertiesList.get(i).getPropertiesList().get(0)+" ;\n");
+    	     } else {
+    	    	 javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_size = "+propertiesList.get(i).getPropertiesList().get(0).replace(defaultClassName+"_"+className, className) +" ;\n");
+    	     }
+    	     javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_align = "+propertiesList.get(i).getPropertiesList().get(1)+";\n");
+    	     javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_flagset = "+propertiesList.get(i).getPropertiesList().get(2)+";\n");
+    	     javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_nkeys = "+propertiesList.get(i).getPropertiesList().get(3)+";\n");
+    	     javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_typename = "+propertiesList.get(i).getPropertiesList().get(4)+";\n");
+    	     javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_keys = "+propertiesList.get(i).getPropertiesList().get(5)+";\n");
+    	     javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_nops = "+propertiesList.get(i).getPropertiesList().get(6)+";\n");
+    	     javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_ops = "+propertiesList.get(i).getPropertiesList().get(7)+";\n");
+    	     javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_meta = "+propertiesList.get(i).getPropertiesList().get(8)+";\n");
+    	     String topicName = propertiesList.get(i).getPropertyName().replace("_desc", "");
+			 javaCode.append("\t\tmap.put(\""+topicName+"\", "+propertiesList.get(i).getPropertyName()+");\n\n");
+    	     ret.append(javaCode);
+    	}
+    	ret.append("\t\treturn map.get(topicName);\n");
+    	ret.append("\t}\n");
+        return ret.toString();
+        
     }
 
 }

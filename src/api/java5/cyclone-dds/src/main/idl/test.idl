@@ -1,0 +1,66 @@
+/*
+ *                             Vortex Cafe
+ *
+ *    This software and documentation are Copyright 2010 to 2019 ADLINK
+ *    Technology Limited, its affiliated companies and licensors. All rights
+ *    reserved.
+ *
+ *    Licensed under the ADLINK Software License Agreement Rev 2.7 2nd October
+ *    2014 (the "License"); you may not use this file except in compliance with
+ *    the License.
+ *    You may obtain a copy of the License at:
+ *                        docs/LICENSE.html
+ *
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+module one {
+  module two {
+    module three {
+
+      enum Shapes { CIRCLE, TRIANGLE, SQUARE };
+
+      struct ShapeType {
+        string color;
+        long x;
+        long y;
+        long shapetype;
+      };
+      // key string
+      #pragma keylist ShapeType color
+
+    };
+
+    enum TempScale { CELSIUS, FARENHEIGHT, KELVIN };
+
+    struct TempSensorType {
+      long id;
+      TempScale scale;
+      float temp;
+      float hum;
+    };
+    // key long enum
+    #pragma keylist TempSensorType id scale
+    
+    struct SpatialPressureEstimate {
+      long x;
+      long y;
+      long z;
+      float pressure;
+    };
+    #pragma keylist SpatialPressureEstimate x y z
+    
+    struct MeteoData{
+      long id;
+      TempSensorType temp;
+      SpatialPressureEstimate pressure;
+    };
+    
+    struct FlightPlan{
+      long id;
+      MeteoData meteo;      
+    };
+    #pragma keylist FlightPlan id meteo.id meteo.temp.id meteo.temp.scale 
+
+  };
+};

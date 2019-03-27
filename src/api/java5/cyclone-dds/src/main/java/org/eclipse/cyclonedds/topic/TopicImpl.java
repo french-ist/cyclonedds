@@ -68,7 +68,7 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
         UserClassHelper userClassHelperInstance = JnaUserClassFactory.getJnaUserClassHelperInstance(environment, this);
         
         jnaTopic = org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_create_topic(participant.getJnaParticipant(),
-        		userClassHelperInstance.getDdsTopicDescriptor(), 
+        		userClassHelperInstance.getDdsTopicDescriptor(topicName), 
 				topicName, 
 				Utilities.convert(environment, qos), 
 				Utilities.convert(environment, listener));
@@ -139,7 +139,7 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
         UserClassHelper typeDescription = JnaUserClassFactory.getJnaUserClassHelperInstance(environment, this);
         
         jnaTopic = org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_create_topic(participant.getJnaParticipant(),
-        		typeDescription.getDdsTopicDescriptor(), 
+        		typeDescription.getDdsTopicDescriptor(topicName), 
 				topicName, 
 				Utilities.convert(environment, qos), 
 				Utilities.convert(environment, listener));

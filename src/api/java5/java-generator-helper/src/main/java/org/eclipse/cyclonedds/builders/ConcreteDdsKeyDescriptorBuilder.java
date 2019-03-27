@@ -19,57 +19,50 @@ import org.eclipse.cyclonedds.builders.interfaces.DdsKeyDescriptorBuilder;
 
 public class ConcreteDdsKeyDescriptorBuilder implements DdsKeyDescriptorBuilder {
 
-    private class DdsKeyDescriptor{
-        String  name;
-        Integer index;
-        public DdsKeyDescriptor() {
-        }
+	private ArrayList<DdsKeyDescriptor> propertiesList ;
+	private Integer propertiesCount = 0;
+	
+	public ConcreteDdsKeyDescriptorBuilder() {
+        propertiesList = new ArrayList<DdsKeyDescriptor>();
     }
-
-    private ArrayList<DdsKeyDescriptor> ddsKeyDescriptorList ;
-    private DdsKeyDescriptor ddsKeyDescriptor ;
     
-    private String keysVariableName = null;
-    private Integer ddsKeyDescCount = 0;
-
-    public Integer getDdsKeyDescCount() {
-        return ddsKeyDescCount;
-    }
-
-    public String getKeysVariableName() {
-        return keysVariableName;
-    }
-
-    public ConcreteDdsKeyDescriptorBuilder() {
-        ddsKeyDescriptorList = new ArrayList<DdsKeyDescriptor>();
-    }
-
+	private int m_index;
     public DdsKeyDescriptorBuilder setM_index(int m_index){
-        ddsKeyDescriptor.index = m_index;
+        this.m_index = m_index;
         return this;
     }
     
+    private String m_name;
     public DdsKeyDescriptorBuilder setM_name(String m_name){
-        ddsKeyDescriptor.name = m_name;
+        this.m_name = m_name;
         return this;
     }
+    
 
     public String getJavaCode(){
-        if(keysVariableName==null){
+    	
+    	if(propertiesCount==0){
             return "";
         }
-
-        StringBuilder javaCode =new StringBuilder();        
-        javaCode.append("\tprivate dds_key_descriptor[] "+keysVariableName+" = {\n");
-        for (int i=0;i<getDdsKeyDescCount(); i++){
-            javaCode.append("\t\tnew dds_key_descriptor(stringToPointer("
-                + ddsKeyDescriptorList.get(i).name 
-                +"), "+ddsKeyDescriptorList.get(i).index+")");
-            if(i<getDdsKeyDescCount()-1){
-                javaCode.append(",\n");
+        
+    	StringBuilder javaCode =new StringBuilder();
+        for(int i=0;i<propertiesCount;i++) {
+        	javaCode.append("\tprivate dds_key_descriptor[] "+propertiesList.get(i).propertyName+" = {\n");
+        	
+        	DdsKeyDescriptor list = propertiesList.get(i);
+        	
+        	for (int j=0;j<list.fieldsList.size(); j++){
+                javaCode.append("\t\tnew dds_key_descriptor(stringToPointer("
+                    + list.fieldsList.get(j).getName() 
+                    +"), "+ list.fieldsList.get(j).getIndex()+")");
+                if(j<list.fieldsList.size()-1){
+                    javaCode.append(",\n");
+                }
             }
+        	javaCode.append("\n\t};\n");
+        	
         }
-        javaCode.append("\n\t};\n");
+        
         return javaCode.toString();
     }
 
@@ -84,8 +77,7 @@ public class ConcreteDdsKeyDescriptorBuilder implements DdsKeyDescriptorBuilder 
         FIRST_BRACE,
         DKD_NAME,
         COMMA,
-        ELEMENT_OK,
-        LAST_BRACE
+        ELEMENT_OK
     }
     
     InternalState internalState = InternalState.NOTHING;
@@ -95,7 +87,8 @@ public class ConcreteDdsKeyDescriptorBuilder implements DdsKeyDescriptorBuilder 
             case DECLARATION_SPECIFIER:
                 if(internalState == InternalState.NOTHING){
                     if(text.equals("dds_key_descriptor_t")){
-                        ddsKeyDescriptor = new DdsKeyDescriptor();
+                    	propertiesList.add(new DdsKeyDescriptor());
+                    	propertiesCount++;
                         internalState = InternalState.NEW_DDS_KEY_DESCRIPTOR;                        
                     }
                 }
@@ -109,7 +102,7 @@ public class ConcreteDdsKeyDescriptorBuilder implements DdsKeyDescriptorBuilder 
             case DIRECT_DECLARATOR:
                 if(internalState == InternalState.NEXT) {
                     if(text.indexOf("[") == -1 && text.indexOf("]")==-1){
-                        keysVariableName = text;
+                    	propertiesList.get(propertiesCount-1).setPropertyName(text);
                         internalState = InternalState.NAME;
                     }
                 }
@@ -121,14 +114,14 @@ public class ConcreteDdsKeyDescriptorBuilder implements DdsKeyDescriptorBuilder 
                 break;
             case PRIMARY_EXPRESSION:
                 if(internalState == InternalState.OPEN_BRACKET){
-                    ddsKeyDescCount = new Integer(text);
                     internalState = InternalState.COUNT;
                 } else if(internalState == InternalState.FIRST_BRACE){                    
-                    setM_name(text);
+                    setM_name(text);                	
                     internalState = InternalState.DKD_NAME;                    
                 } else if(internalState == InternalState.COMMA){                    
-                    setM_index(new Integer(text));
-                    internalState = InternalState.ELEMENT_OK;                    
+                    setM_index(Integer.valueOf(text));
+                    propertiesList.get(propertiesCount-1).addField(new DdsKeyDescriptorField(m_name, m_index));
+                    internalState = InternalState.ELEMENT_OK;
                 }
                 break;
             case OPEN_BRACE:
@@ -140,24 +133,22 @@ public class ConcreteDdsKeyDescriptorBuilder implements DdsKeyDescriptorBuilder 
                 }
                 break;
             case CLOSE_BRACE:
-                if(internalState == InternalState.ELEMENT_OK){
-                    ddsKeyDescriptorList.add(ddsKeyDescriptor);
-                    ddsKeyDescriptor = new DdsKeyDescriptor();
-                    internalState = InternalState.LAST_BRACE;
-                } else if(internalState == InternalState.LAST_BRACE){
+                if(internalState == InternalState.ELEMENT_OK){                	
+                    internalState = InternalState.MAIN_BRACE;
+                } else if(internalState == InternalState.MAIN_BRACE){
                     internalState = InternalState.NOTHING;                    
                 }
             case COMMA:
                 if(internalState == InternalState.DKD_NAME 
                     || internalState == InternalState.ELEMENT_OK){
                     internalState = InternalState.COMMA;
+                } else if(internalState == InternalState.ELEMENT_OK) {
+                	internalState = InternalState.MAIN_BRACE;
                 }
             default:
                 break;
         }
     }
-
-
 
 
 }

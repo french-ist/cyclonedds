@@ -237,6 +237,9 @@ public class Compiler
 				{
 					System.out.println("Updating : " + javaFile);
 				}
+				
+				listParams.clear();
+				
 				try
 				{
 					StringBuilder buf = new StringBuilder();

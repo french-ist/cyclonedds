@@ -17,17 +17,15 @@ import org.eclipse.cyclonedds.builders.interfaces.BuildingState;
 import org.eclipse.cyclonedds.builders.interfaces.JavaCodeBuilder;
 
 public class ConcreteMessageOptionsBuilder implements JavaCodeBuilder{    
-    public String arrayName;
-    ArrayList<String> listParams = new ArrayList<String>();
     enum InternalState {
         NOTHING, 
         NEW_UINT32_T,
         ARRAY_OF_UINT32_T, 
-        BRACE_OPEN, 
+        OPEN_BRACE, 
         FIELD
     }
+    
     InternalState internalState = InternalState.NOTHING;
-    private int index = 0;    
 	private String className = null;
 	private String defaultClassName = null;    
     
@@ -35,6 +33,9 @@ public class ConcreteMessageOptionsBuilder implements JavaCodeBuilder{
     	this.defaultClassName  = defaultClassName;
     	this.className = className;
 	}
+    
+    ArrayList<DdsOptions> propertiesList = new ArrayList<DdsOptions>();
+    int propertiesCount = 0;
 
 	@Override
     public void setState(BuildingState listenerState, String text){
@@ -53,17 +54,18 @@ public class ConcreteMessageOptionsBuilder implements JavaCodeBuilder{
                     }
                 } else if(internalState == InternalState.ARRAY_OF_UINT32_T){
                     if(text.indexOf("[]") == -1){                                                                      
-                        arrayName = text;
+                        propertiesList.add(new DdsOptions(text));
+                        propertiesCount++;
                     }
                 }                               
                 break;
             case CLOSE_BRACKET:
                 if(internalState == InternalState.ARRAY_OF_UINT32_T){
-                    internalState = InternalState.BRACE_OPEN;
+                    internalState = InternalState.OPEN_BRACE;
                 }
                 break;            
             case INITIALIZER:                
-                if(internalState == InternalState.BRACE_OPEN){                    
+                if(internalState == InternalState.OPEN_BRACE){                    
                     if(text.indexOf("{") !=-1){
                         internalState = InternalState.FIELD;                                            
                     }
@@ -71,30 +73,29 @@ public class ConcreteMessageOptionsBuilder implements JavaCodeBuilder{
                     if(text.indexOf("|") != -1){
                         String[] fields = text.split("\\|");
                         if(fields.length > 0){
-                            listParams.add(index,"");
+                            propertiesList.get(propertiesCount-1).addOption("");
                             for(int i=0;i<fields.length;i++){
                                 String sep = "";
                                 if(i<fields.length-1){
                                     sep = " | ";
-                                }                                
-                                listParams.set(index, listParams.get(index)+ "DdscLibrary."+fields[i] + sep);
+                                }
+                                propertiesList.get(propertiesCount-1).appendToLast("DdscLibrary."+fields[i] + sep);
                             }
                         } else {
-                            listParams.add(index, "DdscLibrary."+text);
+                        	propertiesList.get(propertiesCount-1).addOption("DdscLibrary."+text);
                         }
                     } else {
                         if(text.indexOf("(") != -1 ){
                         	if(className != null && text.indexOf("offsetof") != -1) {
-                        		listParams.add(index,  Remplacements.replace(text).replace(defaultClassName+"_"+className, className));
+                        		propertiesList.get(propertiesCount-1).addOption(Remplacements.replace(text).replace(defaultClassName+"_"+className, className));
                         	} else {
-                        		listParams.add(index,  Remplacements.replace(text));
+                        		propertiesList.get(propertiesCount-1).addOption(Remplacements.replace(text));
                         	}
                             
                         } else {
-                            listParams.add(index, "DdscLibrary."+text);
+                        	propertiesList.get(propertiesCount-1).addOption("DdscLibrary."+text);
                         }
                     }
-                    index++;
                 }
                 break; 
             case CLOSE_BRACE:
@@ -108,27 +109,29 @@ public class ConcreteMessageOptionsBuilder implements JavaCodeBuilder{
 
     @Override
     public String getJavaCode() {
-        if (arrayName == null){
-            return null;
+    	if (propertiesCount == 0){
+            return "\t//no options\n";
         }
-
-        StringBuilder javaCode = new StringBuilder();
-        javaCode.append("Integer[] "+arrayName+" = {\n");
-        for(int i=0;i<listParams.size();i++){
-            javaCode.append("\t\t\t" + listParams.get(i));
-            if(i<listParams.size()-1){
-                javaCode.append(",\n");
+    	
+    	StringBuilder retJavaCode = new StringBuilder();
+        for(int i=0;i<propertiesCount;i++) {
+        	StringBuilder javaCode = new StringBuilder();
+        	javaCode.append("\tInteger[] "+propertiesList.get(i).getPropertyName()+" = {\n");
+        	ArrayList<String> list = propertiesList.get(i).getOptionsList();
+        	for(int j=0;j<list.size();j++){
+                javaCode.append("\t\t\t\t" + list.get(j));
+                if(i<list.size()-1){
+                    javaCode.append(",\n");
+                }
             }
+        	javaCode.append("\n\t\t};\n");
+        	retJavaCode.append("\tpublic Integer[] get"+propertiesList.get(i).getPropertyName()+"() {\n");
+            retJavaCode.append("\t\t"+javaCode.toString());
+            retJavaCode.append("\t\treturn "+propertiesList.get(i).getPropertyName()+";\n");
+            retJavaCode.append("\t}\n");
         }
-        javaCode.append("\n\t\t};\n");
-        
-        StringBuilder retJavaCode = new StringBuilder();
-        retJavaCode.append("\tpublic Integer[] get"+arrayName+"() {\n");
-        retJavaCode.append("\t\t"+javaCode.toString());
-        retJavaCode.append("\t\t\treturn "+arrayName+";\n");
-        retJavaCode.append("\t}\n");
-        
         return retJavaCode.toString();
     }
+    
 
 }

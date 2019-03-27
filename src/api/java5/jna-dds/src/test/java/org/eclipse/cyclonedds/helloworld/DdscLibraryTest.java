@@ -36,7 +36,7 @@ public class DdscLibraryTest {
         Assert.assertTrue(helper.dds_error_check(part, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
 
         /* Create a Topic. */
-        int topic = DdscLibrary.dds_create_topic(part, helper.getDdsTopicDescriptor(), "HelloWorldData_Msg", null, null);
+        int topic = DdscLibrary.dds_create_topic(part, helper.getDdsTopicDescriptor("HelloWorldData_Msg"), "HelloWorldData_Msg", null, null);
         Assert.assertTrue(helper.dds_error_check(topic, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
 
         /* Create a Writer. */
@@ -55,7 +55,7 @@ public class DdscLibraryTest {
 
         /* Create a Topic. */
         int topic = DdscLibrary.dds_create_topic(part,
-            helper.getDdsTopicDescriptor(), "HelloWorldData_Msg", null, null);
+            helper.getDdsTopicDescriptor("HelloWorldData_Msg"), "HelloWorldData_Msg", null, null);
         Assert.assertTrue(helper.dds_error_check(topic, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
 
         /* Create a reliable Reader. */

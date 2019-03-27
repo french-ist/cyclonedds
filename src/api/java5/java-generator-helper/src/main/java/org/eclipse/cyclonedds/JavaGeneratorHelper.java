@@ -126,6 +126,7 @@ public class JavaGeneratorHelper {
         javaCode.append("import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_topic_descriptor;\n");
         javaCode.append("import org.eclipse.cyclonedds.ddsc.dds_public_impl.DdscLibrary;\n");
         javaCode.append("import org.eclipse.cyclonedds.helper.NativeSize;\n");        
+        javaCode.append("import java.util.HashMap;\n");
         javaCode.append("import com.sun.jna.ptr.IntByReference;\n");        
         javaCode.append("import com.sun.jna.Native;\n");
         javaCode.append("import java.lang.reflect.Method;\n");        
