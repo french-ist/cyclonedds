@@ -1,21 +1,40 @@
-rm -rf _* src/main/java/org/eclipse/cyclonedds/ddsc/* dds*.h os*.h  q__osplser.h
-# set JNAERATOR_JAR to your 
-export JNAERATOR_JAR=./jnaerator-0.13-SNAPSHOT-shaded.jar
-echo "=== Backup pom.xml"
-mv pom.xml pom.xml.bk
-echo "=== Generate jna interface for core/ddsc/include/ddsc/dds.h"
-cp ../../../../src/os/include/os/os_public.h .
-cp ../../../core/ddsc/include/ddsc/* .
-cp ../../../../build/core/include/ddsc/* .
-cp ../../../core/ddsc/src/*.h .
+#!/usr/bin/env bash
+# Usage: ./generate.sh [file_containing_header_file_name]
+# By default generate JNA interface for all headers
+# otherwise pass as arg a file containing the headers to generate
+[[ $# == 1 ]] && HEADERS=$1 || HEADERS=headers.txt
+echo "=== headers file to treat"
+cat ${HEADERS}
+rm -rf _* dds*.h os*.h  q__osplser.h
 
-echo "=== Generate jna interface for all headers"
-for each in `cat headers.txt`
+echo "=== Backup pom.xml"
+cp pom.xml pom.xml.bk
+
+echo "=== backup src/main/java/org/eclipse/cyclonedds"
+rm -rf cyclonedds.bk
+mv src/main/java/org/eclipse/cyclonedds cyclonedds.bk
+
+# Remove from cyclonedds the headers to regenerate
+# so that when we recover cp cyclonedds.bk to cyclonedds
+# the newly generated interfaces will not be replaced
+for each in `cat ${HEADERS}`
+do
+    SIMPLE_NAME=`basename "${each%.*}"`
+    echo "=== remove cyclonedds.bk/ddsc/${SIMPLE_NAME}"
+    rm -rf cyclonedds.bk/ddsc/${SIMPLE_NAME}
+    for header in `find ../../../.. -name ${each}`
+    do
+        cp ${header} .
+    done
+done
+
+echo "=== Generate jna interface for the following headers"
+for each in `cat ${HEADERS}`
 do  
-    if [[ $each = *.h ]] 
+    if [[ ${each} = *.h ]]
     then 
         echo "   $each"
-        if [ $each == "dds.h" ]
+        if [[ ${each} == "dds.h" ]]
         then  
             for inc in WORKAROUND_INCLUDE_IN_DDS_HEADER.h
             do
@@ -25,37 +44,20 @@ do
                 sed -i "/__HERE__/ r $inc" dds.h
             done
         fi
-        ./gen.sh $each
-        SIMPLE_NAME=`basename "${each%.*}"`
-        mkdir -p src/main/java/org/eclipse/cyclonedds/ddsc/$SIMPLE_NAME
-        if [ "$(ls -A src/main/java/org/eclipse/cyclonedds/ddsc)" ] 
-        # if directory not empty
-        then 
-            mv src/main/java/org/eclipse/cyclonedds/ddsc/*.java src/main/java/org/eclipse/cyclonedds/ddsc/$SIMPLE_NAME
-            for src in `ls src/main/java/org/eclipse/cyclonedds/ddsc/$SIMPLE_NAME/*`
-            do    
-                sed -i "s/org.eclipse.cyclonedds.ddsc/org.eclipse.cyclonedds.ddsc.$SIMPLE_NAME/g" $src
-                # Add import in order to compile
-                sed -i "/package org.eclipse.cyclonedds.ddsc.$SIMPLE_NAME/a import org.eclipse.cyclonedds.helper.*;" $src
-                # Remove comments 
-                for cmt in jnaerator nativelibs4java
-                do
-                sed -i /$cmt/d $src
-                done 
-                # replace protected List<? > getFieldOrder()
-                sed -i 's/protected List<? > getFieldOrder()/protected List<String> getFieldOrder()/g' $src
-            done
-        fi
+        ./gen.sh ${each}
     fi
 done
 
 echo "=== Restore pom.xml"
 mv pom.xml.bk pom.xml
+echo "=== Restore src/main/java/org/eclipse/cyclonedds"
+cp -r cyclonedds.bk/* src/main/java/org/eclipse/cyclonedds
 
 # remove duplicated generated java class
 #./remove_duplicates.sh
 # add more operations where needed 
 #./add_operations.sh
+
 # remove comments line number in C header
 find . -name *.java* | xargs sed -i '/<i>native declaration/d'
 
