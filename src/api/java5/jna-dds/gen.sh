@@ -36,6 +36,7 @@ _${1}
 
 header=${1}
 # finalize i.e move to correct directory and change package name and clean comments
+# add ADLINK header
 SIMPLE_NAME=`basename "${header%.*}"`
 mkdir -p src/main/java/org/eclipse/cyclonedds/ddsc/$SIMPLE_NAME
 if [[ "$(ls -A src/main/java/org/eclipse/cyclonedds/ddsc)" ]]
@@ -54,5 +55,10 @@ then
         done
         # replace protected List<? > getFieldOrder()
         sed -i 's/protected List<? > getFieldOrder()/protected List<String> getFieldOrder()/g' ${src}
+        # add ADLINK header
+        line=1
+        sed -i '1i\ ' ${src}
+        sed -i "${line}r ../../etc/headers/header.java.txt" ${src}
+        sed -i '1d' ${src}
     done
 fi
