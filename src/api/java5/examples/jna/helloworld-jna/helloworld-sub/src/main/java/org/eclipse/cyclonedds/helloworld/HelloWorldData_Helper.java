@@ -33,15 +33,15 @@ public class HelloWorldData_Helper {
 
 	private Integer[] HelloWorldData_Msg_ops = {
 		DdscLibrary.DDS_OP_ADR | DdscLibrary.DDS_OP_TYPE_4BY | DdscLibrary.DDS_OP_FLAG_KEY,
-		offsetof("HelloWorldData_Msg","userID"),
+		offsetof("Msg","userID"),
 		DdscLibrary.DDS_OP_ADR | DdscLibrary.DDS_OP_TYPE_STR,
-		offsetof("HelloWorldData_Msg","message"),
+		offsetof("Msg","message"),
 		DdscLibrary.DDS_OP_RTS
 	};
 
 	public dds_topic_descriptor.ByReference getHelloWorldData_Msg_desc() {
 		dds_topic_descriptor.ByReference ret = new dds_topic_descriptor.ByReference();
-		ret.m_size = getIntSize("HelloWorldData_Msg") ;
+		ret.m_size = getIntSize("Msg") ;
 		ret.m_align = sizeof("char*");
 		ret.m_flagset = DdscLibrary.DDS_TOPIC_FIXED_KEY | DdscLibrary.DDS_TOPIC_NO_OPTIMIZE;
 		ret.m_nkeys = cToJavaNumber("1u");

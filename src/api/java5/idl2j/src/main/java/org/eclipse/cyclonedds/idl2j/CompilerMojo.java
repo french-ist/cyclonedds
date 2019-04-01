@@ -159,11 +159,8 @@ public class CompilerMojo
             }
             
             String pathIdlFile = args[args.length - 1];
-            JavaGeneratorHelper jgh = new JavaGeneratorHelper();
-            jgh.execute(pathIdlFile, 
-            		comp.destDir, 
-            		(new File(pathIdlFile)).getName().replace(".idl", ""), 
-            		comp.className);
+            JavaGeneratorHelper jgh = new JavaGeneratorHelper(comp.generatedFiles);            
+            jgh.execute(pathIdlFile);
             
             getLog().debug("   Done!");
          }

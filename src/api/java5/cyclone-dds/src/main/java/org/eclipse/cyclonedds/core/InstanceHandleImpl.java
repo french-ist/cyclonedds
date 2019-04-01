@@ -21,21 +21,21 @@ public class InstanceHandleImpl extends InstanceHandle {
     
     private final transient CycloneServiceEnvironment environment;
     private long keyHash;
-
 	private long keyHash1;
-
 	private long keyHash2;
+	private byte[] keyHashBytes;
 
     public InstanceHandleImpl(CycloneServiceEnvironment environment, long keyHashValue) {
         this.environment = environment;
         this.keyHash = keyHashValue;
     }
 
-    public InstanceHandleImpl(byte[] keyhash)
+    public InstanceHandleImpl(byte[] keyHashBytes)
     {
     	environment = null;
-        keyHash1 = bytesToLong(keyhash, 0, ByteOrder.BIG_ENDIAN);
-        keyHash2 = bytesToLong(keyhash, 8, ByteOrder.BIG_ENDIAN);
+    	this.keyHashBytes = keyHashBytes;
+        keyHash1 = bytesToLong(keyHashBytes, 0, ByteOrder.BIG_ENDIAN);
+        keyHash2 = bytesToLong(keyHashBytes, 8, ByteOrder.BIG_ENDIAN);
     }
 
 	@Override
@@ -135,4 +135,8 @@ public class InstanceHandleImpl extends InstanceHandle {
                 | ( ((long) 0xff & bytes[offset]));
        }
     }
+
+	public byte[] getKeyHash() {		
+		return keyHashBytes;
+	}
 }

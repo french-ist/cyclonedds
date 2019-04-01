@@ -35,7 +35,7 @@ public class HelloWorldSub
 
         /* Create a Topic. */
         int topic = DdscLibrary.dds_create_topic(part,
-            helper.getHelloWorldData_Msg_desc(), "HelloWorldData_Msg", null, null);
+            helper.getHelloWorldData_Msg_desc(), "Msg", null, null);
         assert(helper.dds_error_check(topic, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
 
         /* Create a reliable Reader. */
@@ -55,7 +55,7 @@ public class HelloWorldSub
         * Initialize sample buffer, by pointing the void pointer within
         * the buffer array to a valid sample memory location. */
         //samples[0] = HelloWorldData_Msg__alloc ();
-        Pointer samplesAlloc = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(helper.getNativeSize("HelloWorldData_Msg"));
+        Pointer samplesAlloc = org.eclipse.cyclonedds.ddsc.dds_public_alloc.DdscLibrary.dds_alloc(helper.getNativeSize("Msg"));
         PointerByReference samplePtr = new PointerByReference(samplesAlloc);
         dds_sample_info.ByReference infosPtr = new dds_sample_info.ByReference();
         dds_sample_info[] infosArr = (dds_sample_info[]) infosPtr.toArray(1);
@@ -63,7 +63,7 @@ public class HelloWorldSub
         while(true){               
             int readReturn = DdscLibrary.dds_read(reader, samplePtr, infosPtr, new NativeSize(1), 1);
             assert(helper.dds_error_check(readReturn, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
-            HelloWorldData_Msg  arrayMsgRef = new HelloWorldData_Msg(samplePtr.getValue());
+            Msg  arrayMsgRef = new Msg(samplePtr.getValue());
             arrayMsgRef.read();
             infosPtr.read();
             
@@ -71,9 +71,9 @@ public class HelloWorldSub
             if (readReturn > 0 && infosArr[0].getValid_data() > 0)
             {
                 //Print Message
-                HelloWorldData_Msg[] msgArray = (HelloWorldData_Msg[])arrayMsgRef.toArray(1);                    
+                Msg[] msgArray = (Msg[])arrayMsgRef.toArray(1);                    
                 System.err.println("=== [Subscriber] Received : ");
-                System.err.println("Message ("+ msgArray[0].userID+","+ msgArray[0].message.getString(0)+")");
+                System.err.println("Message ("+ msgArray[0].userID+","+ msgArray[0].message+")");
                 break;
             }
             else

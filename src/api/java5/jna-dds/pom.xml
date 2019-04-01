@@ -105,30 +105,6 @@
 				</executions>
 			</plugin>
 
-			<!--genererate test source _Helper.java -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>java</goal>
-						</goals>
-						<configuration>
-							<mainClass>org.eclipse.cyclonedds.JavaGeneratorHelper</mainClass>
-							<workingDirectory>${parent.basedir}</workingDirectory>
-							<arguments>
-								<argument>${jna.dds.dir}src/test/helloworld-files/HelloWorldData.idl</argument>
-								<argument>${jna.dds.dir}target/generated-sources/</argument>
-								<argument>org.eclipse.cyclonedds.helloworld</argument>
-							</arguments>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-
 			<!--Add an extra source folder at compile time -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

@@ -23,12 +23,10 @@ private dds_key_descriptor.ByReference getByReference(dds_key_descriptor[] hello
 }
 
 public NativeSize getNativeSize(String string) {
-    //System.out.println("### getNativeSize("+string+")");
     return new NativeSize(sizeof(string));
 }
 
 public int getIntSize(String string) {
-    //System.out.println("### getIntSize("+string+")");
     return (int)sizeof(string);
 }
 
@@ -54,7 +52,6 @@ public Integer offsetof(String clazz, String field){
 
 
 public Integer sizeof(String clazz){
-	//System.out.println("### sizeof("+clazz+")");
     if(clazz.equals("char*")){
         return 8;
     } else {

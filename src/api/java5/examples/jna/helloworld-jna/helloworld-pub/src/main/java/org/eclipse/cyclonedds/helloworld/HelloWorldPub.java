@@ -11,11 +11,7 @@
  */
 package org.eclipse.cyclonedds.helloworld;
 
-import java.nio.IntBuffer;
-
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
-
-import com.sun.jna.Native;
 
 /**
  * Hello world!
@@ -33,7 +29,7 @@ public class HelloWorldPub
         assert(helper.dds_error_check(part, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
 
         /* Create a Topic. */
-        int topic = DdscLibrary.dds_create_topic(part, helper.getHelloWorldData_Msg_desc(), "HelloWorldData_Msg", null, null);
+        int topic = DdscLibrary.dds_create_topic(part, helper.getHelloWorldData_Msg_desc(), "Msg", null, null);
         assert(helper.dds_error_check(topic, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);
 
         /* Create a Writer. */
@@ -62,12 +58,12 @@ public class HelloWorldPub
         }*/
 
         /* Create a message to write. */
-        HelloWorldData_Msg.ByReference msg = new HelloWorldData_Msg.ByReference();
+        Msg.ByReference msg = new Msg.ByReference();
         msg.userID = 1;
-        msg.message = helper.stringToPointer("Hello World!");
+        msg.message = "Hello World!";
         msg.write();
         System.out.println("=== [Publisher]  Writing : ");
-        System.out.println("Message (" + msg.userID + ", " + msg.message.getString(0) + ")");
+        System.out.println("Message (" + msg.userID + ", " + msg.message + ")");
 
         int ret = DdscLibrary.dds_write(writer, msg.getPointer());
         assert(helper.dds_error_check(ret, DDS_CHECK_REPORT | DDS_CHECK_EXIT) > 0);

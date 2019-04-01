@@ -26,12 +26,12 @@ public class ConcreteMessageOptionsBuilder implements JavaCodeBuilder{
     }
     
     InternalState internalState = InternalState.NOTHING;
-	private String className = null;
-	private String defaultClassName = null;    
+	private String newClassName = null;
+	private String oldClassName = null;    
     
-    public ConcreteMessageOptionsBuilder(String defaultClassName, String className) {
-    	this.defaultClassName  = defaultClassName;
-    	this.className = className;
+    public ConcreteMessageOptionsBuilder(String oldClassName, String newClassName) {
+    	this.oldClassName  = oldClassName;
+    	this.newClassName = newClassName;
 	}
     
     ArrayList<DdsOptions> propertiesList = new ArrayList<DdsOptions>();
@@ -86,8 +86,8 @@ public class ConcreteMessageOptionsBuilder implements JavaCodeBuilder{
                         }
                     } else {
                         if(text.indexOf("(") != -1 ){
-                        	if(className != null && text.indexOf("offsetof") != -1) {
-                        		propertiesList.get(propertiesCount-1).addOption(Remplacements.replace(text).replace(defaultClassName+"_"+className, className));
+                        	if(text.indexOf("offsetof") != -1) {
+                        		propertiesList.get(propertiesCount-1).addOption(Remplacements.replace(text).replace(oldClassName, newClassName));
                         	} else {
                         		propertiesList.get(propertiesCount-1).addOption(Remplacements.replace(text));
                         	}
@@ -130,6 +130,9 @@ public class ConcreteMessageOptionsBuilder implements JavaCodeBuilder{
             retJavaCode.append("\t\treturn "+propertiesList.get(i).getPropertyName()+";\n");
             retJavaCode.append("\t}\n");
         }
+        
+        
+        
         return retJavaCode.toString();
     }
     

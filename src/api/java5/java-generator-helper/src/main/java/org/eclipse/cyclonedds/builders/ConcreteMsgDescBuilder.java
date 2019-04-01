@@ -26,12 +26,12 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
     }    
     
     InternalState internalState = InternalState.NOTHING;    
-    private String className = null;
-	private String defaultClassName = null;    
+    private String newClassName = null;
+	private String oldClassName = null;    
 	
-    public ConcreteMsgDescBuilder(String defaultClassName, String className) {
-    	this.defaultClassName  = defaultClassName;
-    	this.className = className;
+    public ConcreteMsgDescBuilder(String oldClassName, String newClassName) {
+    	this.oldClassName  = oldClassName;
+    	this.newClassName = newClassName;
 	}
 
     ArrayList<DdsMsgDescr> propertiesList = new ArrayList<DdsMsgDescr>();
@@ -117,15 +117,14 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
         }
     	StringBuilder ret = new StringBuilder();   
     	ret.append("\tpublic dds_topic_descriptor.ByReference getDdsTopicDescriptor(String topicName) {\n");
-    	//ret.append("\t\tSystem.out.println(\"++++++++++\" + topicName);\n");
     	ret.append("\t\tHashMap<String, dds_topic_descriptor.ByReference> map = new HashMap<String, dds_topic_descriptor.ByReference>();\n");
     	for(int i=0;i<propertiesCount;i++) {
     		 StringBuilder javaCode = new StringBuilder();        
     	     javaCode.append("\t\tdds_topic_descriptor.ByReference "+propertiesList.get(i).getPropertyName()+" = new dds_topic_descriptor.ByReference();\n");
-    	     if(className == null) {
+    	     if(newClassName == null) {
     	    	 javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_size = "+propertiesList.get(i).getPropertiesList().get(0)+" ;\n");
     	     } else {
-    	    	 javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_size = "+propertiesList.get(i).getPropertiesList().get(0).replace(defaultClassName+"_"+className, className) +" ;\n");
+    	    	 javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_size = "+propertiesList.get(i).getPropertiesList().get(0).replace(oldClassName, newClassName) +" ;\n");
     	     }
     	     javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_align = "+propertiesList.get(i).getPropertiesList().get(1)+";\n");
     	     javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_flagset = "+propertiesList.get(i).getPropertiesList().get(2)+";\n");
