@@ -29,13 +29,14 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
     private String newClassName = null;
 	private String oldClassName = null;    
 	
+	int propertiesCount;
+    ArrayList<DdsMsgDescr> propertiesList;
     public ConcreteMsgDescBuilder(String oldClassName, String newClassName) {
     	this.oldClassName  = oldClassName;
     	this.newClassName = newClassName;
+    	propertiesCount = 0;
+    	propertiesList = new ArrayList<DdsMsgDescr>();
 	}
-
-    ArrayList<DdsMsgDescr> propertiesList = new ArrayList<DdsMsgDescr>();
-    int propertiesCount = 0;
 
 	@Override
     public void setState(BuildingState listenerState, String text){		
@@ -48,7 +49,11 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
                 }
                 break;
             case DIRECT_DECLARATOR:
-                if(internalState == InternalState.NEW_MSG_DESC){                    
+                if(internalState == InternalState.NEW_MSG_DESC){
+                	if(!text.replace("_desc", "").equals(oldClassName)) {
+                		internalState = InternalState.NOTHING;
+                		break;
+                	}
                     propertiesList.add(new DdsMsgDescr(text));
                     propertiesCount++;
                     internalState = InternalState.NAME;
@@ -111,21 +116,16 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
 
     @Override
     public String getJavaCode() {
-        
     	if (propertiesCount == 0){
             return "\t//no topic descriptor\n";
         }
     	StringBuilder ret = new StringBuilder();   
-    	ret.append("\tpublic dds_topic_descriptor.ByReference getDdsTopicDescriptor(String topicName) {\n");
+    	ret.append("\tpublic dds_topic_descriptor.ByReference getDdsTopicDescriptor(String topicName) {\n");    	
     	ret.append("\t\tHashMap<String, dds_topic_descriptor.ByReference> map = new HashMap<String, dds_topic_descriptor.ByReference>();\n");
     	for(int i=0;i<propertiesCount;i++) {
     		 StringBuilder javaCode = new StringBuilder();        
     	     javaCode.append("\t\tdds_topic_descriptor.ByReference "+propertiesList.get(i).getPropertyName()+" = new dds_topic_descriptor.ByReference();\n");
-    	     if(newClassName == null) {
-    	    	 javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_size = "+propertiesList.get(i).getPropertiesList().get(0)+" ;\n");
-    	     } else {
-    	    	 javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_size = "+propertiesList.get(i).getPropertiesList().get(0).replace(oldClassName, newClassName) +" ;\n");
-    	     }
+   	    	 javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_size = "+propertiesList.get(i).getPropertiesList().get(0).replace(oldClassName, newClassName) +"; // "+oldClassName+", "+newClassName+"\n");
     	     javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_align = "+propertiesList.get(i).getPropertiesList().get(1)+";\n");
     	     javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_flagset = "+propertiesList.get(i).getPropertiesList().get(2)+";\n");
     	     javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_nkeys = "+propertiesList.get(i).getPropertiesList().get(3)+";\n");
@@ -135,13 +135,11 @@ public class ConcreteMsgDescBuilder implements JavaCodeBuilder {
     	     javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_ops = "+propertiesList.get(i).getPropertiesList().get(7)+";\n");
     	     javaCode.append("\t\t"+propertiesList.get(i).getPropertyName()+".m_meta = "+propertiesList.get(i).getPropertiesList().get(8)+";\n");
     	     String topicName = propertiesList.get(i).getPropertyName().replace("_desc", "");
-			 javaCode.append("\t\tmap.put(\""+topicName+"\", "+propertiesList.get(i).getPropertyName()+");\n\n");
+			 javaCode.append("\t\tmap.put(\""+oldClassName+"\", "+propertiesList.get(i).getPropertyName()+");\n");
     	     ret.append(javaCode);
     	}
     	ret.append("\t\treturn map.get(topicName);\n");
     	ret.append("\t}\n");
         return ret.toString();
-        
     }
-
 }

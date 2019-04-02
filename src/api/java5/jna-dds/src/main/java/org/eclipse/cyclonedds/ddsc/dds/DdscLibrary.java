@@ -1833,6 +1833,18 @@ public class DdscLibrary implements Library {
 	 * Original signature : <code>dds_entity_t dds_get_topic(dds_entity_t)</code><br>
 	 */
 	public static native int dds_get_topic(int entity);
+	
+	/**
+	 * Generate keyhash
+	 * 
+	 * @param descriptor
+	 * @param kh
+	 * @param sample
+	 */
+	public static native void dds_key_gen (org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_topic_descriptor.ByReference descriptor, 
+			org.eclipse.cyclonedds.ddsc.dds__stream.DdscLibrary.dds_key_hash_t kh, 
+			Pointer sample);
+	
 	public static class DDS_DEPRECATED_EXPORT extends PointerType {
 		public DDS_DEPRECATED_EXPORT(Pointer address) {
 			super(address);

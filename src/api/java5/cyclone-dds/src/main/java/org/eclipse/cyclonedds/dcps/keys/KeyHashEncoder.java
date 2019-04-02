@@ -13,11 +13,6 @@ package org.eclipse.cyclonedds.dcps.keys;
 
 import org.omg.dds.core.InstanceHandle;
 
-public class KeyHashEncoder<T> {
-
-	public InstanceHandle encode(T instanceData) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+public abstract class KeyHashEncoder<T> {
+	public abstract InstanceHandle encode(T instanceData);
 }
