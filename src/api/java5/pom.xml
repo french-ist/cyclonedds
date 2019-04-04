@@ -91,6 +91,7 @@
                     <exclude>**/*.in</exclude>
                     <exclude>**/.pydevproject</exclude>
                     <exclude>**/*.choices</exclude>
+                    <exclude>**/*.so*</exclude>
                     <!-- exclude standard OMG files (DDS & CORBA) -->
                     <exclude>omg-dds/**/org/omg/**</exclude>
                     <!-- exclude temporary module java-generator-helper -->
