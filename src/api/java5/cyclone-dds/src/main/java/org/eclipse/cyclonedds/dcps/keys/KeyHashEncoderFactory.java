@@ -11,8 +11,11 @@
  */
 package org.eclipse.cyclonedds.dcps.keys;
 
-import org.omg.dds.core.InstanceHandle;
-
-public abstract class KeyHashEncoder<T> {
-	public abstract InstanceHandle encode(T instanceData);
+public class KeyHashEncoderFactory
+{
+	@SuppressWarnings("rawtypes")
+	public static KeyHashEncoder createEncoder(Class<?> c)
+	{
+		return new JnaKeyHashEncoder(c);
+	}
 }

@@ -9,10 +9,13 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-package org.eclipse.cyclonedds.dcps.keys;
+package org.eclipse.cyclonedds.helloworld;
 
-import org.omg.dds.core.InstanceHandle;
+import com.sun.jna.Pointer;
+import com.sun.jna.Structure;
 
-public abstract class KeyHashEncoder<T> {
-	public abstract InstanceHandle encode(T instanceData);
+public interface UserClass {
+	public Structure.ByReference getStructureReference();
+	public Structure getNewStructureFrom(Pointer peer);
+	public int getNativeSize();
 }

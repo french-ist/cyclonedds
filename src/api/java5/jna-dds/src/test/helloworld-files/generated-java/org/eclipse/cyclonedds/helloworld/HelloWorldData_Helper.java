@@ -1,57 +1,53 @@
-/**
- * Copyright(c) 2006 to 2019 ADLINK Technology Limited and others
- *
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License v. 2.0 which is available at
- * http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License
- * v. 1.0 which is available at
- * http://www.eclipse.org/org/documents/edl-v10.php.
- *
- * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
- */
 package org.eclipse.cyclonedds.helloworld;
 
 import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_key_descriptor;
-import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_key_descriptor.ByReference;
 import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_topic_descriptor;
 import org.eclipse.cyclonedds.ddsc.dds_public_impl.DdscLibrary;
 import org.eclipse.cyclonedds.helper.NativeSize;
+import java.util.HashMap;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.Native;
-import java.util.List;
 import java.lang.reflect.Method;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
+import org.eclipse.cyclonedds.topic.UserClassHelper;
 import com.sun.jna.Memory;
 
 
-public class HelloWorldData_Helper {
+public class HelloWorldData_Helper implements UserClassHelper {
 
 	private dds_key_descriptor[] HelloWorldData_Msg_keys = {
 		new dds_key_descriptor(stringToPointer("userID"), 0)
 	};
 
-	private Integer[] HelloWorldData_Msg_ops = {
-		DdscLibrary.DDS_OP_ADR | DdscLibrary.DDS_OP_TYPE_4BY | DdscLibrary.DDS_OP_FLAG_KEY,
-		offsetof("Msg","userID"),
-		DdscLibrary.DDS_OP_ADR | DdscLibrary.DDS_OP_TYPE_STR,
-		offsetof("Msg","message"),
-		DdscLibrary.DDS_OP_RTS
-	};
+	public Integer[] getHelloWorldData_Msg_ops() {
+			Integer[] HelloWorldData_Msg_ops = {
+				DdscLibrary.DDS_OP_ADR | DdscLibrary.DDS_OP_TYPE_4BY | DdscLibrary.DDS_OP_FLAG_KEY,
+				offsetof("Msg","userID"),
+				DdscLibrary.DDS_OP_ADR | DdscLibrary.DDS_OP_TYPE_STR,
+				offsetof("Msg","message"),
+				DdscLibrary.DDS_OP_RTS,
 
-	public dds_topic_descriptor.ByReference getHelloWorldData_Msg_desc() {
-		dds_topic_descriptor.ByReference ret = new dds_topic_descriptor.ByReference();
-		ret.m_size = getIntSize("Msg") ;
-		ret.m_align = sizeof("char*");
-		ret.m_flagset = DdscLibrary.DDS_TOPIC_FIXED_KEY | DdscLibrary.DDS_TOPIC_NO_OPTIMIZE;
-		ret.m_nkeys = cToJavaNumber("1u");
-		ret.m_typename = stringToPointer("HelloWorldData::Msg");
-		ret.m_keys = getByReference(HelloWorldData_Msg_keys);
-		ret.m_nops = 3;
-		ret.m_ops = getIntByReference(HelloWorldData_Msg_ops);
-		ret.m_meta = stringToPointer("<MetaData version=\"1.0.0\"><Module name=\"HelloWorldData\"><Struct name=\"Msg\"><Member name=\"userID\"><Long/></Member><Member name=\"message\"><String/></Member></Struct></Module></MetaData>");
-		return ret;
-	};
+		};
+		return HelloWorldData_Msg_ops;
+	}
+
+	public dds_topic_descriptor.ByReference getDdsTopicDescriptor(String topicName) {
+		HashMap<String, dds_topic_descriptor.ByReference> map = new HashMap<String, dds_topic_descriptor.ByReference>();
+		dds_topic_descriptor.ByReference HelloWorldData_Msg_desc = new dds_topic_descriptor.ByReference();
+		HelloWorldData_Msg_desc.m_size = getIntSize("Msg") ;
+		HelloWorldData_Msg_desc.m_align = sizeof("char*");
+		HelloWorldData_Msg_desc.m_flagset = DdscLibrary.DDS_TOPIC_FIXED_KEY | DdscLibrary.DDS_TOPIC_NO_OPTIMIZE;
+		HelloWorldData_Msg_desc.m_nkeys = cToJavaNumber("1u");
+		HelloWorldData_Msg_desc.m_typename = stringToPointer("HelloWorldData::Msg");
+		HelloWorldData_Msg_desc.m_keys = getByReference(HelloWorldData_Msg_keys);
+		HelloWorldData_Msg_desc.m_nops = 3;
+		HelloWorldData_Msg_desc.m_ops = getIntByReference(getHelloWorldData_Msg_ops());
+		HelloWorldData_Msg_desc.m_meta = stringToPointer("<MetaData version=\"1.0.0\"><Module name=\"HelloWorldData\"><Struct name=\"Msg\"><Member name=\"userID\"><Long/></Member><Member name=\"message\"><String/></Member></Struct></Module></MetaData>");
+		map.put("Msg", HelloWorldData_Msg_desc);
+
+		return map.get(topicName);
+	}
 
     public HelloWorldData_Helper(){}
 
@@ -80,15 +76,18 @@ public class HelloWorldData_Helper {
     }
     
     public NativeSize getNativeSize(String string) {
+        //System.out.println("### getNativeSize("+string+")");
         return new NativeSize(sizeof(string));
     }
     
     public int getIntSize(String string) {
+        //System.out.println("### getIntSize("+string+")");
         return (int)sizeof(string);
     }
     
     public Integer offsetof(String clazz, String field){
         try {
+        	//System.out.println("### offsetof("+clazz+","+field+")");
             String clazzFullName = (getClass().getPackage() + "." +clazz).replace("package ", "");
             Class<?> c = Class.forName(clazzFullName);        
             Object instance = c.newInstance();
@@ -99,15 +98,16 @@ public class HelloWorldData_Helper {
                 method.setAccessible(true);
                 return (Integer)method.invoke(instance, field);
             }
-            return null;
+            return 0;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return 0;
         }
     }
     
     
     public Integer sizeof(String clazz){
+    	//System.out.println("### sizeof("+clazz+")");
         if(clazz.equals("char*")){
             return 8;
         } else {
@@ -116,7 +116,7 @@ public class HelloWorldData_Helper {
                 Class<?> c = Class.forName(clazzFullName);
                 Class<?> parameterTypes[] = {};
                 Method method = c.getMethod("size", parameterTypes);
-                int size = (Integer) method.invoke(c.newInstance(), (Object[])null);            
+                int size = (Integer) method.invoke(c.newInstance(), new Object[] {});            
                 return size;
             } catch (Exception e) {
                 e.printStackTrace();

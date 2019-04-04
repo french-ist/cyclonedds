@@ -15,6 +15,7 @@ import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
 import com.sun.jna.Pointer;
 import com.sun.jna.PointerType;
+import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_topic_descriptor;
 /**
  * JNA Wrapper for library <b>ddsc</b><br>
  */
@@ -31,7 +32,8 @@ public class DdscLibrary implements Library {
 	/**
 	 * Original signature : <code>void dds_key_gen(const const dds_topic_descriptor_t*, dds_key_hash*, const char*)</code><br>
 	 */
-	public static native void dds_key_gen(DdscLibrary.dds_topic_descriptor_t desc, DdscLibrary.dds_key_hash kh, String sample);
+	public static native void dds_key_gen(dds_topic_descriptor.ByReference descr, DdscLibrary.dds_key_hash kh, Pointer sample);
+	
 	public static class dds_key_hash extends PointerType {
 		public dds_key_hash(Pointer address) {
 			super(address);

@@ -9,10 +9,17 @@
  *
  * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
-package org.eclipse.cyclonedds.dcps.keys;
+package org.eclipse.cyclonedds.helloworld;
 
-import org.omg.dds.core.InstanceHandle;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-public abstract class KeyHashEncoder<T> {
-	public abstract InstanceHandle encode(T instanceData);
+
+@Retention(RetentionPolicy.RUNTIME)
+public @interface KeyList
+{
+
+   String topicType();
+
+   String[] keys();
 }
