@@ -1,15 +1,16 @@
 <!--
 
- * Copyright(c) 2006 to 2019 ADLINK Technology Limited and others
- *
- * This program and the accompanying materials are made available under the
- * terms of the Eclipse Public License v. 2.0 which is available at
- * http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License
- * v. 1.0 which is available at
- * http://www.eclipse.org/org/documents/edl-v10.php.
- *
- * SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+  Copyright(c) 2006 to 2019 ADLINK Technology Limited and others
+ 
+  This program and the accompanying materials are made available under the
+  terms of the Eclipse Public License v. 2.0 which is available at
+  http://www.eclipse.org/legal/epl-2.0, or the Eclipse Distribution License
+  v. 1.0 which is available at
+  http://www.eclipse.org/org/documents/edl-v10.php.
+ 
+  SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
@@ -23,7 +24,138 @@
 	<artifactId>parent-pom-dev</artifactId>
 	<name>Cyclone Java API</name>
 	<packaging>pom</packaging>
+    <properties>
+        <maven-timestamp-plugin-version>1.0</maven-timestamp-plugin-version>
+        <license-maven-plugin-version>3.0</license-maven-plugin-version>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <echo>license.aggregate:${license.aggregate}</echo>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Get current year for copyright header -->
+            <plugin>
+                <groupId>com.keyboardsamurais.maven</groupId>
+                <artifactId>maven-timestamp-plugin</artifactId>
+                <version>${maven-timestamp-plugin-version}</version>
+                <executions>
+                <execution>
+                    <phase>validate</phase>
+                    <goals>
+                        <goal>create</goal>
+                    </goals>
+                    <inherited>false</inherited>
+                    <configuration>
+                        <propertyName>copyrightYear</propertyName>
+                        <timestampPattern>yyyy</timestampPattern>
+                    </configuration>
+                </execution>
+                </executions>
+            </plugin>
 
+            <!-- For license header checking                                    -->
+            <!-- Note: to add/update headers uncomment the "format" goals below -->
+            <!--       and run 'mvn -N -Pvalidation validate verify'            -->
+            <!--       (then comment again)                                     -->
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>${license-maven-plugin-version}</version>
+                <inherited>false</inherited>
+                <configuration>
+                <header>etc/headers/header.txt</header>
+                <strictCheck>false</strictCheck>
+                <aggregate>true</aggregate>
+                <excludes>
+                    <exclude>**/*.pdf</exclude>
+                    <exclude>**/*.jpeg</exclude>
+                    <exclude>**/*.bin</exclude>
+                    <exclude>**/*.log</exclude>
+                    <exclude>**/.git*</exclude>
+                    <exclude>**/.idea/**</exclude>
+                    <exclude>**/project.properties</exclude>
+                    <exclude>**/.cache</exclude>
+                    <exclude>**/*.in</exclude>
+                    <exclude>**/.pydevproject</exclude>
+                    <exclude>**/*.choices</exclude>
+                    <!-- exclude standard OMG files (DDS & CORBA) -->
+                    <exclude>omg-dds/**/org/omg/**</exclude>
+                    <!-- exclude temporary module java-generator-helper -->
+                    <exclude>java-generator-helper/**</exclude>
+                    <!-- exclude temporary module idl2j -->
+                    <exclude>idl2j/**</exclude>
+                    <!-- exclude headers -->
+                    <exclude>etc/headers/**</exclude>
+                    <!-- in jna-dds keep only .java and pom.xml -->
+                    <exclude>jna-dds/**/*.sh</exclude>
+                    <exclude>jna-dds/**/*.cpp</exclude>
+                    <exclude>jna-dds/**/*.c</exclude>
+                    <exclude>jna-dds/**/*.h</exclude>
+                    <exclude>jna-dds/**/*.txt</exclude>
+                    <exclude>jna-dds/**/*.html</exclude>
+                </excludes>
+                <headerDefinitions>
+                </headerDefinitions>
+                <mapping>
+                    <idl>SLASHSTAR_STYLE</idl>
+                    <java>JAVADOC_STYLE</java>
+                    <scala>JAVADOC_STYLE</scala>
+                    <gradle>JAVADOC_STYLE</gradle>
+                    <fxml>XML_STYLE</fxml>
+                    <cfg>SCRIPT_STYLE</cfg>
+                    <rst>REST_TEMPLATE_STYLE</rst>
+                </mapping>
+                <properties>
+                    <year>${copyrightYear}</year>
+                </properties>
+                </configuration>
+                <executions>
+                <execution>
+                    <id>check-headers</id>
+                    <phase>verify</phase>
+                    <goals>
+                <!--<goal>format</goal> -->
+                        <goal>check</goal>
+                    </goals>
+                </execution>
+
+                <!-- additional execution just for POM files (excluded by default) -->
+                <execution>
+                    <id>check-headers-pom-files</id>
+                    <phase>verify</phase>
+                    <goals>
+                <!-- <goal>format</goal> -->
+                        <goal>check</goal>
+                    </goals>
+                    <configuration>
+                        <useDefaultExcludes>false</useDefaultExcludes>
+                        <includes>
+                            <include>./pom.xml</include>
+                            <include>**/pom.xml</include>
+                        </includes>
+                        <excludes>
+                            <exclude>**/target/**</exclude>
+                            <!-- exclude sub-modules -->
+                        </excludes>
+                    </configuration>
+                </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 	<modules>
 		<module>parent-pom</module>
 		<module>idl2j</module>
