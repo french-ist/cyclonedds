@@ -162,6 +162,8 @@ public class CompilerMojo
             JavaGeneratorHelper jgh = new JavaGeneratorHelper(comp.generatedFiles);            
             jgh.execute(pathIdlFile);
             
+            comp.patchForJna();
+            
             getLog().debug("   Done!");
          }
          catch (Exception e)

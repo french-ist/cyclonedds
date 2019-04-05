@@ -127,7 +127,7 @@ public class JavaGeneratorHelper {
 	
 	private String getHelper(String tmpCFile, String outputDir, String javaPackage, String javaHelperPath, String javaHelperFile, String oldClassName, String newClassName) {
 		initAntlr(tmpCFile);
-        ConcreteDdsKeyDescriptorBuilder ddsKdesc = new ConcreteDdsKeyDescriptorBuilder();
+        ConcreteDdsKeyDescriptorBuilder ddsKdesc = new ConcreteDdsKeyDescriptorBuilder(oldClassName, newClassName);
         ConcreteMessageOptionsBuilder ddsOps = new ConcreteMessageOptionsBuilder(oldClassName, newClassName);
         ConcreteMsgDescBuilder ddsTopicDescr = new ConcreteMsgDescBuilder(oldClassName, newClassName);
         ParseTreeWalker walker = new ParseTreeWalker();        
@@ -138,6 +138,7 @@ public class JavaGeneratorHelper {
         StringBuilder javaCode = new StringBuilder();        
         javaCode.append("package "+javaPackage+";\n\n");
         javaCode.append("import java.lang.reflect.InvocationTargetException;\n");
+        javaCode.append("import java.lang.reflect.Field;\n");
         javaCode.append("import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_key_descriptor;\n");
         javaCode.append("import org.eclipse.cyclonedds.ddsc.dds_public_impl.dds_topic_descriptor;\n");
         javaCode.append("import org.eclipse.cyclonedds.ddsc.dds_public_impl.DdscLibrary;\n");

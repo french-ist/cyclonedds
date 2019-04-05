@@ -17,9 +17,13 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.plugin.logging.SystemStreamLog;
@@ -31,10 +35,14 @@ import org.eclipse.cyclonedds.idl2j.KeyListParser;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -93,13 +101,54 @@ public class Compiler
 			JavaGeneratorHelper jgh = new JavaGeneratorHelper(compiler.generatedFiles);
 			String idlFile = args[args.length - 1];	
 			jgh.execute(idlFile);
-			
+			compiler.patchForJna();
 		}
 		catch (Throwable t)
 		{
 			System.err.println(t.getMessage());
 			System.exit(1);
 		}
+	}
+
+	public void patchForJna() {
+		HashSet<String> set = new HashSet<String>();
+		listFile(destDir, set);
+		for (String path : set) {
+			try {
+				List<String> lines = Files.readAllLines(Paths.get(path));				
+				for (int i=0;i<lines.size();i++) {
+					if(lines.get(i).contains("implements org.omg.CORBA.portable.IDLEntity")
+							&& !lines.get(i).contains("extends Structure")) {					
+						lines.set(i, lines.get(i).replace("implements org.omg.CORBA.portable.IDLEntity", "extends com.sun.jna.Structure"));
+						break;
+					}
+				}
+				Files.write(Paths.get(path), lines, (OpenOption)StandardOpenOption.TRUNCATE_EXISTING);				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void listFile(String folder, HashSet<String> set) {
+		File root = new File(folder);
+        File[] list = root.listFiles();
+        if (list == null) return;
+
+        for (File f: list) {
+            if (f.isDirectory()) {
+            	listFile(f.getAbsolutePath(), set);
+            } else {
+            	String path = f.getAbsoluteFile().getAbsolutePath();
+                if(path.endsWith(".java") && !path.contains("_Helper")) {
+                	if(path.contains("Helper.java") || path.contains("Holder.java")) {
+                		(new File(path)).delete();
+                	} else {                		
+                		set.add(path);
+                	}
+                }
+            }
+        }
 	}
 
 	// parse arguments
@@ -443,7 +492,7 @@ public class Compiler
 
 					@Override
 					public boolean accept(File dir, String name)
-					{
+					{						
 						return name.endsWith(".java");
 					}
 				}
