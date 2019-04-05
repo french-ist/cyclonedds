@@ -21,9 +21,13 @@ public class ConcreteDdsKeyDescriptorBuilder implements DdsKeyDescriptorBuilder 
 
 	private ArrayList<DdsKeyDescriptor> propertiesList ;
 	private Integer propertiesCount = 0;
+	private String oldClassName;
+	private String newClassName;
 	
-	public ConcreteDdsKeyDescriptorBuilder() {
+	public ConcreteDdsKeyDescriptorBuilder(String oldClassName, String newClassName) {
         propertiesList = new ArrayList<DdsKeyDescriptor>();
+        this.oldClassName = oldClassName;
+        this.newClassName = newClassName;
     }
     
 	private int m_index;
@@ -102,6 +106,12 @@ public class ConcreteDdsKeyDescriptorBuilder implements DdsKeyDescriptorBuilder 
             case DIRECT_DECLARATOR:
                 if(internalState == InternalState.NEXT) {
                     if(text.indexOf("[") == -1 && text.indexOf("]")==-1){
+                    	if(!text.replace("_keys", "").equals(oldClassName)) {
+                    		internalState = InternalState.NOTHING;
+                    		propertiesList.remove(propertiesList.size()-1);
+                    		propertiesCount--;
+                    		break;
+                    	}
                     	propertiesList.get(propertiesCount-1).setPropertyName(text);
                         internalState = InternalState.NAME;
                     }

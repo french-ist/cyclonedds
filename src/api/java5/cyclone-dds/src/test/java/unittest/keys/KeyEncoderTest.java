@@ -53,7 +53,7 @@ public class KeyEncoderTest
          (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01
    }; // value from opensplice
 
-   //@Test
+   @Test
    public void keyEncoderTest1()
    {
       @SuppressWarnings("unchecked")

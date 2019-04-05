@@ -32,11 +32,10 @@ public int getIntSize(String string) {
 
 public Integer offsetof(String clazz, String field){
     try {
-    	//System.out.println("### offsetof("+clazz+","+field+")");
         String clazzFullName = (getClass().getPackage() + "." +clazz).replace("package ", "");
-        Class<?> c = Class.forName(clazzFullName);        
-        Object instance = c.newInstance();
-        if(instance instanceof Structure){
+        Class<?> c = Class.forName(clazzFullName);       
+        if(Structure.class.isAssignableFrom(c)){
+            Object instance = c.newInstance();
             Structure s = (Structure)instance;            
             Class<?> parameterTypes[] = {String.class};
             Method method = s.getClass().getSuperclass().getDeclaredMethod("fieldOffset", parameterTypes);
@@ -50,7 +49,6 @@ public Integer offsetof(String clazz, String field){
     }
 }
 
-
 public Integer sizeof(String clazz){
     if(clazz.equals("char*")){
         return 8;
@@ -58,11 +56,40 @@ public Integer sizeof(String clazz){
         try {
             String clazzFullName = (getClass().getPackage() + "." +clazz).replace("package ", "");
             Class<?> c = Class.forName(clazzFullName);
-            Class<?> parameterTypes[] = {};
-            Method method = c.getMethod("size", parameterTypes);
-            int size = (Integer) method.invoke(c.newInstance(), new Object[] {});            
-            return size;
-        } catch (Exception e) {
+
+            if(Structure.class.isAssignableFrom(c)) {
+                Class<?> parameterTypes[] = {};
+                Method method = c.getMethod("size", parameterTypes);
+                int size = (Integer) method.invoke(c.newInstance(), new Object[] {});
+                return size;
+            } else {
+                Field field = c.getField("__size");
+                field.setAccessible(true);
+                Object object = field.get(c.newInstance());
+                return Integer.valueOf(object.toString());
+            }
+        } catch (InvocationTargetException e) {
+            System.err.println("############ InvocationTargetException: " + e.getLocalizedMessage());
+            return null;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IllegalArgumentException e) {
+            System.err.println("############ IllegalArgumentException: " + e.getLocalizedMessage());
+            return 3;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            return null;
+        } catch (SecurityException e) {
+            e.printStackTrace();
+            return null;
+        } catch (NoSuchFieldException e) {
             e.printStackTrace();
             return null;
         }
