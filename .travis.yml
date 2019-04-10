@@ -1,83 +1,18 @@
-language: c
+language: java
 
-# Platform descriptions
-# NOTE: These can be used in creating the build matrix by making use of the
-#       anchor/alias YAML features.
-linux_gcc8: &linux_gcc8
-  os: linux
-  dist: xenial
-  compiler: gcc
-  addons:
-    apt:
-      update: true
-      sources: [ ubuntu-toolchain-r-test ]
-      #packages: [ gcc-8 g++-8 maven cmake ]
-      packages: [ gcc-8 g++-8 ]
-
-linux_clang: &linux_clang
-  os: linux
-  dist: xenial
-  compiler: clang
-  addons:
-    apt:
-      update: true
-      #sources: [ ubuntu-toolchain-r-test ]
-      #packages: [ maven clang ]
-
-osx_xcode10_1: &osx_xcode10_1
-  os: osx
-  osx_image: xcode10.1
-  compiler: clang
-  addons:
-    homebrew:
-      packages:
-      - pyenv-virtualenv
+jdk: oraclejdk8
 
 matrix:
   include:
-    - <<: *linux_gcc8
-      env: [ BUILD_TYPE=Debug, C_COMPILER=gcc-8, CXX_COMPILER=g++-8, USE_SANITIZER=none ]
-    - <<: *linux_gcc8
-      env: [ BUILD_TYPE=Release, C_COMPILER=gcc-8, CXX_COMPILER=g++-8, USE_SANITIZER=none ]
-    - <<: *linux_clang
-      env: [ BUILD_TYPE=Debug, C_COMPILER=clang, CXX_COMPILER=clang++, USE_SANITIZER=address ]
-    - <<: *linux_clang
-      env: [ BUILT_TYPE=Release, C_COMPILER=clang, CXX_COMPILER=clang++, USE_SANITIZER=none ]
-    - <<: *osx_xcode10_1
-      env: [ BUILD_TYPE=Debug, C_COMPILER=clang, CXX_COMPILER=clang++, USE_SANITIZER=address ]
-    - <<: *osx_xcode10_1
-      env: [ BUILD_TYPE=Release, C_COMPILER=clang, CXX_COMPILER=clang++, USE_SANITIZER=none ]
+    - os: linux
+      dist: trusty
+    - os: osx
+      osx_image: xcode10.2
+ 
+script: 
+  - cd src/api/java5
+  - mvn clean install
 
-
-before_install:
-  - eval "export CC=${C_COMPILER}";
-  - eval "export CXX=${CXX_COMPILER}";
-
-install:
-  - if [ "${TRAVIS_OS_NAME}" = "osx" ]; then
-      eval "$(pyenv init -)";
-      pyenv virtualenv conan;
-      pyenv rehash;
-      pyenv activate conan;
-      pip install conan --upgrade;
-    else
-      pip install conan --upgrade --user;
-    fi
-  - conan user
-
-before_script:
-  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-
-script:
-  - mkdir build
-  - cd build
-  - conan install .. --build missing
-  - cmake -DBUILD_TESTING=on -DCMAKE_BUILD_TYPE=${BUILD_TYPE} -DUSE_SANITIZER=${USE_SANITIZER} -DCMAKE_INSTALL_PREFIX=${PWD}/install ../src
-  - cmake --build . --target install
-  - mkdir install/share/CycloneDDS/examples/helloworld/build
-  - if [ "$USE_SANITIZER" = "none" ]; then
-      (cd install/share/CycloneDDS/examples/helloworld/build && cmake -DCMAKE_BUILD_TYPE=${BUILD_TYPE} .. && cmake --build .) ;
-    else
-      (cd install/share/CycloneDDS/examples/helloworld/build && cmake -DCMAKE_C_FLAGS=-fsanitize=address -DCMAKE_LINKER_FLAGS=-fsanitize=address -DCMAKE_BUILD_TYPE=${BUILD_TYPE} .. && cmake --build .) ;
-    fi
-  - ctest -T test
+branches:
+  only:
+    - jna-implementation
