@@ -1,6 +1,4 @@
-matrix:
-  include:
-    - language: c
+ language: c
       linux_gcc8: &linux_gcc8
         os: linux
         dist: xenial
@@ -75,14 +73,14 @@ matrix:
         only:
           - jna-implementation
 
-  - language: java
-    jdk: oraclejdk8
-    matrix:
-      include:
-        - os: linux
-          dist: trusty
-        - os: osx
-          osx_image: xcode10.2 
+  language: java
+  jdk: oraclejdk8
+  matrix:
+    include:
+      - os: linux
+        dist: trusty
+      - os: osx
+        osx_image: xcode10.2 
     script: 
       - cd src/api/java5
       - mvn clean install
