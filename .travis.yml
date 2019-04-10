@@ -71,6 +71,9 @@ matrix:
             (cd install/share/CycloneDDS/examples/helloworld/build && cmake -DCMAKE_C_FLAGS=-fsanitize=address -DCMAKE_LINKER_FLAGS=-fsanitize=address -DCMAKE_BUILD_TYPE=${BUILD_TYPE} .. && cmake --build .) ;
           fi
         - ctest -T test
+      branches:
+        only:
+          - jna-implementation
 
   - language: java
     jdk: oraclejdk8
