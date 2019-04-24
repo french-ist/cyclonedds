@@ -15,7 +15,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.nio.*;
 
+import org.eclipse.cyclonedds.helper.NativeSize;
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.status.Status;
 import org.omg.dds.domain.DomainParticipant;
@@ -38,8 +40,7 @@ import org.eclipse.cyclonedds.ddsc.NativeSize;
 import org.eclipse.cyclonedds.ddsc.DdscLibrary.*;
 */
 
-public class DomainParticipantFactoryImpl extends DomainParticipantFactory
-        implements org.eclipse.cyclonedds.domain.DomainParticipantFactory {
+public class DomainParticipantFactoryImpl extends DomainParticipantFactory {
     private CycloneServiceEnvironment environment;
     private DomainParticipantFactoryQos qos;
     private DomainParticipantQos defaultDomainParticipantQoS;
@@ -81,15 +82,17 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
     }
 
 	@Override
-	public void detachAllDomains(boolean blockOperations, boolean deleteEntities) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public DomainParticipant lookupParticipant(int domainId) {
-		// TODO Auto-generated method stub
-		return null;
+        DomainParticipantImpl participant;
+        NativeSize size = new NativeSize(1);
+        IntBuffer participants = IntBuffer.allocate(NativeSize.SIZE);
+        int rc = org.eclipse.cyclonedds.ddsc.dds.DdscLibrary.dds_lookup_participant(domainId, participants, size);
+        Utilities.checkReturnCode(rc, this.environment,
+                "DomainParticipantFactoryImpl.lookupParticipant() failed.");
+
+        // TODO Retrieve the participant from participants
+        participant = null;
+        return participant;
 	}
 
 	@Override
@@ -116,7 +119,7 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
         DomainParticipantImpl participant;
         dds_entity_t participants = new dds_entity_t();
         NativeSize size = new NativeSize();
-        dds_return_t rc = org.eclipse.cyclonedds.ddsc.DdscLibrary.dds_lookup_participant(domainId, participants, size);
+        dds_return_t rc = org.eclipse.cyclonedds.ddsc.dds.dds_lookup_participant(domainId, participants, size);
         Utilities.checkReturnCode(rc.getPointer().getInt(0), this.environment,
                 "DomainParticipantFactoryImpl.lookupParticipant() failed.");
 
@@ -176,11 +179,6 @@ public class DomainParticipantFactoryImpl extends DomainParticipantFactory
         rc = this.factory.set_default_participant_qos(oldQos);
         Utilities.checkReturnCode(rc, this.environment, "DomainParticipantFactory.setDefaultParticipantQos() failed.");
 
-    }
-
-    @Override
-    public void detachAllDomains(boolean blockOperations, boolean deleteEntities) {
-        this.factory.detach_all_domains(blockOperations, deleteEntities);
     }
     */
 

@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.cyclonedds.core.policy.PolicyFactoryImpl;
 import org.eclipse.cyclonedds.domain.DomainParticipantFactoryImpl;
 import org.eclipse.cyclonedds.type.TypeSupportImpl;
-import org.eclipse.cyclonedds.type.TypeSupportProtobuf;
 import org.omg.dds.core.Duration;
 import org.omg.dds.core.GuardCondition;
 import org.omg.dds.core.InstanceHandle;
@@ -70,13 +69,8 @@ public class CycloneServiceProviderInterface implements ServiceProviderInterface
 			superType = Class.forName(typeName).getSuperclass();
 
 			if (superType != null) {
-				if(isProtobufType(type)) {
-					result = TypeSupportProtobuf.getInstance(
-							this.environment, type, registeredName);
-				} else {
-					result = new TypeSupportImpl<TYPE>(this.environment,
-							type, registeredName);
-				}
+				result = new TypeSupportImpl<TYPE>(this.environment,
+						type, registeredName);
 			} else {
 				throw new PreconditionNotMetExceptionImpl(
 						this.environment,
