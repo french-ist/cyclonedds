@@ -17,6 +17,7 @@ mv src/main/java/org/eclipse/cyclonedds cyclonedds.bk
 # Remove from cyclonedds the headers to regenerate
 # so that when we recover cp cyclonedds.bk to cyclonedds
 # the newly generated interfaces will not be replaced
+# by the backed-up version
 for each in `cat ${HEADERS}`
 do
     SIMPLE_NAME=`basename "${each%.*}"`

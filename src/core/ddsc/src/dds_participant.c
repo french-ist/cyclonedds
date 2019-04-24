@@ -275,12 +275,13 @@ dds_lookup_participant(
         dds_entity* iter;
         os_mutexLock (&dds_global.m_mutex);
         iter = dds_pp_head;
+        int i = 0;
         while (iter) {
             if(iter->m_domainid == domain_id) {
-                if((size_t)ret < size) {
-                    participants[ret] = iter->m_hdl;
+                if((size_t)i < size) {
+                    participants[i] = iter->m_hdl;
                 }
-                ret++;
+                i++;
             }
             iter = iter->m_next;
         }
