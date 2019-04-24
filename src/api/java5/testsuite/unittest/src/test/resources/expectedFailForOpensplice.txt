@@ -1,0 +1,1 @@
+unittest_topic_TopicListeneropenspliceTest_testOnAllDataDisposed;XFAIL see OSPL-5696

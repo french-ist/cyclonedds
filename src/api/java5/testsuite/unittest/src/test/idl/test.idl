@@ -1,0 +1,17 @@
+module Test
+{
+   struct Msg
+   {
+      long userID;    // User ID
+      string message; // message
+   };
+   #pragma keylist Msg userID
+
+    struct GetDataReaders
+    {
+        long	long_1; //@Key
+        long	long_2;
+        long	long_3;
+    };
+#pragma keylist GetDataReaders long_1
+};
