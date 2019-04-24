@@ -1,8 +1,4 @@
-language: c
-
-# Platform descriptions
-# NOTE: These can be used in creating the build matrix by making use of the
-#       anchor/alias YAML features.
+language: minimal
 linux_gcc8: &linux_gcc8
   os: linux
   dist: xenial
@@ -81,3 +77,20 @@ script:
       (cd install/share/CycloneDDS/examples/helloworld/build && cmake -DCMAKE_C_FLAGS=-fsanitize=address -DCMAKE_LINKER_FLAGS=-fsanitize=address -DCMAKE_BUILD_TYPE=${BUILD_TYPE} .. && cmake --build .) ;
     fi
   - ctest -T test
+  
+jdk: oraclejdk8
+
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+    - os: osx
+      osx_image: xcode10.2
+ 
+script: 
+  - cd src/api/java5
+  - mvn clean install
+
+branches:
+  only:
+    - jna-implementation
