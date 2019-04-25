@@ -10,8 +10,7 @@
   SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
  */
 /**
- * This class defines some simple common utility functions for use in Vortex
- * Cafe examples.
+ * This class defines some simple common utility functions for use in Cyclone DDS examples.
  */
 class ExampleUtilities {
     public static final long NS_IN_ONE_US = 1000;

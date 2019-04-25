@@ -107,6 +107,14 @@
                     <exclude>jna-dds/**/*.h</exclude>
                     <exclude>jna-dds/**/*.txt</exclude>
                     <exclude>jna-dds/**/*.html</exclude>
+                    
+                    <!-- exclude Java5 PSM -->
+                    <exclude>testsuite/**/*.txt</exclude>
+                    <exclude>testsuite/**/*.java</exclude>
+                    <exclude>testsuite/**/*.xml</exclude>
+                    <exclude>testsuite/**/*.py</exclude>
+                    <exclude>testsuite/**/*.proto</exclude>
+                    <exclude>testsuite/**/*.idl</exclude>
                 </excludes>
                 <headerDefinitions>
                 </headerDefinitions>
