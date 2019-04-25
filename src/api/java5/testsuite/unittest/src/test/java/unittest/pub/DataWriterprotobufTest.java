@@ -116,7 +116,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#cast()}.
      */
-    @Test
+    //@tTest
     public void testCast() {
         checkValidEntities();
         DataWriter<Object> result = null;
@@ -132,7 +132,7 @@ public class DataWriterprotobufTest {
      * Test method for {@link org.omg.dds.pub.DataWriter#cast()}.
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Test
+    //@tTest
     public void testCastInvalid() {
         checkValidEntities();
         DataReader<ProtoMsg> result = null;
@@ -147,7 +147,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#getTopic()}.
      */
-    @Test
+    //@tTest
     public void testGetTopic() {
         checkValidEntities();
         Topic<ProtoMsg> result = null;
@@ -162,7 +162,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#waitForAcknowledgments(org.omg.dds.core.Duration)}.
      */
-    @Test
+    //@tTest
     public void testWaitForAcknowledgmentsDuration() {
         checkValidEntities();
         Duration timeout = Duration.newDuration(1, TimeUnit.SECONDS, env);
@@ -178,7 +178,7 @@ public class DataWriterprotobufTest {
      * {@link org.omg.dds.pub.DataWriter#waitForAcknowledgments(org.omg.dds.core.Duration)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForAcknowledgmentsDurationNull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -196,7 +196,7 @@ public class DataWriterprotobufTest {
      * {@link org.omg.dds.pub.DataWriter#waitForAcknowledgments(org.omg.dds.core.Duration)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForAcknowledgmentsLongTimeUnitNull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -214,7 +214,7 @@ public class DataWriterprotobufTest {
      * {@link org.omg.dds.pub.DataWriter#waitForAcknowledgments(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForAcknowledgmentsLongTimeUnit() {
         checkValidEntities();
         try {
@@ -227,7 +227,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#getLivelinessLostStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetLivelinessLostStatus() {
         checkValidEntities();
         LivelinessLostStatus result = null;
@@ -242,7 +242,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#getOfferedDeadlineMissedStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetOfferedDeadlineMissedStatus() {
         checkValidEntities();
         OfferedDeadlineMissedStatus result = null;
@@ -257,7 +257,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#getOfferedIncompatibleQosStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetOfferedIncompatibleQosStatus() {
         checkValidEntities();
         OfferedIncompatibleQosStatus result = null;
@@ -273,7 +273,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#getPublicationMatchedStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetPublicationMatchedStatus() {
         checkValidEntities();
         PublicationMatchedStatus result = null;
@@ -288,7 +288,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#assertLiveliness()}.
      */
-    @Test
+    //@tTest
     public void testAssertLiveliness() {
         checkValidEntities();
         try {
@@ -301,7 +301,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#getMatchedSubscriptions()}.
      */
-    @Test
+    //@tTest
     public void testGetMatchedSubscriptions() {
         checkValidEntities();
         Set<InstanceHandle> subscriptions = null;
@@ -329,7 +329,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#getMatchedSubscriptionData(org.omg.dds.core.InstanceHandle)}.
      */
-    @Test
+    //@tTest
     public void testGetMatchedSubscriptionData() {
         checkValidEntities();
         Subscriber sub = null;
@@ -378,7 +378,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#registerInstance(java.lang.Object)}.
      */
-    @Test
+    //@tTest
     public void testRegisterInstanceTYPE() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -411,7 +411,7 @@ public class DataWriterprotobufTest {
      * Test method for
      * {@link org.omg.dds.pub.DataWriter#registerInstance(java.lang.Object)}.
      */
-    @Test
+    //@tTest
     public void testRegisterInstanceTYPENull() {
         checkValidEntities();
         InstanceHandle ih = null;
@@ -429,7 +429,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#registerInstance(java.lang.Object, org.omg.dds.core.Time)}.
      */
-    @Test
+    //@tTest
     public void testRegisterInstanceTYPETime() {
         checkValidEntities();
 
@@ -455,7 +455,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#registerInstance(java.lang.Object, long, java.util.concurrent.TimeUnit)}.
      */
-    @Test
+    //@tTest
     public void testRegisterInstanceTYPELongTimeUnit() {
         checkValidEntities();
 
@@ -481,7 +481,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#unregisterInstance(org.omg.dds.core.InstanceHandle)}.
      */
-    @Test
+    //@tTest
     public void testUnregisterInstanceInstanceHandleNull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -498,7 +498,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#unregisterInstance(org.omg.dds.core.InstanceHandle, java.lang.Object)}.
      */
-    @Test
+    //@tTest
     public void testUnregisterInstanceInstanceHandleTYPENull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -549,7 +549,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#unregisterInstance(org.omg.dds.core.InstanceHandle, java.lang.Object, org.omg.dds.core.Time)}.
      */
-    @Test
+    //@tTest
     public void testUnregisterInstanceInstanceHandleTYPETime() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -583,7 +583,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#unregisterInstance(org.omg.dds.core.InstanceHandle, java.lang.Object, long, java.util.concurrent.TimeUnit)}.
      */
-    @Test
+    //@tTest
     public void testUnregisterInstanceInstanceHandleTYPELongTimeUnit() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -617,7 +617,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#write(java.lang.Object)}.
      */
-    @Test
+    //@tTest
     public void testWriteTYPE() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -641,7 +641,7 @@ public class DataWriterprotobufTest {
      * Test method for
      * {@link org.omg.dds.pub.DataWriter#write(java.lang.Object)}.
      */
-    @Test
+    //@tTest
     public void testWriteTYPENull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -659,7 +659,7 @@ public class DataWriterprotobufTest {
      * {@link org.omg.dds.pub.DataWriter#write(java.lang.Object, org.omg.dds.core.Time)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteTYPETime() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -684,7 +684,7 @@ public class DataWriterprotobufTest {
      * {@link org.omg.dds.pub.DataWriter#write(java.lang.Object, org.omg.dds.core.Time)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteTYPETimeNull() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -707,7 +707,7 @@ public class DataWriterprotobufTest {
      * {@link org.omg.dds.pub.DataWriter#write(java.lang.Object, long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteTYPELongTimeUnit() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -731,7 +731,7 @@ public class DataWriterprotobufTest {
      * {@link org.omg.dds.pub.DataWriter#write(java.lang.Object, long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteTYPELongTimeUnitNull() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -753,7 +753,7 @@ public class DataWriterprotobufTest {
      * {@link org.omg.dds.pub.DataWriter#write(java.lang.Object, org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteTYPEInstanceHandle() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -781,7 +781,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#write(java.lang.Object, org.omg.dds.core.InstanceHandle, org.omg.dds.core.Time)}.
      */
-    @Test
+    //@tTest
     public void testWriteTYPEInstanceHandleTime() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -810,7 +810,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#write(java.lang.Object, org.omg.dds.core.InstanceHandle, long, java.util.concurrent.TimeUnit)}.
      */
-    @Test
+    //@tTest
     public void testWriteTYPEInstanceHandleLongTimeUnit() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -851,7 +851,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#dispose(org.omg.dds.core.InstanceHandle)}.
      */
-    @Test
+    //@tTest
     public void testDisposeInstanceHandleNull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -868,7 +868,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#dispose(org.omg.dds.core.InstanceHandle, java.lang.Object)}.
      */
-    @Test
+    //@tTest
     public void testDisposeInstanceHandleTYPENull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -888,7 +888,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#dispose(org.omg.dds.core.InstanceHandle, java.lang.Object, org.omg.dds.core.Time)}.
      */
-    @Test
+    //@tTest
     public void testDisposeInstanceHandleTYPETimeNull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -909,7 +909,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#dispose(org.omg.dds.core.InstanceHandle, java.lang.Object, long, java.util.concurrent.TimeUnit)}.
      */
-    @Test
+    //@tTest
     public void testDisposeInstanceHandleTYPELongTimeUnitNull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -930,7 +930,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#getKeyValue(java.lang.Object, org.omg.dds.core.InstanceHandle)}.
      */
-    @Test
+    //@tTest
     public void testGetKeyValueTYPEInstanceHandle() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -957,7 +957,7 @@ public class DataWriterprotobufTest {
      * {@link org.omg.dds.pub.DataWriter#getKeyValue(java.lang.Object, org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetKeyValueTYPEInstanceHandleNull() {
         checkValidEntities();
         ProtoMsg result = null;
@@ -976,7 +976,7 @@ public class DataWriterprotobufTest {
      * {@link org.omg.dds.pub.DataWriter#getKeyValue(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetKeyValueInstanceHandle() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -1003,7 +1003,7 @@ public class DataWriterprotobufTest {
      * {@link org.omg.dds.pub.DataWriter#getKeyValue(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetKeyValueInstanceHandleNull() {
         checkValidEntities();
         ProtoMsg result = null;
@@ -1021,7 +1021,7 @@ public class DataWriterprotobufTest {
      * Test method for
      * {@link org.omg.dds.pub.DataWriter#lookupInstance(java.lang.Object)}.
      */
-    @Test
+    //@tTest
     public void testLookupInstance() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -1044,7 +1044,7 @@ public class DataWriterprotobufTest {
      * Test method for
      * {@link org.omg.dds.pub.DataWriter#lookupInstance(java.lang.Object)}.
      */
-    @Test
+    //@tTest
     public void testLookupInstanceNull() {
         checkValidEntities();
         ProtoMsg message = null;
@@ -1060,7 +1060,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#getStatusCondition()}.
      */
-    @Test
+    //@tTest
     public void testGetStatusCondition() {
         checkValidEntities();
         StatusCondition<DataWriter<ProtoMsg>> result = null;
@@ -1075,7 +1075,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataWriter#getParent()}.
      */
-    @Test
+    //@tTest
     public void testGetParent() {
         checkValidEntities();
         Publisher result = null;
@@ -1091,7 +1091,7 @@ public class DataWriterprotobufTest {
      * Test method for {@link org.omg.dds.core.Entity#getListener()}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testGetDataWriterListener() {
         checkValidEntities();
         DataWriterListener<ProtoMsg> dwl = new DataWriterListenerprotobufClass();
@@ -1128,7 +1128,7 @@ public class DataWriterprotobufTest {
      * Test method for
      * {@link org.omg.dds.core.Entity#setListener(java.util.EventListener)}.
      */
-    @Test
+    //@tTest
     public void testDataWriterSetListener() {
         checkValidEntities();
         DataWriterListener<ProtoMsg> dwl = new DataWriterListenerprotobufClass();
@@ -1144,7 +1144,7 @@ public class DataWriterprotobufTest {
      * {@link org.omg.dds.core.Entity#setListener(java.util.EventListener, java.util.Collection)}
      * .
      */
-    @Test
+    //@tTest
     public void testDataWriterSetListenerCollectionOfClassOfQextendsStatus() {
         checkValidEntities();
         DataWriterListener<ProtoMsg> dwl = new DataWriterListenerprotobufClass();
@@ -1163,7 +1163,7 @@ public class DataWriterprotobufTest {
      * java.lang.Class<? extends org.omg.dds.core.status.Status>[])}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testDataWriterSetListenerClassOfQextendsStatusArray() {
         checkValidEntities();
         DataWriterListener<ProtoMsg> dwl = new DataWriterListenerprotobufClass();
@@ -1178,7 +1178,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getQos()}.
      */
-    @Test
+    //@tTest
     public void testGetQos() {
         checkValidEntities();
         DataWriterQos dwq = null;
@@ -1193,7 +1193,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#setQos(org.omg.dds.core.EntityQos)}.
      */
-    @Test
+    //@tTest
     public void testSetQos() {
         checkValidEntities();
         DataWriterQos dwq = null;
@@ -1225,7 +1225,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#enable()}.
      */
-    @Test
+    //@tTest
     public void testEnable() {
         checkValidEntities();
         try {
@@ -1239,7 +1239,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getStatusChanges()}.
      */
-    @Test
+    //@tTest
     public void testGetStatusChanges() {
         checkValidEntities();
         Set<Class<? extends Status>> statuses = null;
@@ -1255,7 +1255,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getInstanceHandle()}.
      */
-    @Test
+    //@tTest
     public void testGetInstanceHandle() {
         checkValidEntities();
         InstanceHandle ih = null;
@@ -1270,7 +1270,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#retain()}.
      */
-    @Test
+    //@tTest
     public void testRetain() {
         checkValidEntities();
         try {
@@ -1283,7 +1283,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.omg.dds.core.DDSObject#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;
@@ -1299,7 +1299,7 @@ public class DataWriterprotobufTest {
      * Test method for
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object)}.
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPE() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -1317,7 +1317,7 @@ public class DataWriterprotobufTest {
      * Test method for
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object)}.
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPENull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -1335,7 +1335,7 @@ public class DataWriterprotobufTest {
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object, org.omg.dds.core.Time)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPETime() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -1355,7 +1355,7 @@ public class DataWriterprotobufTest {
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object, org.omg.dds.core.Time)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPETimeNull() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -1378,7 +1378,7 @@ public class DataWriterprotobufTest {
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object, long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPELongTimeUnit() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -1397,7 +1397,7 @@ public class DataWriterprotobufTest {
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object, long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPELongTimeUnitNull() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -1419,7 +1419,7 @@ public class DataWriterprotobufTest {
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object, org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPEInstanceHandle() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -1444,7 +1444,7 @@ public class DataWriterprotobufTest {
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object, org.omg.dds.core.InstanceHandle, org.omg.dds.core.Time)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPEInstanceHandleTime() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -1470,7 +1470,7 @@ public class DataWriterprotobufTest {
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object, org.omg.dds.core.InstanceHandle, long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPEInstanceHandleLongTimeUnit() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -1493,7 +1493,7 @@ public class DataWriterprotobufTest {
     /**
      * Test method for {@link org.opensplice.dds.pub.DataWriter#getKeyValue()}.
      */
-    @Test
+    //@tTest
     public void testGetKeyValue() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -1519,7 +1519,7 @@ public class DataWriterprotobufTest {
      * Test method for verifying same destination order is enforced by the
      * publisher when ordered access is configured for group scope.
      */
-    @Test
+    //@tTest
     public void testGroupOrderedAccessSetInconsistentDestinationOrder() {
         TopicQos tq = null;
         Topic<ProtoMsg> t = null;
@@ -1561,7 +1561,7 @@ public class DataWriterprotobufTest {
      * Test method for verifying writers are allowed different destination
      * order policies when ordered access is configured for topic scope.
      */
-    @Test
+    //@tTest
     public void testTopicOrderedAccessSetDestinationOrder() {
         TopicQos tq = null;
         Topic<ProtoMsg> t = null;

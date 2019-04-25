@@ -51,7 +51,7 @@ public class ModifiableTimeTest {
     /**
      * Test method for {@link org.omg.dds.core.ModifiableTime#copyFrom(org.omg.dds.core.Time)}.
      */
-    @Test
+    //@tTest
     public void testCopyFrom() {
         checkValidEntities();
         ModifiableTime t = ModifiableTime.newTime(1, TimeUnit.SECONDS, env);
@@ -67,7 +67,7 @@ public class ModifiableTimeTest {
     /**
      * Test method for {@link org.omg.dds.core.ModifiableTime#immutableCopy()}.
      */
-    @Test
+    //@tTest
     public void testImmutableCopy() {
         checkValidEntities();
         ModifiableTime t = ModifiableTime.newTime(1, TimeUnit.SECONDS, env);
@@ -83,7 +83,7 @@ public class ModifiableTimeTest {
     /**
      * Test method for {@link org.omg.dds.core.ModifiableTime#setTime(long, java.util.concurrent.TimeUnit)}.
      */
-    @Test
+    //@tTest
     public void testSetTime() {
         checkValidEntities();
         ModifiableTime t = ModifiableTime.newTime(1, TimeUnit.SECONDS, env);
@@ -100,7 +100,7 @@ public class ModifiableTimeTest {
      * {@link org.omg.dds.core.ModifiableTime#setTime(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetTimeNull() {
         checkValidEntities();
         ModifiableTime t = ModifiableTime.newTime(1, TimeUnit.SECONDS, env);
@@ -116,7 +116,7 @@ public class ModifiableTimeTest {
      * Test method for
      * {@link org.omg.dds.core.ModifiableTime#add(org.omg.dds.core.Duration)}.
      */
-    @Test
+    //@tTest
     public void testAddDuration() {
         checkValidEntities();
         ModifiableTime t = null;
@@ -133,7 +133,7 @@ public class ModifiableTimeTest {
      * Test method for
      * {@link org.omg.dds.core.ModifiableTime#add(org.omg.dds.core.Duration)} .
      */
-    @Test
+    //@tTest
     public void testAddTimeOverflow() {
         checkValidEntities();
         ModifiableTime t = null;
@@ -158,7 +158,7 @@ public class ModifiableTimeTest {
      * Test method for
      * {@link org.omg.dds.core.ModifiableTime#add(org.omg.dds.core.Duration)} .
      */
-    @Test
+    //@tTest
     public void testAddTimeNull() {
         checkValidEntities();
         ModifiableTime t = null;
@@ -176,7 +176,7 @@ public class ModifiableTimeTest {
      * {@link org.omg.dds.core.ModifiableTime#add(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testAddLongTimeUnit() {
         checkValidEntities();
         ModifiableTime t = null;
@@ -194,7 +194,7 @@ public class ModifiableTimeTest {
      * {@link org.omg.dds.core.ModifiableTime#add(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testAddLongTimeUnitNull() {
         checkValidEntities();
         ModifiableTime t = null;
@@ -212,7 +212,7 @@ public class ModifiableTimeTest {
      * {@link org.omg.dds.core.ModifiableTime#subtract(org.omg.dds.core.Duration)}
      * .
      */
-    @Test
+    //@tTest
     public void testSubtractDuration() {
         checkValidEntities();
         ModifiableTime t = null;
@@ -230,7 +230,7 @@ public class ModifiableTimeTest {
      * {@link org.omg.dds.core.ModifiableTime#subtract(org.omg.dds.core.Duration)}
      * .
      */
-    @Test
+    //@tTest
     public void testSubtractDurationOverflow() {
         checkValidEntities();
         ModifiableTime t = null;
@@ -248,7 +248,7 @@ public class ModifiableTimeTest {
      * {@link org.omg.dds.core.ModifiableTime#subtract(org.omg.dds.core.Duration)}
      * .
      */
-    @Test
+    //@tTest
     public void testSubtractDurationNull() {
         checkValidEntities();
         ModifiableTime t = null;
@@ -266,7 +266,7 @@ public class ModifiableTimeTest {
      * {@link org.omg.dds.core.ModifiableTime#subtract(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testSubtractLongTimeUnit() {
         checkValidEntities();
         ModifiableTime t = null;
@@ -284,7 +284,7 @@ public class ModifiableTimeTest {
      * {@link org.omg.dds.core.ModifiableTime#subtract(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testSubtractLongTimeUnitNull() {
         checkValidEntities();
         ModifiableTime t = null;

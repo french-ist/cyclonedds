@@ -48,7 +48,7 @@ public class TimeTest {
     /**
      * Test method for {@link org.omg.dds.core.Time#newTime(long, java.util.concurrent.TimeUnit, org.omg.dds.core.ServiceEnvironment)}.
      */
-    @Test
+    //@tTest
     public void testNewTime() {
         checkValidEntities();
         Time t = null;
@@ -65,7 +65,7 @@ public class TimeTest {
      * {@link org.omg.dds.core.Time#newTime(long, java.util.concurrent.TimeUnit, org.omg.dds.core.ServiceEnvironment)}
      * .
      */
-    @Test
+    //@tTest
     public void testNewTimeNull() {
         checkValidEntities();
         Time t = null;
@@ -87,7 +87,7 @@ public class TimeTest {
     /**
      * Test method for {@link org.omg.dds.core.Time#invalidTime(org.omg.dds.core.ServiceEnvironment)}.
      */
-    @Test
+    //@tTest
     public void testInvalidTime() {
         checkValidEntities();
         Time t = null;
@@ -104,7 +104,7 @@ public class TimeTest {
      * {@link org.omg.dds.core.Time#invalidTime(org.omg.dds.core.ServiceEnvironment)}
      * .
      */
-    @Test
+    //@tTest
     public void testInvalidTimeNull() {
         checkValidEntities();
         Time t = null;
@@ -120,7 +120,7 @@ public class TimeTest {
      * Test method for
      * {@link org.omg.dds.core.Time#getTime(java.util.concurrent.TimeUnit)}.
      */
-    @Test
+    //@tTest
     public void testGetTime() {
         checkValidEntities();
         Time t = null;
@@ -138,7 +138,7 @@ public class TimeTest {
      * Test method for
      * {@link org.omg.dds.core.Time#getTime(java.util.concurrent.TimeUnit)}.
      */
-    @Test
+    //@tTest
     public void testGetTimeNull() {
         checkValidEntities();
         Time t = null;
@@ -155,7 +155,7 @@ public class TimeTest {
     /**
      * Test method for {@link org.omg.dds.core.Time#getRemainder(java.util.concurrent.TimeUnit, java.util.concurrent.TimeUnit)}.
      */
-    @Test
+    //@tTest
     public void testGetRemainder() {
         checkValidEntities();
         Time t = null;
@@ -175,7 +175,7 @@ public class TimeTest {
      * {@link org.omg.dds.core.Time#getRemainder(java.util.concurrent.TimeUnit, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetRemainderNullTimeUnit() {
         checkValidEntities();
         Time t = null;
@@ -194,7 +194,7 @@ public class TimeTest {
      * {@link org.omg.dds.core.Time#getRemainder(java.util.concurrent.TimeUnit, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetRemainderTimeUnitNull() {
         checkValidEntities();
         Time t = null;
@@ -211,7 +211,7 @@ public class TimeTest {
     /**
      * Test method for {@link org.omg.dds.core.Time#isValid()}.
      */
-    @Test
+    //@tTest
     public void testIsValid() {
         checkValidEntities();
         Time t = null;
@@ -226,7 +226,7 @@ public class TimeTest {
     /**
      * Test method for {@link org.omg.dds.core.Time#modifiableCopy()}.
      */
-    @Test
+    //@tTest
     public void testModifiableCopy() {
         checkValidEntities();
         Time t = null;

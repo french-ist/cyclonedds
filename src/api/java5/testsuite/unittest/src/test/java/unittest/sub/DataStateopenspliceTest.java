@@ -107,7 +107,7 @@ public class DataStateopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataStateImpl#getSampleStateFromOld(org.opensplice.dds.core.OsplServiceEnvironment, int)}.
      */
-    @Test
+    //@tTest
     public void testGetSampleStateFromOld() {
         checkValidEntities();
         SampleState result = null;
@@ -127,7 +127,7 @@ public class DataStateopenspliceTest {
      * {@link org.opensplice.dds.sub.DataStateImpl#getSampleStateFromOld(org.opensplice.dds.core.OsplServiceEnvironment, int)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetSampleStateFromOldIllegal() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -145,7 +145,7 @@ public class DataStateopenspliceTest {
      * {@link org.opensplice.dds.sub.DataStateImpl#getViewStateFromOld(org.opensplice.dds.core.OsplServiceEnvironment, int)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetViewStateFromOld() {
         checkValidEntities();
         ViewState result = null;
@@ -165,7 +165,7 @@ public class DataStateopenspliceTest {
      * {@link org.opensplice.dds.sub.DataStateImpl#getViewStateFromOld(org.opensplice.dds.core.OsplServiceEnvironment, int)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetViewStateFromOldIllegal() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -181,7 +181,7 @@ public class DataStateopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataStateImpl#getInstanceStateFromOld(org.opensplice.dds.core.OsplServiceEnvironment, int)}.
      */
-    @Test
+    //@tTest
     public void testGetInstanceStateFromOld() {
         checkValidEntities();
         InstanceState result = null;
@@ -203,7 +203,7 @@ public class DataStateopenspliceTest {
      * {@link org.opensplice.dds.sub.DataStateImpl#getInstanceStateFromOld(org.opensplice.dds.core.OsplServiceEnvironment, int)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetInstanceStateFromOldIllegal() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -220,7 +220,7 @@ public class DataStateopenspliceTest {
      * Test method for
      * {@link org.opensplice.dds.sub.DataStateImpl#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;
@@ -235,7 +235,7 @@ public class DataStateopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataStateImpl#getSampleStates()}.
      */
-    @Test
+    //@tTest
     public void testGetSampleStates() {
         checkValidEntities();
         Set<SampleState> result = null;
@@ -251,7 +251,7 @@ public class DataStateopenspliceTest {
      * Test method for
      * {@link org.opensplice.dds.sub.DataStateImpl#getInstanceStates()}.
      */
-    @Test
+    //@tTest
     public void testGetInstanceStates() {
         checkValidEntities();
         Set<InstanceState> result = null;
@@ -267,7 +267,7 @@ public class DataStateopenspliceTest {
      * Test method for
      * {@link org.opensplice.dds.sub.DataStateImpl#getViewStates()}.
      */
-    @Test
+    //@tTest
     public void testGetViewStates() {
         checkValidEntities();
         Set<ViewState> result = null;
@@ -282,7 +282,7 @@ public class DataStateopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataStateImpl#with(org.omg.dds.sub.SampleState)}.
      */
-    @Test
+    //@tTest
     public void testWithSampleState() {
         checkValidEntities();
         DataState result = null;
@@ -301,7 +301,7 @@ public class DataStateopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataStateImpl#with(org.omg.dds.sub.ViewState)}.
      */
-    @Test
+    //@tTest
     public void testWithViewState() {
         checkValidEntities();
         DataState result = null;
@@ -320,7 +320,7 @@ public class DataStateopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataStateImpl#with(org.omg.dds.sub.InstanceState)}.
      */
-    @Test
+    //@tTest
     public void testWithInstanceState() {
         checkValidEntities();
         DataState result = null;
@@ -339,7 +339,7 @@ public class DataStateopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataStateImpl#withAnySampleState()}.
      */
-    @Test
+    //@tTest
     public void testWithAnySampleState() {
         checkValidEntities();
         DataState result = null;
@@ -359,7 +359,7 @@ public class DataStateopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataStateImpl#withAnyViewState()}.
      */
-    @Test
+    //@tTest
     public void testWithAnyViewState() {
         checkValidEntities();
         DataState result = null;
@@ -379,7 +379,7 @@ public class DataStateopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataStateImpl#withAnyInstanceState()}.
      */
-    @Test
+    //@tTest
     public void testWithAnyInstanceState() {
         checkValidEntities();
         DataState result = null;
@@ -400,7 +400,7 @@ public class DataStateopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataStateImpl#withNotAliveInstanceStates()}.
      */
-    @Test
+    //@tTest
     public void testWithNotAliveInstanceStates() {
         checkValidEntities();
         DataState result = null;
@@ -421,7 +421,7 @@ public class DataStateopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataStateImpl#withOldSampleState(int)}.
      */
-    @Test
+    //@tTest
     public void testWithOldSampleState() {
         checkValidEntities();
         DataStateImpl result = null;
@@ -449,7 +449,7 @@ public class DataStateopenspliceTest {
      * Test method for
      * {@link org.opensplice.dds.sub.DataStateImpl#withOldSampleState(int)}.
      */
-    @Test
+    //@tTest
     public void testWithOldSampleStateIllegal() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -477,7 +477,7 @@ public class DataStateopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataStateImpl#withOldViewState(int)}.
      */
-    @Test
+    //@tTest
     public void testWithOldViewState() {
         checkValidEntities();
         DataStateImpl result = null;
@@ -505,7 +505,7 @@ public class DataStateopenspliceTest {
      * Test method for
      * {@link org.opensplice.dds.sub.DataStateImpl#withOldViewState(int)}.
      */
-    @Test
+    //@tTest
     public void testWithOldViewStateIllegal() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -532,7 +532,7 @@ public class DataStateopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataStateImpl#withOldInstanceState(int)}.
      */
-    @Test
+    //@tTest
     public void testWithOldInstanceState() {
         checkValidEntities();
         DataStateImpl result = null;
@@ -576,7 +576,7 @@ public class DataStateopenspliceTest {
      * Test method for
      * {@link org.opensplice.dds.sub.DataStateImpl#withOldInstanceState(int)}.
      */
-    @Test
+    //@tTest
     public void testWithOldInstanceStateIllegal() {
         checkValidEntities();
         boolean exceptionOccured = false;

@@ -138,7 +138,7 @@ public class DataReaderprotobufTest {
      * Test method for {@link org.opensplice.dds.sub.DataReaderProtobuf#DataReaderProtobuf(org.opensplice.dds.core.OsplServiceEnvironment, org.opensplice.dds.sub.SubscriberImpl, org.opensplice.dds.topic.TopicDescriptionExt, org.omg.dds.sub.DataReaderQos, org.omg.dds.sub.DataReaderListener, java.util.Collection)}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testDataReaderProtobuf() {
         checkValidEntities();
         DataReaderProtobuf<ProtoMsg, proto.dds.ProtoMsg> dr = null;
@@ -166,7 +166,7 @@ public class DataReaderprotobufTest {
      * .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testDataReaderProtobufTopicNull() {
         checkValidEntities();
         DataReaderProtobuf<ProtoMsg, proto.dds.ProtoMsg> dr = null;
@@ -189,7 +189,7 @@ public class DataReaderprotobufTest {
      * .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testDataReaderProtobufQosNull() {
         checkValidEntities();
         DataReaderProtobuf<ProtoMsg, proto.dds.ProtoMsg> dr = null;
@@ -209,7 +209,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataReaderProtobuf#getKeyValue(java.lang.Object, org.omg.dds.core.InstanceHandle)}.
      */
-    @Test
+    //@tTest
     public void testGetKeyValuePROTOBUF_TYPEInstanceHandle() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -251,7 +251,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataReaderProtobuf#getKeyValue(org.omg.dds.core.InstanceHandle)}.
      */
-    @Test
+    //@tTest
     public void testGetKeyValueInstanceHandle() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -293,7 +293,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataReaderProtobuf#lookupInstance(java.lang.Object)}.
      */
-    @Test
+    //@tTest
     public void testLookupInstance() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -312,7 +312,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataReaderProtobuf#readNextSample(org.omg.dds.sub.Sample)}.
      */
-    @Test
+    //@tTest
     public void testReadNextSample() {
         checkValidEntities();
         Publisher pub = null;
@@ -365,7 +365,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.DataReaderProtobuf#takeNextSample(org.omg.dds.sub.Sample)}.
      */
-    @Test
+    //@tTest
     public void testTakeNextSample() {
         checkValidEntities();
         Publisher pub = null;
@@ -418,7 +418,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#cast()}.
      */
-    @Test
+    //@tTest
     public void testCast() {
         checkValidEntities();
         DataReader<Object> result = null;
@@ -434,7 +434,7 @@ public class DataReaderprotobufTest {
      * Test method for {@link org.omg.dds.sub.DataReader#cast()}.
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Test
+    //@tTest
     public void testCastInvalid() {
         checkValidEntities();
         DataWriter<ProtoMsg> result = null;
@@ -451,7 +451,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#createReadCondition(org.omg.dds.sub.Subscriber.DataState)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateReadCondition() {
         checkValidEntities();
         ReadCondition<ProtoMsg> result = null;
@@ -481,7 +481,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#createReadCondition(org.omg.dds.sub.Subscriber.DataState)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateReadConditionNull() {
         checkValidEntities();
         ReadCondition<ProtoMsg> result = null;
@@ -499,7 +499,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#createReadCondition(org.omg.dds.sub.Subscriber.DataState)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateReadConditionInvalid() {
         checkValidEntities();
         ReadCondition<ProtoMsg> result = null;
@@ -523,7 +523,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(java.lang.String, java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionStringListOfString() {
         checkValidEntities();
         QueryCondition<ProtoMsg> result = null;
@@ -550,7 +550,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(java.lang.String, java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionStringListOfString1() {
         checkValidEntities();
         QueryCondition<ProtoMsg> result = null;
@@ -576,7 +576,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(java.lang.String, java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionStringNullListOfString() {
         checkValidEntities();
         QueryCondition<ProtoMsg> result = null;
@@ -597,7 +597,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(java.lang.String, java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionStringListOfStringNull() {
         checkValidEntities();
         QueryCondition<ProtoMsg> result = null;
@@ -617,7 +617,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(java.lang.String, java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionStringStringArray() {
         checkValidEntities();
         QueryCondition<ProtoMsg> result = null;
@@ -642,7 +642,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(java.lang.String, java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionStringStringArrayNull() {
         checkValidEntities();
         QueryCondition<ProtoMsg> result = null;
@@ -661,7 +661,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(java.lang.String, java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionStringNullStringArray() {
         checkValidEntities();
         QueryCondition<ProtoMsg> result = null;
@@ -680,7 +680,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(org.omg.dds.sub.Subscriber.DataState, java.lang.String, java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionDataStateStringListOfString() {
         checkValidEntities();
         QueryCondition<ProtoMsg> result = null;
@@ -714,7 +714,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(org.omg.dds.sub.Subscriber.DataState, java.lang.String, java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionDataStateNullStringListOfString() {
         checkValidEntities();
         QueryCondition<ProtoMsg> result = null;
@@ -736,7 +736,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(org.omg.dds.sub.Subscriber.DataState, java.lang.String, java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionDataStateStringStringArray() {
         checkValidEntities();
         QueryCondition<ProtoMsg> result = null;
@@ -767,7 +767,7 @@ public class DataReaderprotobufTest {
      * Test method for
      * {@linkorg.omg.dds.sub.DataReader#closeContainedEntities()}.
      */
-    @Test
+    //@tTest
     public void testCloseContainedEntities() {
         checkValidEntities();
         try {
@@ -780,7 +780,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#getTopicDescription()}.
      */
-    @Test
+    //@tTest
     public void testGetTopicDescription() {
         checkValidEntities();
         TopicDescription<ProtoMsg> result = null;
@@ -797,7 +797,7 @@ public class DataReaderprotobufTest {
      * Test method for
      * {@link org.omg.dds.sub.DataReader#getSampleRejectedStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetSampleRejectedStatus() {
         checkValidEntities();
         SampleRejectedStatus result = null;
@@ -813,7 +813,7 @@ public class DataReaderprotobufTest {
      * Test method for
      * {@link org.omg.dds.sub.DataReader#getLivelinessChangedStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetLivelinessChangedStatus() {
         checkValidEntities();
         LivelinessChangedStatus result = null;
@@ -829,7 +829,7 @@ public class DataReaderprotobufTest {
      * Test method for
      * {@link org.omg.dds.sub.DataReader#getRequestedDeadlineMissedStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetRequestedDeadlineMissedStatus() {
         checkValidEntities();
         RequestedDeadlineMissedStatus result = null;
@@ -845,7 +845,7 @@ public class DataReaderprotobufTest {
      * Test method for
      * {@link org.omg.dds.sub.DataReader#getRequestedIncompatibleQosStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetRequestedIncompatibleQosStatus() {
         checkValidEntities();
         RequestedIncompatibleQosStatus result = null;
@@ -861,7 +861,7 @@ public class DataReaderprotobufTest {
      * Test method for
      * {@link org.omg.dds.sub.DataReader#getSubscriptionMatchedStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetSubscriptionMatchedStatus() {
         checkValidEntities();
         SubscriptionMatchedStatus result = null;
@@ -876,7 +876,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#getSampleLostStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetSampleLostStatus() {
         checkValidEntities();
         SampleLostStatus result = null;
@@ -893,7 +893,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#waitForHistoricalData(org.omg.dds.core.Duration)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataDuration() {
         checkValidEntities();
         Duration timeout = Duration.newDuration(2, TimeUnit.SECONDS, env);
@@ -909,7 +909,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#waitForHistoricalData(org.omg.dds.core.Duration)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataDurationNull() {
         checkValidEntities();
         Duration timeout = null;
@@ -929,7 +929,7 @@ public class DataReaderprotobufTest {
      * .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataDurationPersistent() {
         DomainParticipant par = null;
         Topic<ProtoMsg> top = null;
@@ -974,7 +974,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#waitForHistoricalData(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataLongTimeUnit() {
         checkValidEntities();
         try {
@@ -989,7 +989,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#waitForHistoricalData(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataLongTimeUnitNull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -1009,7 +1009,7 @@ public class DataReaderprotobufTest {
      * .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataLongTimeUnitNegative() {
         DomainParticipant par = null;
         Topic<ProtoMsg> top = null;
@@ -1053,7 +1053,7 @@ public class DataReaderprotobufTest {
      * .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataLongTimeUnitOverflow() {
         DomainParticipant par = null;
         Topic<ProtoMsg> top = null;
@@ -1098,7 +1098,7 @@ public class DataReaderprotobufTest {
      * Test method for
      * {@link org.omg.dds.sub.DataReader#getMatchedPublications()}.
      */
-    @Test
+    //@tTest
     public void testGetMatchedPublications() {
         checkValidEntities();
         Set<InstanceHandle> subscriptions = null;
@@ -1115,7 +1115,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#getMatchedPublicationData(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetMatchedPublicationData() {
         checkValidEntities();
         Publisher pub = null;
@@ -1170,7 +1170,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#read()}.
      */
-    @Test
+    //@tTest
     public void testRead() {
         checkValidEntities();
         Publisher pub = null;
@@ -1225,7 +1225,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#read(org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testReadSelectorOfTYPE() {
         checkValidEntities();
         Publisher pub = null;
@@ -1281,7 +1281,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#read(org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testReadSelectorOfTYPENull() {
         checkValidEntities();
         Iterator<Sample<ProtoMsg>> result = null;
@@ -1298,7 +1298,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#read(int)} .
      */
-    @Test
+    //@tTest
     public void testReadIntNegative() {
         checkValidEntities();
         Iterator<Sample<ProtoMsg>> result = null;
@@ -1331,7 +1331,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#read(int)}.
      */
-    @Test
+    //@tTest
     public void testReadInt() {
         checkValidEntities();
         Publisher pub = null;
@@ -1383,7 +1383,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#read(java.util.List)}.
      */
-    @Test
+    //@tTest
     public void testReadListOfSampleOfTYPE() {
         checkValidEntities();
         Publisher pub = null;
@@ -1451,7 +1451,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#read(java.util.List)}.
      */
-    @Test
+    //@tTest
     public void testReadListOfSampleOfTYPENull() {
         checkValidEntities();
         Publisher pub = null;
@@ -1506,7 +1506,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#read(java.util.List, org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testReadListOfSampleOfTYPESelectorOfTYPE() {
         checkValidEntities();
         Publisher pub = null;
@@ -1579,7 +1579,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#read(java.util.List, org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testReadListOfSampleOfTYPESelectorOfTYPENull() {
         List<Sample<ProtoMsg>> result = null;
         List<Sample<ProtoMsg>> samples = new ArrayList<Sample<ProtoMsg>>(10);
@@ -1596,7 +1596,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#take()}.
      */
-    @Test
+    //@tTest
     public void testTake() {
         checkValidEntities();
         Publisher pub = null;
@@ -1647,7 +1647,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#take(org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testTakeSelectorOfTYPE() {
         checkValidEntities();
         Publisher pub = null;
@@ -1700,7 +1700,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#take(int)}.
      */
-    @Test
+    //@tTest
     public void testTakeInt() {
         checkValidEntities();
         Publisher pub = null;
@@ -1751,7 +1751,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#take(java.util.List)}.
      */
-    @Test
+    //@tTest
     public void testTakeListOfSampleOfTYPE() {
         checkValidEntities();
         Publisher pub = null;
@@ -1820,7 +1820,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.sub.DataReader#take(java.util.List, org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testTakeListOfSampleOfTYPESelectorOfTYPE() {
         checkValidEntities();
         Publisher pub = null;
@@ -1892,7 +1892,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.pub.DataReader#getKeyValue(java.lang.Object, org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetKeyValueTYPEInstanceHandleNull() {
         checkValidEntities();
         ProtoMsg.Builder messageBuilder = ProtoMsg.newBuilder();
@@ -1912,7 +1912,7 @@ public class DataReaderprotobufTest {
      * Test method for
      * {@link org.omg.dds.pub.DataReader#lookupInstance(java.lang.Object)}.
      */
-    @Test
+    //@tTest
     public void testLookupInstanceNull() {
         checkValidEntities();
         ProtoMsg message = null;
@@ -1928,7 +1928,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataReader#getStatusCondition()}.
      */
-    @Test
+    //@tTest
     public void testGetStatusCondition() {
         checkValidEntities();
         StatusCondition<DataReader<ProtoMsg>> result = null;
@@ -1943,7 +1943,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataReader#getParent()}.
      */
-    @Test
+    //@tTest
     public void testGetParent() {
         checkValidEntities();
         Subscriber result = null;
@@ -1958,7 +1958,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#select()}.
      */
-    @Test
+    //@tTest
     public void testSelect() {
         checkValidEntities();
         Selector<ProtoMsg> result = null;
@@ -1974,7 +1974,7 @@ public class DataReaderprotobufTest {
      * Test method for {@link org.omg.dds.core.Entity#getListener()}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testGetDataReaderListener() {
         checkValidEntities();
         DataReaderListener<ProtoMsg> drl = new DataReaderListenerprotobufClass();
@@ -2011,7 +2011,7 @@ public class DataReaderprotobufTest {
      * Test method for
      * {@link org.omg.dds.core.Entity#setListener(java.util.EventListener)}.
      */
-    @Test
+    //@tTest
     public void testDataReaderSetListener() {
         checkValidEntities();
         DataReaderListener<ProtoMsg> drl = new DataReaderListenerprotobufClass();
@@ -2027,7 +2027,7 @@ public class DataReaderprotobufTest {
      * {@link org.omg.dds.core.Entity#setListener(java.util.EventListener, java.util.Collection)}
      * .
      */
-    @Test
+    //@tTest
     public void testDataReaderSetListenerCollectionOfClassOfQextendsStatus() {
         checkValidEntities();
         DataReaderListener<ProtoMsg> drl = new DataReaderListenerprotobufClass();
@@ -2046,7 +2046,7 @@ public class DataReaderprotobufTest {
      * java.lang.Class<? extends org.omg.dds.core.status.Status>[])}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testDataReaderSetListenerClassOfQextendsStatusArray() {
         checkValidEntities();
         DataReaderListener<ProtoMsg> drl = new DataReaderListenerprotobufClass();
@@ -2061,7 +2061,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getQos()}.
      */
-    @Test
+    //@tTest
     public void testGetQos() {
         checkValidEntities();
         DataReaderQos drq = null;
@@ -2077,7 +2077,7 @@ public class DataReaderprotobufTest {
      * Test method for
      * {@link org.omg.dds.core.Entity#setQos(org.omg.dds.core.EntityQos)}.
      */
-    @Test
+    //@tTest
     public void testSetQos() {
         checkValidEntities();
         DataReaderQos drq = null;
@@ -2110,7 +2110,7 @@ public class DataReaderprotobufTest {
      * Test method for
      * {@link org.omg.dds.core.Entity#setQos(org.omg.dds.core.EntityQos)}.
      */
-    @Test
+    //@tTest
     public void testSetQosNull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -2128,7 +2128,7 @@ public class DataReaderprotobufTest {
      * Test method for
      * {@link org.omg.dds.core.Entity#setQos(org.omg.dds.core.EntityQos)}.
      */
-    @Test
+    //@tTest
     public void testSetQosException() {
         checkValidEntities();
         DataReaderQos drq = null;
@@ -2168,7 +2168,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#enable()}.
      */
-    @Test
+    //@tTest
     public void testEnable() {
         checkValidEntities();
         try {
@@ -2181,7 +2181,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getStatusChanges()}.
      */
-    @Test
+    //@tTest
     public void testGetStatusChanges() {
         checkValidEntities();
         Set<Class<? extends Status>> statuses = null;
@@ -2197,7 +2197,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getInstanceHandle()}.
      */
-    @Test
+    //@tTest
     public void testGetInstanceHandle() {
         checkValidEntities();
         InstanceHandle ih = null;
@@ -2212,7 +2212,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#retain()}.
      */
-    @Test
+    //@tTest
     public void testRetain() {
         checkValidEntities();
         try {
@@ -2225,7 +2225,7 @@ public class DataReaderprotobufTest {
     /**
      * Test method for {@link org.omg.dds.core.DDSObject#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;
@@ -2241,7 +2241,7 @@ public class DataReaderprotobufTest {
      * Test if samples are read in order with ordered access enabled at topic
      * level.
      */
-    @Test
+    //@tTest
     public void testPresentationTopicReadOrdered() {
         boolean proceed = true;
         TopicQos tq = null;
@@ -2310,7 +2310,7 @@ public class DataReaderprotobufTest {
      * Test if samples are read in order with ordered access enabled at topic
      * level.
      */
-    @Test
+    //@tTest
     public void testPresentationTopicReadOrderedHead() {
         TopicQos tq = null;
         Topic<ProtoMsg> t = null;
@@ -2386,7 +2386,7 @@ public class DataReaderprotobufTest {
      * Test if samples are read in order with ordered access enabled at group
      * level.
      */
-    @Test
+    //@tTest
     public void testPresentationGroupReadOrdered() {
         TopicQos tq = null;
         List<Topic<ProtoMsg>> t = new ArrayList<Topic<ProtoMsg>>();
@@ -2469,7 +2469,7 @@ public class DataReaderprotobufTest {
      * Test method for verifying same destination order is enforced by the
      * subscriber when ordered access is configured for group scope.
      */
-    @Test
+    //@tTest
     public void testGroupOrderedAccessSetInconsistentDestinationOrder() {
         TopicQos tq = null;
         Topic<ProtoMsg> t = null;
@@ -2511,7 +2511,7 @@ public class DataReaderprotobufTest {
      * Test method for verifying readers are allowed different destination
      * order policies when ordered access is configured for topic scope.
      */
-    @Test
+    //@tTest
     public void testTopicOrderedAccessSetDestinationOrder() {
         TopicQos tq = null;
         Topic<ProtoMsg> t = null;

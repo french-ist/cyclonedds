@@ -110,7 +110,7 @@ public class DataReaderListenerTest {
 
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnRequestedIncompatibleQos() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -152,7 +152,7 @@ public class DataReaderListenerTest {
 
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnRequestedDeadlineMissed() {
         checkValidEntities();
         boolean triggerOccured = false;
@@ -206,7 +206,7 @@ public class DataReaderListenerTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testonLivelinessChanged() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -255,7 +255,7 @@ public class DataReaderListenerTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnSubscriptionMatched() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -293,7 +293,7 @@ public class DataReaderListenerTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnDataAvailable() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -333,7 +333,7 @@ public class DataReaderListenerTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnSampleRejected() {
         checkValidEntities();
         DataWriter<Msg> dw = null;

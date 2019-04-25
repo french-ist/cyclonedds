@@ -60,7 +60,7 @@ public class PolicyFactoryopenspliceTest {
      * Test method for
      * {@link org.omg.dds.core.policy.PolicyFactory#DataRepresentation()}.
      */
-    @Test
+    //@tTest
     public void testDataRepresentation() {
         checkValidEntities();
         DataRepresentation result = null;
@@ -76,7 +76,7 @@ public class PolicyFactoryopenspliceTest {
      * Test method for
      * {@link org.opensplice.dds.core.policy.PolicyFactory#Share()}.
      */
-    @Test
+    //@tTest
     public void testShare() {
         checkValidEntities();
         Share result = null;
@@ -92,7 +92,7 @@ public class PolicyFactoryopenspliceTest {
      * Test method for
      * {@link org.opensplice.dds.core.policy.PolicyFactory#SubscriptionKeys()}.
      */
-    @Test
+    //@tTest
     public void testSubscriptionKeys() {
         checkValidEntities();
         SubscriptionKeys result = null;
@@ -108,7 +108,7 @@ public class PolicyFactoryopenspliceTest {
      * Test method for
      * {@link org.opensplice.dds.core.policy.PolicyFactory#ViewKeys()}.
      */
-    @Test
+    //@tTest
     public void testViewKeys() {
         checkValidEntities();
         ViewKeys result = null;
@@ -124,7 +124,7 @@ public class PolicyFactoryopenspliceTest {
      * Test method for
      * {@link org.opensplice.dds.core.policy.PolicyFactory#ReaderLifespan()}.
      */
-    @Test
+    //@tTest
     public void testReaderLifespan() {
         checkValidEntities();
         ReaderLifespan result = null;
@@ -141,7 +141,7 @@ public class PolicyFactoryopenspliceTest {
      * {@link org.opensplice.dds.core.policy.PolicyFactory#WatchdogScheduling()}
      * .
      */
-    @Test
+    //@tTest
     public void testWatchdogScheduling() {
         checkValidEntities();
         WatchdogScheduling result = null;
@@ -158,7 +158,7 @@ public class PolicyFactoryopenspliceTest {
      * {@link org.opensplice.dds.core.policy.PolicyFactory#ListenerScheduling()}
      * .
      */
-    @Test
+    //@tTest
     public void testListenerScheduling() {
         checkValidEntities();
         ListenerScheduling result = null;

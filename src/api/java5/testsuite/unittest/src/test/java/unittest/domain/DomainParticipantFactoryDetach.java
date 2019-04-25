@@ -521,7 +521,7 @@ public class DomainParticipantFactoryDetach {
      * {@link org.opensplice.dds.domain.DomainParticipantFactory#detachAllDomains(true, true)}
      * .
      */
-    @Test
+    //@tTest
     public void testDetachAllDomainsBlockDelete() {
         String function = "testDetachAllDomainsBlockDelete";
 
@@ -572,7 +572,7 @@ public class DomainParticipantFactoryDetach {
      * {@link org.opensplice.dds.domain.DomainParticipantFactory#detachAllDomains(true, false)}
      * .
      */
-    @Test
+    //@tTest
     public void testDetachAllDomainsBlockNoDelete() {
         String function = "testDetachAllDomainsBlockNoDelete";
 
@@ -623,7 +623,7 @@ public class DomainParticipantFactoryDetach {
      * {@link org.opensplice.dds.domain.DomainParticipantFactory#detachAllDomains(true, false)}
      * .
      */
-    @Test
+    //@tTest
     public void testDetachAllDomainsNoBlockDelete() {
         String function = "testDetachAllDomainsNoBlockDelete";
 
@@ -674,7 +674,7 @@ public class DomainParticipantFactoryDetach {
      * {@link org.opensplice.dds.domain.DomainParticipantFactory#detachAllDomains(false, false)}
      * .
      */
-    @Test
+    //@tTest
     public void testDetachAllDomainsNoBlockNoDelete() {
         String function = "testDetachAllDomainsNoBlockNoDelete";
 

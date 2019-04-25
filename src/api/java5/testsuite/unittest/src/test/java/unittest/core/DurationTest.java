@@ -50,7 +50,7 @@ public class DurationTest {
      * {@link org.omg.dds.core.Duration#newDuration(long, java.util.concurrent.TimeUnit, org.omg.dds.core.ServiceEnvironment)}
      * .
      */
-    @Test
+    //@tTest
     public void testNewDuration() {
         checkValidEntities();
         Duration dur = null;
@@ -65,7 +65,7 @@ public class DurationTest {
     /**
      * Test method for {@link org.omg.dds.core.Duration#newDuration(long, java.util.concurrent.TimeUnit, org.omg.dds.core.ServiceEnvironment)}.
      */
-    @Test
+    //@tTest
     public void testNewDurationNull() {
         checkValidEntities();
         Duration dur = null;
@@ -88,7 +88,7 @@ public class DurationTest {
     /**
      * Test method for {@link org.omg.dds.core.Duration#infiniteDuration(org.omg.dds.core.ServiceEnvironment)}.
      */
-    @Test
+    //@tTest
     public void testInfiniteDuration() {
         checkValidEntities();
         Duration dur = null;
@@ -105,7 +105,7 @@ public class DurationTest {
      * {@link org.omg.dds.core.Duration#infiniteDuration(org.omg.dds.core.ServiceEnvironment)}
      * .
      */
-    @Test
+    //@tTest
     public void testInfiniteDurationNull() {
         checkValidEntities();
         Duration dur = null;
@@ -122,7 +122,7 @@ public class DurationTest {
      * {@link org.omg.dds.core.Duration#zeroDuration(org.omg.dds.core.ServiceEnvironment)}
      * .
      */
-    @Test
+    //@tTest
     public void testZeroDuration() {
         checkValidEntities();
         Duration dur = null;
@@ -139,7 +139,7 @@ public class DurationTest {
      * {@link org.omg.dds.core.Duration#zeroDuration(org.omg.dds.core.ServiceEnvironment)}
      * .
      */
-    @Test
+    //@tTest
     public void testZeroDurationNull() {
         checkValidEntities();
         Duration dur = null;
@@ -154,7 +154,7 @@ public class DurationTest {
     /**
      * Test method for {@link org.omg.dds.core.Duration#getDuration(java.util.concurrent.TimeUnit)}.
      */
-    @Test
+    //@tTest
     public void testGetDuration() {
         checkValidEntities();
         Duration dur = null;
@@ -173,7 +173,7 @@ public class DurationTest {
      * {@link org.omg.dds.core.Duration#getDuration(java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetDurationNull() {
         checkValidEntities();
         Duration dur = null;
@@ -190,7 +190,7 @@ public class DurationTest {
     /**
      * Test method for {@link org.omg.dds.core.Duration#getRemainder(java.util.concurrent.TimeUnit, java.util.concurrent.TimeUnit)}.
      */
-    @Test
+    //@tTest
     public void testGetRemainder() {
         checkValidEntities();
         Duration dur = null;
@@ -209,7 +209,7 @@ public class DurationTest {
      * {@link org.omg.dds.core.Duration#getRemainder(java.util.concurrent.TimeUnit, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetRemainderNullTimeUnit() {
         checkValidEntities();
         Duration dur = null;
@@ -228,7 +228,7 @@ public class DurationTest {
      * {@link org.omg.dds.core.Duration#getRemainder(java.util.concurrent.TimeUnit, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetRemainderTimeUnitNull() {
         checkValidEntities();
         Duration dur = null;
@@ -245,7 +245,7 @@ public class DurationTest {
     /**
      * Test method for {@link org.omg.dds.core.Duration#isZero()}.
      */
-    @Test
+    //@tTest
     public void testIsZero() {
         checkValidEntities();
         Duration dur = null;
@@ -260,7 +260,7 @@ public class DurationTest {
     /**
      * Test method for {@link org.omg.dds.core.Duration#isInfinite()}.
      */
-    @Test
+    //@tTest
     public void testIsInfinite() {
         checkValidEntities();
         Duration dur = null;
@@ -275,7 +275,7 @@ public class DurationTest {
     /**
      * Test method for {@link org.omg.dds.core.Duration#add(org.omg.dds.core.Duration)}.
      */
-    @Test
+    //@tTest
     public void testAddDuration() {
         checkValidEntities();
         Duration dur = null;
@@ -292,7 +292,7 @@ public class DurationTest {
      * Test method for
      * {@link org.omg.dds.core.Duration#add(org.omg.dds.core.Duration)}.
      */
-    @Test
+    //@tTest
     public void testAddDurationOverflow() {
         checkValidEntities();
         Duration dur = null;
@@ -317,7 +317,7 @@ public class DurationTest {
      * Test method for
      * {@link org.omg.dds.core.Duration#add(org.omg.dds.core.Duration)}.
      */
-    @Test
+    //@tTest
     public void testAddDurationNull() {
         checkValidEntities();
         Duration dur = null;
@@ -335,7 +335,7 @@ public class DurationTest {
      * {@link org.omg.dds.core.Duration#add(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testAddLongTimeUnit() {
         checkValidEntities();
         Duration dur = null;
@@ -353,7 +353,7 @@ public class DurationTest {
      * {@link org.omg.dds.core.Duration#add(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testAddLongTimeUnitNull() {
         checkValidEntities();
         Duration dur = null;
@@ -369,7 +369,7 @@ public class DurationTest {
     /**
      * Test method for {@link org.omg.dds.core.Duration#subtract(org.omg.dds.core.Duration)}.
      */
-    @Test
+    //@tTest
     public void testSubtractDuration() {
         checkValidEntities();
         Duration dur = null;
@@ -386,7 +386,7 @@ public class DurationTest {
      * Test method for
      * {@link org.omg.dds.core.Duration#subtract(org.omg.dds.core.Duration)}.
      */
-    @Test
+    //@tTest
     public void testSubtractDurationOverflow() {
         checkValidEntities();
         Duration dur = null;
@@ -403,7 +403,7 @@ public class DurationTest {
      * Test method for
      * {@link org.omg.dds.core.Duration#subtract(org.omg.dds.core.Duration)}.
      */
-    @Test
+    //@tTest
     public void testSubtractDurationInfinite() {
         checkValidEntities();
         Duration dur = null;
@@ -420,7 +420,7 @@ public class DurationTest {
      * Test method for
      * {@link org.omg.dds.core.Duration#subtract(org.omg.dds.core.Duration)}.
      */
-    @Test
+    //@tTest
     public void testSubtractDuration1() {
         checkValidEntities();
         Duration dur = null;
@@ -437,7 +437,7 @@ public class DurationTest {
      * Test method for
      * {@link org.omg.dds.core.Duration#subtract(org.omg.dds.core.Duration)}.
      */
-    @Test
+    //@tTest
     public void testSubtractDurationNull() {
         checkValidEntities();
         Duration dur = null;
@@ -453,7 +453,7 @@ public class DurationTest {
     /**
      * Test method for {@link org.omg.dds.core.Duration#subtract(long, java.util.concurrent.TimeUnit)}.
      */
-    @Test
+    //@tTest
     public void testSubtractLongTimeUnit() {
         checkValidEntities();
         Duration dur = null;
@@ -471,7 +471,7 @@ public class DurationTest {
      * {@link org.omg.dds.core.Duration#subtract(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testSubtractLongTimeUnitNull() {
         checkValidEntities();
         Duration dur = null;

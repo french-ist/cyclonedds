@@ -108,7 +108,7 @@ public class SubscriberGetDataReadersopenspliceTest {
      * Test testPresentationDefault
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testPresentationDefault() {
 
         Publisher  pub = null;
@@ -320,7 +320,7 @@ public class SubscriberGetDataReadersopenspliceTest {
      * Test testPresentationGroupNotOrdered
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testPresentationGroupNotOrdered() {
 
         Publisher  pub = null;
@@ -584,7 +584,7 @@ public class SubscriberGetDataReadersopenspliceTest {
      * Test testPresentationGroupOrdered
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testPresentationGroupOrdered() {
 
         Publisher  pub = null;

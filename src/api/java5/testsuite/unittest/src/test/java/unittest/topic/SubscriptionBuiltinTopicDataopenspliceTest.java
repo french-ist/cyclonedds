@@ -143,7 +143,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getKey()}.
      */
-    @Test
+    //@tTest
     public void testGetKey() {
         checkValidEntities();
         BuiltinTopicKey result = null;
@@ -166,7 +166,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getParticipantKey()}.
      */
-    @Test
+    //@tTest
     public void testGetParticipantKey() {
         checkValidEntities();
         BuiltinTopicKey result = null;
@@ -183,7 +183,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
      * Test method for
      * {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getTopicName()}.
      */
-    @Test
+    //@tTest
     public void testGetTopicName() {
         checkValidEntities();
         String result = null;
@@ -201,7 +201,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getTypeName()}.
      */
-    @Test
+    //@tTest
     public void testGetTypeName() {
         checkValidEntities();
         String result = null;
@@ -219,7 +219,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getEquivalentTypeName()}.
      */
-    @Test
+    //@tTest
     public void testGetEquivalentTypeName() {
         checkValidEntities();
         List<String> result = null;
@@ -234,7 +234,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getBaseTypeName()}.
      */
-    @Test
+    //@tTest
     public void testGetBaseTypeName() {
         checkValidEntities();
         List<String> result = null;
@@ -249,7 +249,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getType()}.
      */
-    @Test
+    //@tTest
     public void testGetType() {
         checkValidEntities();
         TypeObject result = null;
@@ -264,7 +264,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getDurability()}.
      */
-    @Test
+    //@tTest
     public void testGetDurability() {
         checkValidEntities();
         Durability result = null;
@@ -279,7 +279,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getDeadline()}.
      */
-    @Test
+    //@tTest
     public void testGetDeadline() {
         checkValidEntities();
         Deadline result = null;
@@ -294,7 +294,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getLatencyBudget()}.
      */
-    @Test
+    //@tTest
     public void testGetLatencyBudget() {
         checkValidEntities();
         LatencyBudget result = null;
@@ -309,7 +309,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getLiveliness()}.
      */
-    @Test
+    //@tTest
     public void testGetLiveliness() {
         checkValidEntities();
         Liveliness result = null;
@@ -324,7 +324,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getReliability()}.
      */
-    @Test
+    //@tTest
     public void testGetReliability() {
         checkValidEntities();
         Reliability result = null;
@@ -339,7 +339,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getOwnership()}.
      */
-    @Test
+    //@tTest
     public void testGetOwnership() {
         checkValidEntities();
         Ownership result = null;
@@ -354,7 +354,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getDestinationOrder()}.
      */
-    @Test
+    //@tTest
     public void testGetDestinationOrder() {
         checkValidEntities();
         DestinationOrder result = null;
@@ -369,7 +369,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getUserData()}.
      */
-    @Test
+    //@tTest
     public void testGetUserData() {
         checkValidEntities();
         UserData result = null;
@@ -384,7 +384,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getTimeBasedFilter()}.
      */
-    @Test
+    //@tTest
     public void testGetTimeBasedFilter() {
         checkValidEntities();
         TimeBasedFilter result = null;
@@ -399,7 +399,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getPresentation()}.
      */
-    @Test
+    //@tTest
     public void testGetPresentation() {
         checkValidEntities();
         Presentation result = null;
@@ -414,7 +414,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getPartition()}.
      */
-    @Test
+    //@tTest
     public void testGetPartition() {
         checkValidEntities();
         Partition result = null;
@@ -429,7 +429,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getTopicData()}.
      */
-    @Test
+    //@tTest
     public void testGetTopicData() {
         checkValidEntities();
         TopicData result = null;
@@ -444,7 +444,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getGroupData()}.
      */
-    @Test
+    //@tTest
     public void testGetGroupData() {
         checkValidEntities();
         GroupData result = null;
@@ -459,7 +459,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getRepresentation()}.
      */
-    @Test
+    //@tTest
     public void testGetRepresentation() {
         checkValidEntities();
         DataRepresentation result = null;
@@ -474,7 +474,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#getTypeConsistency()}.
      */
-    @Test
+    //@tTest
     public void testGetTypeConsistency() {
         checkValidEntities();
         TypeConsistencyEnforcement result = null;
@@ -489,7 +489,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#copyFrom(org.omg.dds.topic.SubscriptionBuiltinTopicData)}.
      */
-    @Test
+    //@tTest
     public void testCopyFrom() {
         checkValidEntities();
         SubscriptionBuiltinTopicData result = null;
@@ -508,7 +508,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
      * {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#copyFrom(org.omg.dds.topic.SubscriptionBuiltinTopicData)}
      * .
      */
-    @Test
+    //@tTest
     public void testCopyFromNull() {
         checkValidEntities();
         SubscriptionBuiltinTopicData result = sbtd;
@@ -526,7 +526,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
      * Test method for
      * {@link org.omg.dds.topic.SubscriptionBuiltinTopicData#clone()}.
      */
-    @Test
+    //@tTest
     public void testClone() {
         checkValidEntities();
         SubscriptionBuiltinTopicData result = null;
@@ -541,7 +541,7 @@ public class SubscriptionBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.core.DDSObject#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;

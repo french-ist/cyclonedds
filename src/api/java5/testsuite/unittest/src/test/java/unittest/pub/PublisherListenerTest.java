@@ -112,7 +112,7 @@ public class PublisherListenerTest {
 
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnOfferedIncompatibleQos() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -151,7 +151,7 @@ public class PublisherListenerTest {
 
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnOfferedDeadlineMissed() {
         checkValidEntities();
         boolean triggerOccured = false;
@@ -192,7 +192,7 @@ public class PublisherListenerTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnLivelinessLost() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -229,7 +229,7 @@ public class PublisherListenerTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnPublicationMatched() {
         checkValidEntities();
         DataWriter<Msg> dw = null;

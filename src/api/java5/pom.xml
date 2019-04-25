@@ -173,5 +173,6 @@
 		<module>jna-dds</module>
 		<module>java-generator-helper</module>
 		<module>examples</module>
+        <module>testsuite</module>
 	</modules>
 </project>

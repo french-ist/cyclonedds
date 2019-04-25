@@ -105,7 +105,7 @@ public class SelectorTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.SelectorImpl#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;
@@ -121,7 +121,7 @@ public class SelectorTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.SelectorImpl#instance(org.omg.dds.core.InstanceHandle)}.
      */
-    @Test
+    //@tTest
     public void testInstance() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -141,7 +141,7 @@ public class SelectorTest {
      * {@link org.opensplice.dds.sub.SelectorImpl#instance(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testInstanceNull() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -158,7 +158,7 @@ public class SelectorTest {
      * Test method for
      * {@link org.opensplice.dds.sub.SelectorImpl#nextInstance(boolean)}.
      */
-    @Test
+    //@tTest
     public void testNextInstance() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -177,7 +177,7 @@ public class SelectorTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.SelectorImpl#dataState(org.omg.dds.sub.Subscriber.DataState)}.
      */
-    @Test
+    //@tTest
     public void testDataState() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -197,7 +197,7 @@ public class SelectorTest {
      * {@link org.opensplice.dds.sub.SelectorImpl#dataState(org.omg.dds.sub.Subscriber.DataState)}
      * .
      */
-    @Test
+    //@tTest
     public void testDataState1() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -220,7 +220,7 @@ public class SelectorTest {
      * {@link org.opensplice.dds.sub.SelectorImpl#dataState(org.omg.dds.sub.Subscriber.DataState)}
      * .
      */
-    @Test
+    //@tTest
     public void testDataState2() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -241,7 +241,7 @@ public class SelectorTest {
      * {@link org.opensplice.dds.sub.SelectorImpl#dataState(org.omg.dds.sub.Subscriber.DataState)}
      * .
      */
-    @Test
+    //@tTest
     public void testDataStateNull() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -259,7 +259,7 @@ public class SelectorTest {
      * {@link org.opensplice.dds.sub.SelectorImpl#dataState(org.omg.dds.sub.Subscriber.DataState)}
      * .
      */
-    @Test
+    //@tTest
     public void testDataStateEmpty() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -277,7 +277,7 @@ public class SelectorTest {
      * {@link org.opensplice.dds.sub.SelectorImpl#Content(java.lang.String, java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testContentStringListOfString() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -298,7 +298,7 @@ public class SelectorTest {
      * Test method for
      * {@link org.opensplice.dds.sub.SelectorImpl#Content(java.lang.String)} .
      */
-    @Test
+    //@tTest
     public void testContentStringListOfString1() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -318,7 +318,7 @@ public class SelectorTest {
      * {@link org.opensplice.dds.sub.SelectorImpl#Content(java.lang.String, java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testContentStringListOfString2() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -340,7 +340,7 @@ public class SelectorTest {
      * {@link org.opensplice.dds.sub.SelectorImpl#Content(java.lang.String, java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testContentStringListOfStringNull() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -360,7 +360,7 @@ public class SelectorTest {
      * {@link org.opensplice.dds.sub.SelectorImpl#Content(java.lang.String, java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testContentStringNullListOfString() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -379,7 +379,7 @@ public class SelectorTest {
      * {@link org.opensplice.dds.sub.SelectorImpl#Content(java.lang.String, java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testContentStringStringArray() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -401,7 +401,7 @@ public class SelectorTest {
      * {@link org.opensplice.dds.sub.SelectorImpl#Content(java.lang.String, java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testContentStringStringArrayNull() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -421,7 +421,7 @@ public class SelectorTest {
      * {@link org.opensplice.dds.sub.SelectorImpl#Content(java.lang.String, java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testContentStringStringArrayNull1() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -440,7 +440,7 @@ public class SelectorTest {
      * Test method for
      * {@link org.opensplice.dds.sub.SelectorImpl#maxSamples(int)}.
      */
-    @Test
+    //@tTest
     public void testMaxSamples() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -459,7 +459,7 @@ public class SelectorTest {
      * Test method for
      * {@link org.opensplice.dds.sub.SelectorImpl#maxSamples(int)}.
      */
-    @Test
+    //@tTest
     public void testMaxSamplesNegative() {
         checkValidEntities();
         Selector<Msg> sel = null;
@@ -477,7 +477,7 @@ public class SelectorTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.SelectorImpl#read()}.
      */
-    @Test
+    //@tTest
     public void testRead() {
         checkValidEntities();
         Iterator<Msg> sel = null;
@@ -496,7 +496,7 @@ public class SelectorTest {
      * Test method for
      * {@link org.opensplice.dds.sub.SelectorImpl#read(java.util.List)}.
      */
-    @Test
+    //@tTest
     public void testReadListOfSampleOfTYPE() {
         checkValidEntities();
         List<Sample<Msg>> sel = null;
@@ -514,7 +514,7 @@ public class SelectorTest {
      * Test method for
      * {@link org.opensplice.dds.sub.SelectorImpl#read(java.util.List)}.
      */
-    @Test
+    //@tTest
     public void testReadListOfSampleOfTYPENull() {
         checkValidEntities();
         List<Sample<Msg>> sel = null;
@@ -531,7 +531,7 @@ public class SelectorTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.SelectorImpl#take()}.
      */
-    @Test
+    //@tTest
     public void testTake() {
         checkValidEntities();
         Iterator<Msg> sel = null;
@@ -550,7 +550,7 @@ public class SelectorTest {
      * Test method for
      * {@link org.opensplice.dds.sub.SelectorImpl#take(java.util.List)}.
      */
-    @Test
+    //@tTest
     public void testTakeListOfSampleOfTYPE() {
         checkValidEntities();
         List<Sample<Msg>> sel = null;
@@ -568,7 +568,7 @@ public class SelectorTest {
      * Test method for
      * {@link org.opensplice.dds.sub.SelectorImpl#take(java.util.List)}.
      */
-    @Test
+    //@tTest
     public void testTakeQuery() {
         checkValidEntities();
         Iterator<Msg> sel = null;
@@ -588,7 +588,7 @@ public class SelectorTest {
      * Test method for
      * {@link org.opensplice.dds.sub.SelectorImpl#take(java.util.List)}.
      */
-    @Test
+    //@tTest
     public void testTakeListOfSampleOfTYPENull() {
         checkValidEntities();
         List<Sample<Msg>> sel = null;

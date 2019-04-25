@@ -117,7 +117,7 @@ public class DomainParticipantTest {
     /**
      * Test method for {@link org.omg.dds.domain.DomainParticipant#createPublisher()}.
      */
-    @Test
+    //@tTest
     public void testCreatePublisher() {
         Publisher pub = null;
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -133,7 +133,7 @@ public class DomainParticipantTest {
     /**
      * Test method for {@link org.omg.dds.domain.DomainParticipant#createPublisher(org.omg.dds.pub.PublisherQos)}.
      */
-    @Test
+    //@tTest
     public void testCreatePublisherPublisherQos() {
         Publisher pub = null;
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -153,7 +153,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#createPublisher(org.omg.dds.pub.PublisherQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreatePublisherPublisherQosNull() {
         Publisher pub = null;
         PublisherQos pq = null;
@@ -171,7 +171,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#createPublisher(org.omg.dds.pub.PublisherQos, org.omg.dds.pub.PublisherListener, java.util.Collection)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreatePublisherPublisherQosPublisherListenerCollectionOfClassOfQextendsStatus() {
         Publisher pub = null;
         PublisherListener listener = new PublisherListenerClass();
@@ -197,7 +197,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#createPublisher(org.omg.dds.pub.PublisherQos, org.omg.dds.pub.PublisherListener, java.util.Collection)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreatePublisherPublisherQosPublisherListenerCollectionOfClassOfQextendsStatusNull() {
         Publisher pub = null;
         PublisherListener listener = null;
@@ -224,7 +224,7 @@ public class DomainParticipantTest {
      * extends org.omg.dds.core.status.Status>[])}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testCreatePublisherPublisherQosPublisherListenerClassOfQextendsStatusArray() {
         Publisher pub = null;
         PublisherListener listener = null;
@@ -251,7 +251,7 @@ public class DomainParticipantTest {
      * extends org.omg.dds.core.status.Status>[])}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testCreatePublisherPublisherQosPublisherListenerClassOfQextendsStatusArrayNull() {
         Publisher pub = null;
         PublisherListener listener = null;
@@ -275,7 +275,7 @@ public class DomainParticipantTest {
      * Test method for
      * {@link org.omg.dds.domain.DomainParticipant#createSubscriber()}.
      */
-    @Test
+    //@tTest
     public void testCreateSubscriber() {
         Subscriber sub = null;
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -291,7 +291,7 @@ public class DomainParticipantTest {
     /**
      * Test method for {@link org.omg.dds.domain.DomainParticipant#createSubscriber(org.omg.dds.sub.SubscriberQos)}.
      */
-    @Test
+    //@tTest
     public void testCreateSubscriberSubscriberQos() {
         Subscriber sub = null;
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -311,7 +311,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#createSubscriber(org.omg.dds.sub.SubscriberQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateSubscriberSubscriberQosNull() {
         Subscriber sub = null;
         SubscriberQos sq = null;
@@ -329,7 +329,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#createSubscriber(org.omg.dds.sub.SubscriberQos, org.omg.dds.sub.SubscriberListener, java.util.Collection)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateSubscriberSubscriberQosSubscriberListenerCollectionOfClassOfQextendsStatus() {
         Subscriber sub = null;
         SubscriberListener listener = new SubscriberListenerClass();
@@ -354,7 +354,7 @@ public class DomainParticipantTest {
      * Test method for {@link org.omg.dds.domain.DomainParticipant#createSubscriber(org.omg.dds.sub.SubscriberQos, org.omg.dds.sub.SubscriberListener, java.lang.Class<? extends org.omg.dds.core.status.Status>[])}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testCreateSubscriberSubscriberQosSubscriberListenerClassOfQextendsStatusArray() {
         Subscriber sub = null;
         SubscriberListener listener = null;
@@ -378,7 +378,7 @@ public class DomainParticipantTest {
      * Test method for
      * {@link org.omg.dds.domain.DomainParticipant#getBuiltinSubscriber()}.
      */
-    @Test
+    //@tTest
     public void testGetBuiltinSubscriber() {
         Subscriber sub = null;
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -396,7 +396,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#createTopic(java.lang.String, java.lang.Class)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateTopicStringClassOfTYPE() {
         Topic<Msg> t = null;
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -417,7 +417,7 @@ public class DomainParticipantTest {
      * .
      */
     /* fails for opensplice see OSPL-5543 */
-    @Test
+    //@tTest
     public void testCreateTopicStringClassOfTYPENull() {
         Topic<Msg> t = null;
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -435,7 +435,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#createTopic(java.lang.String, java.lang.Class, org.omg.dds.topic.TopicQos, org.omg.dds.topic.TopicListener, java.util.Collection)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateTopicStringClassOfTYPETopicQosTopicListenerOfTYPECollectionOfClassOfQextendsStatus() {
         Topic<Msg> t = null;
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -466,7 +466,7 @@ public class DomainParticipantTest {
      * org.omg.dds.core.status.Status>[])}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testCreateTopicStringClassOfTYPETopicQosTopicListenerOfTYPEClassOfQextendsStatusArray() {
 
         Topic<Msg> t = null;
@@ -491,7 +491,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#createTopic(java.lang.String, org.omg.dds.type.TypeSupport)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateTopicStringTypeSupportOfTYPE() {
         Topic<Msg> t = null;
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -513,7 +513,7 @@ public class DomainParticipantTest {
      * .
      */
     /* fails for opensplice see OSPL-5543 */
-    @Test
+    //@tTest
     public void testCreateTopicStringTypeSupportOfTYPENull() {
         Topic<Msg> t = null;
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -532,7 +532,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#createTopic(java.lang.String, org.omg.dds.type.TypeSupport, org.omg.dds.topic.TopicQos, org.omg.dds.topic.TopicListener, java.util.Collection)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateTopicStringTypeSupportOfTYPETopicQosTopicListenerOfTYPECollectionOfClassOfQextendsStatus() {
         Topic<Msg> t = null;
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -562,7 +562,7 @@ public class DomainParticipantTest {
      * org.omg.dds.core.status.Status>[])}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testCreateTopicStringTypeSupportOfTYPETopicQosTopicListenerOfTYPEClassOfQextendsStatusArray() {
         Topic<Msg> t = null;
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -588,7 +588,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#findTopic(java.lang.String, org.omg.dds.core.Duration)}
      * .
      */
-    @Test
+    //@tTest
     public void testFindTopicStringDuration() {
 
         Topic<Msg> t1 = null;
@@ -619,7 +619,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#findTopic(java.lang.String, org.omg.dds.core.Duration)}
      * .
      */
-    @Test
+    //@tTest
     public void testFindTopicStringNullDuration() {
 
         Topic<Msg> t1 = null;
@@ -640,7 +640,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#findTopic(java.lang.String, org.omg.dds.core.Duration)}
      * .
      */
-    @Test
+    //@tTest
     public void testFindTopicStringDurationNull() {
 
         Topic<Msg> t1 = null;
@@ -669,7 +669,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#findTopic(java.lang.String, long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testFindTopicStringLongTimeUnit() {
         Topic<Msg> t1 = null;
         Topic<Msg> t2 = null;
@@ -698,7 +698,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#findTopic(java.lang.String, long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testFindTopicStringLongTimeUnitNegative() {
         Topic<Msg> t1 = null;
         String topicName = "testFindTopicStringLongTimeUnitNegative";
@@ -718,7 +718,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#findTopic(java.lang.String, long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testFindTopicStringLongTimeUnitOverflow() {
         Topic<Msg> t1 = null;
         String topicName = "testFindTopicStringLongTimeUnitNegative";
@@ -738,7 +738,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#findTopic(java.lang.String, long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testFindTopicStringLongTimeUnitTimeout() {
         Topic<Msg> t1 = null;
         String topicName = "testFindTopicStringLongTimeUnitTimeout";
@@ -757,7 +757,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#lookupTopicDescription(java.lang.String)}
      * .
      */
-    @Test
+    //@tTest
     public void testLookupTopicDescription() {
         Topic<Msg> t1 = null;
         TopicDescription<Msg> description = null;
@@ -783,7 +783,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#lookupTopicDescription(java.lang.String)}
      * .
      */
-    @Test
+    //@tTest
     public void testLookupTopicDescriptionNull() {
         Topic<Msg> t1 = null;
         TopicDescription<Msg> description = null;
@@ -809,7 +809,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#createContentFilteredTopic(java.lang.String, org.omg.dds.topic.Topic, java.lang.String, java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateContentFilteredTopicStringTopicOfQextendsTYPEStringListOfString() {
         Topic<Msg> t1 = null;
         ContentFilteredTopic<Msg> t2 = null;
@@ -842,7 +842,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#createContentFilteredTopic(java.lang.String, org.omg.dds.topic.Topic, java.lang.String, java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateContentFilteredTopicStringTopicOfQextendsTYPEStringStringArray() {
         Topic<Msg> t1 = null;
         ContentFilteredTopic<Msg> t2 = null;
@@ -876,7 +876,7 @@ public class DomainParticipantTest {
      * .
      */
     /* Fails on opensplice see OSPL-5551 */
-    @Test
+    //@tTest
     public void testCreateContentFilteredNameNull() {
         Topic<Msg> t1 = null;
         ContentFilteredTopic<Msg> t2 = null;
@@ -906,7 +906,7 @@ public class DomainParticipantTest {
      * .
      */
     /* Fails on opensplice see OSPL-5551 */
-    @Test
+    //@tTest
     public void testCreateContentFilteredExpressionNull() {
         Topic<Msg> t1 = null;
         ContentFilteredTopic<Msg> t2 = null;
@@ -935,7 +935,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#createContentFilteredTopic(java.lang.String, org.omg.dds.topic.Topic, java.lang.String, java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateContentFilteredParamsNull() {
         Topic<Msg> t1 = null;
         ContentFilteredTopic<Msg> t2 = null;
@@ -968,7 +968,7 @@ public class DomainParticipantTest {
      * .
      */
     /* Fails on opensplice see OSPL-5551 */
-    @Test
+    //@tTest
     public void testCreateContentFilteredMissingParameter() {
         Topic<Msg> t1 = null;
         ContentFilteredTopic<Msg> t2 = null;
@@ -997,7 +997,7 @@ public class DomainParticipantTest {
      * Test method for
      * {@link org.omg.dds.domain.DomainParticipant#closeContainedEntities()}.
      */
-    @Test
+    //@tTest
     public void testCloseContainedEntities() {
         DomainParticipant par = null;
         Publisher pub = null;
@@ -1054,7 +1054,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#ignoreParticipant(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testIgnoreParticipant() {
         DomainParticipant par = null;
         InstanceHandle ih = null;
@@ -1083,7 +1083,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#ignoreParticipant(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testIgnoreParticipantNull() {
         DomainParticipant par = null;
         try {
@@ -1106,7 +1106,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#ignoreParticipant(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testIgnoreParticipantInvalidHandle() {
         DomainParticipant par = null;
         @SuppressWarnings("serial")
@@ -1150,7 +1150,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#ignoreTopic(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testIgnoreTopic() {
         DomainParticipant par = null;
         Topic<Msg> top = null;
@@ -1182,7 +1182,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#ignoreTopic(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testIgnoreTopicNull() {
         DomainParticipant par = null;
         try {
@@ -1205,7 +1205,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#ignorePublication(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testIgnorePublication() {
         DomainParticipant par = null;
         Publisher pub = null;
@@ -1237,7 +1237,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#ignorePublication(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testIgnorePublicationNull() {
         DomainParticipant par = null;
         try {
@@ -1259,7 +1259,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#ignoreSubscription(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testIgnoreSubscription() {
         DomainParticipant par = null;
         Subscriber sub = null;
@@ -1291,7 +1291,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#ignoreSubscription(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testIgnoreSubscriptionNull() {
         DomainParticipant par = null;
         try {
@@ -1312,7 +1312,7 @@ public class DomainParticipantTest {
      * Test method for
      * {@link org.omg.dds.domain.DomainParticipant#getDomainId()}.
      */
-    @Test
+    //@tTest
     public void testGetDomainId() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         int id = 0;
@@ -1328,7 +1328,7 @@ public class DomainParticipantTest {
      * Test method for
      * {@link org.omg.dds.domain.DomainParticipant#assertLiveliness()}.
      */
-    @Test
+    //@tTest
     public void testAssertLiveliness() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         try {
@@ -1342,7 +1342,7 @@ public class DomainParticipantTest {
      * Test method for
      * {@link org.omg.dds.domain.DomainParticipant#getDefaultPublisherQos()}.
      */
-    @Test
+    //@tTest
     public void testGetDefaultPublisherQos() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         PublisherQos pq = null;
@@ -1359,7 +1359,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#setDefaultPublisherQos(org.omg.dds.pub.PublisherQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetDefaultPublisherQosNull() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         boolean exceptionOccured = false;
@@ -1377,7 +1377,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#setDefaultPublisherQos(org.omg.dds.pub.PublisherQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetDefaultPublisherQos() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         PublisherQos pq = null;
@@ -1405,7 +1405,7 @@ public class DomainParticipantTest {
      * Test method for
      * {@link org.omg.dds.domain.DomainParticipant#getDefaultSubscriberQos()}.
      */
-    @Test
+    //@tTest
     public void testGetDefaultSubscriberQos() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         SubscriberQos sq = null;
@@ -1422,7 +1422,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#setDefaultSubscriberQos(org.omg.dds.pub.SubscriberQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetDefaultSubscriberQosNull() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         boolean exceptionOccured = false;
@@ -1440,7 +1440,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#setDefaultSubscriberQos(org.omg.dds.pub.SubscriberQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetDefaultSubscriberQos() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         SubscriberQos sq = null;
@@ -1469,7 +1469,7 @@ public class DomainParticipantTest {
      * Test method for
      * {@link org.omg.dds.domain.DomainParticipant#getDefaultTopicQos()}.
      */
-    @Test
+    //@tTest
     public void testGetDefaultTopicQos() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         TopicQos tq = null;
@@ -1486,7 +1486,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#setDefaultTopicQos(org.omg.dds.pub.TopicQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetDefaultTopicQosNull() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         boolean exceptionOccured = false;
@@ -1504,7 +1504,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#setDefaultTopicQos(org.omg.dds.pub.TopicQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetDefaultTopicQos() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         TopicQos tq = null;
@@ -1533,7 +1533,7 @@ public class DomainParticipantTest {
      * Test method for
      * {@link org.omg.dds.domain.DomainParticipant#getDiscoveredParticipants()}.
      */
-    @Test
+    //@tTest
     public void testGetDiscoveredParticipants() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         Set<InstanceHandle> participants = null;
@@ -1571,7 +1571,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#getDiscoveredParticipantData(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetDiscoveredParticipantDataNull() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         ParticipantBuiltinTopicData pbtd = null;
@@ -1588,7 +1588,7 @@ public class DomainParticipantTest {
      * Test method for
      * {@link org.omg.dds.domain.DomainParticipant#getDiscoveredTopics()}.
      */
-    @Test
+    //@tTest
     public void testGetDiscoveredTopics() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         Topic<Msg> top = null;
@@ -1629,7 +1629,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#getDiscoveredTopicData(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetDiscoveredTopicDataNull() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         TopicBuiltinTopicData tbtd = null;
@@ -1646,7 +1646,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#containsEntity(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testContainsEntity() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         Publisher pub = null;
@@ -1680,7 +1680,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#getCurrentTime(org.omg.dds.core.ModifiableTime)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetCurrentTimeModifiableTime() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         ModifiableTime currentTime = null;
@@ -1706,7 +1706,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#getCurrentTime(org.omg.dds.core.ModifiableTime)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetCurrentTimeModifiableTimeNull() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         ModifiableTime currentTime = null;
@@ -1723,7 +1723,7 @@ public class DomainParticipantTest {
      * Test method for
      * {@link org.omg.dds.domain.DomainParticipant#getCurrentTime()}.
      */
-    @Test
+    //@tTest
     public void testGetCurrentTime() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         Time result = null;
@@ -1739,7 +1739,7 @@ public class DomainParticipantTest {
      * Test method for
      * {@link org.omg.dds.domain.DomainParticipant#getStatusCondition()}.
      */
-    @Test
+    //@tTest
     public void testGetStatusCondition() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         StatusCondition<DomainParticipant> result = null;
@@ -1755,7 +1755,7 @@ public class DomainParticipantTest {
      * Test method for {@link org.omg.dds.domain.DomainParticipant#getQos()}.
      */
 
-    @Test
+    //@tTest
     public void testGetQos() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         DomainParticipantQos dpq = null;
@@ -1772,7 +1772,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#setQos(org.omg.dds.domain.DomainParticipantQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetQosNull() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         DomainParticipantQos dpq = null;
@@ -1792,7 +1792,7 @@ public class DomainParticipantTest {
      * {@link org.omg.dds.domain.DomainParticipant#setQos(org.omg.dds.domain.DomainParticipantQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetQosIllegal() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         @SuppressWarnings("serial")
@@ -1929,7 +1929,7 @@ public class DomainParticipantTest {
      * .
      */
 
-    @Test
+    //@tTest
     public void testSetQos() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         DomainParticipantQos dpq = null;
@@ -1973,7 +1973,7 @@ public class DomainParticipantTest {
      * .
      */
 
-    @Test
+    //@tTest
     public void testDomainParticipantSetListenerCollection() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         DomainParticipantListener dpl = new DomainParticipantListenerClass();
@@ -1993,7 +1993,7 @@ public class DomainParticipantTest {
      * .
      */
 
-    @Test
+    //@tTest
     public void testDomainParticipantSetListener() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         DomainParticipantListener dpl = new DomainParticipantListenerClass();
@@ -2012,7 +2012,7 @@ public class DomainParticipantTest {
      */
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testDomainParticipantSetListenerStatus() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         DomainParticipantListener dpl = new DomainParticipantListenerClass();
@@ -2026,7 +2026,7 @@ public class DomainParticipantTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testDomainParticipantGetListener() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         DomainParticipantListener dpl = new DomainParticipantListenerClass();
@@ -2063,7 +2063,7 @@ public class DomainParticipantTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#enable()}.
      */
-    @Test
+    //@tTest
     public void testEnable() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         try {
@@ -2076,7 +2076,7 @@ public class DomainParticipantTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getStatusChanges()}.
      */
-    @Test
+    //@tTest
     public void testGetStatusChanges() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         Set<Class<? extends Status>> statuses = null;
@@ -2092,7 +2092,7 @@ public class DomainParticipantTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getInstanceHandle()}.
      */
-    @Test
+    //@tTest
     public void testGetInstanceHandle() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         InstanceHandle ih = null;
@@ -2107,7 +2107,7 @@ public class DomainParticipantTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#retain()}.
      */
-    @Test
+    //@tTest
     public void testRetain() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         try {
@@ -2120,7 +2120,7 @@ public class DomainParticipantTest {
     /**
      * Test method for {@link org.omg.dds.core.DDSObject#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         ServiceEnvironment senv = null;

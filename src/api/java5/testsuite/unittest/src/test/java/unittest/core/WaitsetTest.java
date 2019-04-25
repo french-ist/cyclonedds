@@ -104,7 +104,7 @@ public class WaitsetTest {
      * {@link org.omg.dds.core.WaitSet#newWaitSet(org.omg.dds.core.ServiceEnvironment)}
      * .
      */
-    @Test
+    //@tTest
     public void testNewWaitSet() {
         WaitSet w = null;
         try {
@@ -125,7 +125,7 @@ public class WaitsetTest {
      * {@link org.omg.dds.core.WaitSet#waitForConditions(org.omg.dds.core.Duration)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForConditionsDurationNull() {
         WaitSet w = null;
         boolean exceptionOccured = false;
@@ -146,7 +146,7 @@ public class WaitsetTest {
      * .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testWaitForConditionsDuration() {
         WaitSet w = null;
         DataWriter<Msg> dw = null;
@@ -193,7 +193,7 @@ public class WaitsetTest {
      * {@link org.omg.dds.core.WaitSet#waitForConditions(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForConditionsLongTimeUnitNull() {
         WaitSet w = null;
         boolean exceptionOccured = false;
@@ -213,7 +213,7 @@ public class WaitsetTest {
      * .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testWaitForConditionsLongTimeUnit() {
         WaitSet w = null;
         DataWriter<Msg> dw = null;
@@ -261,7 +261,7 @@ public class WaitsetTest {
      * .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testAttachCondition() {
         WaitSet w = null;
         DataReader<Msg> dr = null;
@@ -293,7 +293,7 @@ public class WaitsetTest {
      * {@link org.omg.dds.core.WaitSet#attachCondition(org.omg.dds.core.Condition)}
      * .
      */
-    @Test
+    //@tTest
     public void testAttachConditionNull() {
         WaitSet w = null;
         StatusCondition<DataReader<Msg>> statusCond = null;
@@ -318,7 +318,7 @@ public class WaitsetTest {
      * .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testDetachCondition() {
         WaitSet w = null;
         DataReader<Msg> dr = null;
@@ -352,7 +352,7 @@ public class WaitsetTest {
      * {@link org.omg.dds.core.WaitSet#detachCondition(org.omg.dds.core.Condition)}
      * .
      */
-    @Test
+    //@tTest
     public void testDetachConditionEmpty() {
         WaitSet w = null;
         DataReader<Msg> dr = null;
@@ -379,7 +379,7 @@ public class WaitsetTest {
      * {@link org.omg.dds.core.WaitSet#detachCondition(org.omg.dds.core.Condition)}
      * .
      */
-    @Test
+    //@tTest
     public void testDetachConditionNull() {
         WaitSet w = null;
         StatusCondition<DataReader<Msg>> statusCond = null;
@@ -401,7 +401,7 @@ public class WaitsetTest {
     /**
      * Test method for {@link org.omg.dds.core.WaitSet#getConditions()}.
      */
-    @Test
+    //@tTest
     public void testGetConditions() {
         WaitSet w = null;
         Collection<Condition> result = null;
@@ -424,7 +424,7 @@ public class WaitsetTest {
     /**
      * Test method for {@link org.omg.dds.core.DDSObject#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;

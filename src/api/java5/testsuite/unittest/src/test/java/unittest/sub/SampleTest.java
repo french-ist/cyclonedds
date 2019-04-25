@@ -118,7 +118,7 @@ public class SampleTest {
     /**
      * Test method for {@link org.omg.dds.sub.Sample#getData()}.
      */
-    @Test
+    //@tTest
     public void testGetData() {
         checkValidEntities();
         Msg result = null;
@@ -133,7 +133,7 @@ public class SampleTest {
     /**
      * Test method for {@link org.omg.dds.sub.Sample#getSampleState()}.
      */
-    @Test
+    //@tTest
     public void testGetSampleState() {
         checkValidEntities();
         SampleState result = null;
@@ -163,7 +163,7 @@ public class SampleTest {
     /**
      * Test method for {@link org.omg.dds.sub.Sample#getViewState()}.
      */
-    @Test
+    //@tTest
     public void testGetViewState() {
         checkValidEntities();
         ViewState result = null;
@@ -192,7 +192,7 @@ public class SampleTest {
     /**
      * Test method for {@link org.omg.dds.sub.Sample#getInstanceState()}.
      */
-    @Test
+    //@tTest
     public void testGetInstanceState() {
         checkValidEntities();
         InstanceState result = null;
@@ -221,7 +221,7 @@ public class SampleTest {
     /**
      * Test method for {@link org.omg.dds.sub.Sample#getSourceTimestamp()}.
      */
-    @Test
+    //@tTest
     public void testGetSourceTimestamp() {
         checkValidEntities();
         Time result = null;
@@ -236,7 +236,7 @@ public class SampleTest {
     /**
      * Test method for {@link org.omg.dds.sub.Sample#getInstanceHandle()}.
      */
-    @Test
+    //@tTest
     public void testGetInstanceHandle() {
         checkValidEntities();
         InstanceHandle result = null;
@@ -251,7 +251,7 @@ public class SampleTest {
     /**
      * Test method for {@link org.omg.dds.sub.Sample#getPublicationHandle()}.
      */
-    @Test
+    //@tTest
     public void testGetPublicationHandle() {
         checkValidEntities();
         InstanceHandle result = null;
@@ -266,7 +266,7 @@ public class SampleTest {
     /**
      * Test method for {@link org.omg.dds.sub.Sample#getDisposedGenerationCount()}.
      */
-    @Test
+    //@tTest
     public void testGetDisposedGenerationCount() {
         checkValidEntities();
         int result = -1;
@@ -281,7 +281,7 @@ public class SampleTest {
     /**
      * Test method for {@link org.omg.dds.sub.Sample#getNoWritersGenerationCount()}.
      */
-    @Test
+    //@tTest
     public void testGetNoWritersGenerationCount() {
         checkValidEntities();
         int result = -1;
@@ -296,7 +296,7 @@ public class SampleTest {
     /**
      * Test method for {@link org.omg.dds.sub.Sample#getSampleRank()}.
      */
-    @Test
+    //@tTest
     public void testGetSampleRank() {
         checkValidEntities();
         int result = -1;
@@ -311,7 +311,7 @@ public class SampleTest {
     /**
      * Test method for {@link org.omg.dds.sub.Sample#getGenerationRank()}.
      */
-    @Test
+    //@tTest
     public void testGetGenerationRank() {
         checkValidEntities();
         int result = -1;
@@ -326,7 +326,7 @@ public class SampleTest {
     /**
      * Test method for {@link org.omg.dds.sub.Sample#getAbsoluteGenerationRank()}.
      */
-    @Test
+    //@tTest
     public void testGetAbsoluteGenerationRank() {
         checkValidEntities();
         int result = -1;
@@ -341,7 +341,7 @@ public class SampleTest {
     /**
      * Test method for {@link org.omg.dds.sub.Sample#clone()}.
      */
-    @Test
+    //@tTest
     public void testClone() {
         checkValidEntities();
         Sample<Msg> result = null;
@@ -357,7 +357,7 @@ public class SampleTest {
     /**
      * Test method for {@link org.omg.dds.core.DDSObject#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;

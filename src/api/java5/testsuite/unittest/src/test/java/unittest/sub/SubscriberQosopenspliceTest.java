@@ -84,7 +84,7 @@ public class SubscriberQosopenspliceTest {
      * Test method for
      * {@link org.opensplice.dds.sub.SubscriberQosImp#getShare()}.
      */
-    @Test
+    //@tTest
     public void testGetShare() {
         checkValidEntities();
         Share s = null;
@@ -100,7 +100,7 @@ public class SubscriberQosopenspliceTest {
      * Test method for {@link org.opensplice.dds.sub.SubscriberQosImp#convert()}
      * .
      */
-    @Test
+    //@tTest
     public void testConvert() {
         checkValidEntities();
         SubscriberQosImpl result = null;

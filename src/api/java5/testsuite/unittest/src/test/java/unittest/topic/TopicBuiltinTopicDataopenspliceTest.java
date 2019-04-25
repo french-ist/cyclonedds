@@ -132,7 +132,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicBuiltinTopicData#getKey()}.
      */
-    @Test
+    //@tTest
     public void testGetKey() {
         checkValidEntities();
         BuiltinTopicKey result = null;
@@ -157,7 +157,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
      * Test method for {@link org.omg.dds.topic.TopicBuiltinTopicData#getName()}
      * .
      */
-    @Test
+    //@tTest
     public void testGetName() {
         checkValidEntities();
         String result = null;
@@ -175,7 +175,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicBuiltinTopicData#getTypeName()}.
      */
-    @Test
+    //@tTest
     public void testGetTypeName() {
         checkValidEntities();
         String result = null;
@@ -193,7 +193,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicBuiltinTopicData#getEquivalentTypeName()}.
      */
-    @Test
+    //@tTest
     public void testGetEquivalentTypeName() {
         checkValidEntities();
         List<String> result = null;
@@ -208,7 +208,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicBuiltinTopicData#getBaseTypeName()}.
      */
-    @Test
+    //@tTest
     public void testGetBaseTypeName() {
         checkValidEntities();
         List<String> result = null;
@@ -223,7 +223,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicBuiltinTopicData#getType()}.
      */
-    @Test
+    //@tTest
     public void testGetType() {
         checkValidEntities();
         TypeObject result = null;
@@ -238,7 +238,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicBuiltinTopicData#getDurability()}.
      */
-    @Test
+    //@tTest
     public void testGetDurability() {
         checkValidEntities();
         Durability result = null;
@@ -254,7 +254,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
      * Test method for
      * {@link org.omg.dds.topic.TopicBuiltinTopicData#getDurabilityService()}.
      */
-    @Test
+    //@tTest
     public void testGetDurabilityService() {
         checkValidEntities();
         DurabilityService result = null;
@@ -270,7 +270,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
      * Test method for
      * {@link org.omg.dds.topic.TopicBuiltinTopicData#getDeadline()}.
      */
-    @Test
+    //@tTest
     public void testGetDeadline() {
         checkValidEntities();
         Deadline result = null;
@@ -285,7 +285,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicBuiltinTopicData#getLatencyBudget()}.
      */
-    @Test
+    //@tTest
     public void testGetLatencyBudget() {
         checkValidEntities();
         LatencyBudget result = null;
@@ -300,7 +300,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicBuiltinTopicData#getLiveliness()}.
      */
-    @Test
+    //@tTest
     public void testGetLiveliness() {
         checkValidEntities();
         Liveliness result = null;
@@ -315,7 +315,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicBuiltinTopicData#getReliability()}.
      */
-    @Test
+    //@tTest
     public void testGetReliability() {
         checkValidEntities();
         Reliability result = null;
@@ -331,7 +331,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
      * Test method for
      * {@link org.omg.dds.topic.TopicBuiltinTopicData#getTransportPriority()}.
      */
-    @Test
+    //@tTest
     public void testGetTransportPriority() {
         checkValidEntities();
         TransportPriority result = null;
@@ -347,7 +347,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
      * Test method for
      * {@link org.omg.dds.topic.TopicBuiltinTopicData#getLifespan()}.
      */
-    @Test
+    //@tTest
     public void testGetLifespan() {
         checkValidEntities();
         Lifespan result = null;
@@ -364,7 +364,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
      * Test method for
      * {@link org.omg.dds.topic.TopicBuiltinTopicData#getDestinationOrder()}.
      */
-    @Test
+    //@tTest
     public void testGetDestinationOrder() {
         checkValidEntities();
         DestinationOrder result = null;
@@ -380,7 +380,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
      * Test method for
      * {@link org.omg.dds.topic.TopicBuiltinTopicData#getHistory()}.
      */
-    @Test
+    //@tTest
     public void testGetHistory() {
         checkValidEntities();
         History result = null;
@@ -396,7 +396,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
      * Test method for
      * {@link org.omg.dds.topic.TopicBuiltinTopicData#getHistory()}.
      */
-    @Test
+    //@tTest
     public void testGetResourceLimits() {
         checkValidEntities();
         ResourceLimits result = null;
@@ -412,7 +412,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
      * Test method for
      * {@link org.omg.dds.topic.TopicBuiltinTopicData#getOwnership()}.
      */
-    @Test
+    //@tTest
     public void testGetOwnership() {
         checkValidEntities();
         Ownership result = null;
@@ -427,7 +427,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicBuiltinTopicData#getTopicData()}.
      */
-    @Test
+    //@tTest
     public void testGetTopicData() {
         checkValidEntities();
         TopicData result = null;
@@ -442,7 +442,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicBuiltinTopicData#getRepresentation()}.
      */
-    @Test
+    //@tTest
     public void testGetRepresentation() {
         checkValidEntities();
         DataRepresentation result = null;
@@ -457,7 +457,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicBuiltinTopicData#getTypeConsistency()}.
      */
-    @Test
+    //@tTest
     public void testGetTypeConsistency() {
         checkValidEntities();
         TypeConsistencyEnforcement result = null;
@@ -472,7 +472,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicBuiltinTopicData#copyFrom(org.omg.dds.topic.TopicBuiltinTopicData)}.
      */
-    @Test
+    //@tTest
     public void testCopyFrom() {
         checkValidEntities();
         TopicBuiltinTopicData result = null;
@@ -491,7 +491,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
      * {@link org.omg.dds.topic.TopicBuiltinTopicData#copyFrom(org.omg.dds.topic.TopicBuiltinTopicData)}
      * .
      */
-    @Test
+    //@tTest
     public void testCopyFromNull() {
         checkValidEntities();
         TopicBuiltinTopicData result = tbtd;
@@ -508,7 +508,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicBuiltinTopicData#clone()}.
      */
-    @Test
+    //@tTest
     public void testClone() {
         checkValidEntities();
         TopicBuiltinTopicData result = null;
@@ -523,7 +523,7 @@ public class TopicBuiltinTopicDataopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.core.DDSObject#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;

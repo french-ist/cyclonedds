@@ -99,7 +99,7 @@ public class TopicQosTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getTopicData()}.
      */
-    @Test
+    //@tTest
     public void testGetTopicData() {
         checkValidEntities();
         TopicData result = null;
@@ -118,7 +118,7 @@ public class TopicQosTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getDurability()}.
      */
-    @Test
+    //@tTest
     public void testGetDurability() {
         checkValidEntities();
         Durability result = null;
@@ -148,7 +148,7 @@ public class TopicQosTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getDurabilityService()}.
      */
-    @Test
+    //@tTest
     public void testGetDurabilityService() {
         checkValidEntities();
         DurabilityService result = null;
@@ -187,7 +187,7 @@ public class TopicQosTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getDeadline()}.
      */
-    @Test
+    //@tTest
     public void testGetDeadline() {
         checkValidEntities();
         Deadline result = null;
@@ -211,7 +211,7 @@ public class TopicQosTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getLatencyBudget()}.
      */
-    @Test
+    //@tTest
     public void testGetLatencyBudget() {
         checkValidEntities();
         LatencyBudget result = null;
@@ -235,7 +235,7 @@ public class TopicQosTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getLiveliness()}.
      */
-    @Test
+    //@tTest
     public void testGetLiveliness() {
         checkValidEntities();
         Liveliness result = null;
@@ -270,7 +270,7 @@ public class TopicQosTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getReliability()}.
      */
-    @Test
+    //@tTest
     public void testGetReliability() {
         checkValidEntities();
         Reliability result = null;
@@ -302,7 +302,7 @@ public class TopicQosTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getDestinationOrder()}.
      */
-    @Test
+    //@tTest
     public void testGetDestinationOrder() {
         checkValidEntities();
         DestinationOrder result = null;
@@ -326,7 +326,7 @@ public class TopicQosTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getHistory()}.
      */
-    @Test
+    //@tTest
     public void testGetHistory() {
         checkValidEntities();
         History result = null;
@@ -354,7 +354,7 @@ public class TopicQosTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getResourceLimits()}.
      */
-    @Test
+    //@tTest
     public void testGetResourceLimits() {
         checkValidEntities();
         ResourceLimits result = null;
@@ -379,7 +379,7 @@ public class TopicQosTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getTransportPriority()}.
      */
-    @Test
+    //@tTest
     public void testGetTransportPriority() {
         checkValidEntities();
         TransportPriority result = null;
@@ -398,7 +398,7 @@ public class TopicQosTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getLifespan()}.
      */
-    @Test
+    //@tTest
     public void testGetLifespan() {
         checkValidEntities();
         Lifespan result = null;
@@ -422,7 +422,7 @@ public class TopicQosTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getOwnership()}.
      */
-    @Test
+    //@tTest
     public void testGetOwnership() {
         checkValidEntities();
         Ownership result = null;
@@ -446,7 +446,7 @@ public class TopicQosTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getRepresentation()}.
      */
-    @Test
+    //@tTest
     public void testGetRepresentation() {
         checkValidEntities();
         DataRepresentation result = null;
@@ -474,7 +474,7 @@ public class TopicQosTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getTypeConsistency()}.
      */
-    @Test
+    //@tTest
     public void testGetTypeConsistency() {
         checkValidEntities();
         TypeConsistencyEnforcement result = null;

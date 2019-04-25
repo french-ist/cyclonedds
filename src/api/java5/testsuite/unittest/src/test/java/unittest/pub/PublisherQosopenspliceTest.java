@@ -85,7 +85,7 @@ public class PublisherQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.pub.PublisherQos#getPresentation()}.
      */
-    @Test
+    //@tTest
     public void testGetPresentation() {
         checkValidEntities();
         PresentationImpl result = null;
@@ -144,7 +144,7 @@ public class PublisherQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.pub.PublisherQos#getPartition()}.
      */
-    @Test
+    //@tTest
     public void testGetPartition() {
         checkValidEntities();
         PartitionImpl result = null;
@@ -162,7 +162,7 @@ public class PublisherQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.pub.PublisherQos#getGroupData()}.
      */
-    @Test
+    //@tTest
     public void testGetGroupData() {
         checkValidEntities();
         GroupDataImpl result = null;
@@ -180,7 +180,7 @@ public class PublisherQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.pub.PublisherQos#getEntityFactory()}.
      */
-    @Test
+    //@tTest
     public void testGetEntityFactory() {
         checkValidEntities();
         EntityFactoryImpl result = null;

@@ -98,7 +98,7 @@ public class DataWriterQosopenspliceTest {
      * {@link org.opensplice.dds.core.policy.DataWriterQosImpl#getWriterDataLifecycle()}
      * .
      */
-    @Test
+    //@tTest
     public void testGetWriterDataLifecycle() {
         checkValidEntities();
         WriterDataLifecycleImpl result = null;
@@ -134,7 +134,7 @@ public class DataWriterQosopenspliceTest {
      * {@link org.opensplice.dds.core.policy.DataWriterQosImpl#getOwnershipStrength()}
      * .
      */
-    @Test
+    //@tTest
     public void testGetOwnershipStrength() {
         checkValidEntities();
         OwnershipStrengthImpl result = null;

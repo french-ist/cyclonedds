@@ -49,7 +49,7 @@ public class DomainParticipantFactory4Test {
     /**
      * Test method for {@link org.omg.dds.domain.DomainParticipantFactory#createParticipant(int)}.
      */
-    @Test
+    //@tTest
     public void testCreateParticipantInt() {
         DomainParticipant participant = dpf.createParticipant(DOMAIN_ID);
         assertTrue("Check for valid DomainParticipant object", participant instanceof DomainParticipant);

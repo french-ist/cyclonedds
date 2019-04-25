@@ -86,7 +86,7 @@ public class DomainParticipantQosopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.domain.DomainParticipantQosImpl#DomainParticipantQosImpl(org.opensplice.dds.core.OsplServiceEnvironment, org.omg.dds.core.policy.QosPolicy.ForDomainParticipant[])}.
      */
-    @Test
+    //@tTest
     public void testDomainParticipantQosImplOsplServiceEnvironmentForDomainParticipantArray() {
         checkValidEntities();
         DomainParticipantQosImpl result = null;
@@ -102,7 +102,7 @@ public class DomainParticipantQosopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.domain.DomainParticipantQosImpl#getUserData()}.
      */
-    @Test
+    //@tTest
     public void testGetUserData() {
         checkValidEntities();
         UserDataImpl result = null;
@@ -118,7 +118,7 @@ public class DomainParticipantQosopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.domain.DomainParticipantQosImpl#getEntityFactory()}.
      */
-    @Test
+    //@tTest
     public void testGetEntityFactory() {
         checkValidEntities();
         EntityFactory ef = null;
@@ -133,7 +133,7 @@ public class DomainParticipantQosopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.domain.DomainParticipantQosImpl#getListenerScheduling()}.
      */
-    @Test
+    //@tTest
     public void testGetListenerScheduling() {
         checkValidEntities();
         ListenerScheduling result = null;
@@ -156,7 +156,7 @@ public class DomainParticipantQosopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.domain.DomainParticipantQosImpl#getWatchdogScheduling()}.
      */
-    @Test
+    //@tTest
     public void testGetWatchdogScheduling() {
         checkValidEntities();
         WatchdogScheduling result = null;

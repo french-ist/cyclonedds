@@ -126,7 +126,7 @@ public class DomainParticipantListenerTest {
 
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnRequestedIncompatibleQos() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -191,7 +191,7 @@ public class DomainParticipantListenerTest {
 
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnRequestedDeadlineMissed() {
         checkValidEntities();
         boolean triggerOccured = false;
@@ -265,7 +265,7 @@ public class DomainParticipantListenerTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testonLivelinessChanged() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -340,7 +340,7 @@ public class DomainParticipantListenerTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnSubscriptionMatched() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -400,7 +400,7 @@ public class DomainParticipantListenerTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnDataAvailable() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -457,7 +457,7 @@ public class DomainParticipantListenerTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnDataOnReaders() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -514,7 +514,7 @@ public class DomainParticipantListenerTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnSampleRejected() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -588,7 +588,7 @@ public class DomainParticipantListenerTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnOfferedIncompatibleQos() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -650,7 +650,7 @@ public class DomainParticipantListenerTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnOfferedDeadlineMissed() {
         checkValidEntities();
         boolean triggerOccured = false;
@@ -709,7 +709,7 @@ public class DomainParticipantListenerTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnLivelinessLost() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -765,7 +765,7 @@ public class DomainParticipantListenerTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnPublicationMatched() {
         checkValidEntities();
         DataWriter<Msg> dw = null;

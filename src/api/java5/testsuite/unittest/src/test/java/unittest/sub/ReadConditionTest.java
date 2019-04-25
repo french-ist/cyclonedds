@@ -105,7 +105,7 @@ public class ReadConditionTest {
     /**
      * Test method for {@link org.omg.dds.sub.ReadCondition#close()}.
      */
-    @Test
+    //@tTest
     public void testClose() {
         checkValidEntities();
         DataState ds = null;
@@ -129,7 +129,7 @@ public class ReadConditionTest {
     /**
      * Test method for {@link org.omg.dds.sub.ReadCondition#getSampleStates()}.
      */
-    @Test
+    //@tTest
     public void testGetSampleStates() {
         checkValidEntities();
         Set<SampleState> result = null;
@@ -144,7 +144,7 @@ public class ReadConditionTest {
     /**
      * Test method for {@link org.omg.dds.sub.ReadCondition#getViewStates()}.
      */
-    @Test
+    //@tTest
     public void testGetViewStates() {
         checkValidEntities();
         Set<ViewState> result = null;
@@ -159,7 +159,7 @@ public class ReadConditionTest {
     /**
      * Test method for {@link org.omg.dds.sub.ReadCondition#getInstanceStates()}.
      */
-    @Test
+    //@tTest
     public void testGetInstanceStates() {
         checkValidEntities();
         Set<InstanceState> result = null;
@@ -174,7 +174,7 @@ public class ReadConditionTest {
     /**
      * Test method for {@link org.omg.dds.sub.ReadCondition#getParent()}.
      */
-    @Test
+    //@tTest
     public void testGetParent() {
         checkValidEntities();
         DataReader<Msg> result = null;
@@ -189,7 +189,7 @@ public class ReadConditionTest {
     /**
      * Test method for {@link org.omg.dds.core.Condition#getTriggerValue()}.
      */
-    @Test
+    //@tTest
     public void testGetTriggerValue() {
         checkValidEntities();
         boolean result = true;
@@ -204,7 +204,7 @@ public class ReadConditionTest {
     /**
      * Test method for {@link org.omg.dds.core.DDSObject#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;

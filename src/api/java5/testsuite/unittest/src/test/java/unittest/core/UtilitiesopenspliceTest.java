@@ -81,7 +81,7 @@ public class UtilitiesopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.core.Utilities#Utilities()}.
      */
-    @Test
+    //@tTest
     public void testUtilities() {
         checkValidEntities();
         Utilities ut = null;
@@ -96,7 +96,7 @@ public class UtilitiesopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.core.Utilities#checkReturnCode(int, org.opensplice.dds.core.OsplServiceEnvironment, java.lang.String)}.
      */
-    @Test
+    //@tTest
     public void testCheckReturnCode() {
         checkValidEntities();
         String function = "testCheckReturnCode";
@@ -256,7 +256,7 @@ public class UtilitiesopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.core.Utilities#convert(org.opensplice.dds.core.OsplServiceEnvironment, org.omg.dds.core.Duration)}.
      */
-    @Test
+    //@tTest
     public void testConvertOsplServiceEnvironmentDuration() {
         checkValidEntities();
         Duration_t result = null;
@@ -335,7 +335,7 @@ public class UtilitiesopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.core.Utilities#convert(org.opensplice.dds.core.OsplServiceEnvironment, org.omg.dds.core.Time)}.
      */
-    @Test
+    //@tTest
     public void testConvertOsplServiceEnvironmentTime() {
         checkValidEntities();
         Time_t result = null;

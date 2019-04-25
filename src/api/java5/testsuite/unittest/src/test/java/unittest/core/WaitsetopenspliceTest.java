@@ -124,7 +124,7 @@ public class WaitsetopenspliceTest {
      * Test method for {@link org.omg.dds.core.WaitSet#waitForConditions()}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testWaitForConditions() {
         WaitSet w = null;
         DataWriter<Msg> dw = null;
@@ -171,7 +171,7 @@ public class WaitsetopenspliceTest {
      * {@link org.omg.dds.core.WaitSet#waitForConditions(java.util.Collection, org.omg.dds.core.Duration)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForConditionsCollectionOfConditionDurationNull() {
         WaitSet w = null;
         boolean exceptionOccured = false;
@@ -194,7 +194,7 @@ public class WaitsetopenspliceTest {
      * .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testWaitForConditionsCollectionOfConditionDuration() {
         WaitSet w = null;
         DataWriter<Msg> dw = null;
@@ -239,7 +239,7 @@ public class WaitsetopenspliceTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnRequestedIncompatibleQosWaitset() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -284,7 +284,7 @@ public class WaitsetopenspliceTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnRequestedDeadlineMissedWaitset() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -338,7 +338,7 @@ public class WaitsetopenspliceTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testonLivelinessChangedWaitset() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -393,7 +393,7 @@ public class WaitsetopenspliceTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnSubscriptionMatchedWaitset() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -436,7 +436,7 @@ public class WaitsetopenspliceTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnDataAvailableWaitset() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -480,7 +480,7 @@ public class WaitsetopenspliceTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnDataOnReadersWaitset() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -523,7 +523,7 @@ public class WaitsetopenspliceTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnSampleRejectedWaitset() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -577,7 +577,7 @@ public class WaitsetopenspliceTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnOfferedIncompatibleQosWaitset() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -620,7 +620,7 @@ public class WaitsetopenspliceTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnOfferedDeadlineMissedWaitset() {
         checkValidEntities();
         StatusCondition<DataWriter<Msg>> statusCond = null;
@@ -662,7 +662,7 @@ public class WaitsetopenspliceTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnLivelinessLostWaitset() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -702,7 +702,7 @@ public class WaitsetopenspliceTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnPublicationMatchedWaitset() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -738,7 +738,7 @@ public class WaitsetopenspliceTest {
         }
     }
 
-    @Test
+    //@tTest
     public void testStatusCondition() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -767,7 +767,7 @@ public class WaitsetopenspliceTest {
         }
     }
 
-    @Test
+    //@tTest
     public void testGuardCondition() {
         checkValidEntities();
         GuardCondition terminated = null;
@@ -805,7 +805,7 @@ public class WaitsetopenspliceTest {
      * {@link org.omg.dds.core.WaitSet#waitForConditions(java.util.Collection)}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testWaitForConditionsCollectionOfCondition() {
         WaitSet w = null;
         DataWriter<Msg> dw = null;
@@ -852,7 +852,7 @@ public class WaitsetopenspliceTest {
      * Test method for
      * {@link org.omg.dds.core.WaitSet#waitForConditions(java.util.Collection)}.
      */
-    @Test
+    //@tTest
     public void testWaitForConditionsCollectionOfConditionNull() {
         WaitSet w = null;
         boolean exceptionOccured = false;

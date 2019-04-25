@@ -132,7 +132,7 @@ public class DataReaderopenspliceTest {
      * {@link org.omg.dds.sub.DataReader#getKeyValue(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetKeyValueInstanceHandle() {
         checkValidEntities();
         Publisher pub = null;
@@ -171,7 +171,7 @@ public class DataReaderopenspliceTest {
      * {@link org.omg.dds.sub.DataReader#getKeyValue(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetKeyValueInstanceHandleInvalid() {
         checkValidEntities();
         Msg message = new Msg(16, "testGetKeyValueInstanceHandleInvalid");
@@ -189,7 +189,7 @@ public class DataReaderopenspliceTest {
      * {@link org.omg.dds.pub.DataReader#getKeyValue(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetKeyValueInstanceHandleNull() {
         checkValidEntities();
         Msg result = null;
@@ -206,7 +206,7 @@ public class DataReaderopenspliceTest {
      * {@link org.opensplice.dds.sub.DataReaderImpl#DataReaderImpl} .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testDataReaderImplQosNull() {
         checkValidEntities();
         DataReaderImpl<Msg> result = null;
@@ -225,7 +225,7 @@ public class DataReaderopenspliceTest {
      * Test method for
      * {@link org.opensplice.dds.sub.DataReaderImpl#DataReaderImpl} .
      */
-    @Test
+    //@tTest
     public void testDataReaderImplTopicNull() {
         checkValidEntities();
         DataReaderImpl<Msg> result = null;
@@ -245,7 +245,7 @@ public class DataReaderopenspliceTest {
      * {@link org.opensplice.dds.sub.DataReaderImpl#DataReaderImpl} .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testDataReaderImplQosInvalid() {
         checkValidEntities();
         DataReaderImpl<Msg> result = null;
@@ -421,7 +421,7 @@ public class DataReaderopenspliceTest {
      * Test method for
      * {@link org.omg.dds.core.Entity#setQos(org.omg.dds.core.EntityQos)}.
      */
-    @Test
+    //@tTest
     public void testSetQosIllegal() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -624,7 +624,7 @@ public class DataReaderopenspliceTest {
 
     }
 
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataConditionDuration() {
         checkValidEntities();
         Duration timeout = Duration.newDuration(2, TimeUnit.SECONDS, env);
@@ -640,7 +640,7 @@ public class DataReaderopenspliceTest {
         }
     }
 
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataConditionDuration2() {
         checkValidEntities();
 
@@ -657,7 +657,7 @@ public class DataReaderopenspliceTest {
         }
     }
 
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataConditionResourceLimits() {
         checkValidEntities();
         Duration timeout = Duration.newDuration(2, TimeUnit.SECONDS, env);
@@ -676,7 +676,7 @@ public class DataReaderopenspliceTest {
         }
     }
 
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataConditionResourceLimits2() {
         checkValidEntities();
 
@@ -695,7 +695,7 @@ public class DataReaderopenspliceTest {
         }
     }
 
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataConditionBadResourceLimits() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -717,7 +717,7 @@ public class DataReaderopenspliceTest {
                 exceptionOccured);
     }
 
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataConditionBadResourceLimits2() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -739,7 +739,7 @@ public class DataReaderopenspliceTest {
                 exceptionOccured);
     }
 
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataConditionTimeRange() {
         checkValidEntities();
         Duration timeout = Duration.newDuration(2, TimeUnit.SECONDS, env);
@@ -757,7 +757,7 @@ public class DataReaderopenspliceTest {
         }
     }
 
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataConditionTimeRange2() {
         checkValidEntities();
 
@@ -775,7 +775,7 @@ public class DataReaderopenspliceTest {
         }
     }
 
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataConditionFilter() {
         checkValidEntities();
         Duration timeout = Duration.newDuration(2, TimeUnit.SECONDS, env);
@@ -795,7 +795,7 @@ public class DataReaderopenspliceTest {
         }
     }
 
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataConditionFilter2() {
         checkValidEntities();
 
@@ -815,7 +815,7 @@ public class DataReaderopenspliceTest {
         }
     }
 
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataConditionFilterAndTimeRange() {
         checkValidEntities();
         Duration timeout = Duration.newDuration(2, TimeUnit.SECONDS, env);
@@ -835,7 +835,7 @@ public class DataReaderopenspliceTest {
         }
     }
 
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataConditionFilterAndTimeRange2() {
         checkValidEntities();
 
@@ -856,7 +856,7 @@ public class DataReaderopenspliceTest {
         }
     }
 
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataConditionFilterTimeRangeResourceLimits() {
         checkValidEntities();
         Duration timeout = Duration.newDuration(2, TimeUnit.SECONDS, env);
@@ -878,7 +878,7 @@ public class DataReaderopenspliceTest {
         }
     }
 
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataConditionFilterTimeRangeResourceLimits2() {
         checkValidEntities();
         boolean exceptionOccured = false;

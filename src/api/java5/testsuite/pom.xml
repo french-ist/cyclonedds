@@ -26,7 +26,7 @@
     <artifactId>testsuites-pom</artifactId>
     <packaging>pom</packaging>
 
-    <name>Testsuites</name>
+    <name>Java 5 PSM testsuites</name>
     <description>Parent POM for Testsuites</description>
 
     <properties>

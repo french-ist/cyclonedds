@@ -98,7 +98,7 @@ public class TopicTest {
     /**
      * Test method for {@link org.omg.dds.topic.Topic#getParent()}.
      */
-    @Test
+    //@tTest
     public void testGetParent() {
         checkValidEntities();
         DomainParticipant result = null;
@@ -113,7 +113,7 @@ public class TopicTest {
     /**
      * Test method for {@link org.omg.dds.topic.Topic#getInconsistentTopicStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetInconsistentTopicStatus() {
         checkValidEntities();
         InconsistentTopicStatus its = null;
@@ -128,7 +128,7 @@ public class TopicTest {
     /**
      * Test method for {@link org.omg.dds.topic.Topic#getStatusCondition()}.
      */
-    @Test
+    //@tTest
     public void testGetStatusCondition() {
         checkValidEntities();
         StatusCondition<Topic<Msg>> result = null;
@@ -144,7 +144,7 @@ public class TopicTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicDescription#getTypeSupport()}.
      */
-    @Test
+    //@tTest
     public void testGetTypeSupport() {
         checkValidEntities();
         TypeSupport<Msg> result = null;
@@ -159,7 +159,7 @@ public class TopicTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicDescription#cast()}.
      */
-    @Test
+    //@tTest
     public void testCast() {
         checkValidEntities();
         TopicDescription<Object> result = null;
@@ -174,7 +174,7 @@ public class TopicTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicDescription#getTypeName()}.
      */
-    @Test
+    //@tTest
     public void testGetTypeName() {
         checkValidEntities();
         String result = null;
@@ -189,7 +189,7 @@ public class TopicTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicDescription#getName()}.
      */
-    @Test
+    //@tTest
     public void testGetName() {
         checkValidEntities();
         String result = null;
@@ -207,7 +207,7 @@ public class TopicTest {
     /**
      * Test method for {@link org.omg.dds.core.DDSObject#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;
@@ -224,7 +224,7 @@ public class TopicTest {
      * Test method for {@link org.omg.dds.core.Entity#getListener()}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testGetTopicListener() {
         checkValidEntities();
         TopicListener<Msg> pl = new TopicListenerClass();
@@ -261,7 +261,7 @@ public class TopicTest {
      * Test method for
      * {@link org.omg.dds.core.Entity#setListener(java.util.EventListener)}.
      */
-    @Test
+    //@tTest
     public void testTopicSetListener() {
         checkValidEntities();
         TopicListener<Msg> pl = new TopicListenerClass();
@@ -277,7 +277,7 @@ public class TopicTest {
      * {@link org.omg.dds.core.Entity#setListener(java.util.EventListener, java.util.Collection)}
      * .
      */
-    @Test
+    //@tTest
     public void testTopicSetListenerCollectionOfClassOfQextendsStatus() {
         checkValidEntities();
         TopicListener<Msg> pl = new TopicListenerClass();
@@ -296,7 +296,7 @@ public class TopicTest {
      * java.lang.Class<? extends org.omg.dds.core.status.Status>[])}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testTopicSetListenerClassOfQextendsStatusArray() {
         checkValidEntities();
         TopicListener<Msg> pl = new TopicListenerClass();
@@ -311,7 +311,7 @@ public class TopicTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getQos()}.
      */
-    @Test
+    //@tTest
     public void testGetQos() {
         checkValidEntities();
         TopicQos tq = null;
@@ -326,7 +326,7 @@ public class TopicTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#setQos(org.omg.dds.core.EntityQos)}.
      */
-    @Test
+    //@tTest
     public void testSetQosNull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -343,7 +343,7 @@ public class TopicTest {
      * Test method for
      * {@link org.omg.dds.core.Entity#setQos(org.omg.dds.core.EntityQos)}.
      */
-    @Test
+    //@tTest
     public void testSetQos() {
         checkValidEntities();
         TopicQos tq = null;
@@ -376,7 +376,7 @@ public class TopicTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#enable()}.
      */
-    @Test
+    //@tTest
     public void testEnable() {
         checkValidEntities();
         try {
@@ -389,7 +389,7 @@ public class TopicTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getStatusChanges()}.
      */
-    @Test
+    //@tTest
     public void testGetStatusChanges() {
         checkValidEntities();
         Set<Class<? extends Status>> statuses = null;
@@ -404,7 +404,7 @@ public class TopicTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getInstanceHandle()}.
      */
-    @Test
+    //@tTest
     public void testGetInstanceHandle() {
         checkValidEntities();
         InstanceHandle ih = null;
@@ -419,7 +419,7 @@ public class TopicTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#retain()}.
      */
-    @Test
+    //@tTest
     public void testRetain() {
         checkValidEntities();
         try {

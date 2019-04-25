@@ -114,7 +114,7 @@ public class DataReaderQosopenspliceTest {
      * Test method for
      * {@link org.opensplice.sub.dds.DataReaderQosImpl#getReaderLifespan()}.
      */
-    @Test
+    //@tTest
     public void testGetReaderLifespan() {
         checkValidEntities();
         ReaderLifespanImpl result = null;
@@ -141,7 +141,7 @@ public class DataReaderQosopenspliceTest {
      * Test method for
      * {@link org.opensplice.sub.dds.DataReaderQosImpl#getShare()}.
      */
-    @Test
+    //@tTest
     public void testGetShare() {
         checkValidEntities();
         ShareImpl result = null;
@@ -164,7 +164,7 @@ public class DataReaderQosopenspliceTest {
      * Test method for
      * {@link org.opensplice.sub.dds.DataReaderQosImpl#getSubscriptionKeys()}.
      */
-    @Test
+    //@tTest
     public void testGetSubscriptionKeys() {
         checkValidEntities();
         SubscriptionKeysImpl result = null;
@@ -207,7 +207,7 @@ public class DataReaderQosopenspliceTest {
      * Test method for
      * {@link org.opensplice.sub.dds.DataReaderQosImpl#getUserData()}.
      */
-    @Test
+    //@tTest
     public void testGetUserData() {
         checkValidEntities();
         UserDataImpl result = null;
@@ -224,7 +224,7 @@ public class DataReaderQosopenspliceTest {
      * Test method for
      * {@link org.opensplice.sub.dds.DataReaderQosImpl#getTimeBasedFilter()}.
      */
-    @Test
+    //@tTest
     public void testGetTimeBasedFilter() {
         checkValidEntities();
         TimeBasedFilterImpl result = null;
@@ -242,7 +242,7 @@ public class DataReaderQosopenspliceTest {
      * {@link org.opensplice.sub.dds.DataReaderQosImpl#getReaderDataLifecycle()}
      * .
      */
-    @Test
+    //@tTest
     public void testGetReaderDataLifecycle() {
         checkValidEntities();
         ReaderDataLifecycleImpl result = null;
@@ -267,7 +267,7 @@ public class DataReaderQosopenspliceTest {
      * Test method for
      * {@link org.opensplice.dds.sub.DataReaderQosImpl#convert()} .
      */
-    @Test
+    //@tTest
     public void testConvert() {
         checkValidEntities();
         DataReaderQosImpl result = null;

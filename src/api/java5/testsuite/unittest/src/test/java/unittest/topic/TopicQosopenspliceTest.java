@@ -101,7 +101,7 @@ public class TopicQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getTopicData()}.
      */
-    @Test
+    //@tTest
     public void testGetTopicData() {
         checkValidEntities();
         TopicDataImpl result = null;
@@ -117,7 +117,7 @@ public class TopicQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getDurability()}.
      */
-    @Test
+    //@tTest
     public void testGetDurability() {
         checkValidEntities();
         DurabilityImpl result = null;
@@ -163,7 +163,7 @@ public class TopicQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getDurabilityService()}.
      */
-    @Test
+    //@tTest
     public void testGetDurabilityService() {
         checkValidEntities();
         DurabilityServiceImpl result = null;
@@ -179,7 +179,7 @@ public class TopicQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getDeadline()}.
      */
-    @Test
+    //@tTest
     public void testGetDeadline() {
         checkValidEntities();
         DeadlineImpl result = null;
@@ -197,7 +197,7 @@ public class TopicQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getLatencyBudget()}.
      */
-    @Test
+    //@tTest
     public void testGetLatencyBudget() {
         checkValidEntities();
         LatencyBudgetImpl result = null;
@@ -214,7 +214,7 @@ public class TopicQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getLiveliness()}.
      */
-    @Test
+    //@tTest
     public void testGetLiveliness() {
         checkValidEntities();
         LivelinessImpl result = null;
@@ -261,7 +261,7 @@ public class TopicQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getReliability()}.
      */
-    @Test
+    //@tTest
     public void testGetReliability() {
         checkValidEntities();
         ReliabilityImpl result = null;
@@ -298,7 +298,7 @@ public class TopicQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getDestinationOrder()}.
      */
-    @Test
+    //@tTest
     public void testGetDestinationOrder() {
         checkValidEntities();
         DestinationOrderImpl result = null;
@@ -321,7 +321,7 @@ public class TopicQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getHistory()}.
      */
-    @Test
+    //@tTest
     public void testGetHistory() {
         checkValidEntities();
         HistoryImpl result = null;
@@ -340,7 +340,7 @@ public class TopicQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getResourceLimits()}.
      */
-    @Test
+    //@tTest
     public void testGetResourceLimits() {
         checkValidEntities();
         ResourceLimitsImpl result = null;
@@ -356,7 +356,7 @@ public class TopicQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getTransportPriority()}.
      */
-    @Test
+    //@tTest
     public void testGetTransportPriority() {
         checkValidEntities();
         TransportPriorityImpl result = null;
@@ -372,7 +372,7 @@ public class TopicQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getLifespan()}.
      */
-    @Test
+    //@tTest
     public void testGetLifespan() {
         checkValidEntities();
         LifespanImpl result = null;
@@ -388,7 +388,7 @@ public class TopicQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getOwnership()}.
      */
-    @Test
+    //@tTest
     public void testGetOwnership() {
         checkValidEntities();
         OwnershipImpl result = null;
@@ -412,7 +412,7 @@ public class TopicQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getRepresentation()}.
      */
-    @Test
+    //@tTest
     public void testGetRepresentation() {
         checkValidEntities();
         DataRepresentationImpl result = null;
@@ -432,7 +432,7 @@ public class TopicQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#getTypeConsistency()}.
      */
-    @Test
+    //@tTest
     public void testGetTypeConsistency() {
         checkValidEntities();
         TypeConsistencyEnforcementImpl result = null;
@@ -473,7 +473,7 @@ public class TopicQosopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicQos#convert()}.
      */
-    @Test
+    //@tTest
     public void testConvertNull() {
         checkValidEntities();
         boolean exceptionOccured = false;

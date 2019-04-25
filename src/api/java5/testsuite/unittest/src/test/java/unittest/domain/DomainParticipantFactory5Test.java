@@ -56,7 +56,7 @@ public class DomainParticipantFactory5Test {
      * {@link org.omg.dds.domain.DomainParticipantFactory#createParticipant(int, org.omg.dds.domain.DomainParticipantQos, org.omg.dds.domain.DomainParticipantListener, java.util.Collection)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateParticipantWithNullQosArg() {
         org.omg.dds.domain.DomainParticipantQos qos = null;
         org.omg.dds.domain.DomainParticipantListener listener = null;
@@ -76,7 +76,7 @@ public class DomainParticipantFactory5Test {
      * .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testCreateParticipantWithNullListenerArg() {
         org.omg.dds.domain.DomainParticipantQos qos = dpf.getDefaultParticipantQos();
         org.omg.dds.domain.DomainParticipantListener listener = null;
@@ -95,7 +95,7 @@ public class DomainParticipantFactory5Test {
      * .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testCreateParticipantWithArg() {
         org.omg.dds.domain.DomainParticipantQos qos = dpf.getDefaultParticipantQos();
         org.omg.dds.domain.DomainParticipantListener listener = null;

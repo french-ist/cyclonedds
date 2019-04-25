@@ -91,7 +91,7 @@ public class DataWriteropenspliceTest {
      * Test method for {@link org.opensplice.dds.core.EntityImpl#getOldParent()}
      * .
      */
-    @Test
+    //@tTest
     public void testGetOldParent() {
         checkValidEntities();
         DDS.Publisher pub = null;
@@ -109,7 +109,7 @@ public class DataWriteropenspliceTest {
      * {@link org.opensplice.dds.core.EntityImpl#setProperty(java.lang.String, java.lang.String)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetProperty() {
         checkValidEntities();
         String result = null;
@@ -128,7 +128,7 @@ public class DataWriteropenspliceTest {
      * {@link org.opensplice.dds.core.EntityImpl#setProperty(java.lang.String, java.lang.String)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetPropertyNull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -146,7 +146,7 @@ public class DataWriteropenspliceTest {
      * {@link org.opensplice.dds.core.EntityImpl#getProperty(java.lang.String)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetProperty() {
         checkValidEntities();
         String result = null;
@@ -163,7 +163,7 @@ public class DataWriteropenspliceTest {
      * Test method for
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object)}.
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPE() {
         checkValidEntities();
         Msg message = new Msg(1, "testWriteDisposeTYPE");
@@ -178,7 +178,7 @@ public class DataWriteropenspliceTest {
      * Test method for
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object)}.
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPENull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -196,7 +196,7 @@ public class DataWriteropenspliceTest {
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object, org.omg.dds.core.Time)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPETime() {
         checkValidEntities();
         Msg message = new Msg(1, "testWriteDisposeTYPETime");
@@ -213,7 +213,7 @@ public class DataWriteropenspliceTest {
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object, org.omg.dds.core.Time)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPETimeNull() {
         checkValidEntities();
         Msg message = new Msg(1, "testWriteDisposeTYPETimeNull");
@@ -233,7 +233,7 @@ public class DataWriteropenspliceTest {
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object, long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPELongTimeUnit() {
         checkValidEntities();
         Msg message = new Msg(1, "testWriteDisposeTYPELongTimeUnit");
@@ -249,7 +249,7 @@ public class DataWriteropenspliceTest {
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object, long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPELongTimeUnitNull() {
         checkValidEntities();
         Msg message = new Msg(1, "testWriteDisposeTYPELongTimeUnitNull");
@@ -268,7 +268,7 @@ public class DataWriteropenspliceTest {
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object, org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPEInstanceHandle() {
         checkValidEntities();
         Msg message = new Msg(1, "testWriteDisposeTYPEInstanceHandle");
@@ -290,7 +290,7 @@ public class DataWriteropenspliceTest {
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object, org.omg.dds.core.InstanceHandle, org.omg.dds.core.Time)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPEInstanceHandleTime() {
         checkValidEntities();
         Msg message = new Msg(1, "testWriteDisposeTYPEInstanceHandleTime");
@@ -313,7 +313,7 @@ public class DataWriteropenspliceTest {
      * {@link org.opensplice.dds.pub.DataWriter#writeDispose(java.lang.Object, org.omg.dds.core.InstanceHandle, long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWriteDisposeTYPEInstanceHandleLongTimeUnit() {
         checkValidEntities();
         Msg message = new Msg(1, "testWriteDisposeTYPEInstanceHandleLongTimeUnit");

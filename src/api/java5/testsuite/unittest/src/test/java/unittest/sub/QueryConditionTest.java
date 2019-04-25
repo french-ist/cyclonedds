@@ -106,7 +106,7 @@ public class QueryConditionTest {
     /**
      * Test method for {@link org.omg.dds.sub.QueryCondition#getQueryExpression()}.
      */
-    @Test
+    //@tTest
     public void testGetQueryExpression() {
         checkValidEntities();
         String result = null;
@@ -121,7 +121,7 @@ public class QueryConditionTest {
     /**
      * Test method for {@link org.omg.dds.sub.QueryCondition#getQueryParameters()}.
      */
-    @Test
+    //@tTest
     public void testGetQueryParameters() {
         checkValidEntities();
         List<String> result = null;
@@ -136,7 +136,7 @@ public class QueryConditionTest {
     /**
      * Test method for {@link org.omg.dds.sub.QueryCondition#setQueryParameters(java.util.List)}.
      */
-    @Test
+    //@tTest
     public void testSetQueryParametersListOfString() {
         checkValidEntities();
         List<String> result = null;
@@ -157,7 +157,7 @@ public class QueryConditionTest {
      * {@link org.omg.dds.sub.QueryCondition#setQueryParameters(java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetQueryParametersListOfStringNull() {
         checkValidEntities();
         ArrayList<String> queryParam = null;
@@ -176,7 +176,7 @@ public class QueryConditionTest {
      * {@link org.omg.dds.sub.QueryCondition#setQueryParameters(java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetQueryParametersListOfStringNullContent() {
         checkValidEntities();
         ArrayList<String> queryParam = new ArrayList<String>();
@@ -197,7 +197,7 @@ public class QueryConditionTest {
      * {@link org.omg.dds.sub.QueryCondition#setQueryParameters(java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testSetQueryParametersStringArray() {
         checkValidEntities();
         List<String> result = null;
@@ -217,7 +217,7 @@ public class QueryConditionTest {
      * {@link org.omg.dds.sub.QueryCondition#setQueryParameters(java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testSetQueryParametersStringArrayNull() {
         checkValidEntities();
         String[] queryParam = null;
@@ -236,7 +236,7 @@ public class QueryConditionTest {
      * {@link org.omg.dds.sub.QueryCondition#setQueryParameters(java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testSetQueryParametersStringArrayNullContent() {
         checkValidEntities();
         String[] queryParam = { null };
@@ -253,7 +253,7 @@ public class QueryConditionTest {
     /**
      * Test method for {@link org.omg.dds.core.Condition#getTriggerValue()}.
      */
-    @Test
+    //@tTest
     public void testGetTriggerValue() {
         checkValidEntities();
         boolean result = true;
@@ -268,7 +268,7 @@ public class QueryConditionTest {
     /**
      * Test method for {@link org.omg.dds.core.DDSObject#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;

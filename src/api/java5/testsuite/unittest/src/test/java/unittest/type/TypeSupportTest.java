@@ -84,7 +84,7 @@ public class TypeSupportTest {
     /**
      * Test method for {@link org.omg.dds.type.TypeSupport#newTypeSupport(java.lang.Class, org.omg.dds.core.ServiceEnvironment)}.
      */
-    @Test
+    //@tTest
     public void testNewTypeSupportClassOfTYPEServiceEnvironment() {
         checkValidEntities();
         TypeSupport<Msg> result = null;
@@ -101,7 +101,7 @@ public class TypeSupportTest {
      * {@link org.omg.dds.type.TypeSupport#newTypeSupport(java.lang.Class, org.omg.dds.core.ServiceEnvironment)}
      * .
      */
-    @Test
+    //@tTest
     public void testNewTypeSupportClassOfTYPENullServiceEnvironment() {
         checkValidEntities();
         TypeSupport<Msg> result = null;
@@ -122,7 +122,7 @@ public class TypeSupportTest {
      * {@link org.omg.dds.type.TypeSupport#newTypeSupport(java.lang.Class, org.omg.dds.core.ServiceEnvironment)}
      * .
      */
-    @Test
+    //@tTest
     public void testNewTypeSupportClassOfTYPEServiceEnvironmentInvalid() {
         checkValidEntities();
         TypeSupport<DomainParticipant> result = null;
@@ -143,7 +143,7 @@ public class TypeSupportTest {
      * {@link org.omg.dds.type.TypeSupport#newTypeSupport(java.lang.Class, org.omg.dds.core.ServiceEnvironment)}
      * .
      */
-    @Test
+    //@tTest
     public void testNewTypeSupportClassOfTYPEServiceEnvironmentNull() {
         checkValidEntities();
         TypeSupport<Msg> result = null;
@@ -164,7 +164,7 @@ public class TypeSupportTest {
      * {@link org.omg.dds.type.TypeSupport#newTypeSupport(java.lang.Class, java.lang.String, org.omg.dds.core.ServiceEnvironment)}
      * .
      */
-    @Test
+    //@tTest
     public void testNewTypeSupportClassOfTYPEStringServiceEnvironment() {
         checkValidEntities();
         TypeSupport<Msg> result = null;
@@ -179,7 +179,7 @@ public class TypeSupportTest {
     /**
      * Test method for {@link org.omg.dds.type.TypeSupport#newData()}.
      */
-    @Test
+    //@tTest
     public void testNewData() {
         checkValidEntities();
         TypeSupport<Msg> result = null;
@@ -197,7 +197,7 @@ public class TypeSupportTest {
     /**
      * Test method for {@link org.omg.dds.type.TypeSupport#getType()}.
      */
-    @Test
+    //@tTest
     public void testGetType() {
         checkValidEntities();
         TypeSupport<Msg> result = null;
@@ -215,7 +215,7 @@ public class TypeSupportTest {
     /**
      * Test method for {@link org.omg.dds.type.TypeSupport#getTypeName()}.
      */
-    @Test
+    //@tTest
     public void testGetTypeName() {
         checkValidEntities();
         TypeSupport<Msg> result = null;

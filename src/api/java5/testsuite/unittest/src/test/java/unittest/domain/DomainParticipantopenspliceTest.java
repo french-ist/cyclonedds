@@ -70,7 +70,7 @@ public class DomainParticipantopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.domain.DomainParticipantImpl#deleteHistoricalData()}.
      */
-    @Test
+    //@tTest
     public void testDeleteHistoricalData() {
         checkValidEntities();
         try {
@@ -85,7 +85,7 @@ public class DomainParticipantopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.domain.DomainParticipantImpl#deleteHistoricalData()}.
      */
-    @Test
+    //@tTest
     public void testDeleteHistoricalDataPartitionExpressionNull() {
         checkValidEntities();
 
@@ -104,7 +104,7 @@ public class DomainParticipantopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.domain.DomainParticipantImpl#deleteHistoricalData()}.
      */
-    @Test
+    //@tTest
     public void testDeleteHistoricalDataTopicExpressionNull() {
         checkValidEntities();
 
@@ -123,7 +123,7 @@ public class DomainParticipantopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.domain.DomainParticipantImpl#createPersistentSnapshot()}.
      */
-    @Test
+    //@tTest
     public void testCreatePersistentSnapshot() {
         checkValidEntities();
         try {
@@ -139,7 +139,7 @@ public class DomainParticipantopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.domain.DomainParticipantImpl#createPersistentSnapshot()}.
      */
-    @Test
+    //@tTest
     public void testCreatePersistentSnapshotPartitionExpressionNull() {
         checkValidEntities();
 
@@ -159,7 +159,7 @@ public class DomainParticipantopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.domain.DomainParticipantImpl#createPersistentSnapshot()}.
      */
-    @Test
+    //@tTest
     public void testCreatePersistentSnapshotTopicExpressionNull() {
         checkValidEntities();
 
@@ -179,7 +179,7 @@ public class DomainParticipantopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.domain.DomainParticipantImpl#createPersistentSnapshot()}.
      */
-    @Test
+    //@tTest
     public void testCreatePersistentSnapshotUriNull() {
         checkValidEntities();
 
@@ -196,7 +196,7 @@ public class DomainParticipantopenspliceTest {
         assertTrue("Check if IllegalArgumentException has occured failed", exceptionOccured);
     }
 
-    @Test
+    //@tTest
     public void testSetPropertyEmpty() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         boolean exceptionOccured = false;
@@ -210,7 +210,7 @@ public class DomainParticipantopenspliceTest {
         assertTrue("Check if UnsupportedOperationException occured failed", exceptionOccured);
     }
 
-    @Test
+    //@tTest
     public void testSetPropertyNullNull() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         boolean exceptionOccured = false;
@@ -224,7 +224,7 @@ public class DomainParticipantopenspliceTest {
         assertTrue("Check if IllegalArgumentException occured failed", exceptionOccured);
     }
 
-    @Test
+    //@tTest
     public void testSetPropertyEmptyNull() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         boolean exceptionOccured = false;
@@ -238,7 +238,7 @@ public class DomainParticipantopenspliceTest {
         assertTrue("Check if IllegalArgumentException occured failed", exceptionOccured);
     }
 
-    @Test
+    //@tTest
     public void testSetPropertyNullEmpty() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         boolean exceptionOccured = false;
@@ -252,7 +252,7 @@ public class DomainParticipantopenspliceTest {
         assertTrue("Check if IllegalArgumentException occured failed", exceptionOccured);
     }
 
-    @Test
+    //@tTest
     public void testSetPropertyUnsupportedProperty() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         boolean exceptionOccured = false;
@@ -266,7 +266,7 @@ public class DomainParticipantopenspliceTest {
         assertTrue("Check if UnsupportedOperationException occured failed", exceptionOccured);
     }
 
-    @Test
+    //@tTest
     public void testSetProperty() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         org.opensplice.dds.domain.DomainParticipant par = null;
@@ -281,7 +281,7 @@ public class DomainParticipantopenspliceTest {
     }
 
 
-    @Test
+    //@tTest
     public void testGetPropertyUnsupportedProperty() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         boolean exceptionOccured = false;
@@ -296,7 +296,7 @@ public class DomainParticipantopenspliceTest {
         assertTrue("Check if UnsupportedOperationException occured failed", exceptionOccured);
     }
 
-    @Test
+    //@tTest
     public void testGetPropertyNull() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         boolean exceptionOccured = false;
@@ -311,7 +311,7 @@ public class DomainParticipantopenspliceTest {
         assertTrue("Check if IllegalArgumentException occured failed", exceptionOccured);
     }
 
-    @Test
+    //@tTest
     public void testGetPropertyEmpty() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         boolean exceptionOccured = false;
@@ -327,7 +327,7 @@ public class DomainParticipantopenspliceTest {
     }
 
 
-    @Test
+    //@tTest
     public void testGetProperty() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         String res = null;
@@ -339,7 +339,7 @@ public class DomainParticipantopenspliceTest {
         assertTrue("Check for valid result ", res.equals("false"));
     }
 
-    @Test
+    //@tTest
     public void testGetSetProperty() {
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
         String res = null;

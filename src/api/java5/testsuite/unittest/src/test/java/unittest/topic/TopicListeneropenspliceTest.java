@@ -95,7 +95,7 @@ public class TopicListeneropenspliceTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnInconsistentTopic() {
         checkValidEntities();
         boolean triggerOccured = false;
@@ -164,7 +164,7 @@ public class TopicListeneropenspliceTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnAllDataDisposed() {
         checkValidEntities();
         boolean triggerOccured = false;

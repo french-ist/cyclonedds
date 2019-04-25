@@ -99,7 +99,7 @@ public class PublisherTest {
     /**
      * Test method for {@link org.omg.dds.pub.Publisher#createDataWriter(org.omg.dds.topic.Topic)}.
      */
-    @Test
+    //@tTest
     public void testCreateDataWriterTopicOfTYPE() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -119,7 +119,7 @@ public class PublisherTest {
      * {@link org.omg.dds.pub.Publisher#createDataWriter(org.omg.dds.topic.Topic)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateDataWriterTopicOfTYPENull() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -136,7 +136,7 @@ public class PublisherTest {
      * {@link org.omg.dds.pub.Publisher#createDataWriter(org.omg.dds.topic.Topic, org.omg.dds.pub.DataWriterQos, org.omg.dds.pub.DataWriterListener, java.util.Collection)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateDataWriterTopicOfTYPEDataWriterQosDataWriterListenerOfTYPECollectionOfClassOfQextendsStatus() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -164,7 +164,7 @@ public class PublisherTest {
      * java.lang.Class<? extends org.omg.dds.core.status.Status>[])}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testCreateDataWriterTopicOfTYPEDataWriterQosDataWriterListenerOfTYPEClassOfQextendsStatusArray() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -191,7 +191,7 @@ public class PublisherTest {
      * java.lang.Class<? extends org.omg.dds.core.status.Status>[])}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testCreateDataWriterTopicOfTYPEDataWriterQosNullDataWriterListenerOfTYPEClassOfQextendsStatusArray() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -214,7 +214,7 @@ public class PublisherTest {
      * java.lang.Class<? extends org.omg.dds.core.status.Status>[])}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testCreateDataWriterTopicNullOfTYPEDataWriterQosDataWriterListenerOfTYPEClassOfQextendsStatusArray() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -236,7 +236,7 @@ public class PublisherTest {
      * {@link org.omg.dds.pub.Publisher#createDataWriter(org.omg.dds.topic.Topic, org.omg.dds.pub.DataWriterQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateDataWriterTopicOfTYPEDataWriterQos() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -258,7 +258,7 @@ public class PublisherTest {
      * Test method for
      * {@link org.omg.dds.pub.Publisher#lookupDataWriter(java.lang.String)}.
      */
-    @Test
+    //@tTest
     public void testLookupDataWriterString() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -284,7 +284,7 @@ public class PublisherTest {
      * Test method for
      * {@link org.omg.dds.pub.Publisher#lookupDataWriter(java.lang.String)}.
      */
-    @Test
+    //@tTest
     public void testLookupDataWriterStringInvalid() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -311,7 +311,7 @@ public class PublisherTest {
      * {@link org.omg.dds.pub.Publisher#lookupDataWriter(org.omg.dds.topic.Topic)}
      * .
      */
-    @Test
+    //@tTest
     public void testLookupDataWriterStringNull() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -339,7 +339,7 @@ public class PublisherTest {
      * {@link org.omg.dds.pub.Publisher#lookupDataWriter(org.omg.dds.topic.Topic)}
      * .
      */
-    @Test
+    //@tTest
     public void testLookupDataWriterTopicOfTYPE() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -365,7 +365,7 @@ public class PublisherTest {
      * Test method for
      * {@link org.omg.dds.pub.Publisher#closeContainedEntities()}.
      */
-    @Test
+    //@tTest
     public void testCloseContainedEntities() {
         checkValidEntities();
         DataWriter<Msg> dw = null;
@@ -393,7 +393,7 @@ public class PublisherTest {
     /**
      * Test method for {@link org.omg.dds.pub.Publisher#suspendPublications()}.
      */
-    @Test
+    //@tTest
     public void testSuspendPublications() {
         checkValidEntities();
         try {
@@ -411,7 +411,7 @@ public class PublisherTest {
     /**
      * Test method for {@link org.omg.dds.pub.Publisher#resumePublications()}.
      */
-    @Test
+    //@tTest
     public void testResumePublications() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -427,7 +427,7 @@ public class PublisherTest {
     /**
      * Test method for {@link org.omg.dds.pub.Publisher#beginCoherentChanges()}.
      */
-    @Test
+    //@tTest
     public void testBeginCoherentChanges() {
         checkValidEntities();
         Publisher pub = null;
@@ -458,7 +458,7 @@ public class PublisherTest {
     /**
      * Test method for {@link org.omg.dds.pub.Publisher#endCoherentChanges()}.
      */
-    @Test
+    //@tTest
     public void testEndCoherentChanges() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -488,7 +488,7 @@ public class PublisherTest {
      * {@link org.omg.dds.pub.Publisher#waitForAcknowledgments(org.omg.dds.core.Duration)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForAcknowledgmentsDuration() {
         checkValidEntities();
         Duration timeout = Duration.newDuration(1, TimeUnit.SECONDS, env);
@@ -507,7 +507,7 @@ public class PublisherTest {
      * {@link org.omg.dds.pub.Publisher#waitForAcknowledgments(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForAcknowledgmentsLongTimeUnit() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -525,7 +525,7 @@ public class PublisherTest {
      * {@link org.omg.dds.pub.Publisher#waitForAcknowledgments(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForAcknowledgmentsLongTimeUnitOverflow() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -544,7 +544,7 @@ public class PublisherTest {
      * {@link org.omg.dds.pub.Publisher#waitForAcknowledgments(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForAcknowledgmentsLongTimeUnitNegative() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -562,7 +562,7 @@ public class PublisherTest {
      * Test method for
      * {@link org.omg.dds.pub.Publisher#getDefaultDataWriterQos()}.
      */
-    @Test
+    //@tTest
     public void testGetDefaultDataWriterQos() {
         checkValidEntities();
         DataWriterQos dwq = null;
@@ -579,7 +579,7 @@ public class PublisherTest {
      * {@link org.omg.dds.pub.Publisher#setDefaultDataWriterQos(org.omg.dds.pub.DataWriterQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetDefaultDataWriterQos() {
         checkValidEntities();
         DataWriterQos dwq = null;
@@ -613,7 +613,7 @@ public class PublisherTest {
      * {@link org.omg.dds.pub.Publisher#setDefaultDataWriterQos(org.omg.dds.pub.DataWriterQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetDefaultDataWriterQosNull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -632,7 +632,7 @@ public class PublisherTest {
      * {@link org.omg.dds.pub.Publisher#copyFromTopicQos(org.omg.dds.pub.DataWriterQos, org.omg.dds.topic.TopicQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testCopyFromTopicQos() {
         checkValidEntities();
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -650,7 +650,7 @@ public class PublisherTest {
      * {@link org.omg.dds.pub.Publisher#copyFromTopicQos(org.omg.dds.pub.DataWriterQos, org.omg.dds.topic.TopicQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testCopyFromTopicQosDwqNull() {
         checkValidEntities();
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -668,7 +668,7 @@ public class PublisherTest {
      * {@link org.omg.dds.pub.Publisher#copyFromTopicQos(org.omg.dds.pub.DataWriterQos, org.omg.dds.topic.TopicQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testCopyFromTopicQosTqNull() {
         checkValidEntities();
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -684,7 +684,7 @@ public class PublisherTest {
     /**
      * Test method for {@link org.omg.dds.pub.Publisher#getStatusCondition()}.
      */
-    @Test
+    //@tTest
     public void testGetStatusCondition() {
         checkValidEntities();
         StatusCondition<Publisher> result = null;
@@ -699,7 +699,7 @@ public class PublisherTest {
     /**
      * Test method for {@link org.omg.dds.pub.Publisher#getParent()}.
      */
-    @Test
+    //@tTest
     public void testGetParent() {
         checkValidEntities();
         DomainParticipant result = null;
@@ -715,7 +715,7 @@ public class PublisherTest {
      * Test method for {@link org.omg.dds.core.Entity#getListener()}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testGetPublisherListener() {
         checkValidEntities();
         PublisherListener pl = new PublisherListenerClass();
@@ -752,7 +752,7 @@ public class PublisherTest {
      * Test method for
      * {@link org.omg.dds.core.Entity#setListener(java.util.EventListener)}.
      */
-    @Test
+    //@tTest
     public void testPublisherSetListener() {
         checkValidEntities();
         PublisherListener pl = new PublisherListenerClass();
@@ -768,7 +768,7 @@ public class PublisherTest {
      * {@link org.omg.dds.core.Entity#setListener(java.util.EventListener, java.util.Collection)}
      * .
      */
-    @Test
+    //@tTest
     public void testPublisherSetListenerCollectionOfClassOfQextendsStatus() {
         checkValidEntities();
         PublisherListener pl = new PublisherListenerClass();
@@ -787,7 +787,7 @@ public class PublisherTest {
      * java.lang.Class<? extends org.omg.dds.core.status.Status>[])}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testPublisherSetListenerClassOfQextendsStatusArray() {
         checkValidEntities();
         PublisherListener pl = new PublisherListenerClass();
@@ -802,7 +802,7 @@ public class PublisherTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getQos()}.
      */
-    @Test
+    //@tTest
     public void testGetQos() {
         checkValidEntities();
         PublisherQos pq = null;
@@ -818,7 +818,7 @@ public class PublisherTest {
      * Test method for
      * {@link org.omg.dds.core.Entity#setQos(org.omg.dds.core.EntityQos)}.
      */
-    @Test
+    //@tTest
     public void testSetQos() {
         checkValidEntities();
         PublisherQos pq = null;
@@ -851,7 +851,7 @@ public class PublisherTest {
      * Test method for
      * {@link org.omg.dds.core.Entity#setQos(org.omg.dds.core.EntityQos)}.
      */
-    @Test
+    //@tTest
     public void testSetQosNull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -867,7 +867,7 @@ public class PublisherTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#enable()}.
      */
-    @Test
+    //@tTest
     public void testEnable() {
         checkValidEntities();
         try {
@@ -880,7 +880,7 @@ public class PublisherTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getStatusChanges()}.
      */
-    @Test
+    //@tTest
     public void testGetStatusChanges() {
         checkValidEntities();
         Set<Class<? extends Status>> statuses = null;
@@ -896,7 +896,7 @@ public class PublisherTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getInstanceHandle()}.
      */
-    @Test
+    //@tTest
     public void testGetInstanceHandle() {
         checkValidEntities();
         InstanceHandle ih = null;
@@ -911,7 +911,7 @@ public class PublisherTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#retain()}.
      */
-    @Test
+    //@tTest
     public void testRetain() {
         checkValidEntities();
         try {
@@ -924,7 +924,7 @@ public class PublisherTest {
     /**
      * Test method for {@link org.omg.dds.core.DDSObject#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;

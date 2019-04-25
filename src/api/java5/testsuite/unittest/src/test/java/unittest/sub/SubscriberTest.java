@@ -104,7 +104,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.sub.Subscriber#createDataReader(org.omg.dds.topic.TopicDescription)}.
      */
-    @Test
+    //@tTest
     public void testCreateDataReaderTopicDescriptionOfTYPE() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -124,7 +124,7 @@ public class SubscriberTest {
      * {@link org.omg.dds.sub.Subscriber#createDataReader(org.omg.dds.topic.TopicDescription)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateDataReaderTopicDescriptionOfTYPENull() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -142,7 +142,7 @@ public class SubscriberTest {
      * {@link org.omg.dds.sub.Subscriber#createDataReader(org.omg.dds.topic.TopicDescription, org.omg.dds.sub.DataReaderQos, org.omg.dds.sub.DataReaderListener, java.util.Collection)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateDataReaderTopicDescriptionOfTYPEDataReaderQosDataReaderListenerOfTYPECollectionOfClassOfQextendsStatus() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -167,7 +167,7 @@ public class SubscriberTest {
      * Test method for {@link org.omg.dds.sub.Subscriber#createDataReader(org.omg.dds.topic.TopicDescription, org.omg.dds.sub.DataReaderQos, org.omg.dds.sub.DataReaderListener, java.lang.Class<? extends org.omg.dds.core.status.Status>[])}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testCreateDataReaderTopicDescriptionOfTYPEDataReaderQosDataReaderListenerOfTYPEClassOfQextendsStatusArray() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -190,7 +190,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.sub.Subscriber#createDataReader(org.omg.dds.topic.TopicDescription, org.omg.dds.sub.DataReaderQos)}.
      */
-    @Test
+    //@tTest
     public void testCreateDataReaderTopicDescriptionOfTYPEDataReaderQos() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -211,7 +211,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.sub.Subscriber#lookupDataReader(java.lang.String)}.
      */
-    @Test
+    //@tTest
     public void testLookupDataReaderString() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -237,7 +237,7 @@ public class SubscriberTest {
      * Test method for
      * {@link org.omg.dds.sub.Subscriber#lookupDataReader(java.lang.String)}.
      */
-    @Test
+    //@tTest
     public void testLookupDataReaderStringInvalid() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -263,7 +263,7 @@ public class SubscriberTest {
      * Test method for
      * {@link org.omg.dds.sub.Subscriber#lookupDataReader(java.lang.String)}.
      */
-    @Test
+    //@tTest
     public void testLookupDataReaderStringNull() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -298,7 +298,7 @@ public class SubscriberTest {
      * {@link org.omg.dds.sub.Subscriber#lookupDataReader(org.omg.dds.topic.TopicDescription)}
      * .
      */
-    @Test
+    //@tTest
     public void testLookupDataReaderTopicDescriptionOfTYPE() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -323,7 +323,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.sub.Subscriber#closeContainedEntities()}.
      */
-    @Test
+    //@tTest
     public void testCloseContainedEntities() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -351,7 +351,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.sub.Subscriber#getDataReaders()}.
      */
-    @Test
+    //@tTest
     public void testGetDataReaders() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -375,7 +375,7 @@ public class SubscriberTest {
      * {@link org.omg.dds.sub.Subscriber#getDataReaders(org.omg.dds.sub.Subscriber.DataState)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetDataReadersDataState() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -398,7 +398,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.sub.Subscriber#getDataReaders(org.omg.dds.sub.Subscriber.DataState)}.
      */
-    @Test
+    //@tTest
     public void testGetDataReadersDataStateNull() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -422,7 +422,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.sub.Subscriber#notifyDataReaders()}.
      */
-    @Test
+    //@tTest
     public void testNotifyDataReaders() {
         checkValidEntities();
         DataReader<Msg> dr = null;
@@ -442,7 +442,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.sub.Subscriber#beginAccess()}.
      */
-    @Test
+    //@tTest
     public void testBeginAccess() {
         checkValidEntities();
         try {
@@ -465,7 +465,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.sub.Subscriber#endAccess()}.
      */
-    @Test
+    //@tTest
     public void testEndAccess() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -486,7 +486,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.sub.Subscriber#getDefaultDataReaderQos()}.
      */
-    @Test
+    //@tTest
     public void testGetDefaultDataReaderQos() {
         checkValidEntities();
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -502,7 +502,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.sub.Subscriber#setDefaultDataReaderQos(org.omg.dds.sub.DataReaderQos)}.
      */
-    @Test
+    //@tTest
     public void testSetDefaultDataReaderQos() {
         checkValidEntities();
         DataReaderQos drq = null;
@@ -536,7 +536,7 @@ public class SubscriberTest {
      * {@link org.omg.dds.sub.Subscriber#setDefaultDataReaderQos(org.omg.dds.sub.DataReaderQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetDefaultDataReaderQosNull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -554,7 +554,7 @@ public class SubscriberTest {
      * {@link org.omg.dds.sub.Subscriber#copyFromTopicQos(org.omg.dds.sub.DataReaderQos, org.omg.dds.topic.TopicQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testCopyFromTopicQos() {
         checkValidEntities();
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -572,7 +572,7 @@ public class SubscriberTest {
      * {@link org.omg.dds.sub.Subscriber#copyFromTopicQos(org.omg.dds.sub.DataReaderQos, org.omg.dds.topic.TopicQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testCopyFromTopicQosDrqNull() {
         checkValidEntities();
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -590,7 +590,7 @@ public class SubscriberTest {
      * {@link org.omg.dds.pub.Subscriber#copyFromTopicQos(org.omg.dds.pub.DataReaderQos, org.omg.dds.topic.TopicQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testCopyFromTopicQosTqNull() {
         checkValidEntities();
         assertTrue("Check for Participant object", participant instanceof DomainParticipant);
@@ -606,7 +606,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.sub.Subscriber#getStatusCondition()}.
      */
-    @Test
+    //@tTest
     public void testGetStatusCondition() {
         checkValidEntities();
         StatusCondition<Subscriber> result = null;
@@ -621,7 +621,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.sub.Subscriber#getParent()}.
      */
-    @Test
+    //@tTest
     public void testGetParent() {
         checkValidEntities();
         DomainParticipant result = null;
@@ -636,7 +636,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.sub.Subscriber#createDataState()}.
      */
-    @Test
+    //@tTest
     public void testCreateDataState() {
         checkValidEntities();
         DataState ds = null;
@@ -657,7 +657,7 @@ public class SubscriberTest {
      * Test method for {@link org.omg.dds.core.Entity#getListener()}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testSubscriberGetListener() {
         checkValidEntities();
         SubscriberListener sl = new SubscriberListenerClass();
@@ -693,7 +693,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#setListener(java.util.EventListener)}.
      */
-    @Test
+    //@tTest
     public void testSubscriberSetListener() {
         checkValidEntities();
         SubscriberListener sl = new SubscriberListenerClass();
@@ -707,7 +707,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#setListener(java.util.EventListener, java.util.Collection)}.
      */
-    @Test
+    //@tTest
     public void testSubscriberSetListenerCollectionOfClassOfQextendsStatus() {
         checkValidEntities();
         SubscriberListener sl = new SubscriberListenerClass();
@@ -724,7 +724,7 @@ public class SubscriberTest {
      * Test method for {@link org.omg.dds.core.Entity#setListener(java.util.EventListener, java.lang.Class<? extends org.omg.dds.core.status.Status>[])}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testSubscriberSetListenerClassOfQextendsStatusArray() {
         checkValidEntities();
         SubscriberListener sl = new SubscriberListenerClass();
@@ -739,7 +739,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getQos()}.
      */
-    @Test
+    //@tTest
     public void testGetQos() {
         checkValidEntities();
         SubscriberQos sq = null;
@@ -754,7 +754,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#setQos(org.omg.dds.core.EntityQos)}.
      */
-    @Test
+    //@tTest
     public void testSetQos() {
         checkValidEntities();
         SubscriberQos pq = null;
@@ -787,7 +787,7 @@ public class SubscriberTest {
      * Test method for
      * {@link org.omg.dds.core.Entity#setQos(org.omg.dds.core.EntityQos)}.
      */
-    @Test
+    //@tTest
     public void testSetQosNull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -804,7 +804,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#enable()}.
      */
-    @Test
+    //@tTest
     public void testEnable() {
         checkValidEntities();
         try {
@@ -817,7 +817,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getStatusChanges()}.
      */
-    @Test
+    //@tTest
     public void testGetStatusChanges() {
         checkValidEntities();
         Set<Class<? extends Status>> statuses = null;
@@ -832,7 +832,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getInstanceHandle()}.
      */
-    @Test
+    //@tTest
     public void testGetInstanceHandle() {
         checkValidEntities();
         InstanceHandle ih = null;
@@ -847,7 +847,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#retain()}.
      */
-    @Test
+    //@tTest
     public void testRetain() {
         checkValidEntities();
         try {
@@ -860,7 +860,7 @@ public class SubscriberTest {
     /**
      * Test method for {@link org.omg.dds.core.DDSObject#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;

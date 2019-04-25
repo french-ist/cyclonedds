@@ -102,7 +102,7 @@ public class DomainParticipantListeneropenspliceTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnAllDataDisposed() {
         checkValidEntities();
         boolean triggerOccured = false;
@@ -126,7 +126,7 @@ public class DomainParticipantListeneropenspliceTest {
     }
 
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testOnInconsistentTopic() {
         checkValidEntities();
         boolean triggerOccured = false;

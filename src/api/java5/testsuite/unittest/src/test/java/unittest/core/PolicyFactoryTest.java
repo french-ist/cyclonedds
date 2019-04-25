@@ -74,7 +74,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#getPolicyFactory(org.omg.dds.core.ServiceEnvironment)}.
      */
-    @Test
+    //@tTest
     public void testGetPolicyFactory() {
         checkValidEntities();
         PolicyFactory result = null;
@@ -89,7 +89,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#Durability()}.
      */
-    @Test
+    //@tTest
     public void testDurability() {
         checkValidEntities();
         Durability result = null;
@@ -104,7 +104,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#Deadline()}.
      */
-    @Test
+    //@tTest
     public void testDeadline() {
         checkValidEntities();
         Deadline result = null;
@@ -119,7 +119,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#LatencyBudget()}.
      */
-    @Test
+    //@tTest
     public void testLatencyBudget() {
         checkValidEntities();
         LatencyBudget result = null;
@@ -134,7 +134,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#Liveliness()}.
      */
-    @Test
+    //@tTest
     public void testLiveliness() {
         checkValidEntities();
         Liveliness result = null;
@@ -149,7 +149,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#DestinationOrder()}.
      */
-    @Test
+    //@tTest
     public void testDestinationOrder() {
         checkValidEntities();
         DestinationOrder result = null;
@@ -164,7 +164,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#History()}.
      */
-    @Test
+    //@tTest
     public void testHistory() {
         checkValidEntities();
         History result = null;
@@ -179,7 +179,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#ResourceLimits()}.
      */
-    @Test
+    //@tTest
     public void testResourceLimits() {
         checkValidEntities();
         ResourceLimits result = null;
@@ -194,7 +194,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#UserData()}.
      */
-    @Test
+    //@tTest
     public void testUserData() {
         checkValidEntities();
         UserData result = null;
@@ -209,7 +209,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#Ownership()}.
      */
-    @Test
+    //@tTest
     public void testOwnership() {
         checkValidEntities();
         Ownership result = null;
@@ -224,7 +224,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#TimeBasedFilter()}.
      */
-    @Test
+    //@tTest
     public void testTimeBasedFilter() {
         checkValidEntities();
         TimeBasedFilter result = null;
@@ -239,7 +239,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#ReaderDataLifecycle()}.
      */
-    @Test
+    //@tTest
     public void testReaderDataLifecycle() {
         checkValidEntities();
         ReaderDataLifecycle result = null;
@@ -255,7 +255,7 @@ public class PolicyFactoryTest {
      * Test method for
      * {@link org.omg.dds.core.policy.PolicyFactory#Presentation()}.
      */
-    @Test
+    //@tTest
     public void testPresentation() {
         checkValidEntities();
         Presentation result = null;
@@ -270,7 +270,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#TopicData()}.
      */
-    @Test
+    //@tTest
     public void testTopicData() {
         checkValidEntities();
         TopicData result = null;
@@ -285,7 +285,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#TypeConsistency()}.
      */
-    @Test
+    //@tTest
     public void testTypeConsistency() {
         checkValidEntities();
         TypeConsistencyEnforcement result = null;
@@ -300,7 +300,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#DurabilityService()}.
      */
-    @Test
+    //@tTest
     public void testDurabilityService() {
         checkValidEntities();
         DurabilityService result = null;
@@ -315,7 +315,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#Reliability()}.
      */
-    @Test
+    //@tTest
     public void testReliability() {
         checkValidEntities();
         Reliability result = null;
@@ -330,7 +330,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#TransportPriority()}.
      */
-    @Test
+    //@tTest
     public void testTransportPriority() {
         checkValidEntities();
         TransportPriority result = null;
@@ -345,7 +345,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#Lifespan()}.
      */
-    @Test
+    //@tTest
     public void testLifespan() {
         checkValidEntities();
         Lifespan result = null;
@@ -360,7 +360,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#OwnershipStrength()}.
      */
-    @Test
+    //@tTest
     public void testOwnershipStrength() {
         checkValidEntities();
         OwnershipStrength result = null;
@@ -375,7 +375,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#WriterDataLifecycle()}.
      */
-    @Test
+    //@tTest
     public void testWriterDataLifecycle() {
         checkValidEntities();
         WriterDataLifecycle result = null;
@@ -390,7 +390,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#Partition()}.
      */
-    @Test
+    //@tTest
     public void testPartition() {
         checkValidEntities();
         Partition result = null;
@@ -405,7 +405,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#GroupData()}.
      */
-    @Test
+    //@tTest
     public void testGroupData() {
         checkValidEntities();
         GroupData result = null;
@@ -420,7 +420,7 @@ public class PolicyFactoryTest {
     /**
      * Test method for {@link org.omg.dds.core.policy.PolicyFactory#EntityFactory()}.
      */
-    @Test
+    //@tTest
     public void testEntityFactory() {
         checkValidEntities();
         EntityFactory result = null;
@@ -432,7 +432,7 @@ public class PolicyFactoryTest {
         assertTrue("Check for valid EntityFactory object", result != null);
     }
 
-    @Test
+    //@tTest
     public void testServiceEnvironment() {
         checkValidEntities();
         ServiceEnvironment result = null;

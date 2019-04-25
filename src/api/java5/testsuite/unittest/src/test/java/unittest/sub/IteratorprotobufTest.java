@@ -120,7 +120,7 @@ public class IteratorprotobufTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.IteratorImpl#hasNext()}.
      */
-    @Test
+    //@tTest
     public void testHasNext() {
         checkValidEntities();
         Iterator<ProtoMsg> copy = getIterator();
@@ -145,7 +145,7 @@ public class IteratorprotobufTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.IteratorImpl#next()}.
      */
-    @Test
+    //@tTest
     public void testNext() {
         checkValidEntities();
         Iterator<ProtoMsg> copy = getIterator();
@@ -170,7 +170,7 @@ public class IteratorprotobufTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.IteratorImpl#hasPrevious()}.
      */
-    @Test
+    //@tTest
     public void testHasPrevious() {
         checkValidEntities();
         Iterator<ProtoMsg> copy = getIterator();
@@ -204,7 +204,7 @@ public class IteratorprotobufTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.IteratorImpl#previous()}.
      */
-    @Test
+    //@tTest
     public void testPrevious() {
         checkValidEntities();
         Iterator<ProtoMsg> copy = getIterator();
@@ -230,7 +230,7 @@ public class IteratorprotobufTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.IteratorImpl#nextIndex()}.
      */
-    @Test
+    //@tTest
     public void testNextIndex() {
         checkValidEntities();
         Iterator<ProtoMsg> copy = getIterator();
@@ -255,7 +255,7 @@ public class IteratorprotobufTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.IteratorImpl#previousIndex()}.
      */
-    @Test
+    //@tTest
     public void testPreviousIndex() {
         checkValidEntities();
         Iterator<ProtoMsg> copy = getIterator();
@@ -281,7 +281,7 @@ public class IteratorprotobufTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.IteratorImpl#close()}.
      */
-    @Test
+    //@tTest
     public void testClose() {
         checkValidEntities();
         Iterator<ProtoMsg> copy = getIterator();
@@ -304,7 +304,7 @@ public class IteratorprotobufTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.IteratorImpl#remove()}.
      */
-    @Test
+    //@tTest
     public void testRemove() {
         checkValidEntities();
         Iterator<ProtoMsg> copy = getIterator();
@@ -321,7 +321,7 @@ public class IteratorprotobufTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.IteratorImpl#set(org.omg.dds.sub.Sample)}.
      */
-    @Test
+    //@tTest
     public void testSet() {
         checkValidEntities();
         Iterator<ProtoMsg> copy = getIterator();
@@ -339,7 +339,7 @@ public class IteratorprotobufTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.IteratorImpl#add(org.omg.dds.sub.Sample)}.
      */
-    @Test
+    //@tTest
     public void testAdd() {
         checkValidEntities();
         Iterator<ProtoMsg> copy = getIterator();

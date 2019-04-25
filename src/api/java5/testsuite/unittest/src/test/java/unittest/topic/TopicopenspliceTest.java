@@ -98,7 +98,7 @@ public class TopicopenspliceTest {
      * {@link org.opensplice.dds.topic.TopicImpl#getAllDataDisposedTopicStatus()}
      * .
      */
-    @Test
+    //@tTest
     public void testGetAllDataDisposedTopicStatus() {
         checkValidEntities();
         AllDataDisposedStatus result = null;
@@ -119,7 +119,7 @@ public class TopicopenspliceTest {
      * {@link org.opensplice.dds.topic.TopicImpl#TopicImpl(org.opensplice.dds.core.OsplServiceEnvironment, org.opensplice.dds.domain.DomainParticipantImpl, java.lang.String, org.opensplice.dds.type.AbstractTypeSupport, org.omg.dds.topic.TopicQos, org.omg.dds.topic.TopicListener, java.util.Collection)}
      * .
      */
-    @Test
+    //@tTest
     public void testTopicImplQosNull() {
         checkValidEntities();
         Topic<Msg> result = null;
@@ -145,7 +145,7 @@ public class TopicopenspliceTest {
      * {@link org.opensplice.dds.topic.TopicImpl#TopicImpl(org.opensplice.dds.core.OsplServiceEnvironment, org.opensplice.dds.domain.DomainParticipantImpl, java.lang.String, org.opensplice.dds.type.AbstractTypeSupport, org.omg.dds.topic.TopicQos, org.omg.dds.topic.TopicListener, java.util.Collection)}
      * .
      */
-    @Test
+    //@tTest
     public void testTopicImplTypeSupportNull() {
         checkValidEntities();
         Topic<Msg> result = null;
@@ -172,7 +172,7 @@ public class TopicopenspliceTest {
      * {@link org.opensplice.dds.topic.TopicImpl#TopicImpl(org.opensplice.dds.core.OsplServiceEnvironment, org.opensplice.dds.domain.DomainParticipantImpl, java.lang.String, DDS.Topic)}
      * .
      */
-    @Test
+    //@tTest
     public void testTopicImplTopicNameNull() {
         Topic<Msg> result = null;
         String name = null;
@@ -194,7 +194,7 @@ public class TopicopenspliceTest {
      * {@link org.opensplice.dds.topic.TopicImpl#TopicImpl(org.opensplice.dds.core.OsplServiceEnvironment, org.opensplice.dds.domain.DomainParticipantImpl, java.lang.String, DDS.Topic)}
      * .
      */
-    @Test
+    //@tTest
     public void testTopicImplTopicDDSTopicNull() {
         Topic<Msg> result = null;
         String name = "Foo";
@@ -216,7 +216,7 @@ public class TopicopenspliceTest {
      * {@link org.opensplice.dds.topic.TopicImpl#TopicImpl(org.opensplice.dds.core.OsplServiceEnvironment, org.opensplice.dds.domain.DomainParticipantImpl, java.lang.String, DDS.Topic)}
      * .
      */
-    @Test
+    //@tTest
     public void testTopicImplBuiltinTopics() {
         Topic<Msg> result = null;
         String[] names = { "DCPSParticipant", "DCPSTopic", "CMSubscriber", "CMPublisher", "CMParticipant", "DCPSSubscription", "CMDataReader", "DCPSPublication", "CMDataWriter", "DCPSType" };

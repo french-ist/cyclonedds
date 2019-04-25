@@ -56,7 +56,7 @@ public class DomainParticipantFactory7Test {
      * {@link org.omg.dds.domain.DomainParticipantFactory#createParticipant(int, org.omg.dds.domain.DomainParticipantQos, org.omg.dds.domain.DomainParticipantListener, java.util.Collection)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateParticipantIntDomainParticipantQosDomainParticipantListenerCollectionOfClassOfQextendsStatus() {
         DomainParticipant participant = null;
         DomainParticipantListener listener = new DomainParticipantListenerClass();
@@ -84,7 +84,7 @@ public class DomainParticipantFactory7Test {
      * org.omg.dds.core.status.Status>[])}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testCreateParticipantIntDomainParticipantQosDomainParticipantListenerClassOfQextendsStatusArray() {
         DomainParticipant participant = null;
         DomainParticipantListener listener = new DomainParticipantListenerClass();

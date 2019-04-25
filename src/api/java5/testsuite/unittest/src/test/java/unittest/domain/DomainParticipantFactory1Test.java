@@ -46,7 +46,7 @@ public class DomainParticipantFactory1Test {
      * Test method for
      * {@link org.omg.dds.domain.DomainParticipantFactory#createParticipant()} .
      */
-    @Test
+    //@tTest
     public void testCreateParticipant() {
 
         DomainParticipant participant = dpf.createParticipant();

@@ -139,7 +139,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#cast()}.
      */
-    @Test
+    //@tTest
     public void testCast() {
         checkValidEntities();
         DataReader<Object> result = null;
@@ -155,7 +155,7 @@ public class DataReaderTest {
      * Test method for {@link org.omg.dds.sub.DataReader#cast()}.
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Test
+    //@tTest
     public void testCastInvalid() {
         checkValidEntities();
         DataWriter<Msg> result = null;
@@ -172,7 +172,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#createReadCondition(org.omg.dds.sub.Subscriber.DataState)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateReadCondition() {
         checkValidEntities();
         ReadCondition<Msg> result = null;
@@ -202,7 +202,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#createReadCondition(org.omg.dds.sub.Subscriber.DataState)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateReadConditionNull() {
         checkValidEntities();
         ReadCondition<Msg> result = null;
@@ -220,7 +220,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#createReadCondition(org.omg.dds.sub.Subscriber.DataState)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateReadConditionInvalid() {
         checkValidEntities();
         ReadCondition<Msg> result = null;
@@ -244,7 +244,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(java.lang.String, java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionStringListOfString() {
         checkValidEntities();
         QueryCondition<Msg> result = null;
@@ -271,7 +271,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(java.lang.String, java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionStringListOfString1() {
         checkValidEntities();
         QueryCondition<Msg> result = null;
@@ -297,7 +297,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(java.lang.String, java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionStringNullListOfString() {
         checkValidEntities();
         QueryCondition<Msg> result = null;
@@ -318,7 +318,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(java.lang.String, java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionStringListOfStringNull() {
         checkValidEntities();
         QueryCondition<Msg> result = null;
@@ -338,7 +338,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(java.lang.String, java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionStringStringArray() {
         checkValidEntities();
         QueryCondition<Msg> result = null;
@@ -363,7 +363,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(java.lang.String, java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionStringStringArrayNull() {
         checkValidEntities();
         QueryCondition<Msg> result = null;
@@ -382,7 +382,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(java.lang.String, java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionStringStringArrayNull1() {
         checkValidEntities();
         QueryCondition<Msg> result = null;
@@ -402,7 +402,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(java.lang.String, java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionStringNullStringArray() {
         checkValidEntities();
         QueryCondition<Msg> result = null;
@@ -421,7 +421,7 @@ public class DataReaderTest {
      org.omg.dds.sub.DataReader#createQueryCondition(org.omg.dds.sub.Subscriber.DataState,
      java.lang.String, java.util.List)}.
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionDataStateStringListOfString() {
         checkValidEntities();
         QueryCondition<Msg> result = null;
@@ -455,7 +455,7 @@ public class DataReaderTest {
      org.omg.dds.sub.DataReader#createQueryCondition(org.omg.dds.sub.Subscriber.DataState,
      java.lang.String, java.util.List)}.
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionDataStateNullStringListOfString() {
         checkValidEntities();
         QueryCondition<Msg> result = null;
@@ -477,7 +477,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#createQueryCondition(org.omg.dds.sub.Subscriber.DataState, java.lang.String, java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateQueryConditionDataStateStringStringArray() {
         checkValidEntities();
         QueryCondition<Msg> result = null;
@@ -509,7 +509,7 @@ public class DataReaderTest {
      * Test method for
      * {@linkorg.omg.dds.sub.DataReader#closeContainedEntities()}.
      */
-    @Test
+    //@tTest
     public void testCloseContainedEntities() {
         checkValidEntities();
         try {
@@ -522,7 +522,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#getTopicDescription()}.
      */
-    @Test
+    //@tTest
     public void testGetTopicDescription() {
         checkValidEntities();
         TopicDescription<Msg> result = null;
@@ -539,7 +539,7 @@ public class DataReaderTest {
      * Test method for
      * {@link org.omg.dds.sub.DataReader#getSampleRejectedStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetSampleRejectedStatus() {
         checkValidEntities();
         SampleRejectedStatus result = null;
@@ -556,7 +556,7 @@ public class DataReaderTest {
      * Test method for
      * {@link org.omg.dds.sub.DataReader#getLivelinessChangedStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetLivelinessChangedStatus() {
         checkValidEntities();
         LivelinessChangedStatus result = null;
@@ -572,7 +572,7 @@ public class DataReaderTest {
      * Test method for
      * {@link org.omg.dds.sub.DataReader#getRequestedDeadlineMissedStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetRequestedDeadlineMissedStatus() {
         checkValidEntities();
         RequestedDeadlineMissedStatus result = null;
@@ -588,7 +588,7 @@ public class DataReaderTest {
      * Test method for
      * {@link org.omg.dds.sub.DataReader#getRequestedIncompatibleQosStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetRequestedIncompatibleQosStatus() {
         checkValidEntities();
         RequestedIncompatibleQosStatus result = null;
@@ -604,7 +604,7 @@ public class DataReaderTest {
      * Test method for
      * {@link org.omg.dds.sub.DataReader#getSubscriptionMatchedStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetSubscriptionMatchedStatus() {
         checkValidEntities();
         SubscriptionMatchedStatus result = null;
@@ -619,7 +619,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#getSampleLostStatus()}.
      */
-    @Test
+    //@tTest
     public void testGetSampleLostStatus() {
         checkValidEntities();
         SampleLostStatus result = null;
@@ -636,7 +636,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#waitForHistoricalData(org.omg.dds.core.Duration)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataDuration() {
         checkValidEntities();
         Duration timeout = Duration.newDuration(2, TimeUnit.SECONDS, env);
@@ -652,7 +652,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#waitForHistoricalData(org.omg.dds.core.Duration)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataDurationNull() {
         checkValidEntities();
         Duration timeout = null;
@@ -673,7 +673,7 @@ public class DataReaderTest {
      * .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataDurationPersistent() {
         DomainParticipant par = null;
         Topic<Msg> top = null;
@@ -718,7 +718,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#waitForHistoricalData(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataLongTimeUnit() {
         checkValidEntities();
         try {
@@ -733,7 +733,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#waitForHistoricalData(long, java.util.concurrent.TimeUnit)}
      * .
      */
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataLongTimeUnitNull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -753,7 +753,7 @@ public class DataReaderTest {
      * .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataLongTimeUnitNegative() {
         DomainParticipant par = null;
         Topic<Msg> top = null;
@@ -797,7 +797,7 @@ public class DataReaderTest {
      * .
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testWaitForHistoricalDataLongTimeUnitOverflow() {
         DomainParticipant par = null;
         Topic<Msg> top = null;
@@ -840,7 +840,7 @@ public class DataReaderTest {
      * Test method for
      * {@link org.omg.dds.sub.DataReader#getMatchedPublications()}.
      */
-    @Test
+    //@tTest
     public void testGetMatchedPublications() {
         checkValidEntities();
         Set<InstanceHandle> subscriptions = null;
@@ -857,7 +857,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#getMatchedPublicationData(org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetMatchedPublicationData() {
         checkValidEntities();
         Publisher pub = null;
@@ -912,7 +912,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#read()}.
      */
-    @Test
+    //@tTest
     public void testRead() {
         checkValidEntities();
         Publisher pub = null;
@@ -964,7 +964,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#read(org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testReadSelectorOfTYPE() {
         checkValidEntities();
         Publisher pub = null;
@@ -1017,7 +1017,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#take(org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testReadSelectorOfTYPE1() {
         checkValidEntities();
         Publisher pub = null;
@@ -1080,7 +1080,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#read(org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testReadSelectorOfTYPE2() {
         checkValidEntities();
         Publisher pub = null;
@@ -1139,7 +1139,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#read(org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testReadSelectorOfTYPE3() {
         checkValidEntities();
         Publisher pub = null;
@@ -1213,7 +1213,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#read(org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testReadSelectorOfTYPE4() {
         checkValidEntities();
         Publisher pub = null;
@@ -1260,7 +1260,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#read(org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testReadSelectorOfTYPENull() {
         checkValidEntities();
         Iterator<Sample<Msg>> result = null;
@@ -1277,7 +1277,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#read(int)} .
      */
-    @Test
+    //@tTest
     public void testReadIntNegative() {
         checkValidEntities();
         Iterator<Sample<Msg>> result = null;
@@ -1297,7 +1297,7 @@ public class DataReaderTest {
      * Test method for {@link org.omg.dds.sub.DataReader#read(int)} .
      */
 
-    @Test
+    //@tTest
     public void testReadIntOverflow() {
         checkValidEntities();
         Iterator<Sample<Msg>> result = null;
@@ -1316,7 +1316,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#read(int)}.
      */
-    @Test
+    //@tTest
     public void testReadInt() {
         checkValidEntities();
         Publisher pub = null;
@@ -1365,7 +1365,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#read(java.util.List)}.
      */
-    @Test
+    //@tTest
     public void testReadListOfSampleOfTYPE() {
         checkValidEntities();
         Publisher pub = null;
@@ -1430,7 +1430,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#read(java.util.List)}.
      */
-    @Test
+    //@tTest
     public void testReadListOfSampleOfTYPENull() {
         checkValidEntities();
         Publisher pub = null;
@@ -1482,7 +1482,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#read(java.util.List, org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testReadListOfSampleOfTYPESelectorOfTYPE() {
         checkValidEntities();
         Publisher pub = null;
@@ -1552,7 +1552,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#read(java.util.List, org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testReadListOfSampleOfTYPESelectorOfTYPE1() {
         checkValidEntities();
         Publisher pub = null;
@@ -1635,7 +1635,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#read(java.util.List, org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testReadListOfSampleOfTYPESelectorOfTYPE2() {
         checkValidEntities();
         Publisher pub = null;
@@ -1716,7 +1716,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#read(java.util.List, org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testReadListOfSampleOfTYPESelectorOfTYPE3() {
         checkValidEntities();
         Publisher pub = null;
@@ -1812,7 +1812,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#read(java.util.List, org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testReadListOfSampleOfTYPESelectorOfTYPENull() {
         List<Sample<Msg>> result = null;
         List<Sample<Msg>> samples = new ArrayList<Sample<Msg>>(10);
@@ -1830,7 +1830,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#take()}.
      */
-    @Test
+    //@tTest
     public void testTake() {
         checkValidEntities();
         Publisher pub = null;
@@ -1878,7 +1878,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#take(org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testTakeSelectorOfTYPE() {
         checkValidEntities();
         Publisher pub = null;
@@ -1930,7 +1930,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#take(org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testTakeSelectorOfTYPE1() {
         checkValidEntities();
         Publisher pub = null;
@@ -1989,7 +1989,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#take(org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testTakeSelectorOfTYPE2() {
         checkValidEntities();
         Publisher pub = null;
@@ -2046,7 +2046,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#take(org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testTakeSelectorOfTYPE3() {
         checkValidEntities();
         Publisher pub = null;
@@ -2119,7 +2119,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#take(org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testTakeSelectorOfTYPE4() {
         checkValidEntities();
 
@@ -2168,7 +2168,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#take(org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testTakeSelectorOfTYPENull() {
         checkValidEntities();
         Iterator<Sample<Msg>> result = null;
@@ -2185,7 +2185,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#take(int)}.
      */
-    @Test
+    //@tTest
     public void testTakeInt() {
         checkValidEntities();
         Publisher pub = null;
@@ -2233,7 +2233,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#take(java.util.List)}.
      */
-    @Test
+    //@tTest
     public void testTakeListOfSampleOfTYPE() {
         checkValidEntities();
         Publisher pub = null;
@@ -2299,7 +2299,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#take(java.util.List, org.omg.dds.sub.DataReader.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testTakeListOfSampleOfTYPESelectorOfTYPE() {
         checkValidEntities();
         Publisher pub = null;
@@ -2368,7 +2368,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataTakeer#take(java.util.List, org.omg.dds.sub.DataTakeer.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testTakeListOfSampleOfTYPESelectorOfTYPE1() {
         checkValidEntities();
         Publisher pub = null;
@@ -2450,7 +2450,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataTakeer#take(java.util.List, org.omg.dds.sub.DataTakeer.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testTakeListOfSampleOfTYPESelectorOfTYPE2() {
         checkValidEntities();
         Publisher pub = null;
@@ -2531,7 +2531,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataTakeer#take(java.util.List, org.omg.dds.sub.DataTakeer.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testTakeListOfSampleOfTYPESelectorOfTYPE3() {
         checkValidEntities();
         Publisher pub = null;
@@ -2627,7 +2627,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataTakeer#take(java.util.List, org.omg.dds.sub.DataTakeer.Selector)}
      * .
      */
-    @Test
+    //@tTest
     public void testTakeListOfSampleOfTYPESelectorOfTYPENull() {
         checkValidEntities();
         List<Sample<Msg>> result = null;
@@ -2647,7 +2647,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#readNextSample(org.omg.dds.sub.Sample)}
      * .
      */
-    @Test
+    //@tTest
     public void testReadNextSample() {
         checkValidEntities();
         Publisher pub = null;
@@ -2699,7 +2699,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#takeNextSample(org.omg.dds.sub.Sample)}
      * .
      */
-    @Test
+    //@tTest
     public void testTakeNextSample() {
         checkValidEntities();
         Publisher pub = null;
@@ -2751,7 +2751,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.sub.DataReader#getKeyValue(java.lang.Object, org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetKeyValueTYPEInstanceHandle() {
         checkValidEntities();
         Publisher pub = null;
@@ -2797,7 +2797,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.pub.DataReader#getKeyValue(java.lang.Object, org.omg.dds.core.InstanceHandle)}
      * .
      */
-    @Test
+    //@tTest
     public void testGetKeyValueTYPEInstanceHandleNull() {
         checkValidEntities();
         Msg message = new Msg(14, "testGetKeyValueTYPEInstanceHandleNull");
@@ -2816,7 +2816,7 @@ public class DataReaderTest {
      * Test method for
      * {@link org.omg.dds.pub.DataReader#lookupInstance(java.lang.Object)}.
      */
-    @Test
+    //@tTest
     public void testLookupInstance() {
         checkValidEntities();
         Msg message = new Msg(17, "testLookupInstance");
@@ -2833,7 +2833,7 @@ public class DataReaderTest {
      * Test method for
      * {@link org.omg.dds.pub.DataReader#lookupInstance(java.lang.Object)}.
      */
-    @Test
+    //@tTest
     public void testLookupInstanceNull() {
         checkValidEntities();
         Msg message = null;
@@ -2849,7 +2849,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataReader#getStatusCondition()}.
      */
-    @Test
+    //@tTest
     public void testGetStatusCondition() {
         checkValidEntities();
         StatusCondition<DataReader<Msg>> result = null;
@@ -2864,7 +2864,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.pub.DataReader#getParent()}.
      */
-    @Test
+    //@tTest
     public void testGetParent() {
         checkValidEntities();
         Subscriber result = null;
@@ -2879,7 +2879,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReader#select()}.
      */
-    @Test
+    //@tTest
     public void testSelect() {
         checkValidEntities();
         Selector<Msg> result = null;
@@ -2895,7 +2895,7 @@ public class DataReaderTest {
      * Test method for {@link org.omg.dds.core.Entity#getListener()}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testGetDataReaderListener() {
         checkValidEntities();
         DataReaderListener<Msg> drl = new DataReaderListenerClass();
@@ -2932,7 +2932,7 @@ public class DataReaderTest {
      * Test method for
      * {@link org.omg.dds.core.Entity#setListener(java.util.EventListener)}.
      */
-    @Test
+    //@tTest
     public void testDataReaderSetListener() {
         checkValidEntities();
         DataReaderListener<Msg> drl = new DataReaderListenerClass();
@@ -2948,7 +2948,7 @@ public class DataReaderTest {
      * {@link org.omg.dds.core.Entity#setListener(java.util.EventListener, java.util.Collection)}
      * .
      */
-    @Test
+    //@tTest
     public void testDataReaderSetListenerCollectionOfClassOfQextendsStatus() {
         checkValidEntities();
         DataReaderListener<Msg> drl = new DataReaderListenerClass();
@@ -2967,7 +2967,7 @@ public class DataReaderTest {
      * java.lang.Class<? extends org.omg.dds.core.status.Status>[])}.
      */
     @SuppressWarnings("unchecked")
-    @Test
+    //@tTest
     public void testDataReaderSetListenerClassOfQextendsStatusArray() {
         checkValidEntities();
         DataReaderListener<Msg> drl = new DataReaderListenerClass();
@@ -2982,7 +2982,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getQos()}.
      */
-    @Test
+    //@tTest
     public void testGetQos() {
         checkValidEntities();
         DataReaderQos drq = null;
@@ -2998,7 +2998,7 @@ public class DataReaderTest {
      * Test method for
      * {@link org.omg.dds.core.Entity#setQos(org.omg.dds.core.EntityQos)}.
      */
-    @Test
+    //@tTest
     public void testSetQos() {
         checkValidEntities();
         DataReaderQos drq = null;
@@ -3031,7 +3031,7 @@ public class DataReaderTest {
      * Test method for
      * {@link org.omg.dds.core.Entity#setQos(org.omg.dds.core.EntityQos)}.
      */
-    @Test
+    //@tTest
     public void testSetQosNull() {
         checkValidEntities();
         boolean exceptionOccured = false;
@@ -3049,7 +3049,7 @@ public class DataReaderTest {
      * Test method for
      * {@link org.omg.dds.core.Entity#setQos(org.omg.dds.core.EntityQos)}.
      */
-    @Test
+    //@tTest
     public void testSetQosException() {
         checkValidEntities();
         DataReaderQos drq = null;
@@ -3089,7 +3089,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#enable()}.
      */
-    @Test
+    //@tTest
     public void testEnable() {
         checkValidEntities();
         try {
@@ -3102,7 +3102,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getStatusChanges()}.
      */
-    @Test
+    //@tTest
     public void testGetStatusChanges() {
         checkValidEntities();
         Set<Class<? extends Status>> statuses = null;
@@ -3118,7 +3118,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#getInstanceHandle()}.
      */
-    @Test
+    //@tTest
     public void testGetInstanceHandle() {
         checkValidEntities();
         InstanceHandle ih = null;
@@ -3133,7 +3133,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.core.Entity#retain()}.
      */
-    @Test
+    //@tTest
     public void testRetain() {
         checkValidEntities();
         try {
@@ -3146,7 +3146,7 @@ public class DataReaderTest {
     /**
      * Test method for {@link org.omg.dds.core.DDSObject#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;
@@ -3162,7 +3162,7 @@ public class DataReaderTest {
      * Test if samples are read in order with ordered access enabled at topic
      * level.
      */
-    @Test
+    //@tTest
     public void testPresentationTopicReadOrdered() {
         boolean proceed = true;
         TopicQos tq = null;
@@ -3228,7 +3228,7 @@ public class DataReaderTest {
      * Test if samples are read in order with ordered access enabled at topic
      * level.
      */
-    @Test
+    //@tTest
     public void testPresentationTopicReadOrderedHead() {
         TopicQos tq = null;
         Topic<Msg> t = null;
@@ -3301,7 +3301,7 @@ public class DataReaderTest {
      * Test if samples are read in order with ordered access enabled at group
      * level.
      */
-    @Test
+    //@tTest
     public void testPresentationGroupReadOrdered() {
         TopicQos tq = null;
         List<Topic<Msg>> t = new ArrayList<Topic<Msg>>();
@@ -3380,7 +3380,7 @@ public class DataReaderTest {
      * Test method for verifying same destination order is enforced by the
      * subscriber when ordered access is configured for group scope.
      */
-    @Test
+    //@tTest
     public void testGroupOrderedAccessSetInconsistentDestinationOrder() {
         TopicQos tq = null;
         Topic<Msg> t = null;
@@ -3422,7 +3422,7 @@ public class DataReaderTest {
      * Test method for verifying readers are allowed different destination
      * order policies when ordered access is configured for topic scope.
      */
-    @Test
+    //@tTest
     public void testTopicOrderedAccessSetDestinationOrder() {
         TopicQos tq = null;
         Topic<Msg> t = null;

@@ -109,7 +109,7 @@ public class DataReaderQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReaderQos#getDurability()}.
      */
-    @Test
+    //@tTest
     public void testGetDurability() {
         checkValidEntities();
         Durability result = null;
@@ -124,7 +124,7 @@ public class DataReaderQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReaderQos#getReliability()}.
      */
-    @Test
+    //@tTest
     public void testGetReliability() {
         checkValidEntities();
         Reliability result = null;
@@ -139,7 +139,7 @@ public class DataReaderQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReaderQos#getDeadline()}.
      */
-    @Test
+    //@tTest
     public void testGetDeadline() {
         checkValidEntities();
         Deadline result = null;
@@ -154,7 +154,7 @@ public class DataReaderQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReaderQos#getLatencyBudget()}.
      */
-    @Test
+    //@tTest
     public void testGetLatencyBudget() {
         checkValidEntities();
         LatencyBudget result = null;
@@ -169,7 +169,7 @@ public class DataReaderQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReaderQos#getLiveliness()}.
      */
-    @Test
+    //@tTest
     public void testGetLiveliness() {
         checkValidEntities();
         Liveliness result = null;
@@ -184,7 +184,7 @@ public class DataReaderQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReaderQos#getDestinationOrder()}.
      */
-    @Test
+    //@tTest
     public void testGetDestinationOrder() {
         checkValidEntities();
         DestinationOrder result = null;
@@ -199,7 +199,7 @@ public class DataReaderQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReaderQos#getHistory()}.
      */
-    @Test
+    //@tTest
     public void testGetHistory() {
         checkValidEntities();
         History result = null;
@@ -214,7 +214,7 @@ public class DataReaderQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReaderQos#getResourceLimits()}.
      */
-    @Test
+    //@tTest
     public void testGetResourceLimits() {
         checkValidEntities();
         ResourceLimits result = null;
@@ -229,7 +229,7 @@ public class DataReaderQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReaderQos#getUserData()}.
      */
-    @Test
+    //@tTest
     public void testGetUserData() {
         checkValidEntities();
         UserData result = null;
@@ -244,7 +244,7 @@ public class DataReaderQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReaderQos#getOwnership()}.
      */
-    @Test
+    //@tTest
     public void testGetOwnership() {
         checkValidEntities();
         Ownership result = null;
@@ -259,7 +259,7 @@ public class DataReaderQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReaderQos#getTimeBasedFilter()}.
      */
-    @Test
+    //@tTest
     public void testGetTimeBasedFilter() {
         checkValidEntities();
         TimeBasedFilter result = null;
@@ -283,7 +283,7 @@ public class DataReaderQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReaderQos#getReaderDataLifecycle()}.
      */
-    @Test
+    //@tTest
     public void testGetReaderDataLifecycle() {
         checkValidEntities();
         ReaderDataLifecycle result = null;
@@ -317,7 +317,7 @@ public class DataReaderQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReaderQos#getRepresentation()}.
      */
-    @Test
+    //@tTest
     public void testGetRepresentation() {
         checkValidEntities();
         DataRepresentation result = null;
@@ -332,7 +332,7 @@ public class DataReaderQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.DataReaderQos#getTypeConsistency()}.
      */
-    @Test
+    //@tTest
     public void testGetTypeConsistency() {
         checkValidEntities();
         TypeConsistencyEnforcement result = null;

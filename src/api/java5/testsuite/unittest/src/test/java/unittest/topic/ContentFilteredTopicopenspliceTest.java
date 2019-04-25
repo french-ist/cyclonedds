@@ -96,7 +96,7 @@ public class ContentFilteredTopicopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.ContentFilteredTopic#getFilterExpression()}.
      */
-    @Test
+    //@tTest
     public void testGetFilterExpression() {
         checkValidEntities();
         String result = null;
@@ -111,7 +111,7 @@ public class ContentFilteredTopicopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.ContentFilteredTopic#getExpressionParameters()}.
      */
-    @Test
+    //@tTest
     public void testGetExpressionParameters() {
         checkValidEntities();
         List<String> result = null;
@@ -126,7 +126,7 @@ public class ContentFilteredTopicopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.ContentFilteredTopic#setExpressionParameters(java.util.List)}.
      */
-    @Test
+    //@tTest
     public void testSetExpressionParametersListOfString() {
         checkValidEntities();
         List<String> result = null;
@@ -146,7 +146,7 @@ public class ContentFilteredTopicopenspliceTest {
      * {@link org.omg.dds.topic.ContentFilteredTopic#setExpressionParameters(java.util.List)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetExpressionParametersListOfStringNull() {
         checkValidEntities();
         List<String> params = null;
@@ -166,7 +166,7 @@ public class ContentFilteredTopicopenspliceTest {
      * {@link org.omg.dds.topic.ContentFilteredTopic#setExpressionParameters(java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testSetExpressionParametersStringArray() {
         checkValidEntities();
         List<String> result = null;
@@ -186,7 +186,7 @@ public class ContentFilteredTopicopenspliceTest {
      * {@link org.omg.dds.topic.ContentFilteredTopic#setExpressionParameters(java.lang.String[])}
      * .
      */
-    @Test
+    //@tTest
     public void testSetExpressionParametersStringArrayNull() {
         checkValidEntities();
         String[] params = null;
@@ -205,7 +205,7 @@ public class ContentFilteredTopicopenspliceTest {
      * Test method for
      * {@link org.omg.dds.topic.ContentFilteredTopic#getRelatedTopic()}.
      */
-    @Test
+    //@tTest
     public void testGetRelatedTopic() {
         checkValidEntities();
         Topic<? extends Msg> result = null;
@@ -220,7 +220,7 @@ public class ContentFilteredTopicopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicDescription#close()}.
      */
-    @Test
+    //@tTest
     public void testClose() {
         checkValidEntities();
         ContentFilteredTopic<Msg> topicFilterClose = null;
@@ -242,7 +242,7 @@ public class ContentFilteredTopicopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicDescription#getTypeSupport()}.
      */
-    @Test
+    //@tTest
     public void testGetTypeSupport() {
         checkValidEntities();
         TypeSupport<Msg> result = null;
@@ -257,7 +257,7 @@ public class ContentFilteredTopicopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicDescription#cast()}.
      */
-    @Test
+    //@tTest
     public void testCast() {
         checkValidEntities();
         TopicDescription<Object> result = null;
@@ -272,7 +272,7 @@ public class ContentFilteredTopicopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicDescription#getTypeName()}.
      */
-    @Test
+    //@tTest
     public void testGetTypeName() {
         checkValidEntities();
         String result = null;
@@ -287,7 +287,7 @@ public class ContentFilteredTopicopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicDescription#getName()}.
      */
-    @Test
+    //@tTest
     public void testGetName() {
         checkValidEntities();
         String result = null;
@@ -305,7 +305,7 @@ public class ContentFilteredTopicopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.topic.TopicDescription#getParent()}.
      */
-    @Test
+    //@tTest
     public void testGetParent() {
         checkValidEntities();
         DomainParticipant result = null;
@@ -320,7 +320,7 @@ public class ContentFilteredTopicopenspliceTest {
     /**
      * Test method for {@link org.omg.dds.core.DDSObject#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;

@@ -108,7 +108,7 @@ public class QosProviderTest {
      * {@link org.omg.dds.core.QosProvider#newQosProvider(java.lang.String, java.lang.String, org.omg.dds.core.ServiceEnvironment)}
      * .
      */
-    @Test
+    //@tTest
     public void testNewQosProvider() {
         checkValidEntities();
         QosProvider qp = null;
@@ -125,7 +125,7 @@ public class QosProviderTest {
      * {@link org.omg.dds.core.QosProvider#newQosProvider(java.lang.String, java.lang.String, org.omg.dds.core.ServiceEnvironment)}
      * .
      */
-    @Test
+    //@tTest
     public void testNewQosProviderNullUri() {
         checkValidEntities();
         QosProvider qp = null;
@@ -143,7 +143,7 @@ public class QosProviderTest {
      * {@link org.omg.dds.core.QosProvider#newQosProvider(java.lang.String, java.lang.String, org.omg.dds.core.ServiceEnvironment)}
      * .
      */
-    @Test
+    //@tTest
     public void testNewQosProviderNullenv() {
         checkValidEntities();
         QosProvider qp = null;
@@ -159,7 +159,7 @@ public class QosProviderTest {
      * Test method for
      * {@link org.omg.dds.core.QosProvider#getDomainParticipantFactoryQos()}.
      */
-    @Test
+    //@tTest
     public void testGetDomainParticipantFactoryQos() {
         checkValidEntities();
         DomainParticipantFactoryQos result = null;
@@ -174,7 +174,7 @@ public class QosProviderTest {
     /**
      * Test method for {@link org.omg.dds.core.QosProvider#getDomainParticipantFactoryQos(java.lang.String)}.
      */
-    @Test
+    //@tTest
     public void testGetDomainParticipantFactoryQosString() {
         checkValidEntities();
         DomainParticipantFactoryQos result = null;
@@ -191,7 +191,7 @@ public class QosProviderTest {
      * Test method for
      * {@link org.omg.dds.core.QosProvider#getDomainParticipantQos()}.
      */
-    @Test
+    //@tTest
     public void testGetDomainParticipantQos() {
         checkValidEntities();
         DomainParticipantQos result = null;
@@ -206,7 +206,7 @@ public class QosProviderTest {
     /**
      * Test method for {@link org.omg.dds.core.QosProvider#getDomainParticipantQos(java.lang.String)}.
      */
-    @Test
+    //@tTest
     public void testGetDomainParticipantQosString() {
         checkValidEntities();
         DomainParticipantQos result = null;
@@ -221,7 +221,7 @@ public class QosProviderTest {
     /**
      * Test method for {@link org.omg.dds.core.QosProvider#getTopicQos()}.
      */
-    @Test
+    //@tTest
     public void testGetTopicQos() {
         checkValidEntities();
         TopicQos result = null;
@@ -236,7 +236,7 @@ public class QosProviderTest {
     /**
      * Test method for {@link org.omg.dds.core.QosProvider#getTopicQos(java.lang.String)}.
      */
-    @Test
+    //@tTest
     public void testGetTopicQosString() {
         checkValidEntities();
         TopicQos result = null;
@@ -251,7 +251,7 @@ public class QosProviderTest {
     /**
      * Test method for {@link org.omg.dds.core.QosProvider#getSubscriberQos()}.
      */
-    @Test
+    //@tTest
     public void testGetSubscriberQos() {
         checkValidEntities();
         SubscriberQos result = null;
@@ -266,7 +266,7 @@ public class QosProviderTest {
     /**
      * Test method for {@link org.omg.dds.core.QosProvider#getSubscriberQos(java.lang.String)}.
      */
-    @Test
+    //@tTest
     public void testGetSubscriberQosString() {
         checkValidEntities();
         SubscriberQos result = null;
@@ -281,7 +281,7 @@ public class QosProviderTest {
     /**
      * Test method for {@link org.omg.dds.core.QosProvider#getPublisherQos()}.
      */
-    @Test
+    //@tTest
     public void testGetPublisherQos() {
         checkValidEntities();
         PublisherQos result = null;
@@ -296,7 +296,7 @@ public class QosProviderTest {
     /**
      * Test method for {@link org.omg.dds.core.QosProvider#getPublisherQos(java.lang.String)}.
      */
-    @Test
+    //@tTest
     public void testGetPublisherQosString() {
         checkValidEntities();
         PublisherQos result = null;
@@ -311,7 +311,7 @@ public class QosProviderTest {
     /**
      * Test method for {@link org.omg.dds.core.QosProvider#getDataReaderQos()}.
      */
-    @Test
+    //@tTest
     public void testGetDataReaderQos() {
         checkValidEntities();
         DataReaderQos result = null;
@@ -326,7 +326,7 @@ public class QosProviderTest {
     /**
      * Test method for {@link org.omg.dds.core.QosProvider#getDataReaderQos(java.lang.String)}.
      */
-    @Test
+    //@tTest
     public void testGetDataReaderQosString() {
         checkValidEntities();
         DataReaderQos result = null;
@@ -341,7 +341,7 @@ public class QosProviderTest {
     /**
      * Test method for {@link org.omg.dds.core.QosProvider#getDataWriterQos()}.
      */
-    @Test
+    //@tTest
     public void testGetDataWriterQos() {
         checkValidEntities();
         DataWriterQos result = null;
@@ -356,7 +356,7 @@ public class QosProviderTest {
     /**
      * Test method for {@link org.omg.dds.core.QosProvider#getDataWriterQos(java.lang.String)}.
      */
-    @Test
+    //@tTest
     public void testGetDataWriterQosString() {
         checkValidEntities();
         DataWriterQos result = null;
@@ -371,7 +371,7 @@ public class QosProviderTest {
     /**
      * Test method for {@link org.omg.dds.core.DDSObject#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;

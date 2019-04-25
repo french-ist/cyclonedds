@@ -81,7 +81,7 @@ public class SubscriberQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.SubscriberQos#getPresentation()}.
      */
-    @Test
+    //@tTest
     public void testGetPresentation() {
         checkValidEntities();
         Presentation pr = null;
@@ -96,7 +96,7 @@ public class SubscriberQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.SubscriberQos#getPartition()}.
      */
-    @Test
+    //@tTest
     public void testGetPartition() {
         checkValidEntities();
         Partition p = null;
@@ -111,7 +111,7 @@ public class SubscriberQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.SubscriberQos#getGroupData()}.
      */
-    @Test
+    //@tTest
     public void testGetGroupData() {
         checkValidEntities();
         GroupData gd = null;
@@ -126,7 +126,7 @@ public class SubscriberQosTest {
     /**
      * Test method for {@link org.omg.dds.sub.SubscriberQos#getEntityFactory()}.
      */
-    @Test
+    //@tTest
     public void testGetEntityFactory() {
         checkValidEntities();
         EntityFactory ef = null;

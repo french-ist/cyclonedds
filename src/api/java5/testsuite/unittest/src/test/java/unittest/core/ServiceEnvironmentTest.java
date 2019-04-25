@@ -43,7 +43,7 @@ public class ServiceEnvironmentTest {
      * {@link org.omg.dds.core.ServiceEnvironment#createInstance(java.lang.String, java.util.Map, java.lang.ClassLoader)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateInstanceStringErrorMapOfStringObjectClassLoader() {
         ServiceEnvironment senv = null;
         boolean exceptionOccured = false;
@@ -71,7 +71,7 @@ public class ServiceEnvironmentTest {
      * {@link org.omg.dds.core.ServiceEnvironment#createInstance(java.lang.String, java.util.Map, java.lang.ClassLoader)}
      * .
      */
-    @Test
+    //@tTest
     public void testCreateInstanceStringMapOfStringObjectClassLoader() {
         String serviceEnv = System.getProperty("JAVA5PSM_SERVICE_ENV");
         assertTrue("Check for valid ServiceEnvironment string", !serviceEnv.equals(""));
@@ -91,7 +91,7 @@ public class ServiceEnvironmentTest {
     /**
      * Test method for {@link org.omg.dds.core.ServiceEnvironment#getSPI()}.
      */
-    @Test
+    //@tTest
     public void testGetSPI() {
         checkValidEntities();
         ServiceProviderInterface result = null;
@@ -106,7 +106,7 @@ public class ServiceEnvironmentTest {
     /**
      * Test method for {@link org.omg.dds.core.ServiceEnvironment#getEnvironment()}.
      */
-    @Test
+    //@tTest
     public void testGetEnvironment() {
         checkValidEntities();
         ServiceEnvironment senv = null;

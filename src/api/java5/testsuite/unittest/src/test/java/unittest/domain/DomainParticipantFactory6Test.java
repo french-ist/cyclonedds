@@ -68,7 +68,7 @@ public class DomainParticipantFactory6Test {
      * {@link org.omg.dds.domain.DomainParticipantFactory#lookupParticipant(int)}
      */
 
-    @Test
+    //@tTest
     public void testLookupParticipant() {
         DomainParticipant participant1 = null;
         try {
@@ -92,7 +92,7 @@ public class DomainParticipantFactory6Test {
      * {@link org.omg.dds.domain.DomainParticipantFactory#getQos()}.
      */
 
-    @Test
+    //@tTest
     public void testGetQos() {
         try {
             DomainParticipantFactoryQos dpfq = dpf.getQos();
@@ -109,7 +109,7 @@ public class DomainParticipantFactory6Test {
      * .
      */
 
-    @Test
+    //@tTest
     public void testSetQos() {
         DomainParticipantFactoryQos dpfq = null;
         try {
@@ -134,7 +134,7 @@ public class DomainParticipantFactory6Test {
      * {@link org.omg.dds.domain.DomainParticipantFactory#setQos(org.omg.dds.domain.DomainParticipantFactoryQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetQosNull() {
         boolean exceptionOccured = false;
         try {
@@ -151,7 +151,7 @@ public class DomainParticipantFactory6Test {
      * {@link org.omg.dds.domain.DomainParticipantFactory#setQos(org.omg.dds.domain.DomainParticipantFactoryQos)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetQosInvalid() {
         boolean exceptionOccured = false;
         try {
@@ -280,7 +280,7 @@ public class DomainParticipantFactory6Test {
      * .
      */
 
-    @Test
+    //@tTest
     public void testGetDefaultParticipantQos() {
         DomainParticipantQos dpq = dpf.getDefaultParticipantQos();
         assertTrue("Check for valid DomainParticipantQos object", dpq instanceof DomainParticipantQos);
@@ -293,7 +293,7 @@ public class DomainParticipantFactory6Test {
      * .
      */
 
-    @Test
+    //@tTest
     public void testSetDefaultParticipantQosNull() {
         boolean exceptionOccured = false;
         try {
@@ -311,7 +311,7 @@ public class DomainParticipantFactory6Test {
      * .
      */
 
-    @Test
+    //@tTest
     public void testSetDefaultParticipantQos() {
         DomainParticipantQos dpq = dpf.getDefaultParticipantQos();
         assertTrue("Check for valid DomainParticipantQos object", dpq instanceof DomainParticipantQos);

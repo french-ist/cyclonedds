@@ -115,7 +115,7 @@ public class SampleopenspliceTest {
     /**
      * Test method for {@link org.opensplice.dds.sub.SampleImpl#getKeyValue()}.
      */
-    @Test
+    //@tTest
     public void testGetKeyValue() {
         checkValidEntities();
         Msg result = null;
@@ -133,7 +133,7 @@ public class SampleopenspliceTest {
      * Test method for
      * {@link org.opensplice.dds.sub.SampleImpl#setInfo(DDS.SampleInfo)}.
      */
-    @Test
+    //@tTest
     public void testSetInfo() {
         checkValidEntities();
         SampleInfo si = new SampleInfo();
@@ -152,7 +152,7 @@ public class SampleopenspliceTest {
      * {@link org.opensplice.dds.sub.SampleImpl#setContent(java.lang.Object, DDS.SampleInfo)}
      * .
      */
-    @Test
+    //@tTest
     public void testSetContent() {
         checkValidEntities();
         SampleInfo si = new SampleInfo();
