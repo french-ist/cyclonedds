@@ -47,7 +47,7 @@
 		<!-- for Maven usual plugins -->
 		<maven-core-version>3.3.9</maven-core-version>
 		<maven-project-version>2.2.1</maven-project-version>
-		<maven-compiler-plugin-version>3.5.1</maven-compiler-plugin-version>
+		<maven-compiler-plugin-version>3.8.0</maven-compiler-plugin-version>
 		<maven-install-plugin-version>2.5.2</maven-install-plugin-version>
 		<maven-jar-plugin-version>3.0.2</maven-jar-plugin-version>
 		<maven-resources-plugin-version>3.1.0</maven-resources-plugin-version>

@@ -4,9 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -26,35 +24,26 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-import org.omg.dds.core.AlreadyClosedException;
 import org.omg.dds.core.Condition;
 import org.omg.dds.core.Duration;
-import org.omg.dds.core.PreconditionNotMetException;
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.StatusCondition;
 import org.omg.dds.core.status.DataAvailableStatus;
-import org.omg.dds.core.status.Status;
 import org.omg.dds.core.WaitSet;
 import org.omg.dds.domain.DomainParticipant;
 import org.omg.dds.domain.DomainParticipantFactory;
 import org.omg.dds.pub.Publisher;
-import org.omg.dds.sub.ReadCondition;
 import org.omg.dds.sub.Sample;
 import org.omg.dds.sub.Subscriber;
 import org.omg.dds.pub.DataWriter;
 import org.omg.dds.sub.DataReader;
-import org.omg.dds.sub.Subscriber.DataState;
 import org.omg.dds.topic.Topic;
-import org.omg.dds.topic.TopicListener;
-import org.omg.dds.topic.TopicQos;
-import org.omg.dds.type.TypeSupport;
 //import org.opensplice.dds.core.OsplServiceEnvironment;
 //import org.opensplice.dds.core.status.AllDataDisposedStatus;
 
 import Test.Msg;
 
 import org.eclipse.cyclonedds.test.AbstractUtilities;
-import org.eclipse.cyclonedds.test.OpenSpliceSHMUtilities;
 
 public class DomainParticipantFactoryDetach {
 
@@ -509,10 +498,6 @@ public class DomainParticipantFactoryDetach {
 
     @BeforeClass
     public static void init() {
-        OpenSpliceSHMUtilities u = OpenSpliceSHMUtilities.getInstance(DomainParticipantFactoryDetach.class);
-        if (!u.setURIdomainId(null, DOMAIN_ID)) {
-            fail("Failed to set URI");
-        }
     }
 
 

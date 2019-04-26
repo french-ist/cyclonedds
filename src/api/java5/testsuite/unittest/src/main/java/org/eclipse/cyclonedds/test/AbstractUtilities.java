@@ -25,10 +25,6 @@ public abstract class AbstractUtilities {
         if (utility == null) {
             if (mode.equals("cafe")) {
                 utility = CafeUtilities.getInstance(cl);
-            } else if (mode.equals("opensplice_sp")) {
-                utility = OpenSpliceSPUtilities.getInstance(cl);
-            } else if (mode.equals("opensplice_shm")) {
-                utility = OpenSpliceSHMUtilities.getInstance(cl);
             }
         }
         return utility;

@@ -16,8 +16,14 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-
-	<groupId>com.prismtech.java5psm.tests</groupId>
+    <parent>
+        <groupId>org.eclipse.cyclonedds</groupId>
+        <artifactId>parent-pom</artifactId>
+        <version>0.1-SNAPSHOT</version>
+        <relativePath>../../parent-pom</relativePath>
+    </parent>
+    
+	<groupId>org.eclipse.cyclonedds.java5psm.tests</groupId>
 	<artifactId>java5psm-test</artifactId>
 	<version>1.0.0</version>
 	<name>Java 5 PSM Unittest</name>
@@ -28,10 +34,10 @@
     <!-- The Cyclone dds build set it automatically in testsuite/unittest/pom.xml         -->
 
 	<properties>
-		<junit-version>4.8.1</junit-version>
-		<maven-surefire-plugin-version>2.9</maven-surefire-plugin-version>
-		<maven-exec-plugin-version>1.2.1</maven-exec-plugin-version>
-        <build-helper-maven-plugin-version>1.7</build-helper-maven-plugin-version>
+		<!--junit-version>4.8.1</junit-version-->
+		<!--maven-surefire-plugin-version>2.9</maven-surefire-plugin-version-->
+		<!--maven-exec-plugin-version>1.2.1</maven-exec-plugin-version-->
+        <!--build-helper-maven-plugin-version>1.7</build-helper-maven-plugin-version-->
 		<gen-test-java-dir>${project.build.directory}/generated-test-sources/java</gen-test-java-dir>
         <cyclone-dds-version>0.1-SNAPSHOT</cyclone-dds-version>
     </properties>
@@ -99,10 +105,7 @@
 						<JAVA5PSM_MODE>cafe</JAVA5PSM_MODE>
 					</systemPropertyVariables>
 					<excludes>
-						<exclude>**/*opensplice_spTest.java</exclude>
-						<exclude>**/*opensplice_shmTest.java</exclude>
-						<exclude>**/*openspliceTest.java</exclude>
-						<exclude>**/*protobuf*.java</exclude>
+						<exclude></exclude>
 					</excludes>
 				</configuration>
 			</plugin>
@@ -127,16 +130,13 @@
 					<mode>-v</mode>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!--plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>${maven-compiler-plugin-version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>**/*opensplice_sp*.java</exclude>
-                        <exclude>**/*opensplice_shm*.java</exclude>
-                        <exclude>**/*opensplice*.java</exclude>
-                        <exclude>**/*protobuf*.java</exclude>
+                        <exclude></exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -145,10 +145,7 @@
                         <phase>test-compile</phase>
                         <configuration>
                             <testExcludes>
-                                <exclude>**/*opensplice_spTest.java</exclude>
-                                <exclude>**/*opensplice_shmTest.java</exclude>
-                                <exclude>**/*openspliceTest.java</exclude>
-                                <exclude>**/*protobuf*.java</exclude>
+                                <exclude></exclude>
                             </testExcludes>
                         </configuration>
                         <goals>
@@ -156,7 +153,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin-->
 		</plugins>
 	</build>
 
