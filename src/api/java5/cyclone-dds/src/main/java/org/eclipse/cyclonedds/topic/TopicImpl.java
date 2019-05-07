@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.DomainEntityImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
@@ -50,7 +50,7 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
 	private final int jnaTopic;
 	private Topic<TYPE> topic;
     
-	public TopicImpl(CycloneServiceEnvironment environment,
+	public TopicImpl(ServiceEnvironmentImpl environment,
             DomainParticipantImpl participant, 
             String topicName,
             AbstractTypeSupport<TYPE> typeSupport, 
@@ -127,7 +127,7 @@ public class TopicImpl<TYPE> extends DomainEntityImpl<TopicQos, TopicListener<TY
     }
 	
     @SuppressWarnings("unchecked")
-    public TopicImpl(CycloneServiceEnvironment environment,
+    public TopicImpl(ServiceEnvironmentImpl environment,
             DomainParticipantImpl participant, String topicName, Topic<TYPE> topic) {
         
     	super(environment);

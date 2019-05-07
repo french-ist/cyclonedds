@@ -13,14 +13,14 @@ package org.eclipse.cyclonedds.core.policy;
 
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.policy.TypeConsistencyEnforcement;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class TypeConsistencyEnforcementImpl implements TypeConsistencyEnforcement {
     private static final long serialVersionUID = -5160265825622794754L;
     private final Kind kind;
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
 
-    public TypeConsistencyEnforcementImpl(CycloneServiceEnvironment environment, Kind kind){
+    public TypeConsistencyEnforcementImpl(ServiceEnvironmentImpl environment, Kind kind){
         this.environment = environment;
         this.kind = kind;
     }

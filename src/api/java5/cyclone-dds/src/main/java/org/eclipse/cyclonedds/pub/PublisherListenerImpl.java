@@ -19,7 +19,7 @@ import org.omg.dds.core.event.OfferedIncompatibleQosEvent;
 import org.omg.dds.core.event.PublicationMatchedEvent;
 import org.omg.dds.pub.PublisherListener;
 import org.eclipse.cyclonedds.core.Listener;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.event.LivelinessLostEventImpl;
 import org.eclipse.cyclonedds.core.event.OfferedDeadlineMissedEventImpl;
 import org.eclipse.cyclonedds.core.event.OfferedIncompatibleQosEventImpl;
@@ -39,12 +39,12 @@ public class PublisherListenerImpl extends Listener<PublisherListener>
     private static final long serialVersionUID = -7442074499638981651L;
     private final transient PublisherImpl publisher;
 
-    public PublisherListenerImpl(CycloneServiceEnvironment environment,
+    public PublisherListenerImpl(ServiceEnvironmentImpl environment,
             PublisherImpl publisher, PublisherListener listener) {
         this(environment, publisher, listener, false);
     }
 
-    public PublisherListenerImpl(CycloneServiceEnvironment environment,
+    public PublisherListenerImpl(ServiceEnvironmentImpl environment,
             PublisherImpl publisher, PublisherListener listener,
             boolean waitUntilInitialised) {
         super(environment, listener, waitUntilInitialised);

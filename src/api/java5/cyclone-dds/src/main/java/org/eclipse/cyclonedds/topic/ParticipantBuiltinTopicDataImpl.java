@@ -16,17 +16,17 @@ import org.omg.dds.core.policy.UserData;
 import org.omg.dds.topic.BuiltinTopicKey;
 import org.omg.dds.topic.ParticipantBuiltinTopicData;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.policy.PolicyConverter;
 
 public class ParticipantBuiltinTopicDataImpl implements
         ParticipantBuiltinTopicData {
     private static final long serialVersionUID = 9013061767095970450L;
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
     private ParticipantBuiltinTopicData old;
     private BuiltinTopicKey key;
 
-    public ParticipantBuiltinTopicDataImpl(CycloneServiceEnvironment environment,
+    public ParticipantBuiltinTopicDataImpl(ServiceEnvironmentImpl environment,
             ParticipantBuiltinTopicData old) {
         this.environment = environment;
         this.old = old;

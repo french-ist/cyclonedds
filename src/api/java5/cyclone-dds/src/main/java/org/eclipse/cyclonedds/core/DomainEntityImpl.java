@@ -25,7 +25,7 @@ public abstract class DomainEntityImpl
 	extends EntityImpl<QOS, LISTENER, LISTENERIMPL> 
 	implements org.omg.dds.core.DomainEntity<LISTENER, QOS> 
 {
-    public DomainEntityImpl(CycloneServiceEnvironment environment) 
+    public DomainEntityImpl(ServiceEnvironmentImpl environment) 
     {
         super(environment);
     }

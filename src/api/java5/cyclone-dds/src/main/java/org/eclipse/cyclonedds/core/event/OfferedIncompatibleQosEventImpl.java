@@ -15,15 +15,15 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.event.OfferedIncompatibleQosEvent;
 import org.omg.dds.core.status.OfferedIncompatibleQosStatus;
 import org.omg.dds.pub.DataWriter;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class OfferedIncompatibleQosEventImpl<TYPE> extends
         OfferedIncompatibleQosEvent<TYPE> {
     private static final long serialVersionUID = 9072235932842085188L;
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
     private final OfferedIncompatibleQosStatus status;
 
-    public OfferedIncompatibleQosEventImpl(CycloneServiceEnvironment environment,
+    public OfferedIncompatibleQosEventImpl(ServiceEnvironmentImpl environment,
             DataWriter<TYPE> source, OfferedIncompatibleQosStatus status) {
         super(source);
         this.environment = environment;

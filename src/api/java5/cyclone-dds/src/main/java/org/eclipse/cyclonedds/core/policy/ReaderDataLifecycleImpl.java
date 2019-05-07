@@ -17,7 +17,7 @@ import org.omg.dds.core.Duration;
 import org.omg.dds.core.policy.QosPolicy;
 import org.omg.dds.core.policy.ReaderDataLifecycle;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class ReaderDataLifecycleImpl extends QosPolicyImpl implements
         org.eclipse.cyclonedds.core.policy.ReaderDataLifecycle {
@@ -27,7 +27,7 @@ public class ReaderDataLifecycleImpl extends QosPolicyImpl implements
     private final boolean autoPurgeDisposeAll;
     private Kind invalidSampleVisibility;
 
-    public ReaderDataLifecycleImpl(CycloneServiceEnvironment environment) {
+    public ReaderDataLifecycleImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.autoPurgeNoWriterSamplesDelay = environment.getSPI()
                 .infiniteDuration();
@@ -37,7 +37,7 @@ public class ReaderDataLifecycleImpl extends QosPolicyImpl implements
         this.invalidSampleVisibility = Kind.MINIMUM;
     }
 
-    public ReaderDataLifecycleImpl(CycloneServiceEnvironment environment,
+    public ReaderDataLifecycleImpl(ServiceEnvironmentImpl environment,
             Duration autoPurgeNoWriterSamplesDelay,
             Duration autoPurgeDisposedSamplesDelay,
             boolean autoPurgeDisposeAll,

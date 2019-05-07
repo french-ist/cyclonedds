@@ -14,18 +14,18 @@ package org.eclipse.cyclonedds.core.policy;
 import org.omg.dds.core.policy.Ownership;
 import org.omg.dds.core.policy.QosPolicy;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class OwnershipImpl extends QosPolicyImpl implements Ownership {
     private static final long serialVersionUID = 5349819428623413367L;
     private final Kind kind;
 
-    public OwnershipImpl(CycloneServiceEnvironment environment) {
+    public OwnershipImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.kind = Kind.SHARED;
     }
 
-    public OwnershipImpl(CycloneServiceEnvironment environment, Kind kind) {
+    public OwnershipImpl(ServiceEnvironmentImpl environment, Kind kind) {
         super(environment);
 
         if (kind == null) {

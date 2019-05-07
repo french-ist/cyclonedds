@@ -17,13 +17,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.omg.dds.core.policy.QosPolicy;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class ViewKeysImpl extends QosPolicyImpl implements ViewKeys {
     private static final long serialVersionUID = -4786321587154092502L;
     private final HashSet<String> keyList;
 
-    public ViewKeysImpl(CycloneServiceEnvironment environment, String... keyValue) {
+    public ViewKeysImpl(ServiceEnvironmentImpl environment, String... keyValue) {
         super(environment);
         this.keyList = new HashSet<String>();
 
@@ -32,7 +32,7 @@ public class ViewKeysImpl extends QosPolicyImpl implements ViewKeys {
         }
     }
 
-    public ViewKeysImpl(CycloneServiceEnvironment environment,
+    public ViewKeysImpl(ServiceEnvironmentImpl environment,
             Collection<String> keyValue) {
         super(environment);
         this.keyList = new HashSet<String>();

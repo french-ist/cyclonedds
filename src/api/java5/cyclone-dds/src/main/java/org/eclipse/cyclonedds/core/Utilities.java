@@ -38,7 +38,7 @@ import com.sun.jna.ptr.PointerByReference;
 public class Utilities {
 
     public static void checkReturnCode(int retCode,
-            CycloneServiceEnvironment environment, String message) {
+            ServiceEnvironmentImpl environment, String message) {
         try {
             checkReturnCode(retCode, environment, message, false);
         } catch (TimeOutExceptionImpl t) {
@@ -50,7 +50,7 @@ public class Utilities {
     int DDS_CHECK_REPORT = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_REPORT;
     int DDS_CHECK_EXIT = org.eclipse.cyclonedds.ddsc.dds_public_error.DdscLibrary.DDS_CHECK_EXIT;
     private static void checkReturnCode(int retCode,
-            CycloneServiceEnvironment environment, String message,
+            ServiceEnvironmentImpl environment, String message,
             boolean withTimeOut) throws TimeOutExceptionImpl {
         /* TODO FRCYC
         switch (retCode) {
@@ -202,14 +202,14 @@ public class Utilities {
     }
 
     public static void checkReturnCodeWithTimeout(int retCode,
-            CycloneServiceEnvironment environment, String message)
+            ServiceEnvironmentImpl environment, String message)
             throws TimeoutException {
         checkReturnCode(retCode, environment, message, true);
     }
 
     
     public static void throwLastErrorException(
-            CycloneServiceEnvironment environment) {
+            ServiceEnvironmentImpl environment) {
         /* TODO FRCYC
     	String message;
         int code;
@@ -281,7 +281,7 @@ public class Utilities {
     */
     
 
-    public static long convert(CycloneServiceEnvironment environment,
+    public static long convert(ServiceEnvironmentImpl environment,
             InstanceHandle h) {
         if (h == null) {
             throw new IllegalArgumentExceptionImpl(environment,
@@ -295,11 +295,11 @@ public class Utilities {
         }
     }
 
-    public static InstanceHandle convert(CycloneServiceEnvironment env, long handle) {
+    public static InstanceHandle convert(ServiceEnvironmentImpl env, long handle) {
         return new InstanceHandleImpl(env, handle);
     }
 
-	public static Object convert(CycloneServiceEnvironment environment, Time sourceTimestamp) {
+	public static Object convert(ServiceEnvironmentImpl environment, Time sourceTimestamp) {
 		// TODO FRCYC Auto-generated method stub
 		return null;
 	}
@@ -314,21 +314,21 @@ public class Utilities {
 		return null;
 	}
 
-	public static void checkReturnCode(PointerByReference rc, CycloneServiceEnvironment environment, String message) {
+	public static void checkReturnCode(PointerByReference rc, ServiceEnvironmentImpl environment, String message) {
 		// TODO FRCYC
 	}
 
-	public static dds_qos_t convert(CycloneServiceEnvironment environment, TopicQos qos) {
-		// TODO FRCYC
-		return null;
-	}
-
-	public static dds_listener_t convert(CycloneServiceEnvironment environment, TopicListener<?> listener) {
+	public static dds_qos_t convert(ServiceEnvironmentImpl environment, TopicQos qos) {
 		// TODO FRCYC
 		return null;
 	}
 
-	public static dds_topic_descriptor_t convert(CycloneServiceEnvironment environment, TopicImpl<?> topicImpl) {
+	public static dds_listener_t convert(ServiceEnvironmentImpl environment, TopicListener<?> listener) {
+		// TODO FRCYC
+		return null;
+	}
+
+	public static dds_topic_descriptor_t convert(ServiceEnvironmentImpl environment, TopicImpl<?> topicImpl) {
 		// TODO Auto-generated method stub
 		return null;
 	}

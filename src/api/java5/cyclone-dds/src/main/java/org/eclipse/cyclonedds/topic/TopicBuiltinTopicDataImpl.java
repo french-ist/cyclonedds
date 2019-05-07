@@ -34,7 +34,7 @@ import org.omg.dds.topic.BuiltinTopicKey;
 import org.omg.dds.topic.TopicBuiltinTopicData;
 import org.omg.dds.type.typeobject.TypeObject;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.policy.DataRepresentationImpl;
 import org.eclipse.cyclonedds.core.policy.PolicyConverter;
@@ -42,13 +42,13 @@ import org.eclipse.cyclonedds.core.policy.TypeConsistencyEnforcementImpl;
 
 public class TopicBuiltinTopicDataImpl implements TopicBuiltinTopicData {
     private static final long serialVersionUID = 4997312302065915561L;
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
     private TopicBuiltinTopicData old;
     private BuiltinTopicKey key;
     private final TypeConsistencyEnforcement typeConsistency;
     private final DataRepresentation dataRepresentation;
 
-    public TopicBuiltinTopicDataImpl(CycloneServiceEnvironment environment,
+    public TopicBuiltinTopicDataImpl(ServiceEnvironmentImpl environment,
             TopicBuiltinTopicData old) {
         this.environment = environment;
         this.old = old;

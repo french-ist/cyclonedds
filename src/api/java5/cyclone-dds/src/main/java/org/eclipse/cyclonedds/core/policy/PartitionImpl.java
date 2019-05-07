@@ -19,19 +19,19 @@ import java.util.Set;
 import org.omg.dds.core.policy.Partition;
 import org.omg.dds.core.policy.QosPolicy;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class PartitionImpl extends QosPolicyImpl implements Partition {
     private static final long serialVersionUID = 3060990234546666051L;
     private final HashSet<String> name;
 
-    public PartitionImpl(CycloneServiceEnvironment environment) {
+    public PartitionImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.name = new HashSet<String>();
         this.name.add("");
     }
 
-    public PartitionImpl(CycloneServiceEnvironment environment,
+    public PartitionImpl(ServiceEnvironmentImpl environment,
             Collection<String> name) {
         super(environment);
 
@@ -46,7 +46,7 @@ public class PartitionImpl extends QosPolicyImpl implements Partition {
         }
     }
 
-    public PartitionImpl(CycloneServiceEnvironment environment,
+    public PartitionImpl(ServiceEnvironmentImpl environment,
             String... name) {
         super(environment);
         this.name = new HashSet<String>();

@@ -17,24 +17,24 @@ import org.omg.dds.core.Duration;
 import org.omg.dds.core.policy.Deadline;
 import org.omg.dds.core.policy.QosPolicy;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class DeadlineImpl extends QosPolicyImpl implements Deadline {
     private static final long serialVersionUID = -3533726043203132941L;
     private final Duration period;
 
-    public DeadlineImpl(CycloneServiceEnvironment environment) {
+    public DeadlineImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.period = environment.getSPI().infiniteDuration();
     }
 
-    public DeadlineImpl(CycloneServiceEnvironment environment, long period,
+    public DeadlineImpl(ServiceEnvironmentImpl environment, long period,
             TimeUnit unit) {
         super(environment);
         this.period = Duration.newDuration(period, unit, environment);
     }
 
-    public DeadlineImpl(CycloneServiceEnvironment environment, Duration period) {
+    public DeadlineImpl(ServiceEnvironmentImpl environment, Duration period) {
         super(environment);
         this.period = period;
 

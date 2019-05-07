@@ -23,8 +23,8 @@ public abstract class AbstractUtilities {
     public static AbstractUtilities getInstance(Class cl) {
         String mode = System.getProperty("JAVA5PSM_MODE").trim();
         if (utility == null) {
-            if (mode.equals("cafe")) {
-                utility = CafeUtilities.getInstance(cl);
+            if (mode.equals("cyclone")) {
+                utility = CycloneUtilities.getInstance(cl);
             }
         }
         return utility;

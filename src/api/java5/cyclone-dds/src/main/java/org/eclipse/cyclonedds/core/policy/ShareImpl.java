@@ -13,13 +13,13 @@ package org.eclipse.cyclonedds.core.policy;
 
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.policy.QosPolicy;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class ShareImpl extends QosPolicyImpl implements Share {
     private static final long serialVersionUID = -1731793312659549354L;
     private final String name;
 
-    public ShareImpl(CycloneServiceEnvironment environment, String name) {
+    public ShareImpl(ServiceEnvironmentImpl environment, String name) {
         super(environment);
 
         if (name != null) {
@@ -29,7 +29,7 @@ public class ShareImpl extends QosPolicyImpl implements Share {
         }
     }
 
-    public ShareImpl(CycloneServiceEnvironment environment) {
+    public ShareImpl(ServiceEnvironmentImpl environment) {
         this(environment, "");
     }
 

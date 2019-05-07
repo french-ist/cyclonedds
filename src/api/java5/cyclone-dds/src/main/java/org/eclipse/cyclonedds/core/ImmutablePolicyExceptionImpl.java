@@ -16,9 +16,9 @@ import org.omg.dds.core.ServiceEnvironment;
 
 public class ImmutablePolicyExceptionImpl extends ImmutablePolicyException {
     private static final long serialVersionUID = 6292913801344341485L;
-    private CycloneServiceEnvironment environment;
+    private ServiceEnvironmentImpl environment;
 
-    public ImmutablePolicyExceptionImpl(CycloneServiceEnvironment environment,
+    public ImmutablePolicyExceptionImpl(ServiceEnvironmentImpl environment,
             String message) {
         super(message);
         this.environment = environment;

@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 import org.omg.dds.core.Duration;
 import org.omg.dds.core.policy.QosPolicy;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class WriterDataLifecycleImpl extends QosPolicyImpl implements
         WriterDataLifecycle {
@@ -25,7 +25,7 @@ public class WriterDataLifecycleImpl extends QosPolicyImpl implements
     private final Duration autoPurgeSuspendedSamplesDelay;
     private final Duration autoUnregisterInstanceDelay;
 
-    public WriterDataLifecycleImpl(CycloneServiceEnvironment environment) {
+    public WriterDataLifecycleImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.autoDisposeUnregisteredInstances = true;
         this.autoPurgeSuspendedSamplesDelay = this.environment.getSPI()
@@ -34,7 +34,7 @@ public class WriterDataLifecycleImpl extends QosPolicyImpl implements
                 .infiniteDuration();
     }
 
-    public WriterDataLifecycleImpl(CycloneServiceEnvironment environment,
+    public WriterDataLifecycleImpl(ServiceEnvironmentImpl environment,
             boolean autoDisposeUnregisteredInstances,
             Duration autoPurgeSuspendedSamplesDelay,
             Duration autoUnregisterInstanceDelay) {

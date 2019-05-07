@@ -13,15 +13,15 @@ package org.eclipse.cyclonedds.core.event;
 
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.topic.Topic;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.status.AllDataDisposedStatus;
 
 public class AllDataDisposedEventImpl<TYPE> extends AllDataDisposedEvent<TYPE> {
     private static final long serialVersionUID = -227566280161289987L;
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
     private final AllDataDisposedStatus status;
 
-    public AllDataDisposedEventImpl(CycloneServiceEnvironment environment,
+    public AllDataDisposedEventImpl(ServiceEnvironmentImpl environment,
             Topic<TYPE> source, AllDataDisposedStatus status) {
         super(source);
         this.environment = environment;

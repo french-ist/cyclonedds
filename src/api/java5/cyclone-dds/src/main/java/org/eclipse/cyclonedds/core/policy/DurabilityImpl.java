@@ -14,18 +14,18 @@ package org.eclipse.cyclonedds.core.policy;
 import org.omg.dds.core.policy.Durability;
 import org.omg.dds.core.policy.QosPolicy;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class DurabilityImpl extends QosPolicyImpl implements Durability {
     private static final long serialVersionUID = -3661996204819852834L;
     private final Kind kind;
 
-    public DurabilityImpl(CycloneServiceEnvironment environment) {
+    public DurabilityImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.kind = Kind.VOLATILE;
     }
 
-    public DurabilityImpl(CycloneServiceEnvironment environment, Kind kind) {
+    public DurabilityImpl(ServiceEnvironmentImpl environment, Kind kind) {
         super(environment);
         this.kind = kind;
 

@@ -17,18 +17,18 @@ import org.omg.dds.core.Duration;
 import org.omg.dds.core.policy.LatencyBudget;
 import org.omg.dds.core.policy.QosPolicy;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class LatencyBudgetImpl extends QosPolicyImpl implements LatencyBudget {
     private static final long serialVersionUID = 1583305102265712684L;
     private final Duration duration;
 
-    public LatencyBudgetImpl(CycloneServiceEnvironment environment) {
+    public LatencyBudgetImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.duration = environment.getSPI().zeroDuration();
     }
 
-    public LatencyBudgetImpl(CycloneServiceEnvironment environment,
+    public LatencyBudgetImpl(ServiceEnvironmentImpl environment,
             Duration duration) {
         super(environment);
 

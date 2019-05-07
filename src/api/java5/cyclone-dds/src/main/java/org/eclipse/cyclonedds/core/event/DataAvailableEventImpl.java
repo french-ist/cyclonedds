@@ -15,15 +15,15 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.event.DataAvailableEvent;
 import org.omg.dds.core.status.DataAvailableStatus;
 import org.omg.dds.sub.DataReader;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.status.DataAvailableStatusImpl;
 
 public class DataAvailableEventImpl<TYPE> extends DataAvailableEvent<TYPE> {
     private static final long serialVersionUID = 5283779390935565015L;
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
     private final DataAvailableStatusImpl status;
 
-    public DataAvailableEventImpl(CycloneServiceEnvironment environment, DataReader<TYPE> source, DataAvailableStatusImpl status) {
+    public DataAvailableEventImpl(ServiceEnvironmentImpl environment, DataReader<TYPE> source, DataAvailableStatusImpl status) {
         super(source);
         this.environment = environment;
         this.status = status;

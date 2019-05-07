@@ -16,7 +16,7 @@ import org.omg.dds.core.policy.QosPolicy.ForDomainParticipantFactory;
 import org.omg.dds.domain.DomainParticipantFactoryQos;
 import org.eclipse.cyclonedds.core.EntityQosImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.policy.EntityFactoryImpl;
 
 public class DomainParticipantFactoryQosImpl extends
@@ -24,11 +24,11 @@ public class DomainParticipantFactoryQosImpl extends
         DomainParticipantFactoryQos {
     private static final long serialVersionUID = -2614760295894669447L;
 
-    public DomainParticipantFactoryQosImpl(CycloneServiceEnvironment environment) {
+    public DomainParticipantFactoryQosImpl(ServiceEnvironmentImpl environment) {
         super(environment);
     }
 
-    public DomainParticipantFactoryQosImpl(CycloneServiceEnvironment environment,
+    public DomainParticipantFactoryQosImpl(ServiceEnvironmentImpl environment,
             ForDomainParticipantFactory... domainParticipantFactories) {
         super(environment, domainParticipantFactories);
     }
@@ -51,7 +51,7 @@ public class DomainParticipantFactoryQosImpl extends
     }
 
     public static DomainParticipantFactoryQosImpl convert(
-            CycloneServiceEnvironment env, DomainParticipantFactoryQos oldQos) {
+            ServiceEnvironmentImpl env, DomainParticipantFactoryQos oldQos) {
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,
                     "oldQos parameter is null.");

@@ -31,7 +31,7 @@ import org.omg.dds.sub.DataReaderQos;
 import org.omg.dds.topic.TopicQos;
 import org.eclipse.cyclonedds.core.EntityQosImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.policy.DataRepresentationImpl;
 import org.eclipse.cyclonedds.core.policy.DeadlineImpl;
 import org.eclipse.cyclonedds.core.policy.DestinationOrderImpl;
@@ -56,7 +56,7 @@ org.eclipse.cyclonedds.sub.DataReaderQos {
     private static final long serialVersionUID = 7226579387926252059L;
     private final TypeConsistencyEnforcement typeConsistencyEnforcement;
 
-    public DataReaderQosImpl(CycloneServiceEnvironment environment,
+    public DataReaderQosImpl(ServiceEnvironmentImpl environment,
             TypeConsistencyEnforcement typeConsistencyEnforcement,
             ForDataReader... policies) {
         super(environment, policies);
@@ -64,7 +64,7 @@ org.eclipse.cyclonedds.sub.DataReaderQos {
 
     }
 
-    public DataReaderQosImpl(CycloneServiceEnvironment environment) {
+    public DataReaderQosImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.typeConsistencyEnforcement = new TypeConsistencyEnforcementImpl(
                 environment, Kind.EXACT_TYPE_TYPE_CONSISTENCY);
@@ -309,7 +309,7 @@ org.eclipse.cyclonedds.sub.DataReaderQos {
     	return null;
     }
 
-    public static DataReaderQosImpl convert(CycloneServiceEnvironment env,
+    public static DataReaderQosImpl convert(ServiceEnvironmentImpl env,
             DataReaderQos oldQos) {
         if (oldQos == null) {
             throw new IllegalArgumentExceptionImpl(env,

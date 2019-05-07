@@ -15,9 +15,9 @@ import org.omg.dds.core.ServiceEnvironment;
 
 public class TimeOutExceptionImpl extends java.util.concurrent.TimeoutException{
     private static final long serialVersionUID = -2564470280204317019L;
-    private CycloneServiceEnvironment environment;
+    private ServiceEnvironmentImpl environment;
 
-    public TimeOutExceptionImpl(CycloneServiceEnvironment environment,
+    public TimeOutExceptionImpl(ServiceEnvironmentImpl environment,
             String message) {
         super(message);
         this.environment = environment;

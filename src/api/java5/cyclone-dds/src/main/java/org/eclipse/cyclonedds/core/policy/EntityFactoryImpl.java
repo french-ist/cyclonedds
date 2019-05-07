@@ -13,18 +13,18 @@ package org.eclipse.cyclonedds.core.policy;
 
 import org.omg.dds.core.policy.EntityFactory;
 import org.omg.dds.core.policy.QosPolicy;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class EntityFactoryImpl extends QosPolicyImpl implements EntityFactory {
     private static final long serialVersionUID = -775163554877034009L;
     private final boolean autoEnableCreatedEntities;
 
-    public EntityFactoryImpl(CycloneServiceEnvironment environment) {
+    public EntityFactoryImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.autoEnableCreatedEntities = true;
     }
 
-    public EntityFactoryImpl(CycloneServiceEnvironment environment,
+    public EntityFactoryImpl(ServiceEnvironmentImpl environment,
             boolean autoEnableCreatedEntities) {
         super(environment);
         this.autoEnableCreatedEntities = autoEnableCreatedEntities;

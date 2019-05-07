@@ -24,10 +24,10 @@ import org.omg.dds.core.policy.QosPolicy;
 public abstract class EntityQosImpl<T extends QosPolicy> implements
         EntityQos<T> {
     private static final long serialVersionUID = -5714560284083338546L;
-    protected final CycloneServiceEnvironment environment;
+    protected final ServiceEnvironmentImpl environment;
     protected HashMap<Class<? extends T>, T> policies;
 
-    public EntityQosImpl(CycloneServiceEnvironment environment,
+    public EntityQosImpl(ServiceEnvironmentImpl environment,
             Collection<T> policies) {
         this.environment = environment;
         this.policies = new HashMap<Class<? extends T>, T>();
@@ -35,7 +35,7 @@ public abstract class EntityQosImpl<T extends QosPolicy> implements
         this.setupMissingPolicies();
     }
 
-    public EntityQosImpl(CycloneServiceEnvironment environment, T... policies) {
+    public EntityQosImpl(ServiceEnvironmentImpl environment, T... policies) {
         this.environment = environment;
         this.policies = new HashMap<Class<? extends T>, T>();
         this.setupPolicies(policies);

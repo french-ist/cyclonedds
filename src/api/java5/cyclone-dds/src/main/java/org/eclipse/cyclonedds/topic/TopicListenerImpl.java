@@ -16,7 +16,7 @@ import java.io.Serializable;
 import org.omg.dds.core.event.InconsistentTopicEvent;
 import org.omg.dds.topic.TopicListener;
 import org.eclipse.cyclonedds.core.Listener;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.event.AllDataDisposedEventImpl;
 import org.eclipse.cyclonedds.core.event.InconsistentTopicEventImpl;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
@@ -31,12 +31,12 @@ public class TopicListenerImpl<TYPE> extends
     private final transient AbstractTopic<TYPE> topic;
     private final transient org.eclipse.cyclonedds.topic.TopicListener<TYPE> extListener;
 
-    public TopicListenerImpl(CycloneServiceEnvironment environment,
+    public TopicListenerImpl(ServiceEnvironmentImpl environment,
             AbstractTopic<TYPE> topic, TopicListener<TYPE> listener) {
         this(environment, topic, listener, false);
     }
 
-    public TopicListenerImpl(CycloneServiceEnvironment environment,
+    public TopicListenerImpl(ServiceEnvironmentImpl environment,
             AbstractTopic<TYPE> topic, TopicListener<TYPE> listener,
             boolean waitUntilInitialised) {
         super(environment, listener, waitUntilInitialised);

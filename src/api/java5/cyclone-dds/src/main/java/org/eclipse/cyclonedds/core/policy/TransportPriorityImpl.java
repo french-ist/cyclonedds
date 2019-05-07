@@ -13,19 +13,19 @@ package org.eclipse.cyclonedds.core.policy;
 
 import org.omg.dds.core.policy.QosPolicy;
 import org.omg.dds.core.policy.TransportPriority;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class TransportPriorityImpl extends QosPolicyImpl implements
 TransportPriority {
     private static final long serialVersionUID = -2681488718301095677L;
     private final int value;
 
-    public TransportPriorityImpl(CycloneServiceEnvironment environment) {
+    public TransportPriorityImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.value = 0;
     }
 
-    public TransportPriorityImpl(CycloneServiceEnvironment environment, int value) {
+    public TransportPriorityImpl(ServiceEnvironmentImpl environment, int value) {
         super(environment);
         this.value = value;
     }

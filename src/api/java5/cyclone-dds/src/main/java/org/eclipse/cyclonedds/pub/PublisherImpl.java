@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.eclipse.cyclonedds.core.AlreadyClosedExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.DomainEntityImpl;
 import org.eclipse.cyclonedds.core.InstanceHandleImpl;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
@@ -58,7 +58,7 @@ public class PublisherImpl extends DomainEntityImpl<PublisherQos, PublisherListe
 	private boolean enabled = false;
 	private final int jnaPublisher;
 
-	public PublisherImpl(CycloneServiceEnvironment environment,
+	public PublisherImpl(ServiceEnvironmentImpl environment,
 			DomainParticipantImpl parent, 
 			PublisherQos qos,
 			PublisherListener listener,

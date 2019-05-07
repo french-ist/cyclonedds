@@ -54,7 +54,7 @@ import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.UserClass;
 import org.eclipse.cyclonedds.core.AlreadyClosedExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.StatusConditionImpl;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
@@ -75,7 +75,7 @@ public abstract class AbstractDataReader<TYPE>
 	protected boolean closed = false;
 
 
-    public AbstractDataReader(CycloneServiceEnvironment environment,
+    public AbstractDataReader(ServiceEnvironmentImpl environment,
             SubscriberImpl parent) {
         super(environment);
 

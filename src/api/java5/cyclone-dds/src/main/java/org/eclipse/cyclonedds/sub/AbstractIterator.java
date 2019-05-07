@@ -15,14 +15,14 @@ import java.lang.reflect.Field;
 
 import org.omg.dds.sub.Sample;
 import org.eclipse.cyclonedds.core.AlreadyClosedExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 
 //TODO FRCYC //TODO FRCYC import SampleInfoSeqHolder;
 
 public abstract class AbstractIterator<TYPE> implements Sample.Iterator<TYPE> {
     protected final AbstractDataReader<TYPE> reader;
-    protected final CycloneServiceEnvironment environment;
+    protected final ServiceEnvironmentImpl environment;
     protected final SampleInfoSeqHolder infoSeqHolder;
     protected final Object sampleSeqHolder;
     protected final Field dataSeqHolderValue;
@@ -30,7 +30,7 @@ public abstract class AbstractIterator<TYPE> implements Sample.Iterator<TYPE> {
     private int currentIndex;
     private int initUntil;
 
-    public AbstractIterator(CycloneServiceEnvironment environment,
+    public AbstractIterator(ServiceEnvironmentImpl environment,
             AbstractDataReader<TYPE> reader, Object sampleSeqHolder,
             Field dataSeqHolderValue, SampleInfoSeqHolder infoSeqHolder) {
         this.environment = environment;

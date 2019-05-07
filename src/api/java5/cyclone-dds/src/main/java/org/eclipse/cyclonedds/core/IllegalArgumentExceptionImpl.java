@@ -17,9 +17,9 @@ import org.omg.dds.core.ServiceEnvironment;
 public class IllegalArgumentExceptionImpl extends IllegalArgumentException
         implements DDSObject {
     private static final long serialVersionUID = 5351814729819703318L;
-    private final CycloneServiceEnvironment environment;
+    private final ServiceEnvironmentImpl environment;
 
-    public IllegalArgumentExceptionImpl(CycloneServiceEnvironment environment,
+    public IllegalArgumentExceptionImpl(ServiceEnvironmentImpl environment,
             String message) {
         super(message);
         this.environment = environment;

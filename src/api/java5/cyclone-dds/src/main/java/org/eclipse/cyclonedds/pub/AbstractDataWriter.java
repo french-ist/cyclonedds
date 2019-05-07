@@ -15,7 +15,7 @@ import org.omg.dds.pub.DataWriterListener;
 import org.omg.dds.pub.DataWriterQos;
 import org.omg.dds.pub.Publisher;
 import org.eclipse.cyclonedds.core.DomainEntityImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public abstract class AbstractDataWriter<TYPE>
         extends
@@ -24,7 +24,7 @@ public abstract class AbstractDataWriter<TYPE>
 
     private PublisherImpl parent;
 
-	public AbstractDataWriter(CycloneServiceEnvironment environment,
+	public AbstractDataWriter(ServiceEnvironmentImpl environment,
             PublisherImpl parent) {
         super(environment);
         this.parent = parent;

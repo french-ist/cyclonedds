@@ -41,7 +41,7 @@ import org.eclipse.cyclonedds.core.UserClass;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.AlreadyClosedExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.DurationImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.status.StatusConverter;
@@ -69,7 +69,7 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
 	private TYPE userClassInstance;
 
 	@SuppressWarnings("unchecked")
-	public DataReaderImpl(CycloneServiceEnvironment environment, 
+	public DataReaderImpl(ServiceEnvironmentImpl environment, 
 			SubscriberImpl parent, 
 			TopicImpl<TYPE> topic,
 			DataReaderQos qos, 
@@ -230,7 +230,7 @@ public class DataReaderImpl<TYPE> extends AbstractDataReader<TYPE> {
 	}
 	
 	/* 
-    public DataReaderImpl(CycloneServiceEnvironment environment,
+    public DataReaderImpl(ServiceEnvironmentImpl environment,
             SubscriberImpl parent, 
             DataReaderQos qos, 
             DataReaderListener<TYPE> listener,

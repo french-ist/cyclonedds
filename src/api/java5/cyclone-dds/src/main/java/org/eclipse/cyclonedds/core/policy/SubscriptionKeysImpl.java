@@ -17,14 +17,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.omg.dds.core.policy.QosPolicy;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class SubscriptionKeysImpl extends QosPolicyImpl implements
         SubscriptionKeys {
     private static final long serialVersionUID = -4815852698195218221L;
     private final HashSet<String> keyList;
 
-    public SubscriptionKeysImpl(CycloneServiceEnvironment environment,
+    public SubscriptionKeysImpl(ServiceEnvironmentImpl environment,
             String... keyValue) {
         super(environment);
         this.keyList = new HashSet<String>();
@@ -34,7 +34,7 @@ public class SubscriptionKeysImpl extends QosPolicyImpl implements
         }
     }
 
-    public SubscriptionKeysImpl(CycloneServiceEnvironment environment,
+    public SubscriptionKeysImpl(ServiceEnvironmentImpl environment,
             Collection<String> keyValue) {
         super(environment);
 

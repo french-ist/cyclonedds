@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.eclipse.cyclonedds.core.AlreadyClosedExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.EntityImpl;
 import org.eclipse.cyclonedds.core.InstanceHandleImpl;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
@@ -76,7 +76,7 @@ public class DomainParticipantImpl extends EntityImpl<DomainParticipantQos, Doma
 	private boolean enabled;
 	private InstanceHandle handle;
     
-    public DomainParticipantImpl(CycloneServiceEnvironment environment,
+    public DomainParticipantImpl(ServiceEnvironmentImpl environment,
             DomainParticipantFactoryImpl factory, 
             int domainId,
             DomainParticipantQos qos, 

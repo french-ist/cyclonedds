@@ -28,7 +28,7 @@ import org.omg.dds.core.event.SampleRejectedEvent;
 import org.omg.dds.core.event.SubscriptionMatchedEvent;
 import org.omg.dds.domain.DomainParticipantListener;
 import org.eclipse.cyclonedds.core.Listener;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.event.AllDataDisposedEventImpl;
 import org.eclipse.cyclonedds.core.event.DataAvailableEventImpl;
 import org.eclipse.cyclonedds.core.event.DataOnReadersEventImpl;
@@ -73,13 +73,13 @@ public class DomainParticipantListenerImpl extends
     private final transient DomainParticipantImpl participant;
     private final transient org.eclipse.cyclonedds.domain.DomainParticipantListener extListener;
 
-    public DomainParticipantListenerImpl(CycloneServiceEnvironment environment,
+    public DomainParticipantListenerImpl(ServiceEnvironmentImpl environment,
             DomainParticipantImpl participant,
             DomainParticipantListener listener) {
         this(environment, participant, listener, false);
     }
 
-    public DomainParticipantListenerImpl(CycloneServiceEnvironment environment,
+    public DomainParticipantListenerImpl(ServiceEnvironmentImpl environment,
             DomainParticipantImpl participant,
             DomainParticipantListener listener, boolean waitUntilInitialised) {
         super(environment, listener, waitUntilInitialised);

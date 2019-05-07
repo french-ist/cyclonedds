@@ -21,20 +21,20 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.policy.QosPolicy;
 import org.omg.dds.core.policy.QosPolicyCount;
 import org.omg.dds.core.status.RequestedIncompatibleQosStatus;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.policy.QosPolicyCountImpl;
 
 public class RequestedIncompatibleQosStatusImpl extends
         RequestedIncompatibleQosStatus {
     private static final long serialVersionUID = 8046180416846302298L;
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
     private final int totalCount;
     private final int totalCountChange;
     private final Class<? extends QosPolicy> lastPolicyClass;
     private final List<QosPolicyCount> policies;
 
     public RequestedIncompatibleQosStatusImpl(
-            CycloneServiceEnvironment environment, int totalCount,
+            ServiceEnvironmentImpl environment, int totalCount,
             int totalCountChange, Class<? extends QosPolicy> lastPolicyClass,
             QosPolicyCount... policies) {
         this.environment = environment;

@@ -16,9 +16,9 @@ import org.omg.dds.core.ServiceEnvironment;
 
 public class NotEnabledExceptionImpl extends NotEnabledException {
     private static final long serialVersionUID = -8022878010238178055L;
-    private CycloneServiceEnvironment environment;
+    private ServiceEnvironmentImpl environment;
 
-    public NotEnabledExceptionImpl(CycloneServiceEnvironment environment,
+    public NotEnabledExceptionImpl(ServiceEnvironmentImpl environment,
             String message) {
         super(message);
         this.environment = environment;

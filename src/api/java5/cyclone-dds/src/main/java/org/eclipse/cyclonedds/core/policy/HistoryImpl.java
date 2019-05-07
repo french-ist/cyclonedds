@@ -14,20 +14,20 @@ package org.eclipse.cyclonedds.core.policy;
 import org.omg.dds.core.policy.History;
 import org.omg.dds.core.policy.QosPolicy;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class HistoryImpl extends QosPolicyImpl implements History{
     private static final long serialVersionUID = 8740123506122702059L;
     private final Kind kind;
     private final int depth;
 
-    public HistoryImpl(CycloneServiceEnvironment environment) {
+    public HistoryImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.kind = Kind.KEEP_LAST;
         this.depth = 1;
     }
 
-    public HistoryImpl(CycloneServiceEnvironment environment, Kind kind, int depth) {
+    public HistoryImpl(ServiceEnvironmentImpl environment, Kind kind, int depth) {
         super(environment);
 
         if (kind == null) {

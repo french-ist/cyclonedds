@@ -13,13 +13,13 @@ package org.eclipse.cyclonedds.core.status;
 
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.status.DataAvailableStatus;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class DataAvailableStatusImpl extends DataAvailableStatus {
     private static final long serialVersionUID = -5689703674059469716L;
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
 
-    public DataAvailableStatusImpl(CycloneServiceEnvironment environment){
+    public DataAvailableStatusImpl(ServiceEnvironmentImpl environment){
         this.environment = environment;
     }
 

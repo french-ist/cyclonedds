@@ -14,12 +14,12 @@ package org.eclipse.cyclonedds.topic;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 
 public class JnaUserClassFactory {
 
-	public static UserClassHelper getJnaUserClassHelperInstance(CycloneServiceEnvironment environment,
+	public static UserClassHelper getJnaUserClassHelperInstance(ServiceEnvironmentImpl environment,
 			TopicImpl<?> topicImpl) {
         try {
 			Class<?> clazz = (Class<?>) Class.forName(topicImpl.getTypeSupport().getTypeName()+"_Helper");
@@ -44,7 +44,7 @@ public class JnaUserClassFactory {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <TYPE> TYPE getJnaUserClassInstance(CycloneServiceEnvironment environment, TopicImpl<?> topicImpl) {
+	public static <TYPE> TYPE getJnaUserClassInstance(ServiceEnvironmentImpl environment, TopicImpl<?> topicImpl) {
 		try {			
 			Class<TYPE> clazz = (Class<TYPE>) Class.forName(topicImpl.getTypeSupport().getTypeName());
 			Constructor<?> ctr = clazz.getConstructor(new Class[]{});

@@ -13,12 +13,12 @@ package org.eclipse.cyclonedds.core;
 
 import org.omg.dds.core.ServiceEnvironment;
 
-public class CycloneServiceEnvironment extends ServiceEnvironment {   
+public class ServiceEnvironmentImpl extends ServiceEnvironment {
     
-	private final CycloneServiceProviderInterface cycJnaSpi;    
+	private final org.eclipse.cyclonedds.core.ServiceProviderInterfaceImpl cycJnaSpi;
     
-	public CycloneServiceEnvironment() {
-        this.cycJnaSpi = new CycloneServiceProviderInterface(this);
+	public ServiceEnvironmentImpl() {
+        this.cycJnaSpi = new org.eclipse.cyclonedds.core.ServiceProviderInterfaceImpl(this);
     }
 
     @Override

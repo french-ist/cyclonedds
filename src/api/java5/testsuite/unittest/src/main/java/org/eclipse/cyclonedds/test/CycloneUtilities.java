@@ -10,40 +10,40 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
 
-public class CafeUtilities extends AbstractUtilities {
+public class CycloneUtilities extends AbstractUtilities {
 
-    private static CafeUtilities cafeUtility        = null;
-    private final String         notImplementedFile = "notImplementedForCafe.txt";
+    private static CycloneUtilities cycloneUtility = null;
+    private final String         notImplementedFile = "notImplementedForCyclone.txt";
     private final long           writeSleepTime     = 2000;
     /**
      * @param cl
      */
 
     @SuppressWarnings("rawtypes")
-    public static CafeUtilities getInstance(Class cl) {
-        if (cafeUtility == null) {
-            ClassLoader classLoader = CafeUtilities.class.getClassLoader();
+    public static CycloneUtilities getInstance(Class cl) {
+        if (cycloneUtility == null) {
+            ClassLoader classLoader = CycloneUtilities.class.getClassLoader();
             try {
-                Class testClass = classLoader.loadClass(cl.getName() + ".cafe");
+                Class testClass = classLoader.loadClass(cl.getName() + ".cyclone");
                 try {
-                    cafeUtility = (CafeUtilities) testClass.newInstance();
+                    cycloneUtility = (CycloneUtilities) testClass.newInstance();
                 } catch (InstantiationException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
-                // System.out.println("Initiated special cafe utilities class for test: "
+                // System.out.println("Initiated special cyclone utilities class for test: "
                 // + testClass.getName());
             } catch (ClassNotFoundException e) {
-                cafeUtility = new CafeUtilities();
+                cycloneUtility = new CycloneUtilities();
             }
         }
-        return cafeUtility;
+        return cycloneUtility;
     }
 
 
-    public CafeUtilities() {
-        URL location = CafeUtilities.class.getProtectionDomain().getCodeSource().getLocation();
+    public CycloneUtilities() {
+        URL location = CycloneUtilities.class.getProtectionDomain().getCodeSource().getLocation();
         String resourcesPath = location.getPath() + "../../src/test/resources/";
         BufferedReader reader = null;
         boolean finished = false;
@@ -75,7 +75,7 @@ public class CafeUtilities extends AbstractUtilities {
 
     @Override
     public boolean afterClass(Properties prop) {
-        cafeUtility = null;
+        cycloneUtility = null;
         return super.afterClass(prop);
     }
 

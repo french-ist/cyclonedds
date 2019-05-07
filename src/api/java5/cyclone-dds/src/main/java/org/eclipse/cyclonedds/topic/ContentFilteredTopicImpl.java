@@ -24,7 +24,7 @@ import org.omg.dds.type.TypeSupport;
 import org.eclipse.cyclonedds.core.AlreadyClosedExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.domain.DomainParticipantImpl;
 
@@ -33,10 +33,10 @@ public class ContentFilteredTopicImpl<TYPE> implements
     private final AbstractTopic<TYPE> relatedTopic;
     private final ContentFilteredTopic old = null;
     private final DomainParticipantImpl parent;
-    private final CycloneServiceEnvironment environment;
+    private final ServiceEnvironmentImpl environment;
     private AtomicInteger refCount = null;
 
-    public ContentFilteredTopicImpl(CycloneServiceEnvironment environment,
+    public ContentFilteredTopicImpl(ServiceEnvironmentImpl environment,
             DomainParticipantImpl parent, String name,
             AbstractTopic<TYPE> relatedTopic, String filterExpression,
             List<String> expressionParameters) {

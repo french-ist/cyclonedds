@@ -15,14 +15,14 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.event.LivelinessLostEvent;
 import org.omg.dds.core.status.LivelinessLostStatus;
 import org.omg.dds.pub.DataWriter;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class LivelinessLostEventImpl<TYPE> extends LivelinessLostEvent<TYPE> {
     private static final long serialVersionUID = -2199224454283393818L;
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
     private final LivelinessLostStatus status;
 
-    public LivelinessLostEventImpl(CycloneServiceEnvironment environment,
+    public LivelinessLostEventImpl(ServiceEnvironmentImpl environment,
             DataWriter<TYPE> source, LivelinessLostStatus status) {
         super(source);
         this.environment = environment;

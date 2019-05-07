@@ -19,13 +19,13 @@ import org.omg.dds.core.ServiceEnvironment;
 public class InstanceHandleImpl extends InstanceHandle {
     private static final long serialVersionUID = 8433681503549822293L;
     
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
     private long keyHash;
 	private long keyHash1;
 	private long keyHash2;
 	private byte[] keyHashBytes;
 
-    public InstanceHandleImpl(CycloneServiceEnvironment environment, long keyHashValue) {
+    public InstanceHandleImpl(ServiceEnvironmentImpl environment, long keyHashValue) {
         this.environment = environment;
         this.keyHash = keyHashValue;
     }

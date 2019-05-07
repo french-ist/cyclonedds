@@ -34,7 +34,7 @@ import org.omg.dds.pub.DataWriterQos;
 import org.omg.dds.topic.TopicQos;
 import org.eclipse.cyclonedds.core.EntityQosImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.policy.DataRepresentationImpl;
 import org.eclipse.cyclonedds.core.policy.DeadlineImpl;
@@ -59,7 +59,7 @@ public class DataWriterQosImpl extends EntityQosImpl<ForDataWriter> implements
     private static final long serialVersionUID = -3612002704263154280L;
     private final TypeConsistencyEnforcement typeConsistencyEnforcement;
 
-    public DataWriterQosImpl(CycloneServiceEnvironment environment,
+    public DataWriterQosImpl(ServiceEnvironmentImpl environment,
             TypeConsistencyEnforcement typeConsistencyEnforcement,
             ForDataWriter... policies) {
         super(environment, policies);
@@ -67,7 +67,7 @@ public class DataWriterQosImpl extends EntityQosImpl<ForDataWriter> implements
 
     }
 
-    public DataWriterQosImpl(CycloneServiceEnvironment environment) {
+    public DataWriterQosImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.typeConsistencyEnforcement = new TypeConsistencyEnforcementImpl(
                 environment, Kind.EXACT_TYPE_TYPE_CONSISTENCY);

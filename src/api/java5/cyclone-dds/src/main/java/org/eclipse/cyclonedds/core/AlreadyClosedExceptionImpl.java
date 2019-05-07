@@ -16,9 +16,9 @@ import org.omg.dds.core.ServiceEnvironment;
 
 public class AlreadyClosedExceptionImpl extends AlreadyClosedException {
     private static final long serialVersionUID = 5229558243541096106L;
-    private CycloneServiceEnvironment environment;
+    private ServiceEnvironmentImpl environment;
 
-    public AlreadyClosedExceptionImpl(CycloneServiceEnvironment environment,
+    public AlreadyClosedExceptionImpl(ServiceEnvironmentImpl environment,
             String message) {
         super(message);
         this.environment = environment;

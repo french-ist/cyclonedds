@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.cyclonedds.core.AlreadyClosedExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.DomainEntityImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
@@ -60,7 +60,7 @@ public class SubscriberImpl extends DomainEntityImpl<SubscriberQos, SubscriberLi
 	private boolean closed = false;
 	private boolean enabled = true;
 
-	public SubscriberImpl(CycloneServiceEnvironment environment,
+	public SubscriberImpl(ServiceEnvironmentImpl environment,
             DomainParticipantImpl parent, SubscriberQos qos,
             SubscriberListener listener,
             Collection<Class<? extends Status>> statuses) {
@@ -117,7 +117,7 @@ public class SubscriberImpl extends DomainEntityImpl<SubscriberQos, SubscriberLi
         */
     }
 
-    public SubscriberImpl(CycloneServiceEnvironment environment,
+    public SubscriberImpl(ServiceEnvironmentImpl environment,
             DomainParticipantImpl parent, Subscriber oldSubscriber) {
         super(environment);
 

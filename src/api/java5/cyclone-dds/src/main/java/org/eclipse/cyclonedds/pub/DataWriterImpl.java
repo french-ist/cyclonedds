@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.eclipse.cyclonedds.core.AlreadyClosedExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.InstanceHandleImpl;
 import org.eclipse.cyclonedds.core.TimeImpl;
@@ -58,7 +58,7 @@ public class DataWriterImpl<TYPE> extends AbstractDataWriter<TYPE> {
 	private final int jnaDataWriter;
 
     @SuppressWarnings("unchecked")
-	public DataWriterImpl(CycloneServiceEnvironment environment,
+	public DataWriterImpl(ServiceEnvironmentImpl environment,
             PublisherImpl parent, TopicImpl<TYPE> topic, DataWriterQos qos,
             DataWriterListener<TYPE> listener,
             Collection<Class<? extends Status>> statuses) {

@@ -42,7 +42,7 @@ class SubEntities {
          */
         System.setProperty(
                 ServiceEnvironment.IMPLEMENTATION_CLASS_NAME_PROPERTY,
-                "org.eclipse.cyclonedds.core.CycloneServiceEnvironment");
+                "org.eclipse.cyclonedds.core.ServiceEnvironmentImpl");
         env = ServiceEnvironment.createInstance(SubEntities.class
                 .getClassLoader());
         PolicyFactory policyFactory = env.getSPI().getPolicyFactory();

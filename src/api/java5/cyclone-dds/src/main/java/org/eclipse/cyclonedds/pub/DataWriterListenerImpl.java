@@ -20,7 +20,7 @@ import org.omg.dds.core.event.PublicationMatchedEvent;
 import org.omg.dds.pub.DataWriter;
 import org.omg.dds.pub.DataWriterListener;
 import org.eclipse.cyclonedds.core.Listener;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.event.LivelinessLostEventImpl;
 import org.eclipse.cyclonedds.core.event.OfferedDeadlineMissedEventImpl;
 import org.eclipse.cyclonedds.core.event.OfferedIncompatibleQosEventImpl;
@@ -40,12 +40,12 @@ public class DataWriterListenerImpl<TYPE> extends
     private static final long serialVersionUID = 8422072066415569795L;
     private final transient DataWriter<TYPE> writer;
 
-    public DataWriterListenerImpl(CycloneServiceEnvironment environment,
+    public DataWriterListenerImpl(ServiceEnvironmentImpl environment,
             DataWriter<TYPE> writer, DataWriterListener<TYPE> listener) {
         this(environment, writer, listener, false);
     }
 
-    public DataWriterListenerImpl(CycloneServiceEnvironment environment,
+    public DataWriterListenerImpl(ServiceEnvironmentImpl environment,
             DataWriter<TYPE> writer, DataWriterListener<TYPE> listener,
             boolean waitUntilInitialised) {
         super(environment, listener, waitUntilInitialised);

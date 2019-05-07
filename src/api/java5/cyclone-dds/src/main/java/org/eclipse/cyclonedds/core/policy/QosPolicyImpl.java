@@ -13,13 +13,13 @@ package org.eclipse.cyclonedds.core.policy;
 
 import org.omg.dds.core.ServiceEnvironment;
 import org.eclipse.cyclonedds.core.DDSExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public abstract class QosPolicyImpl implements QosPolicy {
 	private static final long serialVersionUID = -1576883735576551398L;
-	protected CycloneServiceEnvironment environment;
+	protected ServiceEnvironmentImpl environment;
 
-	public QosPolicyImpl(CycloneServiceEnvironment environment){
+	public QosPolicyImpl(ServiceEnvironmentImpl environment){
 		this.environment = environment;
 
         if (this.environment == null) {

@@ -17,13 +17,13 @@ import org.omg.dds.core.Duration;
 import org.omg.dds.core.policy.QosPolicy;
 import org.eclipse.cyclonedds.core.DurationImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class ReaderLifespanImpl extends QosPolicyImpl implements ReaderLifespan {
     private static final long serialVersionUID = 6766092830787145265L;
     private final Duration duration;
 
-    public ReaderLifespanImpl(CycloneServiceEnvironment environment,
+    public ReaderLifespanImpl(ServiceEnvironmentImpl environment,
             Duration duration) {
         super(environment);
 
@@ -34,7 +34,7 @@ public class ReaderLifespanImpl extends QosPolicyImpl implements ReaderLifespan 
         this.duration = duration;
     }
 
-    public ReaderLifespanImpl(CycloneServiceEnvironment environment) {
+    public ReaderLifespanImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.duration = environment.getSPI().infiniteDuration();
     }

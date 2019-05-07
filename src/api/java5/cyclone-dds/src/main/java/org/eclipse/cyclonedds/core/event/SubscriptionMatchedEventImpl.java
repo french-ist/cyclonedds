@@ -15,15 +15,15 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.event.SubscriptionMatchedEvent;
 import org.omg.dds.core.status.SubscriptionMatchedStatus;
 import org.omg.dds.sub.DataReader;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class SubscriptionMatchedEventImpl<TYPE> extends
         SubscriptionMatchedEvent<TYPE> {
     private static final long serialVersionUID = -5416089725013777311L;
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
     private final SubscriptionMatchedStatus status;
 
-    public SubscriptionMatchedEventImpl(CycloneServiceEnvironment environment,
+    public SubscriptionMatchedEventImpl(ServiceEnvironmentImpl environment,
             DataReader<TYPE> source, SubscriptionMatchedStatus status) {
         super(source);
         this.environment = environment;

@@ -102,7 +102,7 @@
                     <forkedProcessTimeoutInSeconds>300</forkedProcessTimeoutInSeconds>
 					<systemPropertyVariables>
 						<JAVA5PSM_SERVICE_ENV>org.eclipse.cyclonedds.core.ServiceEnvironmentImpl</JAVA5PSM_SERVICE_ENV>
-						<JAVA5PSM_MODE>cafe</JAVA5PSM_MODE>
+						<JAVA5PSM_MODE>cyclone</JAVA5PSM_MODE>
 					</systemPropertyVariables>
 					<excludes>
 						<exclude></exclude>

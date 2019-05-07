@@ -55,7 +55,7 @@ import org.omg.dds.core.status.SampleRejectedStatus;
 import org.omg.dds.core.status.SampleRejectedStatus.Kind;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.InstanceHandleImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.policy.PolicyConverter;
 import org.eclipse.cyclonedds.core.policy.QosPolicyCountImpl;

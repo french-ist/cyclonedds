@@ -13,7 +13,7 @@ package unittest.core;
 
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.sub.SampleImpl;
 import org.eclipse.cyclonedds.sub.SampleInfo;
 import org.junit.Assert;
@@ -36,7 +36,7 @@ public class TimeTest
    public static void init()
    {
       System.setProperty(ServiceEnvironment.IMPLEMENTATION_CLASS_NAME_PROPERTY,
-            "org.eclipse.cyclonedds.core.CycloneServiceEnvironment");
+            "org.eclipse.cyclonedds.core.ServiceEnvironmentImpl");
       env = ServiceEnvironment.createInstance(
             SampleInfoTest.class.getClassLoader());
    }
@@ -125,7 +125,7 @@ public class TimeTest
    {
       //CacheChange change = new CacheChange(null);
       //SampleData<Msg> sampleData = new SampleData<Msg>(null, change, new Msg(0, "Hi!"));
-      Sample<Msg> sample = new SampleImpl<Msg>((CycloneServiceEnvironment) env, new Msg(0, "Hi!"), new SampleInfo());
+      Sample<Msg> sample = new SampleImpl<Msg>((ServiceEnvironmentImpl) env, new Msg(0, "Hi!"), new SampleInfo());
       Time t = sample.getSourceTimestamp();
       Assert.assertFalse(t.isValid());
    }

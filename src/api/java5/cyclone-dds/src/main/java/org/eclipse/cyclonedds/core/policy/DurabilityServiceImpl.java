@@ -18,7 +18,7 @@ import org.omg.dds.core.policy.DurabilityService;
 import org.omg.dds.core.policy.History;
 import org.omg.dds.core.policy.History.Kind;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.omg.dds.core.policy.QosPolicy;
 
 public class DurabilityServiceImpl extends QosPolicyImpl implements
@@ -30,7 +30,7 @@ public class DurabilityServiceImpl extends QosPolicyImpl implements
     private final int maxInstances;
     private final int maxSamplesPerInstance;
 
-    public DurabilityServiceImpl(CycloneServiceEnvironment environment) {
+    public DurabilityServiceImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.serviceCleanupDelay = environment.getSPI().zeroDuration();
         this.history = new HistoryImpl(environment, Kind.KEEP_LAST, 1);
@@ -39,7 +39,7 @@ public class DurabilityServiceImpl extends QosPolicyImpl implements
         this.maxSamplesPerInstance = -1;
     }
 
-    public DurabilityServiceImpl(CycloneServiceEnvironment environment,
+    public DurabilityServiceImpl(ServiceEnvironmentImpl environment,
             Duration serviceCleanupDelay, Kind historyKind, int historyDepth,
             int maxSamples, int maxInstances, int maxSamplesPerInstance) {
         super(environment);

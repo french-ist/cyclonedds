@@ -15,18 +15,18 @@ import java.util.Arrays;
 
 import org.omg.dds.core.policy.GroupData;
 import org.omg.dds.core.policy.QosPolicy;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class GroupDataImpl extends QosPolicyImpl implements GroupData {
     private static final long serialVersionUID = -5108639314694283781L;
     private final byte[] value;
 
-    public GroupDataImpl(CycloneServiceEnvironment environment) {
+    public GroupDataImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.value = new byte[0];
     }
 
-    public GroupDataImpl(CycloneServiceEnvironment environment, byte[] value) {
+    public GroupDataImpl(ServiceEnvironmentImpl environment, byte[] value) {
         super(environment);
 
         if(value != null){

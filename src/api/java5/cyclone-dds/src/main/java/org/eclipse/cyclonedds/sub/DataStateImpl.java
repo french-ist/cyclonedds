@@ -22,18 +22,18 @@ import org.omg.dds.sub.SampleState;
 import org.omg.dds.sub.Subscriber;
 import org.omg.dds.sub.Subscriber.DataState;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 import org.eclipse.cyclonedds.ddsc.dds.DdscLibrary;
 import org.omg.dds.sub.ViewState;
 
 public class DataStateImpl implements Subscriber.DataState {
-    private CycloneServiceEnvironment environment;
+    private ServiceEnvironmentImpl environment;
     private HashSet<SampleState> sampleState;
     private HashSet<ViewState> viewState;
     private HashSet<InstanceState> instanceState;
 
-    public DataStateImpl(CycloneServiceEnvironment environment,
+    public DataStateImpl(ServiceEnvironmentImpl environment,
             Collection<SampleState> sampleState,
             Collection<ViewState> viewState,
             Collection<InstanceState> instanceState) {
@@ -43,19 +43,19 @@ public class DataStateImpl implements Subscriber.DataState {
         this.instanceState = new HashSet<InstanceState>(instanceState);
     }
 
-    public DataStateImpl(CycloneServiceEnvironment environment) {
+    public DataStateImpl(ServiceEnvironmentImpl environment) {
         this.environment = environment;
         this.sampleState = new HashSet<SampleState>();
         this.viewState = new HashSet<ViewState>();
         this.instanceState = new HashSet<InstanceState>();
     }
 
-    public static DataStateImpl getAnyStateDataState(CycloneServiceEnvironment env) {
+    public static DataStateImpl getAnyStateDataState(ServiceEnvironmentImpl env) {
         return (DataStateImpl) new DataStateImpl(env).withAnySampleState()
                 .withAnyViewState().withAnyInstanceState();
     }
 
-    public static SampleState getSampleStateFromJna(CycloneServiceEnvironment env,
+    public static SampleState getSampleStateFromJna(ServiceEnvironmentImpl env,
             int state) {
     	switch (state) {
         case DdscLibrary.DDS_READ_SAMPLE_STATE:
@@ -67,7 +67,7 @@ public class DataStateImpl implements Subscriber.DataState {
         }
     }
 
-    public static ViewState getViewStateFromJna(CycloneServiceEnvironment env,
+    public static ViewState getViewStateFromJna(ServiceEnvironmentImpl env,
             int state) {
         switch (state) {
         case DdscLibrary.DDS_NEW_VIEW_STATE:
@@ -80,7 +80,7 @@ public class DataStateImpl implements Subscriber.DataState {
     }
 
     public static InstanceState getInstanceStateFromJna(
-            CycloneServiceEnvironment env, int state) {
+            ServiceEnvironmentImpl env, int state) {
         switch (state) {
         case DdscLibrary.DDS_ALIVE_INSTANCE_STATE:
             return InstanceState.ALIVE;
@@ -333,7 +333,7 @@ public class DataStateImpl implements Subscriber.DataState {
         */
     }
 
-    public static DataStateImpl any(CycloneServiceEnvironment environment) {
+    public static DataStateImpl any(ServiceEnvironmentImpl environment) {
         return (DataStateImpl) new DataStateImpl(environment)
                 .withAnySampleState().withAnyViewState().withAnyInstanceState();
     }

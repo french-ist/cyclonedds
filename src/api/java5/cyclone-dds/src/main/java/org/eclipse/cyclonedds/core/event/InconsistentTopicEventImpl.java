@@ -15,15 +15,15 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.event.InconsistentTopicEvent;
 import org.omg.dds.core.status.InconsistentTopicStatus;
 import org.omg.dds.topic.Topic;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class InconsistentTopicEventImpl<TYPE> extends
         InconsistentTopicEvent<TYPE> {
     private static final long serialVersionUID = 8593632953038364165L;
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
     private final InconsistentTopicStatus status;
 
-    public InconsistentTopicEventImpl(CycloneServiceEnvironment environment,
+    public InconsistentTopicEventImpl(ServiceEnvironmentImpl environment,
             Topic<TYPE> source, InconsistentTopicStatus status) {
         super(source);
         this.environment = environment;

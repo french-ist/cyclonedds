@@ -33,7 +33,7 @@ import org.omg.dds.core.policy.Presentation.AccessScopeKind;
 import org.eclipse.cyclonedds.core.DDSExceptionImpl;
 import org.eclipse.cyclonedds.core.DurationImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.core.policy.Scheduling.SchedulingClass;
 import org.eclipse.cyclonedds.core.policy.Scheduling.SchedulingKind;

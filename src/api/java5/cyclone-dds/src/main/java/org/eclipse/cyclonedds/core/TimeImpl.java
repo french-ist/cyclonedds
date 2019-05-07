@@ -34,7 +34,7 @@ public class TimeImpl
     */
    protected final long time;
 
-   private static CycloneServiceEnvironment environment;
+   private static ServiceEnvironmentImpl environment;
 
    /**
     * Create a new ModifiableTime with specified time in nanoseconds
@@ -42,7 +42,7 @@ public class TimeImpl
     * 
     * @param time the time in nanoseconds
     */
-   public TimeImpl(CycloneServiceEnvironment environment, long time)
+   public TimeImpl(ServiceEnvironmentImpl environment, long time)
    {
 	   this.environment = environment;
       if (time < 0)
@@ -72,7 +72,7 @@ public class TimeImpl
     * @param time the time in specified TimeUnit
     * @param unit the TimeUnit
     */
-   public TimeImpl(CycloneServiceEnvironment environment, long time, TimeUnit unit)
+   public TimeImpl(ServiceEnvironmentImpl environment, long time, TimeUnit unit)
    {
       this(environment, TimeUnit.NANOSECONDS.convert(time, unit));
    }

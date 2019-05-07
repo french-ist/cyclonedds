@@ -17,9 +17,9 @@ import org.omg.dds.core.ServiceEnvironment;
 public class InconsistentPolicyExceptionImpl extends
         InconsistentPolicyException {
     private static final long serialVersionUID = -40705006579811548L;
-    private CycloneServiceEnvironment environment;
+    private ServiceEnvironmentImpl environment;
 
-    public InconsistentPolicyExceptionImpl(CycloneServiceEnvironment environment,
+    public InconsistentPolicyExceptionImpl(ServiceEnvironmentImpl environment,
             String message) {
         super(message);
         this.environment = environment;

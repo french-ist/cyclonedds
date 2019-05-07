@@ -15,14 +15,14 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.event.PublicationMatchedEvent;
 import org.omg.dds.core.status.PublicationMatchedStatus;
 import org.omg.dds.pub.DataWriter;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class PublicationMatchedEventImpl<TYPE> extends PublicationMatchedEvent<TYPE> {
     private static final long serialVersionUID = -8206681336933599009L;
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
     private final PublicationMatchedStatus status;
 
-    public PublicationMatchedEventImpl(CycloneServiceEnvironment environment,
+    public PublicationMatchedEventImpl(ServiceEnvironmentImpl environment,
             DataWriter<TYPE> source, PublicationMatchedStatus status) {
         super(source);
         this.environment = environment;

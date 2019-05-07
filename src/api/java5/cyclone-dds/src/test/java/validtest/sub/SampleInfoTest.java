@@ -57,7 +57,7 @@ public class SampleInfoTest
    public void init()
    {
       System.setProperty(ServiceEnvironment.IMPLEMENTATION_CLASS_NAME_PROPERTY,
-            "org.eclipse.cyclonedds.core.CycloneServiceEnvironment");
+            "org.eclipse.cyclonedds.core.ServiceEnvironmentImpl");
       env = ServiceEnvironment.createInstance(
             SampleInfoTest.class.getClassLoader());
 

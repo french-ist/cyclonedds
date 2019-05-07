@@ -15,14 +15,14 @@ import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.event.RequestedDeadlineMissedEvent;
 import org.omg.dds.core.status.RequestedDeadlineMissedStatus;
 import org.omg.dds.sub.DataReader;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class RequestedDeadlineMissedEventImpl<TYPE> extends RequestedDeadlineMissedEvent<TYPE> {
     private static final long serialVersionUID = 2098881791326037014L;
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
     private final RequestedDeadlineMissedStatus status;
 
-    public RequestedDeadlineMissedEventImpl(CycloneServiceEnvironment environment,
+    public RequestedDeadlineMissedEventImpl(ServiceEnvironmentImpl environment,
             DataReader<TYPE> source, RequestedDeadlineMissedStatus status) {
         super(source);
         this.environment = environment;

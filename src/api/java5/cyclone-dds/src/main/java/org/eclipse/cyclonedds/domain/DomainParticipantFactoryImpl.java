@@ -30,7 +30,7 @@ import com.sun.jna.ptr.PointerByReference;
 
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalOperationExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 
 /*
@@ -41,11 +41,11 @@ import org.eclipse.cyclonedds.ddsc.DdscLibrary.*;
 */
 
 public class DomainParticipantFactoryImpl extends DomainParticipantFactory {
-    private CycloneServiceEnvironment environment;
+    private ServiceEnvironmentImpl environment;
     private DomainParticipantFactoryQos qos;
     private DomainParticipantQos defaultDomainParticipantQoS;
 
-    public DomainParticipantFactoryImpl(CycloneServiceEnvironment environment) {        
+    public DomainParticipantFactoryImpl(ServiceEnvironmentImpl environment) {        
         defaultDomainParticipantQoS = new DomainParticipantQosImpl(environment);
         qos = new DomainParticipantFactoryQosImpl(environment);
         this.environment = environment;

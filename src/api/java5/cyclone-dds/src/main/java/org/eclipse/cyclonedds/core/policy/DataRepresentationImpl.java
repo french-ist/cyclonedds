@@ -18,19 +18,19 @@ import java.util.Collections;
 import org.omg.dds.core.policy.DataRepresentation;
 import org.omg.dds.core.policy.QosPolicy;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class DataRepresentationImpl extends QosPolicyImpl implements
         DataRepresentation {
     private static final long serialVersionUID = -3169717693569991730L;
     private final ArrayList<Short> value;
 
-    public DataRepresentationImpl(CycloneServiceEnvironment environment) {
+    public DataRepresentationImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.value = new ArrayList<Short>();
     }
 
-    public DataRepresentationImpl(CycloneServiceEnvironment environment,
+    public DataRepresentationImpl(ServiceEnvironmentImpl environment,
             List<Short> value) {
         super(environment);
 
@@ -41,7 +41,7 @@ public class DataRepresentationImpl extends QosPolicyImpl implements
         this.value = new ArrayList<Short>(value);
     }
 
-    public DataRepresentationImpl(CycloneServiceEnvironment environment,
+    public DataRepresentationImpl(ServiceEnvironmentImpl environment,
             short... value) {
         super(environment);
         this.value = new ArrayList<Short>(value.length);

@@ -16,9 +16,9 @@ import org.omg.dds.core.ServiceEnvironment;
 
 public class OutOfResourcesExceptionImpl extends OutOfResourcesException {
     private static final long serialVersionUID = 7420238028709321151L;
-    private CycloneServiceEnvironment environment;
+    private ServiceEnvironmentImpl environment;
 
-    public OutOfResourcesExceptionImpl(CycloneServiceEnvironment environment,
+    public OutOfResourcesExceptionImpl(ServiceEnvironmentImpl environment,
             String message) {
         super(message);
         this.environment = environment;

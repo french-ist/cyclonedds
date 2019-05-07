@@ -13,15 +13,15 @@ package org.eclipse.cyclonedds.core.status;
 
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.status.LivelinessLostStatus;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class LivelinessLostStatusImpl extends LivelinessLostStatus {
     private static final long serialVersionUID = 8186425979909676117L;
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
     private final int totalCount;
     private final int totalCountChange;
 
-    public LivelinessLostStatusImpl(CycloneServiceEnvironment environment,
+    public LivelinessLostStatusImpl(ServiceEnvironmentImpl environment,
             int totalCount, int totalCountChange) {
         this.environment = environment;
         this.totalCount = totalCount;

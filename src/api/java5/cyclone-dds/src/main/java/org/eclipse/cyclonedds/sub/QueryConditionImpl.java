@@ -19,12 +19,12 @@ import org.omg.dds.sub.QueryCondition;
 import org.omg.dds.sub.ReadCondition;
 import org.eclipse.cyclonedds.core.Condition;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 
 public class QueryConditionImpl<TYPE> extends ReadConditionImpl<TYPE> implements
         QueryCondition<TYPE>, Condition<Condition> {
-    public QueryConditionImpl(CycloneServiceEnvironment environment,
+    public QueryConditionImpl(ServiceEnvironmentImpl environment,
             AbstractDataReader<TYPE> parent, DataStateImpl state,
             String queryExpression, List<String> queryParameters) {
         super(environment, parent, state, false);
@@ -32,7 +32,7 @@ public class QueryConditionImpl<TYPE> extends ReadConditionImpl<TYPE> implements
         this.initCondition(queryExpression, queryParameters);
     }
 
-    public QueryConditionImpl(CycloneServiceEnvironment environment,
+    public QueryConditionImpl(ServiceEnvironmentImpl environment,
             AbstractDataReader<TYPE> parent,
             String queryExpression, List<String> queryParameters) {
         super(environment, parent, false);

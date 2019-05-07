@@ -23,18 +23,18 @@ import org.eclipse.cyclonedds.core.ModifiableTimeImpl;
 
 import java.util.concurrent.TimeUnit;
 
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.UnsupportedOperationExceptionImpl;
 import org.eclipse.cyclonedds.core.Utilities;
 import org.eclipse.cyclonedds.utils.TimeHelper;
 
 public class SampleImpl<TYPE> implements org.eclipse.cyclonedds.sub.Sample<TYPE> {
     private static final long serialVersionUID = 1010323161410625511L;
-    private transient CycloneServiceEnvironment environment;
+    private transient ServiceEnvironmentImpl environment;
     private TYPE data;
     private SampleInfo info;
 
-    public SampleImpl(CycloneServiceEnvironment environment, TYPE data,
+    public SampleImpl(ServiceEnvironmentImpl environment, TYPE data,
             SampleInfo info) {
         this.environment = environment;
         this.data = data;

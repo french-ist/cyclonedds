@@ -26,12 +26,12 @@ LISTENERIMPL extends Listener<LISTENER>
 
 implements org.omg.dds.core.Entity<LISTENER, QOS> {
 
-	protected final transient CycloneServiceEnvironment environment;
+	protected final transient ServiceEnvironmentImpl environment;
 	protected LISTENERIMPL listener;
 	private AtomicInteger refCount;
 	private static java.util.HashMap<String, Integer> references = new java.util.HashMap<String, Integer>();
 
-	public EntityImpl(CycloneServiceEnvironment environment) {
+	public EntityImpl(ServiceEnvironmentImpl environment) {
 		this.environment = environment;
 		this.listener = null;
 		this.refCount = new AtomicInteger(1);

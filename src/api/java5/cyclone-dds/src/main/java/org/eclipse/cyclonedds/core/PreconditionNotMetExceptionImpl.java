@@ -17,9 +17,9 @@ import org.omg.dds.core.ServiceEnvironment;
 public class PreconditionNotMetExceptionImpl extends
         PreconditionNotMetException {
     private static final long serialVersionUID = -621113719528419683L;
-    private CycloneServiceEnvironment environment;
+    private ServiceEnvironmentImpl environment;
 
-    public PreconditionNotMetExceptionImpl(CycloneServiceEnvironment environment,
+    public PreconditionNotMetExceptionImpl(ServiceEnvironmentImpl environment,
             String message) {
         super(message);
         this.environment = environment;

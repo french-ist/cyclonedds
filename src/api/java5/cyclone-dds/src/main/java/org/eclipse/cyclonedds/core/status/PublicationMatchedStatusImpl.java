@@ -14,18 +14,18 @@ package org.eclipse.cyclonedds.core.status;
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.status.PublicationMatchedStatus;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class PublicationMatchedStatusImpl extends PublicationMatchedStatus {
     private static final long serialVersionUID = -1661192285968871953L;
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
     private final int totalCount;
     private final int totalCountChange;
     private final int currentCount;
     private final int currentCountChange;
     private final InstanceHandle lastSubscriptionHandle;
 
-    public PublicationMatchedStatusImpl(CycloneServiceEnvironment environment,
+    public PublicationMatchedStatusImpl(ServiceEnvironmentImpl environment,
             int totalCount, int totalCountChange, int currentCount,
             int currentCountChange, InstanceHandle lastSubscriptionHandle) {
         this.environment = environment;

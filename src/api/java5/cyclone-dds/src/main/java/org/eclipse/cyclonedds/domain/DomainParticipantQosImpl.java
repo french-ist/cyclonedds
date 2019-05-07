@@ -16,7 +16,7 @@ import org.omg.dds.core.policy.QosPolicy;
 import org.omg.dds.core.policy.QosPolicy.ForDomainParticipant;
 import org.eclipse.cyclonedds.core.EntityQosImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.policy.EntityFactoryImpl;
 import org.eclipse.cyclonedds.core.policy.PolicyConverter;
 import org.eclipse.cyclonedds.core.policy.SchedulingImpl;
@@ -32,11 +32,11 @@ public class DomainParticipantQosImpl extends
 EntityQosImpl<ForDomainParticipant> implements DomainParticipantQos {
     private static final long serialVersionUID = -1811553017861487660L;
 
-    public DomainParticipantQosImpl(CycloneServiceEnvironment environment) {
+    public DomainParticipantQosImpl(ServiceEnvironmentImpl environment) {
         super(environment);
     }
 
-    public DomainParticipantQosImpl(CycloneServiceEnvironment environment,
+    public DomainParticipantQosImpl(ServiceEnvironmentImpl environment,
             ForDomainParticipant... domainParticipants) {
         super(environment, domainParticipants);
 
@@ -111,7 +111,7 @@ EntityQosImpl<ForDomainParticipant> implements DomainParticipantQos {
         }
     }
 
-	public static org.omg.dds.domain.DomainParticipantQos convert(CycloneServiceEnvironment environment, PointerByReference rc) {
+	public static org.omg.dds.domain.DomainParticipantQos convert(ServiceEnvironmentImpl environment, PointerByReference rc) {
 		return null;
 	}
 

@@ -14,17 +14,17 @@ package org.eclipse.cyclonedds.core.status;
 import org.omg.dds.core.InstanceHandle;
 import org.omg.dds.core.ServiceEnvironment;
 import org.omg.dds.core.status.SampleRejectedStatus;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class SampleRejectedStatusImpl extends SampleRejectedStatus {
     private static final long serialVersionUID = 8920010890983446873L;
-    private final transient CycloneServiceEnvironment environment;
+    private final transient ServiceEnvironmentImpl environment;
     private final int totalCount;
     private final int totalCountChange;
     private final Kind lastReason;
     private final InstanceHandle lastInstanceHandle;
 
-    public SampleRejectedStatusImpl(CycloneServiceEnvironment environment,
+    public SampleRejectedStatusImpl(ServiceEnvironmentImpl environment,
             int totalCount, int totalCountChange, Kind lastReason, InstanceHandle lastInstanceHandle) {
         this.environment = environment;
         this.totalCount = totalCount;

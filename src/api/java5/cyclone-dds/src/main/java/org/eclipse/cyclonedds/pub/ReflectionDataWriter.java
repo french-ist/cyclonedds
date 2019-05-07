@@ -33,7 +33,7 @@ import org.omg.dds.pub.DataWriterQos;
 import org.omg.dds.topic.SubscriptionBuiltinTopicData;
 import org.eclipse.cyclonedds.core.DDSExceptionImpl;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.PreconditionNotMetExceptionImpl;
 import org.eclipse.cyclonedds.core.TimeImpl;
 import org.eclipse.cyclonedds.core.Utilities;
@@ -42,7 +42,7 @@ import org.eclipse.cyclonedds.topic.SubscriptionBuiltinTopicDataImpl;
 
 public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
         DDSObject {
-    private final CycloneServiceEnvironment environment;
+    private final ServiceEnvironmentImpl environment;
     private final DataWriter old = null;
     private final Method registerInstance = null;
     private final Method registerInstanceTimestamp  = null;;
@@ -59,7 +59,7 @@ public class ReflectionDataWriter<TYPE> extends AbstractDDSObject implements
     private final Class<?> sampleHolderClz = null;
     private final Field samplHolderValueField = null;
 
-    public ReflectionDataWriter(CycloneServiceEnvironment environment,
+    public ReflectionDataWriter(ServiceEnvironmentImpl environment,
             DataWriter writer, Class<TYPE> typeClz) {
         Class<?> typedWriterClz;
         String typedWriterClzName;

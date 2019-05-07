@@ -13,7 +13,7 @@ package org.eclipse.cyclonedds.core.policy;
 
 import org.omg.dds.core.policy.QosPolicy;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 import org.eclipse.cyclonedds.core.policy.Scheduling.ListenerScheduling;
 import org.eclipse.cyclonedds.core.policy.Scheduling.WatchdogScheduling;
 
@@ -24,14 +24,14 @@ public class SchedulingImpl extends QosPolicyImpl implements
     private final SchedulingKind schedulingKind;
     private final SchedulingClass schedulingClass;
 
-    public SchedulingImpl(CycloneServiceEnvironment environment) {
+    public SchedulingImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.priority = 0;
         this.schedulingKind = SchedulingKind.ABSOLUTE;
         this.schedulingClass = SchedulingClass.DEFAULT;
     }
 
-    public SchedulingImpl(CycloneServiceEnvironment environment,
+    public SchedulingImpl(ServiceEnvironmentImpl environment,
             SchedulingClass schedulingClass, SchedulingKind schedulingKind,
             int priority) {
         super(environment);

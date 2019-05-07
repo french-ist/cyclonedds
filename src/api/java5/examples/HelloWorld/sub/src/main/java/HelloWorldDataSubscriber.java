@@ -36,7 +36,7 @@ public class HelloWorldDataSubscriber {
         // Set "serviceClassName" property to OpenSplice implementation
         System.setProperty(
                 ServiceEnvironment.IMPLEMENTATION_CLASS_NAME_PROPERTY,
-                "org.eclipse.cyclonedds.core.CycloneServiceEnvironment");
+                "org.eclipse.cyclonedds.core.ServiceEnvironmentImpl");
 
         // Instantiate a DDS ServiceEnvironment
         ServiceEnvironment env = ServiceEnvironment

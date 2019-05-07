@@ -17,20 +17,20 @@ import org.omg.dds.core.Duration;
 import org.omg.dds.core.policy.Liveliness;
 import org.omg.dds.core.policy.QosPolicy;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class LivelinessImpl extends QosPolicyImpl implements Liveliness {
     private static final long serialVersionUID = 8654350221156374238L;
     private final Kind kind;
     private final Duration leaseDuration;
 
-    public LivelinessImpl(CycloneServiceEnvironment environment) {
+    public LivelinessImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.kind = Kind.AUTOMATIC;
         this.leaseDuration = environment.getSPI().infiniteDuration();
     }
 
-    public LivelinessImpl(CycloneServiceEnvironment environment, Kind kind,
+    public LivelinessImpl(ServiceEnvironmentImpl environment, Kind kind,
             Duration leaseDuration) {
         super(environment);
 

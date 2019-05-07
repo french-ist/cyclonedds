@@ -17,14 +17,8 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.cyclonedds.core.policy.PolicyFactoryImpl;
 import org.eclipse.cyclonedds.domain.DomainParticipantFactoryImpl;
 import org.eclipse.cyclonedds.type.TypeSupportImpl;
-import org.omg.dds.core.Duration;
-import org.omg.dds.core.GuardCondition;
-import org.omg.dds.core.InstanceHandle;
-import org.omg.dds.core.ModifiableTime;
-import org.omg.dds.core.QosProvider;
+import org.omg.dds.core.*;
 import org.omg.dds.core.ServiceEnvironment.ServiceProviderInterface;
-import org.omg.dds.core.Time;
-import org.omg.dds.core.WaitSet;
 import org.omg.dds.core.policy.PolicyFactory;
 import org.omg.dds.core.status.Status;
 import org.omg.dds.domain.DomainParticipantFactory;
@@ -36,12 +30,12 @@ import org.omg.dds.type.dynamic.DynamicTypeFactory;
 import org.eclipse.cyclonedds.core.ModifiableTimeImpl;
 import org.eclipse.cyclonedds.utils.TimeHelper;
 
-public class CycloneServiceProviderInterface implements ServiceProviderInterface {
+public class ServiceProviderInterfaceImpl implements ServiceEnvironment.ServiceProviderInterface {
 
-	private final CycloneServiceEnvironment environment;
+	private final ServiceEnvironmentImpl environment;
 	private final PolicyFactory policyFactory;
 
-	public CycloneServiceProviderInterface(CycloneServiceEnvironment environment) {
+	public ServiceProviderInterfaceImpl(ServiceEnvironmentImpl environment) {
 		this.environment = environment;	
 		this.policyFactory = new PolicyFactoryImpl(environment);
 	}

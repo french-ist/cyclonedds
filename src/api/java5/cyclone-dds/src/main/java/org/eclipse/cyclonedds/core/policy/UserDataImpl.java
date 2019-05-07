@@ -15,18 +15,18 @@ import java.util.Arrays;
 
 import org.omg.dds.core.policy.QosPolicy;
 import org.omg.dds.core.policy.UserData;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class UserDataImpl extends QosPolicyImpl implements UserData {
     private static final long serialVersionUID = -7657320816433336931L;
     private final byte[] value;
 
-    public UserDataImpl(CycloneServiceEnvironment environment) {
+    public UserDataImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.value = new byte[0];
     }
 
-    public UserDataImpl(CycloneServiceEnvironment environment, byte[] value) {
+    public UserDataImpl(ServiceEnvironmentImpl environment, byte[] value) {
         super(environment);
 
         if (value != null) {

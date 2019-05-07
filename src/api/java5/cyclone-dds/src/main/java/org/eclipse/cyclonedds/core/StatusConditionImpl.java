@@ -25,9 +25,9 @@ public class StatusConditionImpl<T extends Entity<?, ?>> implements
         StatusCondition<T>, Condition {
     private final StatusCondition old;
     private final T parent;
-    private final CycloneServiceEnvironment environment;
+    private final ServiceEnvironmentImpl environment;
 
-    public StatusConditionImpl(CycloneServiceEnvironment environment,
+    public StatusConditionImpl(ServiceEnvironmentImpl environment,
             StatusCondition oldCondition, T parent) {
         this.old = oldCondition;
         this.parent = parent;

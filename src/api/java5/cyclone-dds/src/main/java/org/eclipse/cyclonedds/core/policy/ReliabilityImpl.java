@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 import org.omg.dds.core.Duration;
 import org.omg.dds.core.policy.QosPolicy;
 import org.eclipse.cyclonedds.core.IllegalArgumentExceptionImpl;
-import org.eclipse.cyclonedds.core.CycloneServiceEnvironment;
+import org.eclipse.cyclonedds.core.ServiceEnvironmentImpl;
 
 public class ReliabilityImpl extends QosPolicyImpl implements Reliability {
     private static final long serialVersionUID = 6430015862797188917L;
@@ -24,7 +24,7 @@ public class ReliabilityImpl extends QosPolicyImpl implements Reliability {
     private final Duration maxBlockingTime;
     private final boolean synchronous;
 
-    public ReliabilityImpl(CycloneServiceEnvironment environment) {
+    public ReliabilityImpl(ServiceEnvironmentImpl environment) {
         super(environment);
         this.kind = Kind.BEST_EFFORT;
         this.maxBlockingTime = environment.getSPI().newDuration(100,
@@ -32,7 +32,7 @@ public class ReliabilityImpl extends QosPolicyImpl implements Reliability {
         this.synchronous = false;
     }
 
-    public ReliabilityImpl(CycloneServiceEnvironment environment, Kind kind,
+    public ReliabilityImpl(ServiceEnvironmentImpl environment, Kind kind,
             Duration maxBlockingTime, boolean synchronous) {
         super(environment);
 
